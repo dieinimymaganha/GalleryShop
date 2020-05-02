@@ -1,6 +1,5 @@
 package GalleryShop.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,12 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 
 @Entity
-@Table
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Person implements Serializable{
+public class Person{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
