@@ -13,7 +13,7 @@ public class Employee extends Person{
 	
 	public Employee(long id, String name, String lastName, String nickname, String cpf, Date birthdate,
 			String phoneNumber, String rg, Double commissionRate, String typeEmployee) {
-		super(id, name, lastName, nickname, cpf, birthdate, phoneNumber);
+		super(name, lastName, nickname, cpf, birthdate, phoneNumber);
 		this.rg = rg;
 		this.commissionRate = commissionRate;
 		this.typeEmployee = typeEmployee;
