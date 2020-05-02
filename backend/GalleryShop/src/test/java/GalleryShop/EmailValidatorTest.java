@@ -13,28 +13,30 @@ public class EmailValidatorTest {
 
         EmailValidator emailValidator = new EmailValidator();
 
-        Assert.assertFalse(emailValidator.isValid("gallerydev", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev@.com.my", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev123@gmail.a", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev123@.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev123@.com.com", null));
-        Assert.assertFalse(emailValidator.isValid(".gallerydev@gallerydev.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev()*@gmail.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev@%*.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev..2002@gmail.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev.@gmail.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev@gallerydev@gmail.com", null));
-        Assert.assertFalse(emailValidator.isValid("gallerydev@gmail.com.1a" , null));
-        Assert.assertFalse(emailValidator.isValid("dieinimy@gmail.com" , null));
+        final String[] invalidEmails = new String[] { "gallerydev", "gallerydev@.com.my",
+                "gallerydev123@gmail.a", "gallerydev123@.com", "gallerydev123@.com.com", ".gallerydev@gallerydev.com",
+                "gallerydev()*@gmail.com", "gallerydev@%*.com", "gallerydev..2002@gmail.com", "gallerydev.@gmail.com",
+                "gallerydev@gallerydev@gmail.com", "gallerydev@gmail.com.1a"};
+
+        for(String temp : invalidEmails){
+            Assert.assertFalse(emailValidator.isValid(temp, null));
+        }
+
     }
 
     @Test
     public void testEmailValid(){
         EmailValidator emailValidator = new EmailValidator();
-        Assert.assertTrue(emailValidator.isValid("gallerydev@yahoo.com", null));
-        Assert.assertTrue(emailValidator.isValid("gallerydev-100@yahoo.com", null));
-        Assert.assertTrue(emailValidator.isValid("gallerydev.100@yahoo.com", null));
 
+        final String[] validEmails = new String[] { "gallerydev@yahoo.com", "gallerydev-100@yahoo.com",
+                "gallerydev.100@yahoo.com", "gallerydev111@gallerydev.com", "gallerydev-100@gallerydev.net",
+                "gallerydev.100@gallerydev.com.au", "gallerydev@1.com", "gallerydev@gmail.com.com",
+                "gallerydev+100@gmail.com", "gallerydev-100@yahoo-test.com"};
+
+        for (String email : validEmails){
+            System.out.println(email);
+            Assert.assertTrue(emailValidator.isValid(email,null));
+        }
     }
 
 }
