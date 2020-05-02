@@ -10,7 +10,6 @@ public class EmailValidatorTest {
 
     @Test
     public void testEmailInvalid(){
-
         EmailValidator emailValidator = new EmailValidator();
 
         final String[] invalidEmails = new String[] { "gallerydev", "gallerydev@.com.my",
@@ -21,7 +20,6 @@ public class EmailValidatorTest {
         for(String temp : invalidEmails){
             Assert.assertFalse(emailValidator.isValid(temp, null));
         }
-
     }
 
     @Test
@@ -38,5 +36,4 @@ public class EmailValidatorTest {
             Assert.assertTrue(emailValidator.isValid(email,null));
         }
     }
-
 }
