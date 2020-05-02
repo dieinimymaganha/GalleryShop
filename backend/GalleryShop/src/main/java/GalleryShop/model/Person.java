@@ -24,10 +24,9 @@ public class Person{
 	private Date birthdate;
 	private String phoneNumber;
 	
-	public Person(long id, String name, String lastName, String nickname, String cpf, Date birthdate,
+	public Person(String name, String lastName, String nickname, String cpf, Date birthdate,
 			String phoneNumber) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
 		this.nickname = nickname;
