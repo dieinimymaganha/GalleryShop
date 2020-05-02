@@ -6,11 +6,13 @@ import GalleryShop.model.Client;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class ClientForm {
 
 	@NotNull @NotEmpty
 	private String name;
+
 	@NotNull @NotEmpty
 	private String lastName;
 
@@ -19,9 +21,12 @@ public class ClientForm {
 	@NotNull @NotEmpty
 	private String cpf;
 
+	@NotNull(message = "não pode ser nulo")
 	private Date birthdate;
+
 	@NotNull @NotEmpty
 	private String phoneNumber;
+
 	@NotNull @NotEmpty
 	private String email;
 
