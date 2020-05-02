@@ -4,15 +4,27 @@ import java.util.Date;
 
 import GalleryShop.model.Client;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class ClientForm {
-	
+
+	@NotNull @NotEmpty
 	private String name;
+	@NotNull @NotEmpty
 	private String lastName;
+
 	private String nickname;
+
+	@NotNull @NotEmpty
 	private String cpf;
+
 	private Date birthdate;
+	@NotNull @NotEmpty
 	private String phoneNumber;
+	@NotNull @NotEmpty
 	private String email;
+
 	public String getName() {
 		return name;
 	}

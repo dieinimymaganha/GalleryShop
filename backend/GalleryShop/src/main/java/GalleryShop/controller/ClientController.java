@@ -6,19 +6,16 @@ import GalleryShop.controller.form.ClientForm;
 import GalleryShop.model.Client;
 import GalleryShop.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 import java.net.URI;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 
@@ -37,7 +34,7 @@ public class ClientController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ClientDto> registerNewClient(@RequestBody ClientForm form, UriComponentsBuilder uriBuilder ){
+	public ResponseEntity<ClientDto> registerNewClient(@RequestBody  @Valid ClientForm form, UriComponentsBuilder uriBuilder ){
 		Client client = form.converter();
 		clientRepository.save(client);
 		URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
