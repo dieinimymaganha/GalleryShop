@@ -2,11 +2,11 @@ package GalleryShop.controller.form;
 
 import java.util.Date;
 
+import GalleryShop.config.anotation.EmailRegex;
 import GalleryShop.model.Client;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class ClientForm {
 
@@ -27,7 +27,7 @@ public class ClientForm {
 	@NotNull @NotEmpty
 	private String phoneNumber;
 
-	@NotNull @NotEmpty
+	@NotNull @NotEmpty @EmailRegex
 	private String email;
 
 	public String getName() {
