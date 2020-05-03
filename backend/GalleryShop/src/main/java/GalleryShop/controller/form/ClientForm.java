@@ -18,6 +18,7 @@ public class ClientForm {
 	@NotNull @NotEmpty
 	private String lastName;
 
+	@NotEmpty
 	private String nickname;
 
 	@Cpf
