@@ -2,8 +2,10 @@ package GalleryShop.controller.form;
 
 import java.util.Date;
 
+import GalleryShop.config.anotation.Cpf;
 import GalleryShop.config.anotation.EmailRegex;
 import GalleryShop.model.Client;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,7 +20,7 @@ public class ClientForm {
 
 	private String nickname;
 
-	@NotNull @NotEmpty
+	@Cpf
 	private String cpf;
 
 	@NotNull(message = "não pode ser nulo")
