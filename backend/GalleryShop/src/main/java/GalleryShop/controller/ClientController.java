@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-
+import java.util.Optional;
 
 
 @RestController
@@ -32,7 +32,25 @@ public class ClientController {
 		Page<Client> clients = clientRepository.findAll(paginacao);
 		return ClientDto.converter(clients);
 	}
-	
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ClientDto> getClientId(@PathVariable Long id) {
+		Optional<Client> client = clientRepository.findById(id);
+		if (client.isPresent()) {
+			return ResponseEntity.ok(new ClientDto(client.get()));
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+	@GetMapping("/cpf={cpf}")
+	public ResponseEntity<ClientDto> getClientCpf(@PathVariable String cpf) {
+		Optional<Client> client = clientRepository.findByCpf(cpf);
+		if (client.isPresent()) {
+			return ResponseEntity.ok(new ClientDto(client.get()));
+		}
+		return ResponseEntity.notFound().build();
+	}
+
 	@PostMapping
 	public ResponseEntity<ClientDto> registerNewClient(@RequestBody  @Valid ClientForm form, UriComponentsBuilder uriBuilder ){
 		Client client = form.converter();
