@@ -6,6 +6,8 @@ import GalleryShop.controller.form.ClientForm;
 import GalleryShop.model.Client;
 import GalleryShop.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
@@ -27,6 +30,7 @@ public class ClientController {
 	private ClientRepository clientRepository;
 	
 	@GetMapping
+	@Cacheable(value = "customersList")
 	public Page<ClientDto> getListAll(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10)
 												  Pageable paginacao){
 		Page<Client> clients = clientRepository.findAll(paginacao);
@@ -52,6 +56,8 @@ public class ClientController {
 	}
 
 	@PostMapping
+	@Transactional
+	@CacheEvict(value = "customersList", allEntries = true)
 	public ResponseEntity<ClientDto> registerNewClient(@RequestBody  @Valid ClientForm form, UriComponentsBuilder uriBuilder ){
 		Client client = form.converter();
 		clientRepository.save(client);
@@ -60,6 +66,8 @@ public class ClientController {
 	}
 
 	@PutMapping("/{id}")
+	@Transactional
+	@CacheEvict(value = "customersList", allEntries = true)
 	public ResponseEntity<ClientDto> uploadClient(@PathVariable Long id, @RequestBody @Valid ClientForm form){
 		Optional<Client> optional = clientRepository.findById(id);
 
@@ -71,6 +79,8 @@ public class ClientController {
 	}
 
 	@DeleteMapping("/{id}")
+	@Transactional
+	@CacheEvict(value = "customersList", allEntries = true)
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		Optional<Client> optional = clientRepository.findById(id);
 
