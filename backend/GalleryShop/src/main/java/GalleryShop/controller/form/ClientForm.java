@@ -4,6 +4,7 @@ import java.util.Date;
 
 import GalleryShop.config.anotation.Cpf;
 import GalleryShop.config.anotation.EmailRegex;
+import GalleryShop.config.anotation.PhoneNumber;
 import GalleryShop.model.Client;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -27,7 +28,7 @@ public class ClientForm {
 	@NotNull(message = "não pode ser nulo")
 	private Date birthdate;
 
-	@NotNull @NotEmpty
+	@NotNull @NotEmpty @PhoneNumber
 	private String phoneNumber;
 
 	@NotNull @NotEmpty @EmailRegex
