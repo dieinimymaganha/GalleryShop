@@ -70,6 +70,15 @@ public class ClientController {
 		return ResponseEntity.notFound().build();
 	}
 
-	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id){
+		Optional<Client> optional = clientRepository.findById(id);
+
+		if(optional.isPresent()){
+			clientRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.notFound().build();
+	}
 
 }
