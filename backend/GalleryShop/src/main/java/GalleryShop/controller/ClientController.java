@@ -59,4 +59,17 @@ public class ClientController {
 		return ResponseEntity.created(uri).body(new ClientDto(client));		
 	}
 
+	@PutMapping("/{id}")
+	public ResponseEntity<ClientDto> uploadClient(@PathVariable Long id, @RequestBody @Valid ClientForm form){
+		Optional<Client> optional = clientRepository.findById(id);
+
+		if(optional.isPresent()){
+			Client client = form.upload(id, clientRepository);
+			return ResponseEntity.ok(new ClientDto(client));
+		}
+		return ResponseEntity.notFound().build();
+	}
+
+	
+
 }
