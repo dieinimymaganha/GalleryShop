@@ -6,6 +6,7 @@ import GalleryShop.config.anotation.Cpf;
 import GalleryShop.config.anotation.EmailRegex;
 import GalleryShop.config.anotation.PhoneNumber;
 import GalleryShop.model.Client;
+import GalleryShop.repository.ClientRepository;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotEmpty;
@@ -81,6 +82,17 @@ public class ClientForm {
 	public Client converter() {
 		return new Client(name, lastName, nickname, cpf, birthdate, phoneNumber, email);
 	}
-	
-	
+
+
+    public Client upload(Long id, ClientRepository clientRepository) {
+		Client client = clientRepository.getOne(id);
+		client.setName(this.name);
+		client.setLastName(this.lastName);
+		client.setNickname(this.nickname);
+		client.setCpf(this.cpf);
+		client.setBirthdate(this.birthdate);
+		client.setPhoneNumber(this.phoneNumber);
+		client.setEmail(this.email);
+		return client;
+    }
 }
