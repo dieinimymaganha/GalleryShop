@@ -13,7 +13,7 @@ class GalleryShop extends StatelessWidget {
         primaryColor: Colors.black,
         accentColor: Colors.blueAccent[700],
         buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blueAccent[700],
+          buttonColor: Colors.blueAccent[900],
           textTheme: ButtonTextTheme.primary,
         ),
       ),
