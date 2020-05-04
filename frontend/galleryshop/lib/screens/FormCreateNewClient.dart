@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/components/editor.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
@@ -10,8 +11,6 @@ const _tipFieldLastName = 'Digite o Sobrenome';
 const _labelFieldNickname = 'Apelido';
 const _tipFieldNickname = 'Digite o apelido';
 const _labelFieldCpf = 'CPF';
-const _tipFieldCpf = '   .   .   -  ';
-
 
 class FormCreateNewClient extends StatefulWidget {
   @override
@@ -20,9 +19,13 @@ class FormCreateNewClient extends StatefulWidget {
 
 class _FormCreateNewClientState extends State<FormCreateNewClient> {
   final TextEditingController _controllerFieldName = TextEditingController();
-  final TextEditingController _controllerFieldLastName = TextEditingController();
-  final TextEditingController _controllerFieldNickname = TextEditingController();
+  final TextEditingController _controllerFieldLastName =
+      TextEditingController();
+  final TextEditingController _controllerFieldNickname =
+      TextEditingController();
   final TextEditingController _controllerFieldCpf = TextEditingController();
+  final MaskedTextController _controllerMaskFieldCpf =
+      new MaskedTextController(mask: '000.000.000-78');
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +55,9 @@ class _FormCreateNewClientState extends State<FormCreateNewClient> {
               textInputType: TextInputType.text,
             ),
             Editor(
-              controller: _controllerFieldCpf,
-              tip: _tipFieldCpf,
+              controller: _controllerMaskFieldCpf,
               label: _labelFieldCpf,
-              textInputType: TextInputType.text,
+              textInputType: TextInputType.number,
             ),
           ],
         ),
