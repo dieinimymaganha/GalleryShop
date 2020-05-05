@@ -27,7 +27,7 @@ public class ClientForm {
 	private String cpf;
 
 	@NotNull(message = "não pode ser nulo")
-	private Date birthdate;
+	private Date birthDate;
 
 	@NotNull @NotEmpty @PhoneNumber
 	private String phoneNumber;
@@ -60,10 +60,10 @@ public class ClientForm {
 		this.cpf = cpf;
 	}
 	public Date getBirthdate() {
-		return birthdate;
+		return birthDate;
 	}
 	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+		this.birthDate = birthdate;
 	}
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -80,7 +80,7 @@ public class ClientForm {
 
 
 	public Client converter() {
-		return new Client(name, lastName, nickname, cpf, birthdate, phoneNumber, email);
+		return new Client(name, lastName, nickname, cpf, birthDate, phoneNumber, email);
 	}
 
 
@@ -90,7 +90,7 @@ public class ClientForm {
 		client.setLastName(this.lastName);
 		client.setNickname(this.nickname);
 		client.setCpf(this.cpf);
-		client.setBirthdate(this.birthdate);
+		client.setBirthdate(this.birthDate);
 		client.setPhoneNumber(this.phoneNumber);
 		client.setEmail(this.email);
 		return client;

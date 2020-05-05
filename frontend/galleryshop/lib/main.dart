@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:galleryshop/screens/FormCreateNewClient.dart';
+import 'package:galleryshop/screens/form_create_new_client.dart';
 
 void main() {
   runApp(GalleryShop());

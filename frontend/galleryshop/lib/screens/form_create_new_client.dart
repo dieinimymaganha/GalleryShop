@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/components/editor.dart';
+import 'package:galleryshop/http/webclients/webclient_client.dart';
+import 'package:galleryshop/models/client.dart';
+import 'package:uuid/uuid.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
@@ -25,6 +28,9 @@ class FormCreateNewClient extends StatefulWidget {
 }
 
 class _FormCreateNewClientState extends State<FormCreateNewClient> {
+  final ClientWebClient _webClient = ClientWebClient();
+
+  final String clientId = Uuid().v4();
   final TextEditingController _controllerFieldName = TextEditingController();
   final TextEditingController _controllerFieldLastName =
       TextEditingController();
@@ -85,7 +91,7 @@ class _FormCreateNewClientState extends State<FormCreateNewClient> {
               textInputType: TextInputType.number,
             ),
             Editor(
-              controller: _controllerFieldName,
+              controller: _controllerFieldEmail,
               tip: _tipFieldEmail,
               label: _labelFieldEmail,
               textInputType: TextInputType.emailAddress,
@@ -96,15 +102,48 @@ class _FormCreateNewClientState extends State<FormCreateNewClient> {
                 minWidth: 200.0,
                 height: 50.0,
                 child: RaisedButton(
-                  onPressed: () {  },
+                  onPressed: () {
+                    final String name = _controllerFieldName.text;
+                    final String lastName = _controllerFieldLastName.text;
+                    final String nickname = _controllerFieldNickname.text;
+                    final String cpf = _controllerMaskFieldCpf.text;
+                    final String phoneNumber =
+                        _controllerMaskFieldPhoneNumber.text;
+                    final String birthdate = '1991-02-16';
+                    final String email = _controllerFieldEmail.text;
+                    final clientCreated = ClientModel(
+                      null,
+                      name,
+                      lastName,
+                      nickname,
+                      cpf,
+                      birthdate,
+                      phoneNumber,
+                      email,
+                    );
+                    _save(clientCreated, context);
+                  },
                   child: Text('Cadastrar'),
                 ),
               ),
             )
           ],
-
         ),
       ),
     );
+  }
+
+  void _save(ClientModel clientCreated, BuildContext context) async {
+    await _send(clientCreated, context);
+  }
+
+  Future<ClientModel> _send(
+      ClientModel clientCreated, BuildContext context) async {
+    final ClientModel clientModel =
+        await _webClient.save(clientCreated).catchError((e) {
+      debugPrint(e);
+    });
+
+    return clientModel;
   }
 }

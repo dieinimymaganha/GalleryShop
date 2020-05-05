@@ -17,17 +17,17 @@ public class Person{
 	private String nickname;
 	@Column(unique = true)
 	private String cpf;
-	private Date birthdate;
+	private Date birthDate;
 	private String phoneNumber;
 	
-	public Person(String name, String lastName, String nickname, String cpf, Date birthdate,
+	public Person(String name, String lastName, String nickname, String cpf, Date birthDate,
 			String phoneNumber) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
 		this.nickname = nickname;
 		this.cpf = cpf;
-		this.birthdate = birthdate;
+		this.birthDate = birthDate;
 		this.phoneNumber = phoneNumber;
 	}
 
@@ -76,11 +76,11 @@ public class Person{
 	}
 
 	public Date getBirthdate() {
-		return birthdate;
+		return birthDate;
 	}
 
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
+	public void setBirthdate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public String getPhoneNumber() {
