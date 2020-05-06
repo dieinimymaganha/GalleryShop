@@ -19,7 +19,7 @@ class GalleryShop extends StatelessWidget {
         ),
       ),
 //      home: FormCreateNewClient(),
-      home: Customerslist(),
+      home: FormCreateNewClient(),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/components/editor.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client.dart';
+import 'package:galleryshop/screens/customers_list.dart';
 import 'package:uuid/uuid.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
@@ -122,6 +123,11 @@ class _FormCreateNewClientState extends State<FormCreateNewClient> {
                       email,
                     );
                     _save(clientCreated, context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => Customerslist(),
+                      )
+                    );
                   },
                   child: Text('Cadastrar'),
                 ),

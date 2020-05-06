@@ -5,11 +5,12 @@ import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/models/client.dart';
 import 'package:http/http.dart';
 
-const endpoint = 'clients';
+const urlClients = baseUrl +'clients';
+
 
 class ClientWebClient {
   Future<List<ClientModel>> findAll() async {
-    final Response response = await webClient.get(baseUrl + endpoint);
+    final Response response = await webClient.get(urlClients);
     final List<dynamic> decodeJson = jsonDecode(response.body);
     return decodeJson
         .map((dynamic json) => ClientModel.fromJson(json))
@@ -19,7 +20,7 @@ class ClientWebClient {
   Future<ClientModel> save(ClientModel client) async {
     final String clientJson = jsonEncode(client.toJson());
 
-    final Response response = await webClient.post(baseUrl,
+    final Response response = await webClient.post(urlClients,
         headers: {'Content-type': 'application/json'}, body: clientJson);
     if (response.statusCode == 200) {
       return ClientModel.fromJson(jsonDecode(response.body));
