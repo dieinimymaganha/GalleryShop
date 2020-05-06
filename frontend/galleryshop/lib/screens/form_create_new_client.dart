@@ -123,11 +123,12 @@ class _FormCreateNewClientState extends State<FormCreateNewClient> {
                       email,
                     );
                     _save(clientCreated, context);
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => Customerslist(),
-                      )
-                    );
+
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                          builder: (context) => Customerslist(),
+                        ),
+                        ModalRoute.withName("/"));
                   },
                   child: Text('Cadastrar'),
                 ),
