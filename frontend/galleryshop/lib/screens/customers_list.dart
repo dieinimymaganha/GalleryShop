@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/components/centered_message.dart';
+import 'package:galleryshop/components/menu_drawer.dart';
 import 'package:galleryshop/components/progress.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client.dart';

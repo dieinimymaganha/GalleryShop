@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:galleryshop/components/menu_drawer.dart';
 import 'package:galleryshop/screens/customers_list.dart';
 import 'package:galleryshop/screens/form_create_new_client.dart';
 
@@ -43,6 +44,7 @@ class ScreenMain extends StatelessWidget {
           ),
         ],
       ),
+      drawer: Menu(),
     );
   }
 }
