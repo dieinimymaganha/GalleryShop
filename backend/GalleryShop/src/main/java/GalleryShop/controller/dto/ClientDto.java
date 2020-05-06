@@ -1,6 +1,8 @@
 package GalleryShop.controller.dto;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 
@@ -83,9 +85,9 @@ public class ClientDto {
 	}
 	
 
-	public static Page<ClientDto> converter(Page<Client> clients) {
+	public static List<ClientDto> converter(List<Client> clients) {
 
-		return clients.map(ClientDto::new);
+		return clients.stream().map(ClientDto::new).collect(Collectors.toList());
 	}
 	
 

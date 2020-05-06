@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -31,9 +32,8 @@ public class ClientController {
 	
 	@GetMapping
 	@Cacheable(value = "customersList")
-	public Page<ClientDto> getListAll(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10)
-												  Pageable paginacao){
-		Page<Client> clients = clientRepository.findAll(paginacao);
+	public List<ClientDto> getListAll(){
+		List<Client> clients = clientRepository.findAll();
 		return ClientDto.converter(clients);
 	}
 
