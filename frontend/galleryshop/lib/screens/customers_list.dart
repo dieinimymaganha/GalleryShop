@@ -40,7 +40,18 @@ class Customerslist extends StatelessWidget {
                       final ClientModel clientModel = customers[index];
                       return Card(
                         child: ListTile(
-                          title: Text(clientModel.name.toString()),
+                          leading: Icon(Icons.account_circle),
+                          title: Text(
+                            clientModel.name.toString(),
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            clientModel.lastName.toString(),
+                          ),
+
                         ),
                       );
                     },
