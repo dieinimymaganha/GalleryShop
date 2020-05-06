@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:galleryshop/screens/customers_list.dart';
 import 'package:galleryshop/screens/form_create_new_client.dart';
 
 void main() {
@@ -17,7 +18,8 @@ class GalleryShop extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      home: FormCreateNewClient(),
+//      home: FormCreateNewClient(),
+      home: Customerslist(),
     );
   }
 }

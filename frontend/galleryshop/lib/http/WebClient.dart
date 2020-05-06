@@ -8,4 +8,4 @@ final Client webClient = HttpClientWithInterceptor.build(
 );
 
 
-const String baseUrl = 'http://192.168.25.134:8080/clients';
+const String baseUrl = 'http://192.168.25.134:8080/';

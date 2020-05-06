@@ -1,10 +1,21 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/models/client.dart';
 import 'package:http/http.dart';
 
+const endpoint = 'clients';
+
 class ClientWebClient {
+  Future<List<ClientModel>> findAll() async {
+    final Response response = await webClient.get(baseUrl + endpoint);
+    final List<dynamic> decodeJson = jsonDecode(response.body);
+    return decodeJson
+        .map((dynamic json) => ClientModel.fromJson(json))
+        .toList();
+  }
+
   Future<ClientModel> save(ClientModel client) async {
     final String clientJson = jsonEncode(client.toJson());
 
@@ -35,6 +46,3 @@ class HttpException implements Exception {
 
   HttpException(this.message);
 }
-
-
-
