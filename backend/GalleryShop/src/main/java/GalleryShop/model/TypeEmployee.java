@@ -20,8 +20,7 @@ public class TypeEmployee {
 
 	}
 
-	public TypeEmployee(Long id, String description) {
-		this.id = id;
+	public TypeEmployee(String description) {
 		this.description = description;
 	}
 
