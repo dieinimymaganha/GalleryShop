@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import GalleryShop.model.TypeEmployee;
+import GalleryShop.repository.TypeEmployeeRepository;
 
 public class TypeEmployeeForm {
 
@@ -25,6 +26,12 @@ public class TypeEmployeeForm {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public TypeEmployee upload(Long id, TypeEmployeeRepository typeEmployeeRepository){
+        TypeEmployee typeEmployee = typeEmployeeRepository.getOne(id);
+        typeEmployee.setDescription(description);
+        return typeEmployee;
     }
 
 
