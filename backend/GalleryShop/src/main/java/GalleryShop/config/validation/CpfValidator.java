@@ -4,8 +4,6 @@ import GalleryShop.config.anotation.Cpf;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.InputMismatchException;
 
 public class CpfValidator implements ConstraintValidator<Cpf, String> {

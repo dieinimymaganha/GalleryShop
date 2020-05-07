@@ -1,5 +1,4 @@
 package GalleryShop.config.anotation;
-import GalleryShop.config.validation.EmailValidator;
 import GalleryShop.config.validation.PhoneNumberValidator;
 
 import javax.validation.Constraint;

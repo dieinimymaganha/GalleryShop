@@ -1,12 +1,11 @@
 package GalleryShop;
 
 
-import GalleryShop.config.validation.CpfValidator;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import GalleryShop.config.validation.CpfValidator;
 
 
 @SpringBootTest

@@ -7,7 +7,7 @@ import GalleryShop.config.anotation.EmailRegex;
 import GalleryShop.config.anotation.PhoneNumber;
 import GalleryShop.model.Client;
 import GalleryShop.repository.ClientRepository;
-import org.hibernate.validator.constraints.br.CPF;
+
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
