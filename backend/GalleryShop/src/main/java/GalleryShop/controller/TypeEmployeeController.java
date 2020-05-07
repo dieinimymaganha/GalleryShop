@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,22 +37,39 @@ public class TypeEmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TypeEmployeeDto> getTypeEmployeeId(@PathVariable Long id){
+    public ResponseEntity<TypeEmployeeDto> getTypeEmployeeId(@PathVariable Long id) {
         Optional<TypeEmployee> typeEmployee = typeEmployeeRepository.findById(id);
-        if (typeEmployee.isPresent()){
+        if (typeEmployee.isPresent()) {
             return ResponseEntity.ok(new TypeEmployeeDto(typeEmployee.get()));
         }
         return ResponseEntity.notFound().build();
-        
+
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<TypeEmployeeDto> createNew(@RequestBody @Valid TypeEmployeeForm form, UriComponentsBuilder uriBuilder){
+    public ResponseEntity<TypeEmployeeDto> createNew(@RequestBody @Valid TypeEmployeeForm form,
+            UriComponentsBuilder uriBuilder) {
         TypeEmployee typeEmployee = form.converter();
         typeEmployeeRepository.save(typeEmployee);
         URI uri = uriBuilder.path("/typeemployees/{id}").buildAndExpand(typeEmployee.getId()).toUri();
-		return ResponseEntity.created(uri).body(new TypeEmployeeDto(typeEmployee));		
+        return ResponseEntity.created(uri).body(new TypeEmployeeDto(typeEmployee));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TypeEmployeeDto> uploadTypeEmployee(@PathVariable Long id,
+            @RequestBody @Valid TypeEmployeeForm form) {
+
+        Optional<TypeEmployee> optional = typeEmployeeRepository.findById(id);
+
+        if (optional.isPresent()){
+            TypeEmployee typeEmployee = form.upload(id, typeEmployeeRepository);
+            return ResponseEntity.ok(new TypeEmployeeDto(typeEmployee));
+        }
+
+        return ResponseEntity.notFound().build();
+
     }
 
 }
