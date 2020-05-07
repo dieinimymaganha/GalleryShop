@@ -2,6 +2,7 @@ package GalleryShop.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +33,16 @@ public class TypeEmployeeController {
         List<TypeEmployee> typeEmployees = typeEmployeeRepository.findAll();
         return TypeEmployeeDto.converter(typeEmployees);
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TypeEmployeeDto> getTypeEmployeeId(@PathVariable Long id){
+        Optional<TypeEmployee> typeEmployee = typeEmployeeRepository.findById(id);
+        if (typeEmployee.isPresent()){
+            return ResponseEntity.ok(new TypeEmployeeDto(typeEmployee.get()));
+        }
+        return ResponseEntity.notFound().build();
+        
     }
 
     @PostMapping
