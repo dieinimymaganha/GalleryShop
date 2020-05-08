@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import GalleryShop.model.Service;
-import GalleryShop.model.TypeEmployee;
+
 
 public class ServiceDto {
 
