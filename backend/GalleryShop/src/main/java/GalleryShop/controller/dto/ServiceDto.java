@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import GalleryShop.model.Service;
+import GalleryShop.model.TypeEmployee;
 
 public class ServiceDto {
 
@@ -12,18 +13,21 @@ public class ServiceDto {
     private Double value;
     private Boolean fixedPrice;
 
-    public ServiceDto(Service service) {
+    private String typeEmployee;
+
+    public ServiceDto(final Service service) {
         this.id = service.getId();
         this.description = service.getDescription();
         this.value = service.getValue();
         this.fixedPrice = service.getFixedPrice();
+        this.typeEmployee = service.getTypeEmployee().getDescription();
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -31,7 +35,7 @@ public class ServiceDto {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -39,7 +43,7 @@ public class ServiceDto {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(final Double value) {
         this.value = value;
     }
 
@@ -47,11 +51,19 @@ public class ServiceDto {
         return fixedPrice;
     }
 
-    public void setFixedPrice(Boolean fixedPrice) {
+    public void setFixedPrice(final Boolean fixedPrice) {
         this.fixedPrice = fixedPrice;
     }
 
-    public static List<ServiceDto> converter(List<Service> services) {
+    public String getTypeEmployee() {
+        return typeEmployee;
+    }
+
+    public void setTypeEmployee(String typeEmployee) {
+        this.typeEmployee = typeEmployee;
+    }
+
+    public static List<ServiceDto> converter(final List<Service> services) {
 
         return services.stream().map(ServiceDto::new).collect(Collectors.toList());
 

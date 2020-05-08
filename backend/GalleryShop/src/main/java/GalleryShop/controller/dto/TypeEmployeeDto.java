@@ -16,7 +16,6 @@ public class TypeEmployeeDto {
         this.id = typeEmployee.getId();
         this.description = typeEmployee.getDescription();
         this.services = new ArrayList<>();
-
         this.services.addAll(typeEmployee.getServices().stream().map(ServiceDto::new).collect(Collectors.toList()));
     }
 
