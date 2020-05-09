@@ -6,7 +6,6 @@ import java.util.List;
 
 import GalleryShop.model.Employee;
 import GalleryShop.model.TypeEmployee;
-import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 
 public class EmployeeForm {
@@ -19,7 +18,7 @@ public class EmployeeForm {
     private String phoneNumber;
     private String rg;
     private Double commissionRate;
-    private String descriptonTypeEmployee;
+    private List<String> descriptonTypeEmployee;
 
     public String getName() {
         return name;
@@ -85,17 +84,24 @@ public class EmployeeForm {
         this.commissionRate = commissionRate;
     }
 
-    public String getDescriptonTypeEmployee() {
+    public List<String> getDescriptonTypeEmployee() {
         return descriptonTypeEmployee;
     }
 
-    public void setDescriptonTypeEmployee(final String descriptonTypeEmployee) {
+    public void setDescriptonTypeEmployee(List<String> descriptonTypeEmployee) {
         this.descriptonTypeEmployee = descriptonTypeEmployee;
     }
 
-    public Employee converter(final TypeEmployeeRepository typeEmployeeRepository){     
-        List<TypeEmployee> typeEmployee = typeEmployeeRepository.findByTypeEmployeeDescription(descriptonTypeEmployee);
-        return new Employee(name, lastName, nickname, cpf, birthdate, phoneNumber, cpf, commissionRate, typeEmployee);
+    public Employee converter(final TypeEmployeeRepository typeEmployeeRepository) {
+
+        List<TypeEmployee> listTypeEmployees = new ArrayList<>();
+
+        for (String d : descriptonTypeEmployee) {
+            TypeEmployee typeEmployee = typeEmployeeRepository.findByDescription(d);
+            listTypeEmployees.add(typeEmployee);
+        }
+        return new Employee(name, lastName, nickname, cpf, birthdate, phoneNumber, cpf, commissionRate,
+                listTypeEmployees);
     }
 
 }
