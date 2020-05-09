@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import GalleryShop.controller.dto.ServiceDto;
+import GalleryShop.controller.form.ClientForm;
 import GalleryShop.controller.form.ServiceForm;
 import GalleryShop.model.Service;
 import GalleryShop.repository.ServiceRepository;
@@ -60,6 +62,18 @@ public class ServiceController {
 
         return ResponseEntity.created(uri).body(new ServiceDto(service));
 
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<ServiceDto> uploadService(@PathVariable Long id, @RequestBody @Valid ServiceForm form) {
+        Optional<Service> optional = serviceRepository.findById(id);
+
+        if (optional.isPresent()) {
+            Service service = form.upload(id, serviceRepository, typeEmployeeRepository);
+            return ResponseEntity.ok(new ServiceDto(service));
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
