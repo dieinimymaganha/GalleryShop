@@ -1,22 +1,31 @@
 package GalleryShop.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 
 @Entity
-public class Employee extends Person{
-	
+public class Employee extends Person {
+
 	private String rg;
 	private Double commissionRate;
-	private String typeEmployee;
-	
-	public Employee(long id, String name, String lastName, String nickname, String cpf, Date birthdate,
-			String phoneNumber, String rg, Double commissionRate, String typeEmployee) {
-		super(name, lastName, nickname, cpf, birthdate, phoneNumber);
+
+	@ManyToMany
+	private List<TypeEmployee> typeEmployees = new ArrayList<>();
+
+	public Employee() {
+
+	}
+
+	public Employee(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber,
+			String rg, Double commissionRate, List<TypeEmployee> typeEmployees) {
+		super(name, lastName, nickname, cpf, birthDate, phoneNumber);
 		this.rg = rg;
 		this.commissionRate = commissionRate;
-		this.typeEmployee = typeEmployee;
+		// this.typeEmployees = typeEmployees;
 	}
 
 	public String getRg() {
@@ -35,15 +44,12 @@ public class Employee extends Person{
 		this.commissionRate = commissionRate;
 	}
 
-	public String getTypeEmployee() {
-		return typeEmployee;
+	public List<TypeEmployee> getTypeEmployees() {
+		return typeEmployees;
 	}
 
-	public void setTypeEmployee(String typeEmployee) {
-		this.typeEmployee = typeEmployee;
+	public void setTypeEmployees(List<TypeEmployee> typeEmployees) {
+		this.typeEmployees = typeEmployees;
 	}
-	
-	
-
 
 }
