@@ -1,11 +1,11 @@
 package GalleryShop.controller.form;
 
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import GalleryShop.model.Service;
 import GalleryShop.model.TypeEmployee;
+import GalleryShop.repository.ServiceRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 
 public class ServiceForm {
@@ -46,9 +46,6 @@ public class ServiceForm {
         this.fixedPrice = fixedPrice;
     }
 
-
-
-
     public String getDescriptonTypeEmployee() {
         return descriptonTypeEmployee;
     }
@@ -61,6 +58,19 @@ public class ServiceForm {
         TypeEmployee typeEmployee = typeEmployeeRepository.findByDescription(descriptonTypeEmployee);
         return new Service(description, value, fixedPrice, typeEmployee);
 
+    }
+
+    public Service upload(Long id, ServiceRepository serviceRepository, TypeEmployeeRepository typeEmployeeRepository) {
+        Service service = serviceRepository.getOne(id);
+
+        TypeEmployee typeEmployee = typeEmployeeRepository.findByDescription(this.descriptonTypeEmployee);
+
+        service.setDescription(this.description);
+        service.setFixedPrice(this.fixedPrice);
+        service.setValue(this.value);
+        service.setTypeEmployee(typeEmployee);
+
+        return service;
     }
 
 }
