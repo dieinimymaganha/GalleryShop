@@ -4,16 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@Table(name = "employee")
 public class Employee extends Person {
 
 	private String rg;
 	private Double commissionRate;
-
-	@ManyToMany
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "type_employees_id")
 	private List<TypeEmployee> typeEmployees = new ArrayList<>();
 
 	public Employee() {
@@ -25,7 +32,7 @@ public class Employee extends Person {
 		super(name, lastName, nickname, cpf, birthDate, phoneNumber);
 		this.rg = rg;
 		this.commissionRate = commissionRate;
-		// this.typeEmployees = typeEmployees;
+		this.typeEmployees = typeEmployees;
 	}
 
 	public String getRg() {
