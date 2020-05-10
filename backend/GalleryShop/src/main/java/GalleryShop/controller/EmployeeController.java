@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,20 +66,32 @@ public class EmployeeController {
 
     }
 
-
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long id, @RequestBody @Valid EmployeeForm form){
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long id, @RequestBody @Valid EmployeeForm form) {
 
         Optional<Employee> optional = employeeRepository.findById(id);
 
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             Employee employee = form.upload(id, employeeRepository, typeEmployeeRepository);
             return ResponseEntity.ok(new EmployeeDto(employee));
         }
 
         return ResponseEntity.notFound().build();
 
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+        Optional<Employee> optional = employeeRepository.findById(id);
+        if (optional.isPresent()) {
+            employeeRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }
