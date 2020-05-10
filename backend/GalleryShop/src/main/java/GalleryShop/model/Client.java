@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name = "client")
 public class Client extends Person{
 	
 	private String email;
