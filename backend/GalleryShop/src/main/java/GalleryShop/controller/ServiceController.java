@@ -65,7 +65,7 @@ public class ServiceController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<ServiceDto> uploadService(@PathVariable Long id, @RequestBody @Valid ServiceForm form) {
+    public ResponseEntity<ServiceDto> updateService(@PathVariable Long id, @RequestBody @Valid ServiceForm form) {
         Optional<Service> optional = serviceRepository.findById(id);
 
         if (optional.isPresent()) {
@@ -77,7 +77,7 @@ public class ServiceController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> deleteService(@PathVariable Long id) {
         Optional<Service> optional = serviceRepository.findById(id);
 
         if (optional.isPresent()) {

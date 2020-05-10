@@ -37,7 +37,7 @@ public class ClientController {
 	
 	@GetMapping
 	@Cacheable(value = "customersList")
-	public List<ClientDto> getListAll(){
+	public List<ClientDto> getAll(){
 		List<Client> clients = clientRepository.findAll();
 		return ClientDto.converter(clients);
 	}
@@ -63,7 +63,7 @@ public class ClientController {
 	@PostMapping
 	@Transactional
 	@CacheEvict(value = "customersList", allEntries = true)
-	public ResponseEntity<ClientDto> registerNewClient(@RequestBody  @Valid ClientForm form, UriComponentsBuilder uriBuilder ){
+	public ResponseEntity<ClientDto> createNewClient(@RequestBody  @Valid ClientForm form, UriComponentsBuilder uriBuilder ){
 		Client client = form.converter();
 		clientRepository.save(client);
 		URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
@@ -73,7 +73,7 @@ public class ClientController {
 	@PutMapping("/{id}")
 	@Transactional
 	@CacheEvict(value = "customersList", allEntries = true)
-	public ResponseEntity<ClientDto> uploadClient(@PathVariable Long id, @RequestBody @Valid ClientForm form){
+	public ResponseEntity<ClientDto> updateClient(@PathVariable Long id, @RequestBody @Valid ClientForm form){
 		Optional<Client> optional = clientRepository.findById(id);
 
 		if(optional.isPresent()){
@@ -86,7 +86,7 @@ public class ClientController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	@CacheEvict(value = "customersList", allEntries = true)
-	public ResponseEntity<?> delete(@PathVariable Long id){
+	public ResponseEntity<?> deleteClient(@PathVariable Long id){
 		Optional<Client> optional = clientRepository.findById(id);
 
 		if(optional.isPresent()){

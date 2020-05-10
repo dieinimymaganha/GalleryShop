@@ -49,7 +49,7 @@ public class TypeEmployeeController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<TypeEmployeeDto> createNew(@RequestBody @Valid TypeEmployeeForm form,
+    public ResponseEntity<TypeEmployeeDto> createNewTypeEmployee(@RequestBody @Valid TypeEmployeeForm form,
             UriComponentsBuilder uriBuilder) {
         TypeEmployee typeEmployee = form.converter();
         typeEmployeeRepository.save(typeEmployee);
@@ -59,7 +59,7 @@ public class TypeEmployeeController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<TypeEmployeeDto> uploadTypeEmployee(@PathVariable Long id,
+    public ResponseEntity<TypeEmployeeDto> updateTypeEmployee(@PathVariable Long id,
             @RequestBody @Valid TypeEmployeeForm form) {
 
         Optional<TypeEmployee> optional = typeEmployeeRepository.findById(id);
@@ -75,7 +75,7 @@ public class TypeEmployeeController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> deleteTypeEmployee(@PathVariable Long id){
         Optional<TypeEmployee> optional = typeEmployeeRepository.findById(id);
         if(optional.isPresent()){
            typeEmployeeRepository.deleteById(id);
