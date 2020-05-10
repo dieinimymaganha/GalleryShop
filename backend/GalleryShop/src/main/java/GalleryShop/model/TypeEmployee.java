@@ -9,8 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "type_employee")
 public class TypeEmployee {
 
 	@Id
@@ -53,6 +55,11 @@ public class TypeEmployee {
 
 	public void setServices(List<Service> services) {
 		this.services = services;
+	}
+
+	@Override
+	public String toString() {
+		return "TypeEmployee [description=" + description + ", id=" + id + "]";
 	}
 
 }
