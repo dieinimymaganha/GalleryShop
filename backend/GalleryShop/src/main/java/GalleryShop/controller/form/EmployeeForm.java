@@ -6,6 +6,7 @@ import java.util.List;
 
 import GalleryShop.model.Employee;
 import GalleryShop.model.TypeEmployee;
+import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 
 public class EmployeeForm {
@@ -106,6 +107,32 @@ public class EmployeeForm {
         System.out.println("Nova Lista: " + newListTypeEmployees);
         return new Employee(name, lastName, nickname, cpf, birthDate, phoneNumber, rg, commissionRate,
                 newListTypeEmployees);
+    }
+
+    public Employee upload(Long id, EmployeeRepository employeeRepository,
+            TypeEmployeeRepository typeEmployeeRepository) {
+        Employee employee = employeeRepository.getOne(id);
+
+        List<TypeEmployee> newListTypeEmployees = new ArrayList<>();
+        for (TypeEmployee typeEmployee : listTypeEmployees) {
+            TypeEmployee newTypeEmployee = typeEmployeeRepository
+                    .findByDescription(typeEmployee.getDescription().toString());
+            System.out.println("Tipo recuperado: " + newTypeEmployee);
+            newListTypeEmployees.add(newTypeEmployee);
+        }
+
+        employee.setName(this.name);
+        employee.setLastName(this.lastName);
+        employee.setNickname(this.nickname);
+        employee.setCpf(this.cpf);
+        employee.setBirthdate(this.birthDate);
+        employee.setPhoneNumber(this.phoneNumber);
+        employee.setRg(this.rg);
+        employee.setCommissionRate(this.commissionRate);
+        employee.setTypeEmployees(newListTypeEmployees);
+
+        return employee;
+
     }
 
 }

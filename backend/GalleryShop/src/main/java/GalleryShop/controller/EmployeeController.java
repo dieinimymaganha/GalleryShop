@@ -21,6 +21,7 @@ import GalleryShop.model.Employee;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -61,6 +62,22 @@ public class EmployeeController {
             URI uri = uriBuilder.path("/employees/{id}").buildAndExpand(employee.getId()).toUri();
             return ResponseEntity.created(uri).body(new EmployeeDto(employee));
         }
+
+    }
+
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<EmployeeDto> updateEmployee(@PathVariable Long id, @RequestBody @Valid EmployeeForm form){
+
+        Optional<Employee> optional = employeeRepository.findById(id);
+
+        if(optional.isPresent()){
+            Employee employee = form.upload(id, employeeRepository, typeEmployeeRepository);
+            return ResponseEntity.ok(new EmployeeDto(employee));
+        }
+
+        return ResponseEntity.notFound().build();
 
     }
 
