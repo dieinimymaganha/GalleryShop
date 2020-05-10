@@ -14,17 +14,17 @@ public class EmployeeForm {
     private String lastName;
     private String nickname;
     private String cpf;
-    private Date birthdate;
+    private Date birthDate;
     private String phoneNumber;
     private String rg;
     private Double commissionRate;
-    private List<String> descriptonTypeEmployee;
+    private List<TypeEmployee> listTypeEmployees = new ArrayList<TypeEmployee>();
 
     public String getName() {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -32,7 +32,7 @@ public class EmployeeForm {
         return lastName;
     }
 
-    public void setLastName(final String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -40,7 +40,7 @@ public class EmployeeForm {
         return nickname;
     }
 
-    public void setNickname(final String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
@@ -48,23 +48,23 @@ public class EmployeeForm {
         return cpf;
     }
 
-    public void setCpf(final String cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public Date getBirthdate() {
-        return birthdate;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthdate(final Date birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(final String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -72,7 +72,7 @@ public class EmployeeForm {
         return rg;
     }
 
-    public void setRg(final String rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 
@@ -80,28 +80,32 @@ public class EmployeeForm {
         return commissionRate;
     }
 
-    public void setCommissionRate(final Double commissionRate) {
+    public void setCommissionRate(Double commissionRate) {
         this.commissionRate = commissionRate;
     }
 
-    public List<String> getDescriptonTypeEmployee() {
-        return descriptonTypeEmployee;
+    public List<TypeEmployee> getListTypeEmployees() {
+        return listTypeEmployees;
     }
 
-    public void setDescriptonTypeEmployee(List<String> descriptonTypeEmployee) {
-        this.descriptonTypeEmployee = descriptonTypeEmployee;
+    public void setListTypeEmployees(List<TypeEmployee> listTypeEmployees) {
+        this.listTypeEmployees = listTypeEmployees;
     }
 
-    public Employee converter(final TypeEmployeeRepository typeEmployeeRepository) {
+    public Employee converter(TypeEmployeeRepository typeEmployeeRepository) {
 
-        List<TypeEmployee> listTypeEmployees = new ArrayList<>();
+        List<TypeEmployee> newListTypeEmployees = new ArrayList<>();
 
-        for (String d : descriptonTypeEmployee) {
-            TypeEmployee typeEmployee = typeEmployeeRepository.findByDescription(d);
-            listTypeEmployees.add(typeEmployee);
+        System.out.println("Lista de funcionarios: " + listTypeEmployees);
+        for (TypeEmployee typeEmployee : listTypeEmployees) {
+            TypeEmployee newTypeEmployee = typeEmployeeRepository
+                    .findByDescription(typeEmployee.getDescription().toString());
+            System.out.println("Tipo recuperado: " + newTypeEmployee);
+            newListTypeEmployees.add(newTypeEmployee);
         }
-        return new Employee(name, lastName, nickname, cpf, birthdate, phoneNumber, cpf, commissionRate,
-                listTypeEmployees);
+        System.out.println("Nova Lista: " + newListTypeEmployees);
+        return new Employee(name, lastName, nickname, cpf, birthDate, phoneNumber, rg, commissionRate,
+                newListTypeEmployees);
     }
 
 }
