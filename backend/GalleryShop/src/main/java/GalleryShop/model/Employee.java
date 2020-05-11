@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,8 +20,7 @@ public class Employee extends Person {
 	private Double commissionRate;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "type_employees_id")
+	@ManyToMany(mappedBy = "employees")
 	private List<TypeEmployee> typeEmployees = new ArrayList<>();
 
 	public Employee() {
