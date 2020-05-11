@@ -59,4 +59,44 @@ public class Employee extends Person {
 		this.typeEmployees = typeEmployees;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((commissionRate == null) ? 0 : commissionRate.hashCode());
+		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
+		result = prime * result + ((typeEmployees == null) ? 0 : typeEmployees.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (commissionRate == null) {
+			if (other.commissionRate != null)
+				return false;
+		} else if (!commissionRate.equals(other.commissionRate))
+			return false;
+		if (rg == null) {
+			if (other.rg != null)
+				return false;
+		} else if (!rg.equals(other.rg))
+			return false;
+		if (typeEmployees == null) {
+			if (other.typeEmployees != null)
+				return false;
+		} else if (!typeEmployees.equals(other.typeEmployees))
+			return false;
+		return true;
+	}
+
+
+
+	
 }

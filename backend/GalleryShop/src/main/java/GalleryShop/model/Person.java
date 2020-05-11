@@ -6,12 +6,12 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Person{
-	
+public class Person {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String name;
 	private String lastName;
 	private String nickname;
@@ -19,9 +19,8 @@ public class Person{
 	private String cpf;
 	private Date birthDate;
 	private String phoneNumber;
-	
-	public Person(String name, String lastName, String nickname, String cpf, Date birthDate,
-			String phoneNumber) {
+
+	public Person(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
@@ -89,12 +88,14 @@ public class Person{
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	} 
-	
-	
-	
-	
-	
-	
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 
 }
