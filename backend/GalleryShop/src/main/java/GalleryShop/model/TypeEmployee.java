@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "type_employee")
 public class TypeEmployee {
 
 	@Id
@@ -30,9 +29,7 @@ public class TypeEmployee {
 	private List<Service> services = new ArrayList<>();
 
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "employee_type_employees", joinColumns = @JoinColumn(name = "employee_id"),
-	 inverseJoinColumns = @JoinColumn(name = "type_employees_id"))
+	@ManyToMany(mappedBy="typeEmployees", cascade = CascadeType.ALL)
 	private List<Employee> employees;
 
 	public TypeEmployee() {
@@ -108,7 +105,5 @@ public class TypeEmployee {
 			return false;
 		return true;
 	}
-
-
 
 }

@@ -13,14 +13,15 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "employee")
 public class Employee extends Person {
 
 	private String rg;
 	private Double commissionRate;
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToMany(mappedBy = "employees")
+	@ManyToMany
+	@JoinTable(name = "employee_type_employees", joinColumns = @JoinColumn(name = "employee_id"),
+	 inverseJoinColumns = @JoinColumn(name = "type_employees_id"))
 	private List<TypeEmployee> typeEmployees = new ArrayList<>();
 
 	public Employee() {
