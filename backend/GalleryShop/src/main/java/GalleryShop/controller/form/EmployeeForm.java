@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import GalleryShop.config.anotation.Cpf;
+import GalleryShop.config.anotation.PhoneNumber;
 import GalleryShop.model.Employee;
 import GalleryShop.model.TypeEmployee;
 import GalleryShop.repository.EmployeeRepository;
@@ -11,15 +17,31 @@ import GalleryShop.repository.TypeEmployeeRepository;
 
 public class EmployeeForm {
 
+    @NotNull
+    @NotBlank
     private String name;
+    @NotNull
+    @NotBlank
     private String lastName;
+    @NotNull
+    @NotBlank
     private String nickname;
+    @NotNull
+    @NotBlank
+    @Cpf
     private String cpf;
+    @NotNull(message = "não pode ser nulo")
     private Date birthDate;
+    @NotNull
+    @NotEmpty
+    @PhoneNumber
     private String phoneNumber;
+    @NotNull
+    @NotBlank
     private String rg;
+    @NotNull
     private Double commissionRate;
-    private List<TypeEmployee> listTypeEmployees = new ArrayList<TypeEmployee>();
+    private List<TypeEmployee> listTypeEmployees = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -97,14 +119,11 @@ public class EmployeeForm {
 
         List<TypeEmployee> newListTypeEmployees = new ArrayList<>();
 
-        System.out.println("Lista de funcionarios: " + listTypeEmployees);
         for (TypeEmployee typeEmployee : listTypeEmployees) {
             TypeEmployee newTypeEmployee = typeEmployeeRepository
                     .findByDescription(typeEmployee.getDescription().toString());
-            System.out.println("Tipo recuperado: " + newTypeEmployee);
             newListTypeEmployees.add(newTypeEmployee);
         }
-        System.out.println("Nova Lista: " + newListTypeEmployees);
         return new Employee(name, lastName, nickname, cpf, birthDate, phoneNumber, rg, commissionRate,
                 newListTypeEmployees);
     }
@@ -117,7 +136,6 @@ public class EmployeeForm {
         for (TypeEmployee typeEmployee : listTypeEmployees) {
             TypeEmployee newTypeEmployee = typeEmployeeRepository
                     .findByDescription(typeEmployee.getDescription().toString());
-            System.out.println("Tipo recuperado: " + newTypeEmployee);
             newListTypeEmployees.add(newTypeEmployee);
         }
 
