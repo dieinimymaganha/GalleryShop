@@ -9,11 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 public class TypeEmployee {
@@ -28,8 +25,7 @@ public class TypeEmployee {
 	@OneToMany(mappedBy = "typeEmployee")
 	private List<Service> services = new ArrayList<>();
 
-
-	@ManyToMany(mappedBy="typeEmployees", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "typeEmployees", cascade = CascadeType.ALL)
 	private List<Employee> employees;
 
 	public TypeEmployee() {

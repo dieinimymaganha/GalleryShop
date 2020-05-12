@@ -4,30 +4,28 @@ import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
-
 
 @Entity
-public class Client extends Person{
-	
+public class Client extends Person {
+
 	private String email;
-	
 
 	public Client() {
-	
+
 	}
 
-	public Client(String name, String lastName, String nickname, String cpf, Date birthDate,
-			String phoneNumber, String email) {
+	public Client(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber,
+			String email) {
 		super(name, lastName, nickname, cpf, birthDate, phoneNumber);
 		this.email = email;
 	}
 
-
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		Client client = (Client) o;
 		return Objects.equals(email, client.email);
 	}
@@ -44,5 +42,5 @@ public class Client extends Person{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 }
