@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import GalleryShop.repository.UserLoginRepository;
 
 @EnableWebSecurity
 @Configuration
@@ -20,6 +23,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UserLoginRepository userLoginRepository;
 
     @Override
     @Bean
@@ -40,7 +48,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/employees").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll().antMatchers(HttpMethod.GET, "/employees/*")
                 .permitAll().anyRequest().authenticated().and().csrf().disable().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .addFilterBefore(new AuthenticationTokenFilter(tokenService, userLoginRepository),
+                        UsernamePasswordAuthenticationFilter.class);
 
     }
 
