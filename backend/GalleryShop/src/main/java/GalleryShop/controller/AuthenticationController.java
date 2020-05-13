@@ -1,6 +1,5 @@
 package GalleryShop.controller;
 
-import javax.security.sasl.AuthenticationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import GalleryShop.config.security.TokenService;
+import GalleryShop.controller.dto.TokenDto;
 import GalleryShop.controller.form.LoginForm;
 
 @RestController
@@ -27,19 +27,16 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<?> authenticate(@RequestBody @Valid LoginForm form) {
+    public ResponseEntity<TokenDto> authenticate(@RequestBody @Valid LoginForm form) {
         UsernamePasswordAuthenticationToken dataLogin = form.converter();
-        // try {
-        Authentication authentication = authManager.authenticate(dataLogin);
-        String token = tokenService.generateToken(authentication);
-        System.out.println(token);
 
-        return ResponseEntity.ok().build();
-
-        // } catch (AuthenticationException e) {
-        // return ResponseEntity.badRequest().build();
-
-        // }
+        try {
+            Authentication authentication = authManager.authenticate(dataLogin);
+            String token = tokenService.generateToken(authentication);
+            return ResponseEntity.ok(new TokenDto(token, "Bearer"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
 
     }
 
