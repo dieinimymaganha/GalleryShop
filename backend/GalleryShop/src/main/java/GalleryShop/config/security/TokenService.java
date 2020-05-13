@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import GalleryShop.model.UserLogin;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -26,6 +27,21 @@ public class TokenService {
 
         return Jwts.builder().setIssuer("API GalleryShop").setSubject(logged.getId().toString()).setIssuedAt(today)
                 .setExpiration(dateExpiration).signWith(SignatureAlgorithm.HS256, secret).compact();
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    public Long getIdUser(String token) {
+        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return Long.parseLong(claims.getSubject());
     }
 
 }
