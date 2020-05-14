@@ -5,18 +5,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 public class LoginForm {
 
-    private String email;
+    private String phoneNumber;
     private String password;
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public String getPassword() {
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getPassword() {
         return password;
     }
 
@@ -25,7 +27,7 @@ public class LoginForm {
     }
 
 	public UsernamePasswordAuthenticationToken converter() {
-		return new UsernamePasswordAuthenticationToken(email,password);
+		return new UsernamePasswordAuthenticationToken(phoneNumber,password);
 	}
 
 }

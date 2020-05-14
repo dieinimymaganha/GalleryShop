@@ -21,7 +21,7 @@ public class UserLogin implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
+    private String phoneNumber;
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -39,7 +39,7 @@ public class UserLogin implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.phoneNumber;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UserLogin implements UserDetails {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
         result = prime * result + ((profiles == null) ? 0 : profiles.hashCode());
@@ -82,10 +82,10 @@ public class UserLogin implements UserDetails {
         if (getClass() != obj.getClass())
             return false;
         UserLogin other = (UserLogin) obj;
-        if (email == null) {
-            if (other.email != null)
+        if (phoneNumber == null) {
+            if (other.phoneNumber != null)
                 return false;
-        } else if (!email.equals(other.email))
+        } else if (!phoneNumber.equals(other.phoneNumber))
             return false;
         if (id == null) {
             if (other.id != null)
@@ -115,17 +115,18 @@ public class UserLogin implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }
+    }	
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public void setPassword(String password) {
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public void setPassword(String password) {
         this.password = password;
     }
 
