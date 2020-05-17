@@ -7,9 +7,11 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import GalleryShop.model.Client;
+import GalleryShop.model.Employee;
 import GalleryShop.model.Profile;
 import GalleryShop.model.UserLogin;
 import GalleryShop.repository.ClientRepository;
+import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.ProfileRepository;
 
 public class UserLoginForm {
@@ -42,7 +44,8 @@ public class UserLoginForm {
         this.listProfiles = listProfiles;
     }
 
-    public UserLogin coverter(ClientRepository clientRepository, ProfileRepository profileRepository) {
+    public UserLogin coverter(ClientRepository clientRepository, EmployeeRepository employeeRepository,
+            ProfileRepository profileRepository) {
 
         List<Profile> newListProfile = new ArrayList<>();
 
@@ -56,6 +59,14 @@ public class UserLoginForm {
         if (client.isPresent()) {
             String passwordCrypt = new BCryptPasswordEncoder().encode(password);
             return new UserLogin(phoneNumber, passwordCrypt, client.get(), newListProfile);
+        }
+
+        Optional<Employee> employee = employeeRepository.findByPhoneNumber(phoneNumber);
+
+        if (employee.isPresent()) {
+            String passwordCrypt = new BCryptPasswordEncoder().encode(password);
+            return new UserLogin(phoneNumber, passwordCrypt, employee.get(), newListProfile);
+
         }
 
         return null;
