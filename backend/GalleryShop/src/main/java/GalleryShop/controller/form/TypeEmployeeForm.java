@@ -8,15 +8,11 @@ import GalleryShop.repository.TypeEmployeeRepository;
 
 public class TypeEmployeeForm {
 
-    @NotNull @NotEmpty
+    @NotNull
+    @NotEmpty
     private String description;
-    
 
-    
-
-
-
-    public TypeEmployee converter(){
+    public TypeEmployee converter() {
         return new TypeEmployee(description);
     }
 
@@ -28,11 +24,10 @@ public class TypeEmployeeForm {
         this.description = description;
     }
 
-    public TypeEmployee upload(Long id, TypeEmployeeRepository typeEmployeeRepository){
+    public TypeEmployee upload(Long id, TypeEmployeeRepository typeEmployeeRepository) {
         TypeEmployee typeEmployee = typeEmployeeRepository.getOne(id);
         typeEmployee.setDescription(description);
         return typeEmployee;
     }
-
 
 }
