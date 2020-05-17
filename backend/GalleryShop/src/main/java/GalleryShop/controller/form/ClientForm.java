@@ -90,7 +90,7 @@ public class ClientForm {
 		client.setLastName(this.lastName);
 		client.setNickname(this.nickname);
 		client.setCpf(this.cpf);
-		client.setBirthdate(this.birthDate);
+		client.setBirthDate(this.birthDate);
 		client.setPhoneNumber(this.phoneNumber);
 		client.setEmail(this.email);
 		return client;
