@@ -173,4 +173,13 @@ public class UserLogin implements UserDetails {
         this.profiles = profiles;
     }
 
+    public UserLogin(String phoneNumber, String password, Employee employee, List<Profile> profiles) {
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.employee = employee;
+        this.profiles = profiles;
+    }
+
+    
+
 }
