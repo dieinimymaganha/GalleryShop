@@ -26,7 +26,7 @@ public class EmployeeDto {
         this.lastName = employee.getLastName();
         this.nickname = employee.getNickname();
         this.cpf = employee.getCpf();
-        this.birthdate = employee.getBirthdate();
+        this.birthdate = employee.getBirthDate();
         this.phoneNumber = employee.getPhoneNumber();
         this.rg = employee.getRg();
         this.commissionRate = employee.getCommissionRate();

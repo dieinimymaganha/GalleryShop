@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Person {
@@ -19,6 +21,11 @@ public class Person {
 	private String cpf;
 	private Date birthDate;
 	private String phoneNumber;
+
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_login_id", referencedColumnName = "id")
+	private UserLogin userLogin;
 
 	public Person(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber) {
 		super();
@@ -74,11 +81,11 @@ public class Person {
 		this.cpf = cpf;
 	}
 
-	public Date getBirthdate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthdate(Date birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -90,12 +97,12 @@ public class Person {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Date getBirthDate() {
-		return birthDate;
+	public UserLogin getUserLogin() {
+		return userLogin;
 	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
 	}
 
 }

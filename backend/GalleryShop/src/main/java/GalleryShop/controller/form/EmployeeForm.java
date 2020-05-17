@@ -143,7 +143,7 @@ public class EmployeeForm {
         employee.setLastName(this.lastName);
         employee.setNickname(this.nickname);
         employee.setCpf(this.cpf);
-        employee.setBirthdate(this.birthDate);
+        employee.setBirthDate(this.birthDate);
         employee.setPhoneNumber(this.phoneNumber);
         employee.setRg(this.rg);
         employee.setCommissionRate(this.commissionRate);
