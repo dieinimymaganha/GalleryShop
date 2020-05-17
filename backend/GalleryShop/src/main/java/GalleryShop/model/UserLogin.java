@@ -166,10 +166,11 @@ public class UserLogin implements UserDetails {
 
     }
 
-    public UserLogin(String phoneNumber, String password, Client client) {
+    public UserLogin(String phoneNumber, String password, Client client, List<Profile> profiles) {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.client = client;
+        this.profiles = profiles;
     }
 
 }
