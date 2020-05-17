@@ -1,9 +1,11 @@
 package GalleryShop.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -13,34 +15,36 @@ public class Profile implements GrantedAuthority {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String role;
 
-    private String name;
+    @ManyToMany(mappedBy = "profiles", cascade = CascadeType.ALL)
+    private List<UserLogin> userLogins;
+
+    
 
     @Override
     public String getAuthority() {
-        return name;
+        return this.role;
     }
 
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
 
-    public Long getId() {
-        return id;
+
+    public List<UserLogin> getUserLogins() {
+        return userLogins;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserLogins(List<UserLogin> userLogins) {
+        this.userLogins = userLogins;
     }
 
-    public String getName() {
-        return name;
+    public String getRole() {
+        return role;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRole(String role) {
+        this.role = role;
     }
-
 }

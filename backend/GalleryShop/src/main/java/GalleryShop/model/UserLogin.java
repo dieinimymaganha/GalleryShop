@@ -5,10 +5,11 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -31,7 +32,8 @@ public class UserLogin implements UserDetails {
     @OneToOne(mappedBy = "userLogin")
     private Employee employee;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(name = "user_login_profiles", joinColumns = @JoinColumn(name = "user_login_id"), inverseJoinColumns = @JoinColumn(name = "role"))
     private List<Profile> profiles = new ArrayList<>();
 
     @Override
@@ -122,18 +124,17 @@ public class UserLogin implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
-    }	
-
+    }
 
     public String getPhoneNumber() {
-		return phoneNumber;
-	}
+        return phoneNumber;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -143,6 +144,22 @@ public class UserLogin implements UserDetails {
 
     public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
 }
