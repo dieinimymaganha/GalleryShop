@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,12 @@ public class UserLogin implements UserDetails {
     private Long id;
     private String phoneNumber;
     private String password;
+
+    @OneToOne(mappedBy = "userLogin")
+    private Client client;
+
+    @OneToOne(mappedBy = "userLogin")
+    private Employee employee;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
