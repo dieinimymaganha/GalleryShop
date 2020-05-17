@@ -2,7 +2,6 @@ package GalleryShop.controller.form;
 
 import java.util.Optional;
 
-import org.apache.catalina.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import GalleryShop.model.Client;
