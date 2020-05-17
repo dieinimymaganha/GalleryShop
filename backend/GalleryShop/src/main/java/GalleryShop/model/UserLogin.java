@@ -3,6 +3,7 @@ package GalleryShop.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -160,6 +161,16 @@ public class UserLogin implements UserDetails {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public UserLogin() {
+
+    }
+
+    public UserLogin(String phoneNumber, String password, Client client) {
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.client = client;
     }
 
 }
