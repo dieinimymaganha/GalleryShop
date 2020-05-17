@@ -6,7 +6,9 @@ import GalleryShop.model.Client;
 
 import java.util.Optional;
 
-public interface ClientRepository extends JpaRepository<Client, Long>{
+public interface ClientRepository extends JpaRepository<Client, Long> {
 
     Optional<Client> findByCpf(String cpf);
+
+    Optional<Client> findByPhoneNumber(String phoneNumber);
 }
