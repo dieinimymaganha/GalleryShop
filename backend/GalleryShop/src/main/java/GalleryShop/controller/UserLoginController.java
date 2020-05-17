@@ -14,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import GalleryShop.controller.form.UserLoginForm;
 import GalleryShop.model.UserLogin;
 import GalleryShop.repository.ClientRepository;
+import GalleryShop.repository.ProfileRepository;
 import GalleryShop.repository.UserLoginRepository;
 
 @RestController
@@ -26,10 +27,13 @@ public class UserLoginController {
     @Autowired
     ClientRepository clientRepository;
 
+    @Autowired
+    ProfileRepository profileRepository;
+
     @PostMapping
     @Transactional
     public ResponseEntity<?> createNewUser(@RequestBody @Valid UserLoginForm form, UriComponentsBuilder uriBuilder) {
-        UserLogin userLogin = form.coverter(clientRepository);
+        UserLogin userLogin = form.coverter(clientRepository, profileRepository);
         userLoginRepository.save(userLogin);
 
         return ResponseEntity.ok().build();
