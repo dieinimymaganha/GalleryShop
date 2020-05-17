@@ -24,7 +24,7 @@ public class ClientDto {
 		this.lastName = client.getLastName();
 		this.nickname = client.getNickname();
 		this.cpf = client.getCpf();
-		this.birthdate = client.getBirthdate();
+		this.birthdate = client.getBirthDate();
 		this.phoneNumber = client.getPhoneNumber();
 		this.email = client.getEmail();
 	}
