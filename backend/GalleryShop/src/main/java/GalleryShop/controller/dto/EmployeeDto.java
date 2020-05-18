@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import GalleryShop.model.Employee;
+import GalleryShop.model.UserLogin;
 
 public class EmployeeDto {
 
@@ -18,6 +19,7 @@ public class EmployeeDto {
     private String phoneNumber;
     private String rg;
     private Double commissionRate;
+    private String password;
     private List<TypeEmployeeDto> typeEmployees;
 
     public EmployeeDto(Employee employee) {
@@ -30,6 +32,7 @@ public class EmployeeDto {
         this.phoneNumber = employee.getPhoneNumber();
         this.rg = employee.getRg();
         this.commissionRate = employee.getCommissionRate();
+        this.password = employee.getUserLogin().getPassword();
         this.typeEmployees = new ArrayList<>();
         this.typeEmployees
                 .addAll(employee.getTypeEmployees().stream().map(TypeEmployeeDto::new).collect(Collectors.toList()));
@@ -119,4 +122,13 @@ public class EmployeeDto {
     public static List<EmployeeDto> converter(List<Employee> employees) {
         return employees.stream().map(EmployeeDto::new).collect(Collectors.toList());
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }
