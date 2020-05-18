@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,11 +15,10 @@ public class Employee extends Person {
 
 	private String rg;
 	private Double commissionRate;
-	
+
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToMany
-	@JoinTable(name = "employee_type_employees", joinColumns = @JoinColumn(name = "employee_id"),
-	 inverseJoinColumns = @JoinColumn(name = "type_employees_id"))
+	@JoinTable(name = "employee_type_employees", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "type_employees_id"))
 	private List<TypeEmployee> typeEmployees = new ArrayList<>();
 
 	public Employee() {
@@ -30,6 +28,14 @@ public class Employee extends Person {
 	public Employee(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber,
 			String rg, Double commissionRate, List<TypeEmployee> typeEmployees) {
 		super(name, lastName, nickname, cpf, birthDate, phoneNumber);
+		this.rg = rg;
+		this.commissionRate = commissionRate;
+		this.typeEmployees = typeEmployees;
+	}
+
+	public Employee(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber,
+			UserLogin userLogin, String rg, Double commissionRate, List<TypeEmployee> typeEmployees) {
+		super(name, lastName, nickname, cpf, birthDate, phoneNumber, userLogin);
 		this.rg = rg;
 		this.commissionRate = commissionRate;
 		this.typeEmployees = typeEmployees;
@@ -96,7 +102,4 @@ public class Employee extends Person {
 		return true;
 	}
 
-
-
-	
 }
