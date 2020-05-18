@@ -8,14 +8,24 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import GalleryShop.config.anotation.Cpf;
 import GalleryShop.config.anotation.PhoneNumber;
 import GalleryShop.model.Employee;
+import GalleryShop.model.Profile;
 import GalleryShop.model.TypeEmployee;
+import GalleryShop.model.UserLogin;
 import GalleryShop.repository.EmployeeRepository;
+import GalleryShop.repository.ProfileRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
+import GalleryShop.repository.UserLoginRepository;
 
 public class EmployeeForm {
+
+    @Autowired
+    UserLoginRepository userLoginRepository;
 
     @NotNull
     @NotBlank
@@ -42,6 +52,8 @@ public class EmployeeForm {
     @NotNull
     private Double commissionRate;
     private List<TypeEmployee> listTypeEmployees = new ArrayList<>();
+    private String password;
+    private List<Profile> listProfiles = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -115,7 +127,29 @@ public class EmployeeForm {
         this.listTypeEmployees = listTypeEmployees;
     }
 
-    public Employee converter(TypeEmployeeRepository typeEmployeeRepository) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Employee converter(TypeEmployeeRepository typeEmployeeRepository, ProfileRepository profileRepository) {
+
+        List<Profile> newListProfile = new ArrayList<>();
+
+        for (Profile profile : listProfiles) {
+            Profile newProfile = profileRepository.findByRole(profile.getRole().toString());
+            newListProfile.add(newProfile);
+        }
+
+        System.out.println("ROLES ACHADAS " + newListProfile);
+
+        UserLogin userLogin = new UserLogin();
+        userLogin.setPhoneNumber(phoneNumber);
+        userLogin.setPassword(new BCryptPasswordEncoder().encode(password));
+        userLogin.setProfiles(newListProfile);
 
         List<TypeEmployee> newListTypeEmployees = new ArrayList<>();
 
@@ -124,7 +158,7 @@ public class EmployeeForm {
                     .findByDescription(typeEmployee.getDescription().toString());
             newListTypeEmployees.add(newTypeEmployee);
         }
-        return new Employee(name, lastName, nickname, cpf, birthDate, phoneNumber, rg, commissionRate,
+        return new Employee(name, lastName, nickname, cpf, birthDate, phoneNumber, userLogin, rg, commissionRate,
                 newListTypeEmployees);
     }
 
@@ -151,6 +185,22 @@ public class EmployeeForm {
 
         return employee;
 
+    }
+
+    public UserLoginRepository getUserLoginRepository() {
+        return userLoginRepository;
+    }
+
+    public void setUserLoginRepository(UserLoginRepository userLoginRepository) {
+        this.userLoginRepository = userLoginRepository;
+    }
+
+    public List<Profile> getListProfiles() {
+        return listProfiles;
+    }
+
+    public void setListProfiles(List<Profile> listProfiles) {
+        this.listProfiles = listProfiles;
     }
 
 }
