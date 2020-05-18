@@ -27,18 +27,28 @@ public class Person {
 	@JoinColumn(name = "user_login_id", referencedColumnName = "id")
 	private UserLogin userLogin;
 
-	public Person(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber) {
-		super();
+	public Person() {
+
+	}
+
+	public Person(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber,
+			UserLogin userLogin) {
 		this.name = name;
 		this.lastName = lastName;
 		this.nickname = nickname;
 		this.cpf = cpf;
 		this.birthDate = birthDate;
 		this.phoneNumber = phoneNumber;
+		this.userLogin = userLogin;
 	}
 
-	public Person() {
-		super();
+	public Person(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber) {
+		this.name = name;
+		this.lastName = lastName;
+		this.nickname = nickname;
+		this.cpf = cpf;
+		this.birthDate = birthDate;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public long getId() {
