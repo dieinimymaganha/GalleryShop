@@ -20,6 +20,7 @@ import GalleryShop.controller.dto.EmployeeDto;
 import GalleryShop.controller.form.EmployeeForm;
 import GalleryShop.model.Employee;
 import GalleryShop.repository.EmployeeRepository;
+import GalleryShop.repository.ProfileRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +35,9 @@ public class EmployeeController {
 
     @Autowired
     TypeEmployeeRepository typeEmployeeRepository;
+
+    @Autowired
+    ProfileRepository profileRepository;
 
     @GetMapping
     public List<EmployeeDto> getAll() {
@@ -55,7 +59,7 @@ public class EmployeeController {
     @Transactional
     public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody @Valid EmployeeForm form,
             UriComponentsBuilder uriBuilder) {
-        Employee employee = form.converter(typeEmployeeRepository);
+        Employee employee = form.converter(typeEmployeeRepository,profileRepository);
         if (employee.getTypeEmployees() == null) {
             return ResponseEntity.noContent().build();
         } else {
