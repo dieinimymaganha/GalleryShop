@@ -20,6 +20,7 @@ public class Person {
 	@Column(unique = true)
 	private String cpf;
 	private Date birthDate;
+	@Column(unique = true)
 	private String phoneNumber;
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

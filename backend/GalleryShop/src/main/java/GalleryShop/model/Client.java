@@ -3,11 +3,13 @@ package GalleryShop.model;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 public class Client extends Person {
 
+	@Column(unique = true)
 	private String email;
 
 	public Client() {
