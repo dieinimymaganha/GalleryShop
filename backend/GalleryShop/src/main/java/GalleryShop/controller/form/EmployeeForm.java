@@ -52,7 +52,11 @@ public class EmployeeForm {
     @NotNull
     private Double commissionRate;
     private List<TypeEmployee> listTypeEmployees = new ArrayList<>();
+    @NotNull
+    @NotEmpty
     private String password;
+    @NotNull
+    @NotEmpty
     private List<Profile> listProfiles = new ArrayList<>();
 
     public String getName() {

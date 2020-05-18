@@ -47,7 +47,11 @@ public class ClientForm {
 	@EmailRegex
 	private String email;
 
+	@NotNull
+	@NotEmpty
 	private String password;
+	@NotNull
+	@NotEmpty
 	private List<Profile> listProfiles = new ArrayList<>();
 
 	public String getName() {

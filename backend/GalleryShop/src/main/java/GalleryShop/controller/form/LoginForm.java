@@ -1,16 +1,20 @@
 package GalleryShop.controller.form;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 public class LoginForm {
 
-    private String phoneNumber;
-    private String password;
+	@NotNull
+	@NotEmpty
+	private String phoneNumber;
+	@NotNull
+	@NotEmpty
+	private String password;
 
-
-	
-    public String getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
@@ -19,15 +23,15 @@ public class LoginForm {
 	}
 
 	public String getPassword() {
-        return password;
-    }
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public UsernamePasswordAuthenticationToken converter() {
-		return new UsernamePasswordAuthenticationToken(phoneNumber,password);
+		return new UsernamePasswordAuthenticationToken(phoneNumber, password);
 	}
 
 }

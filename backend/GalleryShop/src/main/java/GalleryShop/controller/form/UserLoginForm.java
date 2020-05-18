@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import GalleryShop.model.Client;
@@ -15,9 +18,14 @@ import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.ProfileRepository;
 
 public class UserLoginForm {
-
+    @NotNull
+    @NotEmpty
     private String phoneNumber;
+    @NotNull
+    @NotEmpty
     private String password;
+    @NotNull
+    @NotEmpty
     private List<Profile> listProfiles = new ArrayList<>();
 
     public String getPhoneNumber() {
