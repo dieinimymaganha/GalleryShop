@@ -20,6 +20,12 @@ public class Client extends Person {
 		this.email = email;
 	}
 
+	public Client(String name, String lastName, String nickname, String cpf, Date birthDate, String phoneNumber,
+			UserLogin userLogin, String email) {
+		super(name, lastName, nickname, cpf, birthDate, phoneNumber, userLogin);
+		this.email = email;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)
