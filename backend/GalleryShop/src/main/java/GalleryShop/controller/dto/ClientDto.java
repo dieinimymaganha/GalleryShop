@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import GalleryShop.model.Client;
 
 public class ClientDto {
-	
+
 	private Long id;
 	private String name;
 	private String lastName;
@@ -16,8 +16,8 @@ public class ClientDto {
 	private Date birthdate;
 	private String phoneNumber;
 	private String email;
-	
-	
+	private String password;
+
 	public ClientDto(Client client) {
 		this.id = client.getId();
 		this.name = client.getName();
@@ -27,9 +27,9 @@ public class ClientDto {
 		this.birthdate = client.getBirthDate();
 		this.phoneNumber = client.getPhoneNumber();
 		this.email = client.getEmail();
+		this.password = client.getUserLogin().getPassword();
 	}
-	
-		
+
 	public Long getId() {
 		return id;
 	}
@@ -38,56 +38,73 @@ public class ClientDto {
 		this.id = id;
 	}
 
-
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getNickname() {
 		return nickname;
 	}
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	public Date getBirthdate() {
 		return birthdate;
 	}
+
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
 	public static List<ClientDto> converter(List<Client> clients) {
 
 		return clients.stream().map(ClientDto::new).collect(Collectors.toList());
 	}
-	
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 }
-

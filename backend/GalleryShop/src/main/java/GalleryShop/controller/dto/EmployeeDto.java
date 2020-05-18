@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import GalleryShop.model.Employee;
-import GalleryShop.model.UserLogin;
 
 public class EmployeeDto {
 

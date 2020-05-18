@@ -25,6 +25,7 @@ import GalleryShop.controller.dto.ClientDto;
 import GalleryShop.controller.form.ClientForm;
 import GalleryShop.model.Client;
 import GalleryShop.repository.ClientRepository;
+import GalleryShop.repository.ProfileRepository;
 
 @RestController
 @RequestMapping("/clients")
@@ -32,6 +33,9 @@ public class ClientController {
 
 	@Autowired
 	private ClientRepository clientRepository;
+
+	@Autowired
+	private ProfileRepository profileRepository;
 
 	@GetMapping
 	@Cacheable(value = "customersList")
@@ -63,7 +67,7 @@ public class ClientController {
 	@CacheEvict(value = "customersList", allEntries = true)
 	public ResponseEntity<ClientDto> createNewClient(@RequestBody @Valid ClientForm form,
 			UriComponentsBuilder uriBuilder) {
-		Client client = form.converter();
+		Client client = form.converter(profileRepository);
 		clientRepository.save(client);
 		URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ClientDto(client));
