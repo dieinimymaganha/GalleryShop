@@ -34,7 +34,7 @@ public class UserLogin implements UserDetails {
 
     @ManyToMany
     @JoinTable(name = "user_login_profiles", joinColumns = @JoinColumn(name = "user_login_id"), inverseJoinColumns = @JoinColumn(name = "role"))
-    private List<Profile> profiles = new ArrayList<>();
+    private List<Profile> profiles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
