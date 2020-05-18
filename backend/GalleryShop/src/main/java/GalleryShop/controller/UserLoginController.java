@@ -37,7 +37,7 @@ public class UserLoginController {
     @PostMapping
     @Transactional
     public ResponseEntity<?> createNewUser(@RequestBody @Valid UserLoginForm form, UriComponentsBuilder uriBuilder) {
-        UserLogin userLogin = form.coverter(clientRepository, employeeRepository, profileRepository);
+        UserLogin userLogin = form.converter(clientRepository, employeeRepository, profileRepository);
 
         if (userLogin != null) {
 
