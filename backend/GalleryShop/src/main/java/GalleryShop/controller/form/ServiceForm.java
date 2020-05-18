@@ -16,6 +16,7 @@ public class ServiceForm {
 
     private Double value;
 
+    @NotNull
     private Boolean fixedPrice;
 
     @NotNull
