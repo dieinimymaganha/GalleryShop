@@ -144,8 +144,6 @@ public class EmployeeForm {
             newListProfile.add(newProfile);
         }
 
-        System.out.println("ROLES ACHADAS " + newListProfile);
-
         UserLogin userLogin = new UserLogin();
         userLogin.setPhoneNumber(phoneNumber);
         userLogin.setPassword(new BCryptPasswordEncoder().encode(password));
