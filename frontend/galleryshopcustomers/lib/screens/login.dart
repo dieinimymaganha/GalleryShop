@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:galleryshopcustomers/screens/reset_password.dart';
 import 'package:path/path.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,9 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final MaskedTextController _controllerMaskFieldPhoneNumber =
-  new MaskedTextController(mask: '(000) 00000-0000');
+      new MaskedTextController(mask: '(000) 00000-0000');
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             TextFormField(
               controller: _controllerMaskFieldPhoneNumber,
-              autofocus: true,
+//              autofocus: true,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 labelText: "Telefone",
@@ -52,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             TextFormField(
-              autofocus: true,
+//              autofocus: true,
               keyboardType: TextInputType.text,
               obscureText: true,
               decoration: InputDecoration(
@@ -71,7 +71,13 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   "Recuperar Senha",
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ResetPasswordPage(),
+                      ));
+                },
               ),
             ),
             SizedBox(
@@ -109,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Container(
                         child: SizedBox(
-                          child: Icon(Icons.done_all),
+                          child: Icon(Icons.send),
                           height: 28,
                           width: 28,
                         ),
