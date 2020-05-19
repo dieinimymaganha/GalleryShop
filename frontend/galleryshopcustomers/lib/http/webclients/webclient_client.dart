@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:galleryshopcustomers/models/client.dart';
 import 'package:http/http.dart';
 
