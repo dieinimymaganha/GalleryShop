@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:path/path.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  final MaskedTextController _controllerMaskFieldPhoneNumber =
+  new MaskedTextController(mask: '(000) 00000-0000');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +33,7 @@ class LoginPage extends StatelessWidget {
               height: 20,
             ),
             TextFormField(
+              controller: _controllerMaskFieldPhoneNumber,
               autofocus: true,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
@@ -34,7 +45,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
               ),
             ),
             SizedBox(
@@ -49,7 +60,7 @@ class LoginPage extends StatelessWidget {
                   labelStyle: TextStyle(
                     color: Colors.black38,
                     fontWeight: FontWeight.w400,
-                    fontSize: 20,
+                    fontSize: 18,
                   )),
               style: TextStyle(fontSize: 20),
             ),
