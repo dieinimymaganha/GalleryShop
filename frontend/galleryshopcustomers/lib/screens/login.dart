@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:galleryshopcustomers/http/webclients/webclient_login.dart';
+import 'package:galleryshopcustomers/models/login.dart';
+import 'package:galleryshopcustomers/models/token.dart';
 import 'package:galleryshopcustomers/screens/reset_password.dart';
 import 'package:path/path.dart';
 
@@ -9,8 +12,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final LoginWebClient _webClient = LoginWebClient();
+
   final MaskedTextController _controllerMaskFieldPhoneNumber =
       new MaskedTextController(mask: '(000) 00000-0000');
+
+  final TextEditingController _controllerPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             TextFormField(
+              controller: _controllerPassword,
 //              autofocus: true,
               keyboardType: TextInputType.text,
               obscureText: true,
@@ -122,7 +130,15 @@ class _LoginPageState extends State<LoginPage> {
                       )
                     ],
                   ),
-                  onPressed: () => {},
+                  onPressed: () {
+                    final String phoneNumber =
+                        _controllerMaskFieldPhoneNumber.text;
+                    final String password = _controllerPassword.text;
+
+                    final loginCreatead = LoginModel(phoneNumber, password);
+
+                    _save(loginCreatead, context);
+                  },
                 ),
               ),
             )
@@ -130,5 +146,18 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _save(LoginModel loginCreatead, BuildContext context) async {
+    await _send(loginCreatead, context);
+  }
+
+  Future<TokenModel> _send(LoginModel loginModel, BuildContext context) async {
+    final TokenModel tokenModel =
+        await _webClient.sendUser(loginModel).catchError((e) {
+      debugPrint(e);
+    });
+    print(tokenModel);
+    return tokenModel;
   }
 }
