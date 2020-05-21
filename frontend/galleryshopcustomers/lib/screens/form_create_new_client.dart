@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:galleryshopcustomers/components/editor.dart';
+import 'package:galleryshopcustomers/components/custom_form.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_client.dart';
 import 'package:galleryshopcustomers/models/client.dart';
 import 'package:uuid/uuid.dart';
@@ -56,43 +56,43 @@ class _FormCreateNewClientState extends State<FormCreateNewClient> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Editor(
+            CustomForm(
               controller: _controllerFieldName,
               tip: _tipFieldName,
               label: _labelFieldName,
               textInputType: TextInputType.text,
             ),
-            Editor(
+            CustomForm(
               controller: _controllerFieldLastName,
               tip: _tipFieldLastName,
               label: _labelFieldLastName,
               textInputType: TextInputType.text,
             ),
-            Editor(
+            CustomForm(
               controller: _controllerFieldNickname,
               tip: _tipFieldNickname,
               label: _labelFieldNickname,
               textInputType: TextInputType.text,
             ),
-            Editor(
+            CustomForm(
               controller: _controllerMaskFieldCpf,
               tip: _tipFieldCpf,
               label: _labelFieldCpf,
               textInputType: TextInputType.number,
             ),
-            Editor(
+            CustomForm(
               controller: _controllerMaskFieldBirthDate,
               tip: _tipFieldBirhdate,
               label: _labelFieldBirhDate,
               textInputType: TextInputType.number,
             ),
-            Editor(
+            CustomForm(
               controller: _controllerMaskFieldPhoneNumber,
               tip: _tipFieldPhoneNumber,
               label: _labelFieldPhoneNumber,
               textInputType: TextInputType.number,
             ),
-            Editor(
+            CustomForm(
               controller: _controllerFieldEmail,
               tip: _tipFieldEmail,
               label: _labelFieldEmail,

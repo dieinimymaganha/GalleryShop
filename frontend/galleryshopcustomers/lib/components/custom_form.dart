@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Editor extends StatelessWidget {
+class CustomForm extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String tip;
   final Widget icon;
   final TextInputType textInputType;
 
-  Editor(
+  CustomForm(
       {this.controller, this.label, this.tip, this.icon, this.textInputType});
 
   @override

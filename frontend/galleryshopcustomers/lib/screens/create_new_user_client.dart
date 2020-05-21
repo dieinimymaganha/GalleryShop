@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:galleryshopcustomers/components/editor.dart';
+import 'package:galleryshopcustomers/components/custom_form.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
@@ -67,49 +67,49 @@ class CreateNewUserClient extends StatelessWidget {
             Form(
               child: Column(
                 children: <Widget>[
-                  Editor(
+                  CustomForm(
                     controller: _controllerFieldName,
                     tip: _tipFieldName,
                     label: _labelFieldName,
                     textInputType: TextInputType.text,
                   ),
                   SizedBox(height: 10),
-                  Editor(
+                  CustomForm(
                     controller: _controllerFieldLastName,
                     tip: _tipFieldLastName,
                     label: _labelFieldLastName,
                     textInputType: TextInputType.text,
                   ),
                   SizedBox(height: 10),
-                  Editor(
+                  CustomForm(
                     controller: _controllerFieldNickname,
                     tip: _tipFieldNickname,
                     label: _labelFieldNickname,
                     textInputType: TextInputType.text,
                   ),
                   SizedBox(height: 10),
-                  Editor(
+                  CustomForm(
                     controller: _controllerMaskFieldCpf,
                     tip: _tipFieldCpf,
                     label: _labelFieldCpf,
                     textInputType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
-                  Editor(
+                  CustomForm(
                     controller: _controllerMaskFieldBirthDate,
                     tip: _tipFieldBirhdate,
                     label: _labelFieldBirhDate,
                     textInputType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
-                  Editor(
+                  CustomForm(
                     controller: _controllerMaskFieldPhoneNumber,
                     tip: _tipFieldPhoneNumber,
                     label: _labelFieldPhoneNumber,
                     textInputType: TextInputType.number,
                   ),
                   SizedBox(height: 10),
-                  Editor(
+                  CustomForm(
                     controller: _controllerFieldEmail,
                     tip: _tipFieldEmail,
                     label: _labelFieldEmail,
