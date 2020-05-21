@@ -3,10 +3,9 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_login.dart';
 import 'package:galleryshopcustomers/models/login.dart';
 import 'package:galleryshopcustomers/models/token.dart';
+import 'package:galleryshopcustomers/screens/create_new_user_client.dart';
 import 'package:galleryshopcustomers/screens/reset_password.dart';
 import 'package:galleryshopcustomers/screens/screen_main.dart';
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -158,10 +157,30 @@ class _LoginPageState extends State<LoginPage> {
 
                             _save(loginCreatead, context);
                           }
+                          return null;
                         },
                       ),
                     ),
-                  )
+                  ),
+                  Container(
+                    height: 60,
+                    alignment: Alignment.center,
+                    child: FlatButton(
+
+                      child: Text(
+                        "Cadastrar novo usuário",
+
+                      ),
+
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreateNewUserClient(),
+                            ));
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
