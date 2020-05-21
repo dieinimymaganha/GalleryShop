@@ -4,31 +4,36 @@ class Editor extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String tip;
-  final IconData icon;
+  final Widget icon;
   final TextInputType textInputType;
 
-  Editor({
-    this.controller,
-    this.label,
-    this.tip,
-    this.icon,
-    this.textInputType
-  });
+  Editor(
+      {this.controller, this.label, this.tip, this.icon, this.textInputType});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: controller,
-        style: TextStyle(fontSize: 16.0),
-        decoration: InputDecoration(
-          icon: icon != null ? Icon(icon) : null,
-          labelText: label,
-          hintText: tip,
+    return TextFormField(
+      style: TextStyle(color: Color(0xFFF234253), fontWeight: FontWeight.bold),
+      controller: controller,
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1.0),
         ),
-        keyboardType: textInputType,
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+        labelStyle: TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+        ),
+        labelText: label,
+        hintText: tip,
+        suffixIcon: icon,
       ),
+
+      keyboardType: textInputType,
+
     );
+
   }
 }
