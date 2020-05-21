@@ -2,15 +2,23 @@ import 'dart:convert';
 
 import 'package:galleryshopcustomers/models/client.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../WebClient.dart';
 
-const urlClients = baseUrl +'clients';
-
+const urlClients = baseUrl + 'clients';
 
 class ClientWebClient {
   Future<List<ClientModel>> findAll() async {
-    final Response response = await webClient.get(urlClients);
+    var prefs = await SharedPreferences.getInstance();
+    String token = (prefs.getString("tokenjwt") ?? "");
+    final Response response = await webClient.get(
+      urlClients,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
     final List<dynamic> decodeJson = jsonDecode(response.body);
     return decodeJson
         .map((dynamic json) => ClientModel.fromJson(json))
@@ -18,10 +26,18 @@ class ClientWebClient {
   }
 
   Future<ClientModel> save(ClientModel client) async {
+    var prefs = await SharedPreferences.getInstance();
+
+    String token = (prefs.getString("tokenjwt") ?? "");
+    print('Aqui está o $token');
     final String clientJson = jsonEncode(client.toJson());
 
     final Response response = await webClient.post(urlClients,
-        headers: {'Content-type': 'application/json'}, body: clientJson);
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token"
+        },
+        body: clientJson);
     if (response.statusCode == 200) {
       return ClientModel.fromJson(jsonDecode(response.body));
     }

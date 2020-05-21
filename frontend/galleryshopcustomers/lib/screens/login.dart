@@ -4,7 +4,9 @@ import 'package:galleryshopcustomers/http/webclients/webclient_login.dart';
 import 'package:galleryshopcustomers/models/login.dart';
 import 'package:galleryshopcustomers/models/token.dart';
 import 'package:galleryshopcustomers/screens/reset_password.dart';
+import 'package:galleryshopcustomers/screens/screen_main.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -149,7 +151,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _save(LoginModel loginCreatead, BuildContext context) async {
-    await _send(loginCreatead, context);
+    TokenModel tokenModel = await _send(loginCreatead, context);
+    if (tokenModel != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ScreenMain(),
+          ));
+    }
   }
 
   Future<TokenModel> _send(LoginModel loginModel, BuildContext context) async {
