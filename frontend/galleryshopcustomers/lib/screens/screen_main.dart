@@ -27,7 +27,7 @@ class ScreenMain extends StatelessWidget {
                   'Cadastrar Cliente',
                   Icons.assignment_ind,
                   onClick: () {
-                    _showFormCreateNewClient(context);
+//                    _showFormCreateNewClient(context);
                   },
                 ),
                 _FeatureItem(
@@ -97,10 +97,10 @@ void _showClientList(BuildContext context) {
   );
 }
 
-void _showFormCreateNewClient(BuildContext context) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => FormCreateNewClient(),
-    ),
-  );
-}
+//void _showFormCreateNewClient(BuildContext context) {
+//  Navigator.of(context).push(
+//    MaterialPageRoute(
+//      builder: (context) => FormCreateNewClient(),
+//    ),
+//  );
+//}

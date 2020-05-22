@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:galleryshopcustomers/components/custom_form.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_login.dart';
 import 'package:galleryshopcustomers/models/login.dart';
 import 'package:galleryshopcustomers/models/token.dart';
 import 'package:galleryshopcustomers/screens/create_new_user_client.dart';
 import 'package:galleryshopcustomers/screens/reset_password.dart';
 import 'package:galleryshopcustomers/screens/screen_main.dart';
+
+const _labelFieldPhoneNumber = 'Telefone';
+const _tipFieldPhoneNumber = '(000) 00000-0000';
+const _labelFieldPassword = 'Senha';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -46,47 +51,27 @@ class _LoginPageState extends State<LoginPage> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) return "Digite o numero do telefone";
-                      if (value.length < 16)
-                        return "Digite o numero incluindo o DDD";
-                      return null;
-                    },
+                  SizedBox(
+                    height: 70,
+                  ),
+                  CustomForm(
+                    mandatory: true,
                     controller: _controllerMaskFieldPhoneNumber,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      labelText: "Telefone",
-                      labelStyle: TextStyle(
-                        color: Colors.black38,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                    tip: _tipFieldPhoneNumber,
+                    label: _labelFieldPhoneNumber,
+                    textInputType: TextInputType.number,
+                    obscure: false,
+                    icon: Icon(Icons.phone),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) return "Digite a senha";
-
-                      return null;
-                    },
+                  CustomForm(
+                    mandatory: true,
                     controller: _controllerPassword,
-                    keyboardType: TextInputType.text,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        labelText: "Senha",
-                        labelStyle: TextStyle(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 18,
-                        )),
-                    style: TextStyle(fontSize: 20),
+                    label: _labelFieldPassword,
+                    obscure: true,
+                    icon: Icon(Icons.vpn_key),
                   ),
                   Container(
                     height: 40,
@@ -105,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 70,
                   ),
                   Container(
                     height: 60,
@@ -166,12 +151,9 @@ class _LoginPageState extends State<LoginPage> {
                     height: 60,
                     alignment: Alignment.center,
                     child: FlatButton(
-
                       child: Text(
                         "Cadastrar novo usuário",
-
                       ),
-
                       onPressed: () {
                         Navigator.push(
                             context,

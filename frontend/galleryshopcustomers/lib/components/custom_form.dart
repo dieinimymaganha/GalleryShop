@@ -27,11 +27,9 @@ class CustomForm extends StatelessWidget {
         controller: controller,
         obscureText: obscure,
         decoration: InputDecoration(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey, width: 1.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1.0)),
+          prefixIcon: icon,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32))),
           labelStyle: TextStyle(
             color: Colors.black38,
             fontWeight: FontWeight.w400,
@@ -39,7 +37,6 @@ class CustomForm extends StatelessWidget {
           ),
           labelText: label,
           hintText: tip,
-          suffixIcon: icon,
         ),
         keyboardType: textInputType,
         validator: (value) {

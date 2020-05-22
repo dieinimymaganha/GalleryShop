@@ -86,9 +86,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
         color: Colors.white,
         child: ListView(
           children: <Widget>[
-            SizedBox(
-              height: 20,
-            ),
+
             Form(
               key: _formKey,
               child: Column(
