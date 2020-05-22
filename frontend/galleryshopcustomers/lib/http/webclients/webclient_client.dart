@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:galleryshopcustomers/models/client.dart';
+import 'package:galleryshopcustomers/models/client_new.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,21 +26,14 @@ class ClientWebClient {
         .toList();
   }
 
-  Future<ClientModel> save(ClientModel client) async {
-    var prefs = await SharedPreferences.getInstance();
-
-    String token = (prefs.getString("tokenjwt") ?? "");
-    print('Aqui está o $token');
+  Future<ClientModelDto> save(ClientModelForm client) async {
     final String clientJson = jsonEncode(client.toJson());
 
     final Response response = await webClient.post(urlClients,
-        headers: {
-          'Content-type': 'application/json',
-          'Authorization': "Bearer $token"
-        },
-        body: clientJson);
-    if (response.statusCode == 200) {
-      return ClientModel.fromJson(jsonDecode(response.body));
+        headers: {'Content-type': 'application/json'}, body: clientJson);
+
+    if (response.statusCode == 201) {
+      return ClientModelDto.fromJson(jsonDecode(response.body));
     }
     throw HttpException(_getMessage(response.statusCode));
   }
