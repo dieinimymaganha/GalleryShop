@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshopcustomers/components/custom_button.dart';
 import 'package:galleryshopcustomers/components/custom_form.dart';
+import 'package:galleryshopcustomers/models/client_new.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
@@ -20,25 +21,38 @@ const _labelFieldEmail = 'Email';
 const _tipFieldEmail = 'Digite o e-mail';
 const _labelFieldPassword = 'Senha';
 
+class CreateNewUserClient extends StatefulWidget {
+  @override
+  _CreateNewUserClientState createState() => _CreateNewUserClientState();
+}
 
-final TextEditingController _controllerFieldName = TextEditingController();
-final TextEditingController _controllerFieldLastName = TextEditingController();
-final TextEditingController _controllerFieldNickname = TextEditingController();
-final MaskedTextController _controllerMaskFieldCpf =
-    new MaskedTextController(mask: '000.000.000-00');
+class _CreateNewUserClientState extends State<CreateNewUserClient> {
+  final _formKey = GlobalKey<FormState>();
 
-final MaskedTextController _controllerMaskFieldPhoneNumber =
-    new MaskedTextController(mask: '(000) 00000-0000');
-final MaskedTextController _controllerMaskFieldBirthDate =
-    new MaskedTextController(mask: '00/00/0000');
-final TextEditingController _controllerFieldEmail = TextEditingController();
-
-final TextEditingController _controllerPassword = TextEditingController();
-
-final double _space = 10.0;
-
-class CreateNewUserClient extends StatelessWidget {
   final TextEditingController _controllerFieldName = TextEditingController();
+
+  final TextEditingController _controllerFieldLastName =
+      TextEditingController();
+
+  final TextEditingController _controllerFieldNickname =
+      TextEditingController();
+
+  final MaskedTextController _controllerMaskFieldCpf =
+      new MaskedTextController(mask: '000.000.000-00');
+
+  final MaskedTextController _controllerMaskFieldPhoneNumber =
+      new MaskedTextController(mask: '(000) 00000-0000');
+
+  final MaskedTextController _controllerMaskFieldBirthDate =
+      new MaskedTextController(mask: '00/00/0000');
+
+  final TextEditingController _controllerFieldEmail = TextEditingController();
+
+  final TextEditingController _controllerPassword = TextEditingController();
+
+  final double _space = 10.0;
+
+  final String teste = 'teste';
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +86,11 @@ class CreateNewUserClient extends StatelessWidget {
               height: 20,
             ),
             Form(
+              key: _formKey,
               child: Column(
                 children: <Widget>[
                   CustomForm(
+                    mandatory: true,
                     controller: _controllerFieldName,
                     tip: _tipFieldName,
                     label: _labelFieldName,
@@ -138,9 +154,53 @@ class CreateNewUserClient extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  CustomButton(
-                    name_button: 'Cadastrar',
-                    icon: Icons.send,
+                  Container(
+                    height: 60,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.3, 1],
+                        colors: [
+                          Color(0XFF212121),
+                          Color(0XFF616161),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(50),
+                      ),
+                    ),
+                    child: SizedBox.expand(
+                      child: FlatButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Cadastrar',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
+                            Container(
+                              child: SizedBox(
+                                child: Icon(Icons.send),
+                                height: 28,
+                                width: 28,
+                              ),
+                            )
+                          ],
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            print('Teste');
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 20,
@@ -152,5 +212,9 @@ class CreateNewUserClient extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _saveTeste(_formKey) {
+    if (_formKey.cu) print(teste);
   }
 }
