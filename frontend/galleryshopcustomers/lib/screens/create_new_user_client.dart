@@ -18,6 +18,8 @@ const _labelFieldPhoneNumber = 'Telefone';
 const _tipFieldPhoneNumber = '(000) 00000-0000';
 const _labelFieldEmail = 'Email';
 const _tipFieldEmail = 'Digite o e-mail';
+const _labelFieldPassword = 'Senha';
+
 
 final TextEditingController _controllerFieldName = TextEditingController();
 final TextEditingController _controllerFieldLastName = TextEditingController();
@@ -30,6 +32,10 @@ final MaskedTextController _controllerMaskFieldPhoneNumber =
 final MaskedTextController _controllerMaskFieldBirthDate =
     new MaskedTextController(mask: '00/00/0000');
 final TextEditingController _controllerFieldEmail = TextEditingController();
+
+final TextEditingController _controllerPassword = TextEditingController();
+
+final double _space = 10.0;
 
 class CreateNewUserClient extends StatelessWidget {
   final TextEditingController _controllerFieldName = TextEditingController();
@@ -73,27 +79,31 @@ class CreateNewUserClient extends StatelessWidget {
                     tip: _tipFieldName,
                     label: _labelFieldName,
                     textInputType: TextInputType.text,
+                    obscure: false,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: _space),
                   CustomForm(
                     controller: _controllerFieldLastName,
                     tip: _tipFieldLastName,
                     label: _labelFieldLastName,
                     textInputType: TextInputType.text,
+                    obscure: false,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: _space),
                   CustomForm(
                     controller: _controllerFieldNickname,
                     tip: _tipFieldNickname,
                     label: _labelFieldNickname,
                     textInputType: TextInputType.text,
+                    obscure: false,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: _space),
                   CustomForm(
                     controller: _controllerMaskFieldCpf,
                     tip: _tipFieldCpf,
                     label: _labelFieldCpf,
                     textInputType: TextInputType.number,
+                    obscure: false,
                   ),
                   SizedBox(height: 10),
                   CustomForm(
@@ -101,20 +111,29 @@ class CreateNewUserClient extends StatelessWidget {
                     tip: _tipFieldBirhdate,
                     label: _labelFieldBirhDate,
                     textInputType: TextInputType.number,
+                    obscure: false,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: _space),
                   CustomForm(
                     controller: _controllerMaskFieldPhoneNumber,
                     tip: _tipFieldPhoneNumber,
                     label: _labelFieldPhoneNumber,
                     textInputType: TextInputType.number,
+                    obscure: false,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: _space),
                   CustomForm(
                     controller: _controllerFieldEmail,
                     tip: _tipFieldEmail,
                     label: _labelFieldEmail,
                     textInputType: TextInputType.emailAddress,
+                    obscure: false,
+                  ),
+                  SizedBox(height: _space),
+                  CustomForm(
+                    controller: _controllerPassword,
+                    label: _labelFieldPassword,
+                    obscure: true,
                   ),
                   SizedBox(
                     height: 20,

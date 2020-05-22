@@ -6,15 +6,22 @@ class CustomForm extends StatelessWidget {
   final String tip;
   final Widget icon;
   final TextInputType textInputType;
+  final bool obscure;
 
   CustomForm(
-      {this.controller, this.label, this.tip, this.icon, this.textInputType});
+      {this.controller,
+      this.label,
+      this.tip,
+      this.icon,
+      this.textInputType,
+      this.obscure});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(color: Color(0xFFF234253), fontWeight: FontWeight.bold),
       controller: controller,
+      obscureText: obscure,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey, width: 1.0),
@@ -30,10 +37,7 @@ class CustomForm extends StatelessWidget {
         hintText: tip,
         suffixIcon: icon,
       ),
-
       keyboardType: textInputType,
-
     );
-
   }
 }
