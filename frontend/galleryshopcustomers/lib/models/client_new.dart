@@ -82,7 +82,7 @@ class ClientModelDto {
   String password;
 
   ClientModelDto(
-      {this.id,
+      this.id,
       this.name,
       this.lastName,
       this.nickname,
@@ -90,7 +90,7 @@ class ClientModelDto {
       this.birthdate,
       this.phoneNumber,
       this.email,
-      this.password});
+      this.password);
 
   ClientModelDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
