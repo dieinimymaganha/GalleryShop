@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshopcustomers/components/custom_button.dart';
 import 'package:galleryshopcustomers/components/custom_form.dart';
+import 'package:galleryshopcustomers/http/webclients/webclient_client.dart';
 import 'package:galleryshopcustomers/models/client_new.dart';
+import 'package:galleryshopcustomers/screens/login.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
@@ -27,6 +29,8 @@ class CreateNewUserClient extends StatefulWidget {
 }
 
 class _CreateNewUserClientState extends State<CreateNewUserClient> {
+  final ClientWebClient _webClient = ClientWebClient();
+
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _controllerFieldName = TextEditingController();
@@ -90,7 +94,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
               child: Column(
                 children: <Widget>[
                   CustomForm(
-                    mandatory: true,
+                    mandatory: false,
                     controller: _controllerFieldName,
                     tip: _tipFieldName,
                     label: _labelFieldName,
@@ -195,7 +199,33 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
-                            print('Teste');
+                            final String name = _controllerFieldName.text;
+                            final String lastName =
+                                _controllerFieldLastName.text;
+                            final String nickname =
+                                _controllerFieldNickname.text;
+                            final String cpf = _controllerMaskFieldCpf.text;
+                            final String phoneNumber =
+                                _controllerMaskFieldPhoneNumber.text;
+                            final String birthdate = '1991-02-16';
+                            final String email = _controllerFieldEmail.text;
+                            final String password = _controllerPassword.text;
+                            final listProfiles = new List<ListProfiles>();
+                            final String role = 'ROLE_CLIENT';
+                            listProfiles.add(new ListProfiles(role: role));
+
+                            final clientCreated = ClientModelForm(
+                                name,
+                                lastName,
+                                nickname,
+                                cpf,
+                                birthdate,
+                                phoneNumber,
+                                email,
+                                password,
+                                listProfiles);
+
+                            _save(clientCreated, context);
                           }
                           return null;
                         },
@@ -214,7 +244,24 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
     );
   }
 
-  void _saveTeste(_formKey) {
-    if (_formKey.cu) print(teste);
+  void _save(ClientModelForm clientCreated, BuildContext context) async {
+    ClientModelDto clientModelDto = await _send(clientCreated, context);
+    print('Novo cliente :' + clientModelDto.toString());
+    if (clientModelDto != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ));
+    }
+  }
+
+  Future<ClientModelDto> _send(
+      ClientModelForm clientCreated, BuildContext context) async {
+    final ClientModelDto clientModelDto =
+        await _webClient.save(clientCreated).catchError((e) {
+//      debugPrint(e);
+    });
+    return clientModelDto;
   }
 }
