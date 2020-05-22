@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String name_button;
   final IconData icon;
+  final Function onConfirm;
 
-  CustomButton({this.name_button, this.icon});
+  CustomButton({this.name_button, this.icon, this.onConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,9 @@ class CustomButton extends StatelessWidget {
               )
             ],
           ),
-          onPressed: () => {},
+          onPressed: () {
+            onConfirm();
+          },
         ),
       ),
     );
