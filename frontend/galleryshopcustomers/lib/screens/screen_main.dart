@@ -55,38 +55,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
-        )
-
-//      Column(
-//        crossAxisAlignment: CrossAxisAlignment.start,
-//        mainAxisAlignment: MainAxisAlignment.start,
-//        children: <Widget>[
-//          Padding(
-//            padding: const EdgeInsets.only(bottom: 8),
-//            child: Row(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              children: <Widget>[],
-//            ),
-//          ),
-//          Align(
-//            alignment: Alignment.bottomCenter,
-//            child: Padding(
-//              padding: const EdgeInsets.only(bottom: 24),
-//              child: Column(
-//                children: <Widget>[
-//                  buildOptions(),
-//                  buildOptions(),
-//                  buildOptions(),
-//                  buildOptions(),
-//                ],
-//              ),
-//            ),
-//          )
-//        ],
-//      ),
-//      drawer: Menu(),
-        );
+        ));
   }
 
   Widget buildOptions() {
