@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:galleryshopcustomers/screens/login.dart';
+import 'package:galleryshopcustomers/screens/screen_main.dart';
+
 void main() {
   runApp(GalleryShopCustomers());
 }
@@ -11,7 +12,7 @@ class GalleryShopCustomers extends StatelessWidget {
       title: 'Gallery Shop Customers',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.black,
+        primaryColor: Colors.white,
         accentColor: Colors.blueAccent[700],
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.blueAccent[900],
@@ -19,7 +20,10 @@ class GalleryShopCustomers extends StatelessWidget {
         ),
       ),
 //      home: FormCreateNewClient(),
-      home: LoginPage(),
+      home: HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/home': (context) => HomePage(),
+      },
     );
   }
 }
