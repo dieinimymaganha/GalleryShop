@@ -12,11 +12,11 @@ class OptionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      height: 90,
-      margin: EdgeInsets.all(8),
+      height: 150,
+      margin: EdgeInsets.all(4),
       child: Card(
-        elevation: 8,
-        margin: EdgeInsets.all(0),
+        color: Color(0XFFFAFAFA),
+        margin: EdgeInsets.all(2),
         child: InkWell(
           onTap: _onTap,
           child: Padding(

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:galleryshopcustomers/components/circular_image.dart';
 import 'package:galleryshopcustomers/components/menu_drawer.dart';
 import 'package:galleryshopcustomers/components/option_card.dart';
-import 'package:galleryshopcustomers/data/values.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,36 +15,78 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 24),
+        appBar: AppBar(
+          title: Text('Pagina Inicial'),
+          backgroundColor: Colors.white,
+        ),
+        backgroundColor: Colors.white10,
+        body: Stack(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage("images/background.jpg"),
+                fit: BoxFit.cover,
+              )),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  buildOptions(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 24),
+                      child: Column(
+                        children: <Widget>[
+                          buildOptions(),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
-          )
-        ],
-      ),
-      drawer: Menu(),
-    );
+          ],
+        )
+
+//      Column(
+//        crossAxisAlignment: CrossAxisAlignment.start,
+//        mainAxisAlignment: MainAxisAlignment.start,
+//        children: <Widget>[
+//          Padding(
+//            padding: const EdgeInsets.only(bottom: 8),
+//            child: Row(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              crossAxisAlignment: CrossAxisAlignment.center,
+//              children: <Widget>[],
+//            ),
+//          ),
+//          Align(
+//            alignment: Alignment.bottomCenter,
+//            child: Padding(
+//              padding: const EdgeInsets.only(bottom: 24),
+//              child: Column(
+//                children: <Widget>[
+//                  buildOptions(),
+//                  buildOptions(),
+//                  buildOptions(),
+//                  buildOptions(),
+//                ],
+//              ),
+//            ),
+//          )
+//        ],
+//      ),
+//      drawer: Menu(),
+        );
   }
 
   Widget buildOptions() {
