@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshopcustomers/components/custom_button.dart';
 import 'package:galleryshopcustomers/components/custom_form.dart';
+import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_client.dart';
 import 'package:galleryshopcustomers/models/client_new.dart';
 import 'package:galleryshopcustomers/screens/login.dart';
@@ -29,6 +30,7 @@ class CreateNewUserClient extends StatefulWidget {
 }
 
 class _CreateNewUserClientState extends State<CreateNewUserClient> {
+
   final ClientWebClient _webClient = ClientWebClient();
 
   final _formKey = GlobalKey<FormState>();
@@ -65,10 +67,10 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
         title: Text(
           _titleAppBar,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.black38),
+          style: TextStyle(color: Colors.white),
         ),
         elevation: 10,
-        backgroundColor: Colors.white,
+        backgroundColor: colorAppbar,
         leading: IconButton(
           icon: IconButton(
             icon: Icon(Icons.arrow_back),

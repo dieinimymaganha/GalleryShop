@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/components/menu_drawer.dart';
 import 'package:galleryshopcustomers/components/option_card.dart';
+import 'package:galleryshopcustomers/data/values.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Pagina Inicial'),
-          backgroundColor: Colors.white,
+          backgroundColor: colorAppbar,
         ),
         backgroundColor: Colors.white10,
         body: Stack(
@@ -55,7 +56,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
-        ));
+        ),
+    drawer: Menu(),);
   }
 
   Widget buildOptions() {

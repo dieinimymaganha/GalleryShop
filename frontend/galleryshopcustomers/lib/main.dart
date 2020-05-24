@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:galleryshopcustomers/screens/login.dart';
 import 'package:galleryshopcustomers/screens/screen_main.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class GalleryShopCustomers extends StatelessWidget {
       title: 'Gallery Shop Customers',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.blueAccent,
         accentColor: Colors.blueAccent[700],
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.blueAccent[900],
@@ -20,7 +21,7 @@ class GalleryShopCustomers extends StatelessWidget {
         ),
       ),
 //      home: FormCreateNewClient(),
-      home: HomePage(),
+      home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/home': (context) => HomePage(),
       },
