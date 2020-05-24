@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/screens/customers_list.dart';
-import 'package:galleryshop/screens/form_create_new_client.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -19,7 +18,7 @@ class Menu extends StatelessWidget {
           ListTile(
             title: Text('Cadastrar Cliente'),
             onTap: () {
-              _showFormCreateNewClient(context);
+//              _showFormCreateNewClient(context);
             },
           ),
           ListTile(
@@ -43,11 +42,11 @@ void _showClientList(BuildContext context) {
   );
 }
 
-void _showFormCreateNewClient(BuildContext context) {
-  Navigator.of(context).pop();
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => FormCreateNewClient(),
-    ),
-  );
-}
+//void _showFormCreateNewClient(BuildContext context) {
+//  Navigator.of(context).pop();
+//  Navigator.of(context).push(
+//    MaterialPageRoute(
+//      builder: (context) => FormCreateNewClient(),
+//    ),
+//  );
+//}

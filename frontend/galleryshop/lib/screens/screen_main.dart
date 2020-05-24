@@ -1,44 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/components/menu_drawer.dart';
-import 'package:galleryshop/screens/customers_list.dart';
-import 'package:galleryshop/screens/form_create_new_client.dart';
+import 'package:galleryshop/components/option_card.dart';
+import 'package:galleryshop/data/values.dart';
 
-const _titleAppBar = 'Inicio';
+class HomePage extends StatefulWidget {
+  @override
+  State createState() => _HomePageState();
+}
 
-class ScreenMain extends StatelessWidget {
+class _HomePageState extends State<HomePage> {
+  String imageUrl =
+      'https://avatars1.githubusercontent.com/u/38332691?s=460&v=4';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titleAppBar),
+        title: Text('Pagina Inicial'),
+        backgroundColor: colorAppbar,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.white10,
+      body: Stack(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('images/gallery_logo.jpg'),
-          ),
           Container(
-            height: 120,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage("images/background.jpg"),
+              fit: BoxFit.cover,
+            )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                _FeatureItem(
-                  'Cadastrar Cliente',
-                  Icons.assignment_ind,
-                  onClick: () {
-                    _showFormCreateNewClient(context);
-                  },
-                ),                _FeatureItem(
-                  'Listar Clientes',
-                  Icons.assignment,
-                  onClick: () {
-                    _showClientList(context);
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[],
+                  ),
                 ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Column(
+                      children: <Widget>[
+                        buildOptions(),
+                      ],
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -47,62 +60,27 @@ class ScreenMain extends StatelessWidget {
       drawer: Menu(),
     );
   }
-}
 
-class _FeatureItem extends StatelessWidget {
-  final String name;
-  final IconData icon;
-  final Function onClick;
-
-  _FeatureItem(this.name, this.icon, {@required this.onClick});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Material(
-        color: Theme.of(context).primaryColor,
-        child: InkWell(
-          onTap: () {
-            onClick();
-          },
-          child: Container(
-            padding: EdgeInsets.all(8.0),
-            width: 150,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 24.0,
-                ),
-                Text(
-                  name,
-                  style: TextStyle(color: Colors.white, fontSize: 16.0),
-                )
-              ],
-            ),
+  Widget buildOptions() {
+    return Container(
+      height: 120,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              OptionCard('Agenda', Icons.calendar_today, () {
+                Navigator.of(context).pushNamed('/tracks');
+              }),
+              OptionCard('Conta', Icons.account_balance_wallet, () {
+                Navigator.of(context).pushNamed('/members');
+              }),
+              OptionCard('Perfil', Icons.account_box, () {}),
+            ],
           ),
-        ),
+        ],
       ),
     );
   }
-}
-
-void _showClientList(BuildContext context) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => Customerslist(),
-    ),
-  );
-}
-
-void _showFormCreateNewClient(BuildContext context) {
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => FormCreateNewClient(),
-    ),
-  );
 }

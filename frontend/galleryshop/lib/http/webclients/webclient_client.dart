@@ -1,29 +1,39 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
-import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/models/client.dart';
+import 'package:galleryshop/models/client_new.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-const urlClients = baseUrl +'clients';
+import '../WebClient.dart';
 
+const urlClients = baseUrl + 'clients';
 
 class ClientWebClient {
   Future<List<ClientModel>> findAll() async {
-    final Response response = await webClient.get(urlClients);
+    var prefs = await SharedPreferences.getInstance();
+    String token = (prefs.getString("tokenjwt") ?? "");
+    final Response response = await webClient.get(
+      urlClients,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
     final List<dynamic> decodeJson = jsonDecode(response.body);
     return decodeJson
         .map((dynamic json) => ClientModel.fromJson(json))
         .toList();
   }
 
-  Future<ClientModel> save(ClientModel client) async {
+  Future<ClientModelDto> save(ClientModelForm client) async {
     final String clientJson = jsonEncode(client.toJson());
 
     final Response response = await webClient.post(urlClients,
         headers: {'Content-type': 'application/json'}, body: clientJson);
-    if (response.statusCode == 200) {
-      return ClientModel.fromJson(jsonDecode(response.body));
+
+    if (response.statusCode == 201) {
+      return ClientModelDto.fromJson(jsonDecode(response.body));
     }
     throw HttpException(_getMessage(response.statusCode));
   }
