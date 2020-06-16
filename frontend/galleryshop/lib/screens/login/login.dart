@@ -7,6 +7,7 @@ import 'package:galleryshop/models/token.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/stores/login_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:galleryshop/widgets/custom_icon_button.dart';
 
 import '../client/create_new_user_client.dart';
 import 'reset_password.dart';
@@ -72,14 +73,23 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  CustomForm(
-                    mandatory: true,
-                    controller: _controllerPassword,
-                    label: _labelFieldPassword,
-                    obscure: true,
-                    onChanged: loginStore.setPassword,
-                    icon: Icon(Icons.vpn_key),
-                  ),
+                  Observer(builder: (_) {
+                    return CustomForm(
+                      mandatory: true,
+                      controller: _controllerPassword,
+                      label: _labelFieldPassword,
+                      obscure: !loginStore.obscure,
+                      onChanged: loginStore.setPassword,
+                      icon: Icon(Icons.vpn_key),
+                      suffix: CustomIconButton(
+                        radius: 32,
+                        iconData: loginStore.obscure
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        onTap: loginStore.setObscure,
+                      ),
+                    );
+                  }),
                   Container(
                     height: 40,
                     alignment: Alignment.centerRight,

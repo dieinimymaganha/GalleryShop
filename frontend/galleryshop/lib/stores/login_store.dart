@@ -17,6 +17,12 @@ abstract class _LoginStore with Store {
   @observable
   String password = '';
 
+  @observable
+  bool obscure = false;
+
+  @action
+  void setObscure() => obscure = !obscure;
+
   @action
   void setPhone(String value) => phone = value;
 

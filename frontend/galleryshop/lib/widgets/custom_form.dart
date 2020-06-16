@@ -10,6 +10,7 @@ class CustomForm extends StatelessWidget {
   final bool mandatory;
   final Function(String) onChanged;
   final bool enabled;
+  final Widget suffix;
 
 
 
@@ -22,7 +23,8 @@ class CustomForm extends StatelessWidget {
     this.obscure,
     this.mandatory,
     this.onChanged,
-    this.enabled
+    this.enabled,
+    this.suffix
   });
 
   @override
@@ -36,6 +38,7 @@ class CustomForm extends StatelessWidget {
         enabled: enabled,
         decoration: InputDecoration(
           prefixIcon: icon,
+          suffix: suffix,
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(32))),
           labelStyle: TextStyle(

@@ -61,7 +61,33 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$obscureAtom = Atom(name: '_LoginStore.obscure');
+
+  @override
+  bool get obscure {
+    _$obscureAtom.reportRead();
+    return super.obscure;
+  }
+
+  @override
+  set obscure(bool value) {
+    _$obscureAtom.reportWrite(value, super.obscure, () {
+      super.obscure = value;
+    });
+  }
+
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
+
+  @override
+  void setObscure() {
+    final _$actionInfo = _$_LoginStoreActionController.startAction(
+        name: '_LoginStore.setObscure');
+    try {
+      return super.setObscure();
+    } finally {
+      _$_LoginStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setPhone(String value) {
@@ -90,6 +116,7 @@ mixin _$LoginStore on _LoginStore, Store {
     return '''
 phone: ${phone},
 password: ${password},
+obscure: ${obscure},
 isPasswordValid: ${isPasswordValid},
 isPhoneValid: ${isPhoneValid},
 isFormValid: ${isFormValid}
