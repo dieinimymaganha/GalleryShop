@@ -4,12 +4,12 @@ import 'package:galleryshop/components/menu_drawer.dart';
 import 'package:galleryshop/components/option_card.dart';
 import 'package:galleryshop/data/values.dart';
 
-class HomePage extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  State createState() => _HomePageState();
+  State createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   String imageUrl =
       'https://avatars1.githubusercontent.com/u/38332691?s=460&v=4';
 

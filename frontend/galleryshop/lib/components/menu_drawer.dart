@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:galleryshop/screens/customers_list.dart';
+import 'package:galleryshop/screens/client/customers_list.dart';
 
 class Menu extends StatelessWidget {
   @override

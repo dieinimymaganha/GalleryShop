@@ -5,7 +5,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client_new.dart';
 
-import 'login.dart';
+import '../login/login.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
