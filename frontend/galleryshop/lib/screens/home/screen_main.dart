@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:galleryshop/components/menu_drawer.dart';
-import 'package:galleryshop/components/option_card.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
+import 'package:galleryshop/widgets/option_card.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: Menu(),
+      drawer: CustomDrawer(),
     );
   }
 

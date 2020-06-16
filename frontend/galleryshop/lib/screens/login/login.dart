@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:galleryshop/components/custom_form.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
 import 'package:galleryshop/models/login.dart';
 import 'package:galleryshop/models/token.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
+import 'package:galleryshop/widgets/custom_form.dart';
 
 import '../client/create_new_user_client.dart';
 import 'reset_password.dart';

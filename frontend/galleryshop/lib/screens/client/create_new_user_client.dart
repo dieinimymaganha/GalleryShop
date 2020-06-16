@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:galleryshop/components/custom_form.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client_new.dart';
+import 'package:galleryshop/widgets/custom_form.dart';
 
 import '../login/login.dart';
 
