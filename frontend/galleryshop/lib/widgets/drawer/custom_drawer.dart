@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:galleryshop/screens/client/customers_list.dart';
+import 'package:galleryshop/widgets/drawer/IconSection.dart';
+import 'package:galleryshop/widgets/drawer/custom_header.dart';
+
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -8,45 +10,10 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text('Dieinimy'),
-            accountEmail: Text('dieinimy@gmail.com'),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage:  NetworkImage('https://avatars1.githubusercontent.com/u/38332691?s=460&v=4'),
-            ),
-          ),
-          ListTile(
-            title: Text('Cadastrar Cliente'),
-            onTap: () {
-//              _showFormCreateNewClient(context);
-            },
-          ),
-          ListTile(
-            title: Text('Listar Clientes'),
-            onTap: () {
-              _showClientList(context);
-            },
-          ),
+          CustomHeard(),
+          IconSection(),
         ],
       ),
     );
   }
 }
-
-void _showClientList(BuildContext context) {
-  Navigator.of(context).pop();
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (context) => Customerslist(),
-    ),
-  );
-}
-
-//void _showFormCreateNewClient(BuildContext context) {
-//  Navigator.of(context).pop();
-//  Navigator.of(context).push(
-//    MaterialPageRoute(
-//      builder: (context) => FormCreateNewClient(),
-//    ),
-//  );
-//}
