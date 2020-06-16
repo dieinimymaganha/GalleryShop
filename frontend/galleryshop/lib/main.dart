@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
+import 'package:galleryshop/screens/login/login.dart';
 
 void main() {
   runApp(GalleryShop());
@@ -18,7 +19,7 @@ class GalleryShop extends StatelessWidget {
         ),
       ),
 //      home: FormCreateNewClient(),
-      home: HomeScreen(),
+      home: LoginPage(),
     );
   }
 }

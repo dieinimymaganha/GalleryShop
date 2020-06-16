@@ -8,6 +8,10 @@ class CustomForm extends StatelessWidget {
   final TextInputType textInputType;
   final bool obscure;
   final bool mandatory;
+  final Function(String) onChanged;
+  final bool enabled;
+
+
 
   CustomForm({
     this.controller,
@@ -17,6 +21,8 @@ class CustomForm extends StatelessWidget {
     this.textInputType,
     this.obscure,
     this.mandatory,
+    this.onChanged,
+    this.enabled
   });
 
   @override
@@ -26,6 +32,8 @@ class CustomForm extends StatelessWidget {
             TextStyle(color: Color(0xFFF234253), fontWeight: FontWeight.bold),
         controller: controller,
         obscureText: obscure,
+        onChanged: onChanged,
+        enabled: enabled,
         decoration: InputDecoration(
           prefixIcon: icon,
           border: OutlineInputBorder(

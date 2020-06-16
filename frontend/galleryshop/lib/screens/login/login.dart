@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
 import 'package:galleryshop/models/login.dart';
 import 'package:galleryshop/models/token.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
+import 'package:galleryshop/stores/login_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 
 import '../client/create_new_user_client.dart';
 import 'reset_password.dart';
-
 
 const _labelFieldPhoneNumber = 'Telefone';
 const _tipFieldPhoneNumber = '(000) 00000-0000';
@@ -21,6 +22,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final LoginWebClient _webClient = LoginWebClient();
+
+  LoginStore loginStore = LoginStore();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -61,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _controllerMaskFieldPhoneNumber,
                     tip: _tipFieldPhoneNumber,
                     label: _labelFieldPhoneNumber,
+                    onChanged: loginStore.setPhone,
                     textInputType: TextInputType.number,
                     obscure: false,
                     icon: Icon(Icons.phone),
@@ -73,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _controllerPassword,
                     label: _labelFieldPassword,
                     obscure: true,
+                    onChanged: loginStore.setPassword,
                     icon: Icon(Icons.vpn_key),
                   ),
                   Container(
@@ -111,43 +116,48 @@ class _LoginPageState extends State<LoginPage> {
                         Radius.circular(50),
                       ),
                     ),
-                    child: SizedBox.expand(
-                      child: FlatButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Login',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 20),
-                              textAlign: TextAlign.center,
-                            ),
-                            Container(
-                              child: SizedBox(
-                                child: Icon(Icons.send),
-                                height: 28,
-                                width: 28,
+                    child: SizedBox.expand(child: Observer(
+                      builder: (_) {
+                        return FlatButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Login',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 20),
+                                textAlign: TextAlign.center,
                               ),
-                            )
-                          ],
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            final String phoneNumber =
-                                _controllerMaskFieldPhoneNumber.text;
-                            final String password = _controllerPassword.text;
+                              Container(
+                                child: SizedBox(
+                                  child: Icon(Icons.send),
+                                  height: 28,
+                                  width: 28,
+                                ),
+                              )
+                            ],
+                          ),
+                          onPressed: loginStore.isFormValid
+                              ? () {
+                                  if (_formKey.currentState.validate()) {
+                                    final String phoneNumber =
+                                        _controllerMaskFieldPhoneNumber.text;
+                                    final String password =
+                                        _controllerPassword.text;
 
-                            final loginCreatead =
-                                LoginModel(phoneNumber, password);
+                                    final loginCreatead =
+                                        LoginModel(phoneNumber, password);
 
-                            _save(loginCreatead, context);
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
+                                    _save(loginCreatead, context);
+                                  }
+                                  return null;
+                                }
+                              : null,
+                        );
+                      },
+                    )),
                   ),
                   Container(
                     height: 60,

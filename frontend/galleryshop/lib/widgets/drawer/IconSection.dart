@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/stores/drawer_store.dart';
 
 import 'icon_tile.dart';
 
 class IconSection extends StatelessWidget {
+  DrawerStore drawerStore;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        IconTile(
-          label: 'Clientes',
-          iconData: Icons.people,
-          onTap: () {},
-          highlighted: false,
-        ),
+        Observer(builder: (_) {
+          return IconTile(
+            label: 'Clientes',
+            iconData: Icons.people,
+            onTap: () {
+              print(1);
+            },
+            highlighted: false,
+          );
+        }),
         IconTile(
           label: 'Funcionários',
           iconData: Icons.people_outline,
-          onTap: () {},
+          onTap: () {
+            print(2);
+          },
           highlighted: false,
         ),
         IconTile(
@@ -51,7 +61,7 @@ class IconSection extends StatelessWidget {
         ),
         IconTile(
           label: 'Loja',
-          iconData: Icons.store ,
+          iconData: Icons.store,
           onTap: () {},
           highlighted: false,
         ),
