@@ -142,7 +142,12 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               Container(
                                 child: SizedBox(
-                                  child: Icon(Icons.send),
+                                  child: loginStore.loading
+                                      ? CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.blue),
+                                        )
+                                      : Icon(Icons.send),
                                   height: 28,
                                   width: 28,
                                 ),
@@ -151,18 +156,19 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           onPressed: loginStore.isFormValid
                               ? () {
-                                  if (_formKey.currentState.validate()) {
-                                    final String phoneNumber =
-                                        _controllerMaskFieldPhoneNumber.text;
-                                    final String password =
-                                        _controllerPassword.text;
-
-                                    final loginCreatead =
-                                        LoginModel(phoneNumber, password);
-
-                                    _save(loginCreatead, context);
-                                  }
-                                  return null;
+                                  loginStore.login();
+//                                  if (_formKey.currentState.validate()) {
+//                                    final String phoneNumber =
+//                                        _controllerMaskFieldPhoneNumber.text;
+//                                    final String password =
+//                                        _controllerPassword.text;
+//
+//                                    final loginCreatead =
+//                                        LoginModel(phoneNumber, password);
+//
+//                                    _save(loginCreatead, context);
+//                                  }
+//                                  return null;
                                 }
                               : null,
                         );

@@ -7,7 +7,8 @@ class LoginStore = _LoginStore with _$LoginStore;
 abstract class _LoginStore with Store {
   _LoginStore() {
     autorun((_) {
-      print(isFormValid);
+//      print(isFormValid);
+      print(loading);
     });
   }
 
@@ -20,6 +21,9 @@ abstract class _LoginStore with Store {
   @observable
   bool obscure = false;
 
+  @observable
+  bool loading = false;
+
   @action
   void setObscure() => obscure = !obscure;
 
@@ -28,6 +32,16 @@ abstract class _LoginStore with Store {
 
   @action
   void setPassword(String value) => password = value;
+
+  @action
+  Future<void> login() async {
+    loading = true;
+
+    await Future.delayed(Duration(seconds: 2));
+
+    loading = false;
+
+  }
 
   @computed
   bool get isPasswordValid => password.length >= 6;
