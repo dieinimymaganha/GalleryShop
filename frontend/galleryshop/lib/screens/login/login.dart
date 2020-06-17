@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -60,21 +62,25 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 70,
                   ),
-                  CustomForm(
-                    mandatory: true,
-                    controller: _controllerMaskFieldPhoneNumber,
-                    tip: _tipFieldPhoneNumber,
-                    label: _labelFieldPhoneNumber,
-                    onChanged: loginStore.setPhone,
-                    textInputType: TextInputType.number,
-                    obscure: false,
-                    icon: Icon(Icons.phone),
-                  ),
+                  Observer(builder: (_){
+                    return CustomForm(
+                      enabled: !loginStore.loading,
+                      mandatory: true,
+                      controller: _controllerMaskFieldPhoneNumber,
+                      tip: _tipFieldPhoneNumber,
+                      label: _labelFieldPhoneNumber,
+                      onChanged: loginStore.setPhone,
+                      textInputType: TextInputType.number,
+                      obscure: false,
+                      icon: Icon(Icons.phone),
+                    );
+                  }),
                   SizedBox(
                     height: 20,
                   ),
                   Observer(builder: (_) {
                     return CustomForm(
+                      enabled: !loginStore.loading,
                       mandatory: true,
                       controller: _controllerPassword,
                       label: _labelFieldPassword,
