@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:galleryshop/http/webclients/webclient_login.dart';
+import 'package:galleryshop/models/login.dart';
+import 'package:galleryshop/models/token.dart';
+import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:mobx/mobx.dart';
 
 part 'login_store.g.dart';
@@ -5,12 +10,11 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-  _LoginStore() {
-    autorun((_) {
-//      print(isFormValid);
-      print(loading);
-    });
-  }
+
+
+  final LoginWebClient _webClient = LoginWebClient();
+
+
 
   @observable
   String phone = '';
@@ -18,11 +22,17 @@ abstract class _LoginStore with Store {
   @observable
   String password = '';
 
+
+
+
   @observable
   bool obscure = false;
 
   @observable
   bool loading = false;
+
+  @observable
+  bool loggedIn = false;
 
   @action
   void setObscure() => obscure = !obscure;
@@ -35,11 +45,10 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> login() async {
-    loading = true;
+    final LoginModel loginModel = LoginModel(phoneNumber: phone, password: password);
 
-    await Future.delayed(Duration(seconds: 2));
+    await save(loginModel);
 
-    loading = false;
 
   }
 
@@ -47,9 +56,32 @@ abstract class _LoginStore with Store {
   bool get isPasswordValid => password.length >= 6;
 
   @computed
-  bool get isPhoneValid => phone.length >6;
+  bool get isPhoneValid => phone.length > 6;
+
+  @action
+  Future<void> save(LoginModel loginCreated) async {
+    LoginModel loginModel = loginCreated;
+
+    TokenModel tokenModel = await send(loginModel);
+    if(tokenModel != null) {
+      loggedIn =true;
+    }
+    print(tokenModel);
+  }
+
+
+  Future<TokenModel> send(LoginModel loginModel) async {
+    final TokenModel tokenModel =
+    await _webClient.sendUser(loginModel).catchError((e) {
+      debugPrint(e);
+    });
+    print(tokenModel);
+    return tokenModel;
+  }
+
 
 
   @computed
-  bool get isFormValid => isPhoneValid && isPasswordValid;
+  Function get loginPressed =>
+      (isPhoneValid && isPasswordValid && !loading) ? login : null;
 }

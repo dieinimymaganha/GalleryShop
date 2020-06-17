@@ -23,12 +23,12 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$isPhoneValidComputed ??= Computed<bool>(() => super.isPhoneValid,
               name: '_LoginStore.isPhoneValid'))
           .value;
-  Computed<bool> _$isFormValidComputed;
+  Computed<Function> _$loginPressedComputed;
 
   @override
-  bool get isFormValid =>
-      (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
-              name: '_LoginStore.isFormValid'))
+  Function get loginPressed =>
+      (_$loginPressedComputed ??= Computed<Function>(() => super.loginPressed,
+              name: '_LoginStore.loginPressed'))
           .value;
 
   final _$phoneAtom = Atom(name: '_LoginStore.phone');
@@ -91,11 +91,33 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$loggedInAtom = Atom(name: '_LoginStore.loggedIn');
+
+  @override
+  bool get loggedIn {
+    _$loggedInAtom.reportRead();
+    return super.loggedIn;
+  }
+
+  @override
+  set loggedIn(bool value) {
+    _$loggedInAtom.reportWrite(value, super.loggedIn, () {
+      super.loggedIn = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginStore.login');
 
   @override
   Future<void> login() {
     return _$loginAsyncAction.run(() => super.login());
+  }
+
+  final _$saveAsyncAction = AsyncAction('_LoginStore.save');
+
+  @override
+  Future<void> save(LoginModel loginCreated) {
+    return _$saveAsyncAction.run(() => super.save(loginCreated));
   }
 
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
@@ -140,9 +162,10 @@ phone: ${phone},
 password: ${password},
 obscure: ${obscure},
 loading: ${loading},
+loggedIn: ${loggedIn},
 isPasswordValid: ${isPasswordValid},
 isPhoneValid: ${isPhoneValid},
-isFormValid: ${isFormValid}
+loginPressed: ${loginPressed}
     ''';
   }
 }

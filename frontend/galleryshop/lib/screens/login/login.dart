@@ -10,6 +10,7 @@ import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/stores/login_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:galleryshop/widgets/custom_icon_button.dart';
+import 'package:mobx/mobx.dart';
 
 import '../client/create_new_user_client.dart';
 import 'reset_password.dart';
@@ -34,6 +35,19 @@ class _LoginPageState extends State<LoginPage> {
       new MaskedTextController(mask: '(000) 00000-0000');
 
   final TextEditingController _controllerPassword = TextEditingController();
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction((_) => loginStore.loggedIn, (loggedIn) {
+      if (loggedIn)
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 70,
                   ),
-                  Observer(builder: (_){
+                  Observer(builder: (_) {
                     return CustomForm(
                       enabled: !loginStore.loading,
                       mandatory: true,
@@ -135,34 +149,35 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox.expand(child: Observer(
                       builder: (_) {
                         return FlatButton(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Login',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 20),
-                                textAlign: TextAlign.center,
-                              ),
-                              Container(
-                                child: SizedBox(
-                                  child: loginStore.loading
-                                      ? CircularProgressIndicator(
-                                          valueColor: AlwaysStoppedAnimation(
-                                              Colors.blue),
-                                        )
-                                      : Icon(Icons.send),
-                                  height: 28,
-                                  width: 28,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
                                 ),
-                              )
-                            ],
-                          ),
-                          onPressed: loginStore.isFormValid
-                              ? () {
-                                  loginStore.login();
+                                Container(
+                                  child: SizedBox(
+                                    child: loginStore.loading
+                                        ? CircularProgressIndicator(
+                                            valueColor: AlwaysStoppedAnimation(
+                                                Colors.blue),
+                                          )
+                                        : Icon(Icons.send),
+                                    height: 28,
+                                    width: 28,
+                                  ),
+                                )
+                              ],
+                            ),
+                            onPressed: loginStore.login
+//                          loginStore.isFormValid
+//                              ? () {
+//                                  loginStore.login();
 //                                  if (_formKey.currentState.validate()) {
 //                                    final String phoneNumber =
 //                                        _controllerMaskFieldPhoneNumber.text;
@@ -175,9 +190,9 @@ class _LoginPageState extends State<LoginPage> {
 //                                    _save(loginCreatead, context);
 //                                  }
 //                                  return null;
-                                }
-                              : null,
-                        );
+//                                }
+//                              : null,
+                            );
                       },
                     )),
                   ),
@@ -224,5 +239,12 @@ class _LoginPageState extends State<LoginPage> {
     });
     print(tokenModel);
     return tokenModel;
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
+
   }
 }

@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
+
 class LoginModel {
   String phoneNumber;
   String password;
 
-  LoginModel(this.phoneNumber, this.password);
+  LoginModel({@required this.phoneNumber,@required this.password});
 
   LoginModel.fromJson(Map<String, dynamic> json) {
     phoneNumber = json['phoneNumber'];
