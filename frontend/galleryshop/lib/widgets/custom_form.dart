@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomForm extends StatelessWidget {
   final TextEditingController controller;
@@ -11,6 +12,7 @@ class CustomForm extends StatelessWidget {
   final Function(String) onChanged;
   final bool enabled;
   final Widget suffix;
+  final int maxlength_field;
 
 
 
@@ -24,12 +26,16 @@ class CustomForm extends StatelessWidget {
     this.mandatory,
     this.onChanged,
     this.enabled,
-    this.suffix
+    this.suffix,
+    this.maxlength_field,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(maxlength_field),
+        ],
         style:
             TextStyle(color: Color(0xFFF234253), fontWeight: FontWeight.bold),
         controller: controller,
