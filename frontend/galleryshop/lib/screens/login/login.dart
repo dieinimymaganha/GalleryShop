@@ -26,7 +26,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final LoginWebClient _webClient = LoginWebClient();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   LoginStore loginStore = LoginStore();
 
@@ -43,21 +43,40 @@ class _LoginPageState extends State<LoginPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    disposer = reaction((_) => loginStore.loggedIn, (loggedIn) {
-      if (loggedIn)
+    disposer = reaction((_) => loginStore.loggedIn, (loggedIn) async {
+      if (loggedIn) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('Login realizado com sucesso'),
+          backgroundColor: Colors.blue,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+      }
+    });
+
+    disposer = reaction((_) => loginStore.errorLogin, (errorLogin) {
+      if (errorLogin) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('Usuário ou senha incorreta'),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        ));
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         padding: EdgeInsets.only(
-          top: 60,
-          left: 40,
-          right: 40,
+          top: 80,
+          left: 20,
+          right: 20,
         ),
         color: Colors.white,
         child: ListView(
@@ -129,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 70,
+                    height: 40,
                   ),
                   Container(
                     height: 60,
@@ -179,22 +198,6 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: loginStore.loginPressed);
                       },
                     )),
-                  ),
-                  Container(
-                    height: 60,
-                    alignment: Alignment.center,
-                    child: FlatButton(
-                      child: Text(
-                        "Cadastrar novo usuário",
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateNewUserClient(),
-                            ));
-                      },
-                    ),
                   ),
                 ],
               ),

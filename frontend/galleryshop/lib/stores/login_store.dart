@@ -11,18 +11,18 @@ class LoginStore = _LoginStore with _$LoginStore;
 abstract class _LoginStore with Store {
   final LoginWebClient _webClient = LoginWebClient();
 
-
-  _LoginStore(){
-    autorun((_){
-      print('loading : ${loading}');
-      print('obscure : ${obscure}');
-      print('loggedIn : ${loggedIn}');
-      print('errorLogin : ${errorLogin}');
-
-      print('phone : ${phone}');
-      print('password : ${password}');
-    });
-  }
+//
+//  _LoginStore(){
+//    autorun((_){
+//      print('loading : ${loading}');
+//      print('obscure : ${obscure}');
+//      print('loggedIn : ${loggedIn}');
+//      print('errorLogin : ${errorLogin}');
+//
+//      print('phone : ${phone}');
+//      print('password : ${password}');
+//    });
+//  }
 
   @observable
   String phone = '';
