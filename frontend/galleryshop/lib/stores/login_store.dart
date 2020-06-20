@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
 import 'package:galleryshop/models/login.dart';
 import 'package:galleryshop/models/token.dart';
-import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:mobx/mobx.dart';
 
 part 'login_store.g.dart';
@@ -10,20 +9,26 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-
-
   final LoginWebClient _webClient = LoginWebClient();
 
 
+  _LoginStore(){
+    autorun((_){
+      print('loading : ${loading}');
+      print('obscure : ${obscure}');
+      print('loggedIn : ${loggedIn}');
+      print('errorLogin : ${errorLogin}');
+
+      print('phone : ${phone}');
+      print('password : ${password}');
+    });
+  }
 
   @observable
   String phone = '';
 
   @observable
   String password = '';
-
-
-
 
   @observable
   bool obscure = false;
@@ -33,6 +38,9 @@ abstract class _LoginStore with Store {
 
   @observable
   bool loggedIn = false;
+
+  @observable
+  bool errorLogin = false;
 
   @action
   void setObscure() => obscure = !obscure;
@@ -45,11 +53,9 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> login() async {
-    final LoginModel loginModel = LoginModel(phoneNumber: phone, password: password);
-
+    final LoginModel loginModel =
+        LoginModel(phoneNumber: phone, password: password);
     await save(loginModel);
-
-
   }
 
   @computed
@@ -60,26 +66,39 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> save(LoginModel loginCreated) async {
+
     LoginModel loginModel = loginCreated;
+    loading = true;
+    await Future.delayed(Duration(seconds: 2));
 
     TokenModel tokenModel = await send(loginModel);
-    if(tokenModel != null) {
-      loggedIn =true;
+
+    if (tokenModel != null) {
+      loggedIn = true;
+      errorLogin = false;
+    } else {
+      loggedIn = false;
+      errorLogin = true;
     }
+    loading = false;
     print(tokenModel);
   }
 
-
   Future<TokenModel> send(LoginModel loginModel) async {
+
+
     final TokenModel tokenModel =
-    await _webClient.sendUser(loginModel).catchError((e) {
-      debugPrint(e);
+        await _webClient.sendUser(loginModel).catchError((e) {
+          loggedIn = false;
+          errorLogin = true;
+          loading = false;
+
+          debugPrint(e);
     });
+
     print(tokenModel);
     return tokenModel;
   }
-
-
 
   @computed
   Function get loginPressed =>

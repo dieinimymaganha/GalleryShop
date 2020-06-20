@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
@@ -78,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Observer(builder: (_) {
                     return CustomForm(
+                      maxlength_field: 16,
                       enabled: !loginStore.loading,
                       mandatory: true,
                       controller: _controllerMaskFieldPhoneNumber,
@@ -174,25 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                                 )
                               ],
                             ),
-                            onPressed: loginStore.login
-//                          loginStore.isFormValid
-//                              ? () {
-//                                  loginStore.login();
-//                                  if (_formKey.currentState.validate()) {
-//                                    final String phoneNumber =
-//                                        _controllerMaskFieldPhoneNumber.text;
-//                                    final String password =
-//                                        _controllerPassword.text;
-//
-//                                    final loginCreatead =
-//                                        LoginModel(phoneNumber, password);
-//
-//                                    _save(loginCreatead, context);
-//                                  }
-//                                  return null;
-//                                }
-//                              : null,
-                            );
+                            onPressed: loginStore.loginPressed);
                       },
                     )),
                   ),
@@ -221,30 +205,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _save(LoginModel loginCreatead, BuildContext context) async {
-    TokenModel tokenModel = await _send(loginCreatead, context);
-    if (tokenModel != null) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(),
-          ));
-    }
-  }
-
-  Future<TokenModel> _send(LoginModel loginModel, BuildContext context) async {
-    final TokenModel tokenModel =
-        await _webClient.sendUser(loginModel).catchError((e) {
-      debugPrint(e);
-    });
-    print(tokenModel);
-    return tokenModel;
-  }
-
   @override
   void dispose() {
     disposer();
     super.dispose();
-
   }
 }

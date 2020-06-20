@@ -106,6 +106,21 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$errorLoginAtom = Atom(name: '_LoginStore.errorLogin');
+
+  @override
+  bool get errorLogin {
+    _$errorLoginAtom.reportRead();
+    return super.errorLogin;
+  }
+
+  @override
+  set errorLogin(bool value) {
+    _$errorLoginAtom.reportWrite(value, super.errorLogin, () {
+      super.errorLogin = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginStore.login');
 
   @override
@@ -163,6 +178,7 @@ password: ${password},
 obscure: ${obscure},
 loading: ${loading},
 loggedIn: ${loggedIn},
+errorLogin: ${errorLogin},
 isPasswordValid: ${isPasswordValid},
 isPhoneValid: ${isPhoneValid},
 loginPressed: ${loginPressed}
