@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
 import 'package:galleryshop/screens/client/customers_list.dart';
+import 'package:galleryshop/screens/employees/empleyees_list.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,7 @@ class _BaseScreenState extends State<BaseScreen> {
         children: <Widget>[
           HomeScreen(),
           Customerslist(),
-          Container(color: Colors.blue),
+          EmployeesList(),
           Container(color: Colors.red),
         ],
       ),
