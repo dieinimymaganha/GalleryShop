@@ -18,6 +18,7 @@ class Customerslist extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(_titleAppbar),
+        centerTitle: true,
         backgroundColor: colorAppbar,
       ),
       body: FutureBuilder<List<ClientModel>>(
@@ -42,20 +43,61 @@ class Customerslist extends StatelessWidget {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       final ClientModel clientModel = customers[index];
-                      return Card(
-                        child: ListTile(
-                          leading: Icon(Icons.account_circle),
-                          title: Text(
-                            clientModel.name.toString(),
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      return InkWell(
+                        onTap: () {
+                          print('Clicou');
+                        },
+                        child: Card(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(Icons.person),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: 2,
+                                        top: 10,
+                                        bottom: 10,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            clientModel.nickname,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          Text(
+                                            'Nome: ${clientModel.name}',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          Text(
+                                            'Sobrenome: ${clientModel.lastName}',
+                                            style: TextStyle(fontSize: 15),
+                                          ),
+                                          Text(
+                                            'Data Nascimento: ${convertData(clientModel.birthdate.toString())}',
+                                            style:
+                                                TextStyle(color: Colors.blue),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
-                          subtitle: Text(
-                            clientModel.lastName.toString(),
-                          ),
-
                         ),
                       );
                     },
@@ -76,5 +118,10 @@ class Customerslist extends StatelessWidget {
       drawer: CustomDrawer(),
       floatingActionButton: ButtomCreateClient(),
     );
+  }
+
+  String convertData(String data) {
+    String nwdata = data.substring(0, 10);
+    return nwdata;
   }
 }
