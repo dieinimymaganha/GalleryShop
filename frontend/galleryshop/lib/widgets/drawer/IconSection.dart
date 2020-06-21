@@ -131,8 +131,8 @@ class IconSection extends StatelessWidget {
               height: 0,
             ),
             IconTile(
-              label: 'Relatórios',
-              iconData: Icons.pie_chart,
+              label: 'Estoque',
+              iconData: Icons.markunread_mailbox,
               onTap: () {
                 _setPage(10);
               },
@@ -141,14 +141,15 @@ class IconSection extends StatelessWidget {
             Divider(
               height: 0,
             ),
+
             IconTile(
-              label: 'Estoque',
-              iconData: Icons.markunread_mailbox,
+              label: 'Relatórios',
+              iconData: Icons.pie_chart,
               onTap: () {
                 _setPage(11);
               },
               highlighted: snapshot.data == 11,
-            )
+            ),
           ],
         );
       },

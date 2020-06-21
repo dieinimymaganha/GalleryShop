@@ -3,9 +3,18 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
+import 'package:galleryshop/screens/accounts/accounts.dart';
+import 'package:galleryshop/screens/bar/bar.dart';
+import 'package:galleryshop/screens/bills_to_pay/bills_to_pay.dart';
 import 'package:galleryshop/screens/client/customers_list.dart';
 import 'package:galleryshop/screens/employees/empleyees_list.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
+import 'package:galleryshop/screens/my_account/my_account.dart';
+import 'package:galleryshop/screens/reports/reports.dart';
+import 'package:galleryshop/screens/schedule/schedule.dart';
+import 'package:galleryshop/screens/services/services.dart';
+import 'package:galleryshop/screens/stock/stock.dart';
+import 'package:galleryshop/screens/store/store.dart';
 import 'package:provider/provider.dart';
 
 
@@ -54,7 +63,15 @@ class _BaseScreenState extends State<BaseScreen> {
           HomeScreen(),
           Customerslist(),
           EmployeesList(),
-          Container(color: Colors.red),
+          Schedule(),
+          Accounts(),
+          MyAccount(),
+          BillsToPay(),
+          Bar(),
+          Store(),
+          Services(),
+          Stock(),
+          Reports(),
         ],
       ),
     );
