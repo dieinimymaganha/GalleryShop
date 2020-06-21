@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
-import 'package:galleryshop/stores/drawer_store.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 import 'icon_tile.dart';

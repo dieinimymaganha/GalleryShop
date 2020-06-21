@@ -1,20 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:galleryshop/http/webclients/webclient_login.dart';
-import 'package:galleryshop/models/login.dart';
-import 'package:galleryshop/models/token.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
-import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/stores/login_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:galleryshop/widgets/custom_icon_button.dart';
 import 'package:mobx/mobx.dart';
 
-import '../client/create_new_user_client.dart';
 import 'reset_password.dart';
 
 const _labelFieldPhoneNumber = 'Telefone';

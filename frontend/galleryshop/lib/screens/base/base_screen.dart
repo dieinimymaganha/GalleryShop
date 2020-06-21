@@ -12,7 +12,7 @@ import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/screens/my_account/my_account.dart';
 import 'package:galleryshop/screens/reports/reports.dart';
 import 'package:galleryshop/screens/schedule/schedule.dart';
-import 'package:galleryshop/screens/services/services.dart';
+import 'package:galleryshop/screens/services/services_list_screen.dart';
 import 'package:galleryshop/screens/stock/stock.dart';
 import 'package:galleryshop/screens/store/store.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +69,7 @@ class _BaseScreenState extends State<BaseScreen> {
           BillsToPay(),
           Bar(),
           Store(),
-          Services(),
+          ServicesList(),
           Stock(),
           Reports(),
         ],

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
@@ -33,12 +32,8 @@ class Customerslist extends StatelessWidget {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-              final List<ClientModel> customers = snapshot.data;
-              debugPrint('Customer ${customers}');
-
               if (snapshot.hasData) {
                 final List<ClientModel> customers = snapshot.data;
-
                 if (customers.isNotEmpty) {
                   return ListView.builder(
                     itemBuilder: (context, index) {
@@ -107,7 +102,7 @@ class Customerslist extends StatelessWidget {
               }
 
               return CenteredMessage(
-                'Nenhum cliente encontrados',
+                'Nenhum cliente encontrado',
                 icon: Icons.warning,
               );
               break;

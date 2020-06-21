@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/data/values.dart';
@@ -6,9 +5,6 @@ import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
-import 'package:intl/intl.dart';
-
-import '../login/login.dart';
 
 const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
