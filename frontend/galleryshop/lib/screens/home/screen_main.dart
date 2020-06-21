@@ -10,8 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String imageUrl =
-      'https://avatars1.githubusercontent.com/u/38332691?s=460&v=4';
 
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,16 @@ part 'drawer_store.g.dart';
 class DrawerStore = _DrawerStore with _$DrawerStore;
 
 abstract class _DrawerStore with Store {
+
+  _DrawerStore(){
+    autorun((_){
+      print('Page: ${page}');
+    });
+  }
+
+
   @observable
-  int page = 0;
+  int page;
 
   @action
   void setPage(int value) => page = value;
