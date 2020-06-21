@@ -1,9 +1,12 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client_new.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:intl/intl.dart';
 
 import '../login/login.dart';
 
@@ -22,7 +25,7 @@ const _labelFieldPhoneNumber = 'Telefone';
 const _tipFieldPhoneNumber = '(000) 00000-0000';
 const _labelFieldEmail = 'Email';
 const _tipFieldEmail = 'Digite o e-mail';
-const _labelFieldPassword = 'Senha';
+const _passwordDefault = 'galleryshop';
 
 class CreateNewUserClient extends StatefulWidget {
   @override
@@ -30,7 +33,6 @@ class CreateNewUserClient extends StatefulWidget {
 }
 
 class _CreateNewUserClientState extends State<CreateNewUserClient> {
-
   final ClientWebClient _webClient = ClientWebClient();
 
   final _formKey = GlobalKey<FormState>();
@@ -81,14 +83,13 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
       ),
       body: Container(
         padding: EdgeInsets.only(
-          top: 60,
-          left: 40,
-          right: 40,
+          top: 10,
+          left: 8,
+          right: 8,
         ),
         color: Colors.white,
         child: ListView(
           children: <Widget>[
-
             Form(
               key: _formKey,
               child: Column(
@@ -150,11 +151,6 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
                     obscure: false,
                   ),
                   SizedBox(height: _space),
-                  CustomForm(
-                    controller: _controllerPassword,
-                    label: _labelFieldPassword,
-                    obscure: true,
-                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -207,9 +203,15 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
                             final String cpf = _controllerMaskFieldCpf.text;
                             final String phoneNumber =
                                 _controllerMaskFieldPhoneNumber.text;
-                            final String birthdate = '1991-02-16';
+                            final String birthdate =
+                                _controllerMaskFieldBirthDate.text;
+                            final newB = birthdate.split('/');
+                            final String new_birthDate =
+                                newB[2] + '-' + newB[1] + '-' + newB[0];
+
                             final String email = _controllerFieldEmail.text;
-                            final String password = _controllerPassword.text;
+                            final String password = _passwordDefault;
+
                             final listProfiles = new List<ListProfiles>();
                             final String role = 'ROLE_CLIENT';
                             listProfiles.add(new ListProfiles(role: role));
@@ -219,7 +221,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
                                 lastName,
                                 nickname,
                                 cpf,
-                                birthdate,
+                                new_birthDate,
                                 phoneNumber,
                                 email,
                                 password,
@@ -251,7 +253,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(),
+            builder: (context) => BaseScreen(),
           ));
     }
   }
@@ -260,7 +262,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
       ClientModelForm clientCreated, BuildContext context) async {
     final ClientModelDto clientModelDto =
         await _webClient.save(clientCreated).catchError((e) {
-//      debugPrint(e);
+      debugPrint(e);
     });
     return clientModelDto;
   }

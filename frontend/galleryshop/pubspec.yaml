@@ -55,6 +55,8 @@ dependencies:
   image_cropper: ^1.1.1
   location_permissions: ^2.0.3
   dio: ^3.0.7
+  date_format: ^1.0.8
+
 
 
 dev_dependencies:

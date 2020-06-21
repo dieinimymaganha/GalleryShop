@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client.dart';
+import 'package:galleryshop/screens/client/widget/buttom_create_client.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
+import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 import 'package:galleryshop/widgets/progress.dart';
 
 const _titleAppbar = 'Lista de clientes';
@@ -15,6 +18,7 @@ class Customerslist extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(_titleAppbar),
+        backgroundColor: colorAppbar,
       ),
       body: FutureBuilder<List<ClientModel>>(
         future: _webClient.findAll(),
@@ -69,6 +73,8 @@ class Customerslist extends StatelessWidget {
           return CenteredMessage('Erro desconhecido');
         },
       ),
+      drawer: CustomDrawer(),
+      floatingActionButton: ButtomCreateClient(),
     );
   }
 }

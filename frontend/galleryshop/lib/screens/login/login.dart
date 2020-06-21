@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
 import 'package:galleryshop/models/login.dart';
 import 'package:galleryshop/models/token.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/stores/login_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         await Future.delayed(Duration(seconds: 2));
 
         Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+            .pushReplacement(MaterialPageRoute(builder: (_) => BaseScreen()));
       }
     });
 
