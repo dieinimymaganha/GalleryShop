@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/client/create_new_user_client.dart';
 
 class ButtomCreateClient extends StatelessWidget {
@@ -13,7 +14,7 @@ class ButtomCreateClient extends StatelessWidget {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (context) => CreateNewUserClient()));
       },
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: colorAppbar,
     );
   }
 }
