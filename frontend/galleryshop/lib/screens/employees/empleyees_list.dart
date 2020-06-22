@@ -112,7 +112,6 @@ class EmployeesList extends StatelessWidget {
           return CenteredMessage('Erro desconhecido');
         },
       ),
-      drawer: CustomDrawer(),
       floatingActionButton: ButtomCreateClient(),
     );
   }

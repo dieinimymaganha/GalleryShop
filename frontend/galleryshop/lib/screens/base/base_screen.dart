@@ -8,6 +8,7 @@ import 'package:galleryshop/screens/bar/bar.dart';
 import 'package:galleryshop/screens/bills_to_pay/bills_to_pay.dart';
 import 'package:galleryshop/screens/client/customers_list.dart';
 import 'package:galleryshop/screens/employees/empleyees_list.dart';
+import 'package:galleryshop/screens/employees/employees_base.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/screens/my_account/my_account.dart';
 import 'package:galleryshop/screens/reports/reports.dart';
@@ -62,7 +63,7 @@ class _BaseScreenState extends State<BaseScreen> {
         children: <Widget>[
           HomeScreen(),
           Customerslist(),
-          EmployeesList(),
+          EmployeeBase(),
           Schedule(),
           Accounts(),
           MyAccount(),
