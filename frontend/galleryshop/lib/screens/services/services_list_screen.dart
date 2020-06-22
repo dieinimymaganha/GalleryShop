@@ -3,6 +3,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/models/service.dart';
+import 'package:galleryshop/screens/services/widgets/buttom_create_service.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 import 'package:galleryshop/widgets/progress.dart';
@@ -41,17 +42,29 @@ class ServicesList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final ServiceModel clientModel = customers[index];
                       return Card(
+                        elevation: 10,
+                        shadowColor: Colors.grey,
                         child: ListTile(
-                          leading: Icon(Icons.beenhere),
+                          leading: Icon(Icons.beenhere, color: Colors.blue,),
+                          trailing: clientModel.value == null
+                              ? Text(
+                                  'Preço variável',
+                                  style: TextStyle(color: Colors.green),
+                                )
+                              : Text(
+                                  clientModel.value.toString(),
+                                  style: TextStyle(color: Colors.blueAccent),
+                                ),
                           title: Text(
                             clientModel.description.toString(),
                             style: TextStyle(
-                              fontSize: 24.0,
+                              fontSize: 18.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: Text(
-                            'Funcionário: ${clientModel.typeEmployee.toString()}',
+                          subtitle:
+                          Text(
+                            clientModel.typeEmployee.toString(),
                           ),
                         ),
                       );
@@ -71,6 +84,7 @@ class ServicesList extends StatelessWidget {
         },
       ),
       drawer: CustomDrawer(),
+      floatingActionButton: ButtomCreateService(),
     );
   }
 }
