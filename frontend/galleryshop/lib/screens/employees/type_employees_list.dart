@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
@@ -13,7 +14,7 @@ class TypeEmployeeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista Tipos Funcionario'),
+        title: Text('Tipos Funcionarios e serviços'),
         centerTitle: true,
         backgroundColor: colorAppbar,
       ),
@@ -36,46 +37,32 @@ class TypeEmployeeList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final TypeEmployeeModel typeEmployeeModel =
                           typeEmployees[index];
-                      return InkWell(
-                        onTap: () {
-                          print('Clicou');
-                        },
-                        child: Card(
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(18.0),
-                                    child: Icon(Icons.account_circle),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 2,
-                                        top: 10,
-                                        bottom: 10,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            typeEmployeeModel.description,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700),
+                      return Card(
+                        child: ExpansionTile(
+                          title: Text(typeEmployeeModel.description),
+                          children: <Widget>[
+                            Column(
+                                children:
+                                    typeEmployeeModel.services.map((service) {
+                              return ListTile(
+                                  leading: Icon(Icons.person),
+                                  title: Text(service.description),
+                                  subtitle: service.value == null
+                                      ? Text('Preço variavel')
+                                      : Text(service.value.toStringAsFixed(2)));
+                            }).toList()
+                                      ..add(ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: Colors.transparent,
+                                          child: Icon(
+                                            Icons.add,
+                                            color: colorAppbar,
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                                        ),
+                                        title: Text('Adicionar'),
+                                        onTap: () {},
+                                      )))
+                          ],
                         ),
                       );
                     },
@@ -93,7 +80,6 @@ class TypeEmployeeList extends StatelessWidget {
           return CenteredMessage('Erro desconhecido');
         },
       ),
-      floatingActionButton: ButtomCreateClient(),
     );
   }
 
