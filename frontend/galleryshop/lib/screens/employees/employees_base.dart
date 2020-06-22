@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/employees/empleyees_list.dart';
+import 'package:galleryshop/screens/employees/type_employees_list.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
 class EmployeeBase extends StatelessWidget {
@@ -22,10 +23,9 @@ class EmployeeBase extends StatelessWidget {
                   title: Text('Listar Funcionários'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: (){
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => EmployeesList()
-                  ) );
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => EmployeesList()));
                 },
               ),
               Divider(
@@ -37,7 +37,10 @@ class EmployeeBase extends StatelessWidget {
                   title: Text('Listar Tipo de funcionários'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: (){},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TypeEmployeeList()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
@@ -48,7 +51,7 @@ class EmployeeBase extends StatelessWidget {
                   title: Text('Cadastrar novo funcionários'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: (){},
+                onTap: () {},
               ),
               Divider(
                 color: Colors.grey[400],

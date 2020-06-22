@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
@@ -43,14 +44,12 @@ class EmployeesList extends StatelessWidget {
                           print('Clicou');
                         },
                         child: Card(
+                          elevation: 1,
+                          shadowColor: Colors.grey,
                           child: Column(
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.person),
-                                  ),
                                   Expanded(
                                     child: Padding(
                                       padding: EdgeInsets.only(
@@ -70,23 +69,88 @@ class EmployeesList extends StatelessWidget {
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700),
                                           ),
-                                          Text(
-                                            'Nome: ${employeeModel.name}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Nome: ',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                employeeModel.name,
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            'Sobrenome: ${employeeModel.lastName}',
-                                            style: TextStyle(fontSize: 15),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Sobrenome: ',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                employeeModel.lastName,
+                                                style: TextStyle(fontSize: 15),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            'Data Nascimento: ${convertData(employeeModel.birthdate.toString())}',
-                                            style:
-                                                TextStyle(color: Colors.blue),
+                                          Row(
+                                            children: <Widget>[
+                                              Text(
+                                                'Data Nascimento: ',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              Text(
+                                                convertData(employeeModel
+                                                    .birthdate
+                                                    .toString()),
+                                                style: TextStyle(
+                                                    color: Colors.blue),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                              'Especialista: ${employeeModel.typeEmployees[0].description}'),
+                                          Divider(
+                                            color: Colors.grey[200],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              employeeModel.typeEmployees
+                                                          .length ==
+                                                      1
+                                                  ? Text('Função:')
+                                                  : Text(
+                                                      'Funções:',
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    ),
+                                              Column(
+                                                children: employeeModel
+                                                    .typeEmployees
+                                                    .map((typeEm) {
+                                                  return Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(typeEm.description),
+                                                    ],
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            ],
+                                          )
                                         ],
                                       ),
                                     ),
