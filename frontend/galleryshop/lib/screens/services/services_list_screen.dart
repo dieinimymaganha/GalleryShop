@@ -45,15 +45,20 @@ class ServicesList extends StatelessWidget {
                         elevation: 10,
                         shadowColor: Colors.grey,
                         child: ListTile(
-                          leading: Icon(Icons.beenhere, color: Colors.blue,),
+                          leading: Icon(
+                            Icons.beenhere,
+                            color: Colors.blue,
+                          ),
                           trailing: clientModel.value == null
                               ? Text(
                                   'Preço variável',
-                                  style: TextStyle(color: Colors.green),
+                                  style: TextStyle(color: Colors.indigo),
                                 )
                               : Text(
-                                  clientModel.value.toString(),
-                                  style: TextStyle(color: Colors.blueAccent),
+                                  'R\$: ${clientModel.value.toString()}',
+                                  style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.w700),
                                 ),
                           title: Text(
                             clientModel.description.toString(),
@@ -62,8 +67,7 @@ class ServicesList extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle:
-                          Text(
+                          subtitle: Text(
                             clientModel.typeEmployee.toString(),
                           ),
                         ),

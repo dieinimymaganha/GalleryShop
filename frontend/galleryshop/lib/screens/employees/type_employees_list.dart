@@ -50,8 +50,8 @@ class TypeEmployeeList extends StatelessWidget {
                                 children:
                                     typeEmployeeModel.services.map((service) {
                               return ListTile(
-                                  leading: Icon(Icons.assignment_turned_in,
-                                      color: colorAppbar),
+                                  leading: Icon(Icons.beenhere,
+                                      color: Colors.blue),
                                   title: Text(service.description, style: TextStyle(fontSize: 18),),
                                   subtitle: service.value == null
                                       ? Text('Preço variavel', style: TextStyle(color: Colors.indigo),)

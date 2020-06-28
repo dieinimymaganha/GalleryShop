@@ -52,11 +52,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
 
   final TextEditingController _controllerFieldEmail = TextEditingController();
 
-  final TextEditingController _controllerPassword = TextEditingController();
-
   final double _space = 10.0;
-
-  final String teste = 'teste';
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +68,7 @@ class _CreateNewUserClientState extends State<CreateNewUserClient> {
         leading: IconButton(
           icon: IconButton(
             icon: Icon(Icons.arrow_back),
-            color: Colors.black38,
+            color: Colors.white,
             onPressed: () => Navigator.pop(context, false),
           ),
         ),
