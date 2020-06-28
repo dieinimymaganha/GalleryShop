@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/client/create_new_user_client.dart';
 
-class ButtomCreateClient extends StatelessWidget {
+class ButtonCreateClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(

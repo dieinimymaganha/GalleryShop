@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/models/employee.dart';
-import 'package:galleryshop/screens/client/widget/buttom_create_client.dart';
+import 'package:galleryshop/screens/client/widget/button_create_client.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 import 'package:galleryshop/widgets/progress.dart';
@@ -176,7 +176,7 @@ class EmployeesList extends StatelessWidget {
           return CenteredMessage('Erro desconhecido');
         },
       ),
-      floatingActionButton: ButtomCreateClient(),
+      floatingActionButton: ButtonCreateClient(),
     );
   }
 
