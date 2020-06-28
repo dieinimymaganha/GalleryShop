@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
-import 'package:galleryshop/screens/client/widget/buttom_create_client.dart';
+import 'package:galleryshop/screens/client/widget/button_create_client.dart';
+import 'package:galleryshop/screens/employees/widget/button_create_new_type_employee.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/progress.dart';
 
@@ -39,17 +40,23 @@ class TypeEmployeeList extends StatelessWidget {
                           typeEmployees[index];
                       return Card(
                         child: ExpansionTile(
-                          title: Text(typeEmployeeModel.description),
+                          title: Text(
+                            typeEmployeeModel.description,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w500),
+                          ),
                           children: <Widget>[
                             Column(
                                 children:
                                     typeEmployeeModel.services.map((service) {
                               return ListTile(
-                                  leading: Icon(Icons.person),
-                                  title: Text(service.description),
+                                  leading: Icon(Icons.assignment_turned_in,
+                                      color: colorAppbar),
+                                  title: Text(service.description, style: TextStyle(fontSize: 18),),
                                   subtitle: service.value == null
-                                      ? Text('Preço variavel')
-                                      : Text(service.value.toStringAsFixed(2)));
+                                      ? Text('Preço variavel', style: TextStyle(color: Colors.indigo),)
+                                      : Text(
+                                          'R\$ ${service.value.toStringAsFixed(2)}', style: TextStyle(color: Colors.teal, fontWeight: FontWeight.w700),));
                             }).toList()
                                       ..add(ListTile(
                                         leading: CircleAvatar(
@@ -80,6 +87,7 @@ class TypeEmployeeList extends StatelessWidget {
           return CenteredMessage('Erro desconhecido');
         },
       ),
+      floatingActionButton: ButtonCreateNewTypeEmployee(),
     );
   }
 
