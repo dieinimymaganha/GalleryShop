@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/screens/employees/empleyees_list.dart';
-import 'package:galleryshop/screens/employees/type_employees_list.dart';
+import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
+import 'package:galleryshop/screens/employees/type_employees_list_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
-class EmployeeBase extends StatelessWidget {
+class EmployeeBaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +25,7 @@ class EmployeeBase extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => EmployeesList()));
+                      MaterialPageRoute(builder: (context) => EmployeesListScreen()));
                 },
               ),
               Divider(
@@ -39,7 +39,7 @@ class EmployeeBase extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => TypeEmployeeList()));
+                      builder: (context) => TypeEmployeeListScreen()));
                 },
               ),
               Divider(

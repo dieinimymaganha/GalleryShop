@@ -7,8 +7,7 @@ import 'package:galleryshop/screens/accounts/accounts.dart';
 import 'package:galleryshop/screens/bar/bar.dart';
 import 'package:galleryshop/screens/bills_to_pay/bills_to_pay.dart';
 import 'package:galleryshop/screens/client/customers_list.dart';
-import 'package:galleryshop/screens/employees/empleyees_list.dart';
-import 'package:galleryshop/screens/employees/employees_base.dart';
+import 'package:galleryshop/screens/employees/employees_base_screen.dart';
 import 'package:galleryshop/screens/home/screen_main.dart';
 import 'package:galleryshop/screens/my_account/my_account.dart';
 import 'package:galleryshop/screens/reports/reports.dart';
@@ -18,14 +17,12 @@ import 'package:galleryshop/screens/stock/stock.dart';
 import 'package:galleryshop/screens/store/store.dart';
 import 'package:provider/provider.dart';
 
-
 class BaseScreen extends StatefulWidget {
   @override
   _BaseScreenState createState() => _BaseScreenState();
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-
   final PageController _pageController = PageController();
 
   DrawerBloc _drawerBloc;
@@ -36,11 +33,11 @@ class _BaseScreenState extends State<BaseScreen> {
     super.didChangeDependencies();
 
     final DrawerBloc drawerBloc = Provider.of<DrawerBloc>(context);
-    if(drawerBloc != _drawerBloc){
+    if (drawerBloc != _drawerBloc) {
       _drawerBloc = drawerBloc;
 
       _drawerSubscription?.cancel();
-      _drawerSubscription = _drawerBloc.outPage.listen((page){
+      _drawerSubscription = _drawerBloc.outPage.listen((page) {
         try {
           _pageController.jumpToPage(page);
         } catch (e) {}
@@ -63,14 +60,14 @@ class _BaseScreenState extends State<BaseScreen> {
         children: <Widget>[
           HomeScreen(),
           Customerslist(),
-          EmployeeBase(),
+          EmployeeBaseScreen(),
           Schedule(),
           Accounts(),
           MyAccount(),
           BillsToPay(),
           Bar(),
           Store(),
-          ServicesList(),
+          ServicesListScreen(),
           Stock(),
           Reports(),
         ],

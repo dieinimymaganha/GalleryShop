@@ -7,7 +7,7 @@ import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 
-class CreateNewService extends StatelessWidget {
+class CreateNewServiceScreen extends StatelessWidget {
   final ClientWebClient _webClient = ClientWebClient();
 
   final _formKey = GlobalKey<FormState>();

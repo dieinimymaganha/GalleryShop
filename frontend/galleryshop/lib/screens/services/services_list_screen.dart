@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
-import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/models/service.dart';
 import 'package:galleryshop/screens/services/widgets/buttom_create_service.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 import 'package:galleryshop/widgets/progress.dart';
 
-class ServicesList extends StatelessWidget {
+class ServicesListScreen extends StatelessWidget {
   final ServicesWebClient _webClient = ServicesWebClient();
 
   @override

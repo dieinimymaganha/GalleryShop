@@ -10,7 +10,7 @@ import 'package:galleryshop/widgets/progress.dart';
 
 const _titleAppbar = 'Lista de funcionários';
 
-class EmployeesList extends StatelessWidget {
+class EmployeesListScreen extends StatelessWidget {
   final EmployeeWebClient _webClient = EmployeeWebClient();
 
   @override
