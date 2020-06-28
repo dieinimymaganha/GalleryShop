@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
-import 'package:galleryshop/screens/accounts/accounts.dart';
+import 'package:galleryshop/screens/accounts/accounts_screen.dart';
 import 'package:galleryshop/screens/bar/bar.dart';
-import 'package:galleryshop/screens/bills_to_pay/bills_to_pay.dart';
-import 'package:galleryshop/screens/client/customers_list.dart';
+import 'package:galleryshop/screens/bills_to_pay/bills_to_pay_screen.dart';
+import 'package:galleryshop/screens/client/client_list_screen.dart';
 import 'package:galleryshop/screens/employees/employees_base_screen.dart';
-import 'package:galleryshop/screens/home/screen_main.dart';
-import 'package:galleryshop/screens/my_account/my_account.dart';
-import 'package:galleryshop/screens/reports/reports.dart';
-import 'package:galleryshop/screens/schedule/schedule.dart';
+import 'package:galleryshop/screens/home/home_screen.dart';
+import 'package:galleryshop/screens/my_account/my_account_screen.dart';
+import 'package:galleryshop/screens/reports/reports_screen.dart';
+import 'package:galleryshop/screens/schedule/schedule_screen.dart';
 import 'package:galleryshop/screens/services/services_list_screen.dart';
-import 'package:galleryshop/screens/stock/stock.dart';
-import 'package:galleryshop/screens/store/store.dart';
+import 'package:galleryshop/screens/stock/stock_screen.dart';
+import 'package:galleryshop/screens/store/store_screen.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -59,17 +59,17 @@ class _BaseScreenState extends State<BaseScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           HomeScreen(),
-          Customerslist(),
+          ClientListScreen(),
           EmployeeBaseScreen(),
-          Schedule(),
-          Accounts(),
-          MyAccount(),
-          BillsToPay(),
+          ScheduleScreen(),
+          AccountsScreen(),
+          MyAccountScreen(),
+          BillsToPayScreen(),
           Bar(),
-          Store(),
+          StoreScreen(),
           ServicesListScreen(),
-          Stock(),
-          Reports(),
+          StockScreen(),
+          ReportsScreen(),
         ],
       ),
     );

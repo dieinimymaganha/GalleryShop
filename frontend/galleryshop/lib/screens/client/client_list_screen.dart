@@ -9,7 +9,7 @@ import 'package:galleryshop/widgets/progress.dart';
 
 const _titleAppbar = 'Lista de clientes';
 
-class Customerslist extends StatelessWidget {
+class ClientListScreen extends StatelessWidget {
   final ClientWebClient _webClient = ClientWebClient();
 
   @override

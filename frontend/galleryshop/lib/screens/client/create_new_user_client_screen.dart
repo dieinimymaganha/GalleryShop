@@ -23,12 +23,12 @@ const _labelFieldEmail = 'Email';
 const _tipFieldEmail = 'Digite o e-mail';
 const _passwordDefault = 'galleryshop';
 
-class CreateNewUserClient extends StatefulWidget {
+class CreateNewUserClientScreen extends StatefulWidget {
   @override
-  _CreateNewUserClientState createState() => _CreateNewUserClientState();
+  _CreateNewUserClientScreenState createState() => _CreateNewUserClientScreenState();
 }
 
-class _CreateNewUserClientState extends State<CreateNewUserClient> {
+class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
   final ClientWebClient _webClient = ClientWebClient();
 
   final _formKey = GlobalKey<FormState>();

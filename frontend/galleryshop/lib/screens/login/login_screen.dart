@@ -8,7 +8,7 @@ import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:galleryshop/widgets/custom_icon_button.dart';
 import 'package:mobx/mobx.dart';
 
-import 'reset_password.dart';
+import 'reset_password_screen.dart';
 
 const _labelFieldPhoneNumber = 'Telefone';
 const _tipFieldPhoneNumber = '(000) 00000-0000';
@@ -136,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ResetPasswordPage(),
+                              builder: (context) => ResetPasswordScreen(),
                             ));
                       },
                     ),
