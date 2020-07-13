@@ -7,35 +7,19 @@ import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 
-class CreateNewServiceScreen extends StatelessWidget {
+class CreateNewServiceScreen extends StatefulWidget {
+  @override
+  _CreateNewServiceScreenState createState() => _CreateNewServiceScreenState();
+}
+
+class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
   final ClientWebClient _webClient = ClientWebClient();
 
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _controllerFieldName = TextEditingController();
-
-  final TextEditingController _controllerFieldLastName =
-      TextEditingController();
-
-  final TextEditingController _controllerFieldNickname =
-      TextEditingController();
-
-  final MaskedTextController _controllerMaskFieldCpf =
-      new MaskedTextController(mask: '000.000.000-00');
-
-  final MaskedTextController _controllerMaskFieldPhoneNumber =
-      new MaskedTextController(mask: '(000) 00000-0000');
-
-  final MaskedTextController _controllerMaskFieldBirthDate =
-      new MaskedTextController(mask: '00/00/0000');
-
-  final TextEditingController _controllerFieldEmail = TextEditingController();
-
-  final TextEditingController _controllerPassword = TextEditingController();
-
   final double _space = 10.0;
 
-  final String teste = 'teste';
+  String dropdownValue = 'Selecione';
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +67,31 @@ class CreateNewServiceScreen extends StatelessWidget {
                     textInputType:
                         TextInputType.numberWithOptions(decimal: true),
                   ),
+
+                  DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
+                    },
+                    items: <String>['One', 'Two', 'Free', 'Four']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+
                   SizedBox(height: _space),
                   Container(
                     height: 60,
