@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:galleryshop/models/client.dart';
-import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,8 +10,7 @@ const urlTypeEmployee = baseUrl + 'typeemployees';
 
 class TypeEmployeeWebClient {
   Future<List<TypeEmployeeModel>> findAll() async {
-    var prefs = await SharedPreferences.getInstance();
-    String token = (prefs.getString("tokenjwt") ?? "");
+    String token = await get_token();
     final Response response = await webClient.get(
       urlTypeEmployee,
       headers: {
@@ -24,13 +21,59 @@ class TypeEmployeeWebClient {
 
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
-      final List<dynamic> data =
-      decodeJson.map((dynamic json) => TypeEmployeeModel.fromJson(json)).toList();
+      final List<dynamic> data = decodeJson
+          .map((dynamic json) => TypeEmployeeModel.fromJson(json))
+          .toList();
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<TypeEmployeeModel> save(TypeEmployeeForm typeEmployee) async {
+    print('ta aqui');
+    String token = await get_token();
+    final String typeEmployeeJson = jsonEncode(typeEmployee.toJson());
+    final Response response = await webClient.post(
+      urlTypeEmployee,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+      body: typeEmployeeJson,
+    );
+
+    if (response.statusCode == 201) {
+      return TypeEmployeeModel.fromJson(jsonDecode(response.body));
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<String> get_token() async {
+    var prefs = await SharedPreferences.getInstance();
+    String token = (prefs.getString("tokenjwt") ?? "");
+    return token;
+  }
+
+  Future<TypeEmployeeModel> update(TypeEmployeeModel typeEmployeeModel) async {
+    String id = typeEmployeeModel.id.toString();
+    String url_update = urlTypeEmployee + '/' + id;
+
+    var prefs = await SharedPreferences.getInstance();
+    String token = (prefs.getString(("tokenjwt") ?? ''));
+    final String typeEmployeeJson = jsonEncode(typeEmployeeModel.toJson());
+
+    final Response response = await webClient.put(url_update,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: typeEmployeeJson);
+
+    if (response.statusCode == 200) {
+      return TypeEmployeeModel.fromJson(jsonDecode(response.body));
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
 
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
