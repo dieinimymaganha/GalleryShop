@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
-import 'package:galleryshop/screens/client/widget/button_create_client.dart';
+import 'package:galleryshop/screens/employees/edit_type_employee.dart';
 import 'package:galleryshop/screens/employees/widget/button_create_new_type_employee.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/progress.dart';
+
+const Utf8Codec utf8 = Utf8Codec();
 
 class TypeEmployeeListScreen extends StatelessWidget {
   final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
@@ -38,38 +42,57 @@ class TypeEmployeeListScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final TypeEmployeeModel typeEmployeeModel =
                           typeEmployees[index];
-                      return Card(
-                        child: ExpansionTile(
-                          title: Text(
-                            typeEmployeeModel.description,
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500),
-                          ),
-                          children: <Widget>[
-                            Column(
-                                children:
-                                    typeEmployeeModel.services.map((service) {
-                              return ListTile(
-                                  leading: Icon(Icons.beenhere,
-                                      color: Colors.blue),
-                                  title: Text(service.description, style: TextStyle(fontSize: 18),),
-                                  subtitle: service.value == null
-                                      ? Text('Preço variavel', style: TextStyle(color: Colors.indigo),)
-                                      : Text(
-                                          'R\$ ${service.value.toStringAsFixed(2)}', style: TextStyle(color: Colors.teal, fontWeight: FontWeight.w700),));
-                            }).toList()
-                                      ..add(ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          child: Icon(
-                                            Icons.add,
-                                            color: colorAppbar,
+                      return GestureDetector(
+                        onLongPress: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => EditTypeEmployeeDialog(
+                                  typeEmployeeModel: typeEmployeeModel));
+                        },
+                        child: Card(
+                          child: ExpansionTile(
+                            title: Text(
+                              typeEmployeeModel.description,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
+                            ),
+                            children: <Widget>[
+                              Column(
+                                  children:
+                                      typeEmployeeModel.services.map((service) {
+                                return ListTile(
+                                    leading: Icon(Icons.beenhere,
+                                        color: Colors.blue),
+                                    title: Text(
+                                      service.description,
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    subtitle: service.value == null
+                                        ? Text(
+                                            'Preço variavel',
+                                            style:
+                                                TextStyle(color: Colors.indigo),
+                                          )
+                                        : Text(
+                                            'R\$ ${service.value.toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                                color: Colors.teal,
+                                                fontWeight: FontWeight.w700),
+                                          ));
+                              }).toList()
+                                        ..add(ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: Colors.transparent,
+                                            child: Icon(
+                                              Icons.add,
+                                              color: colorAppbar,
+                                            ),
                                           ),
-                                        ),
-                                        title: Text('Adicionar'),
-                                        onTap: () {},
-                                      )))
-                          ],
+                                          title: Text('Adicionar'),
+                                          onTap: () {},
+                                        )))
+                            ],
+                          ),
                         ),
                       );
                     },
