@@ -240,7 +240,6 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
 
   void _save(ClientModelForm clientCreated, BuildContext context) async {
     ClientModelDto clientModelDto = await _send(clientCreated, context);
-    print('Novo cliente :' + clientModelDto.toString());
     if (clientModelDto != null) {
       Navigator.push(
           context,
