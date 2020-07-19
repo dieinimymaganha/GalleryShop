@@ -22,6 +22,7 @@ abstract class _TypeEmployeeStore with Store {
       print('description -> ${description}');
       print('Controler -> ${_controllerDescription.text}');
       print('TypeEmployee -> ${typeEmployeeModel.toString()}');
+      print('NEWTypeEmployee -> ${newTypeEmployee.toString()}');
       print('isValid -> ${isValid}');
       print('descriptionDif -> ${descriptionDif}');
       print('descriptionValid -> ${descriptionValid}');
@@ -53,6 +54,16 @@ abstract class _TypeEmployeeStore with Store {
     }
   }
 
+  @action
+  Future<void> excludeTypeEmployee() async{
+    await send(typeEmployeeModel);
+  }
+
+  Future<bool> send(TypeEmployeeModel typeEmployeeExclude)async{
+    return await _webClient.exclude(typeEmployeeExclude);
+  }
+
+
   @computed
   bool get isValid => typeEmployeeModel != null;
 
@@ -68,4 +79,7 @@ abstract class _TypeEmployeeStore with Store {
 
   @computed
   bool get validSave => descriptionValid && (isValid || isValidNewTypeEmployee);
+
+  @computed
+  Function get excludePressed => (isValid) ? excludeTypeEmployee : null;
 }

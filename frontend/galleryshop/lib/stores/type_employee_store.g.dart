@@ -15,6 +15,27 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   bool get isValid => (_$isValidComputed ??= Computed<bool>(() => super.isValid,
           name: '_TypeEmployeeStore.isValid'))
       .value;
+  Computed<bool> _$isValidNewTypeEmployeeComputed;
+
+  @override
+  bool get isValidNewTypeEmployee => (_$isValidNewTypeEmployeeComputed ??=
+          Computed<bool>(() => super.isValidNewTypeEmployee,
+              name: '_TypeEmployeeStore.isValidNewTypeEmployee'))
+      .value;
+  Computed<bool> _$descriptionDifComputed;
+
+  @override
+  bool get descriptionDif =>
+      (_$descriptionDifComputed ??= Computed<bool>(() => super.descriptionDif,
+              name: '_TypeEmployeeStore.descriptionDif'))
+          .value;
+  Computed<bool> _$descriptionValidComputed;
+
+  @override
+  bool get descriptionValid => (_$descriptionValidComputed ??= Computed<bool>(
+          () => super.descriptionValid,
+          name: '_TypeEmployeeStore.descriptionValid'))
+      .value;
   Computed<bool> _$validSaveComputed;
 
   @override
@@ -22,6 +43,13 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
       (_$validSaveComputed ??= Computed<bool>(() => super.validSave,
               name: '_TypeEmployeeStore.validSave'))
           .value;
+  Computed<Function> _$excludePressedComputed;
+
+  @override
+  Function get excludePressed => (_$excludePressedComputed ??=
+          Computed<Function>(() => super.excludePressed,
+              name: '_TypeEmployeeStore.excludePressed'))
+      .value;
 
   final _$_controllerDescriptionAtom =
       Atom(name: '_TypeEmployeeStore._controllerDescription');
@@ -55,6 +83,15 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
+  final _$excludeTypeEmployeeAsyncAction =
+      AsyncAction('_TypeEmployeeStore.excludeTypeEmployee');
+
+  @override
+  Future<void> excludeTypeEmployee() {
+    return _$excludeTypeEmployeeAsyncAction
+        .run(() => super.excludeTypeEmployee());
+  }
+
   final _$_TypeEmployeeStoreActionController =
       ActionController(name: '_TypeEmployeeStore');
 
@@ -74,7 +111,11 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     return '''
 description: ${description},
 isValid: ${isValid},
-validSave: ${validSave}
+isValidNewTypeEmployee: ${isValidNewTypeEmployee},
+descriptionDif: ${descriptionDif},
+descriptionValid: ${descriptionValid},
+validSave: ${validSave},
+excludePressed: ${excludePressed}
     ''';
   }
 }
