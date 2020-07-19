@@ -75,6 +75,26 @@ class TypeEmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<bool> exclude(TypeEmployeeModel typeEmployeeModel) async {
+    var prefs = await SharedPreferences.getInstance();
+    String token = (prefs.getString(("tokenjwt") ?? ''));
+    String id = typeEmployeeModel.id.toString();
+    String url_exclude = urlTypeEmployee + '/' + id;
+
+    final Response response = await webClient.delete(
+      url_exclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];
