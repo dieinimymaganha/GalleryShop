@@ -18,6 +18,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
 
   final TextEditingController _controller;
 
+
   _EditTypeEmployeeDialogState({TypeEmployeeModel typeEmployeeModel})
       : typeEmployeeStore =
             TypeEmployeeStore(typeEmployeeModel: typeEmployeeModel),
@@ -47,7 +48,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
                 return FlatButton(
                   child: Text('Excluir'),
                   textColor: Colors.red,
-                  onPressed: typeEmployeeStore.isValid ? (){} : null,
+                  onPressed: typeEmployeeStore.excludePressed,
                 );
               },),
               Observer(builder: (_){
