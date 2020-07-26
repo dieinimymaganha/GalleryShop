@@ -30,7 +30,7 @@ public class TypeEmployeeController {
     @Autowired
     private TypeEmployeeRepository typeEmployeeRepository;
 
-    @GetMapping(produces = "application/json; charset=UTF-8")
+    @GetMapping
     public List<TypeEmployeeDto> getListAll() {
         List<TypeEmployee> typeEmployees = typeEmployeeRepository.findAll();
         return TypeEmployeeDto.converter(typeEmployees);
