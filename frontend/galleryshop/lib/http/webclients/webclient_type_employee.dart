@@ -75,7 +75,7 @@ class TypeEmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<bool> exclude(TypeEmployeeModel typeEmployeeModel) async {
+  Future<int> exclude(TypeEmployeeModel typeEmployeeModel) async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString(("tokenjwt") ?? ''));
     String id = typeEmployeeModel.id.toString();
@@ -89,10 +89,12 @@ class TypeEmployeeWebClient {
       },
     );
 
-    if (response.statusCode == 200) {
-      return true;
-    }
-    throw HttpException(_getMessage(response.statusCode));
+    return response.statusCode;
+
+//    if (response.statusCode == 200) {
+//      return true;
+//    }
+//    throw HttpException(_getMessage(response.statusCode));
   }
 
   String _getMessage(int statuscode) {

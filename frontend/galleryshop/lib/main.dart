@@ -4,6 +4,9 @@ import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'models/type_employee_model.dart';
+import 'stores/type_employee_store.dart';
+
 void main() {
   runApp(GalleryShop());
 }
@@ -16,6 +19,9 @@ class GalleryShop extends StatelessWidget {
         Provider<DrawerBloc>(
           create: (_) => DrawerBloc(),
           dispose: (context, value) => value.dispose(),
+        ),
+        Provider<TypeEmployeeStore>(
+          create: (context) => TypeEmployeeStore(),
         )
       ],
       child: MaterialApp(
