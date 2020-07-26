@@ -170,6 +170,14 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     return _$saveTypeEmployeeAsyncAction.run(() => super.saveTypeEmployee());
   }
 
+  final _$updateTypeEmploeeAsyncAction =
+      AsyncAction('_TypeEmployeeStore.updateTypeEmploee');
+
+  @override
+  Future<TypeEmployeeModel> updateTypeEmploee() {
+    return _$updateTypeEmploeeAsyncAction.run(() => super.updateTypeEmploee());
+  }
+
   final _$_TypeEmployeeStoreActionController =
       ActionController(name: '_TypeEmployeeStore');
 
@@ -185,22 +193,22 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   }
 
   @override
-  void updateTypeEmployee(String description) {
+  void updateDescriptionTypeEmployee(String description) {
     final _$actionInfo = _$_TypeEmployeeStoreActionController.startAction(
-        name: '_TypeEmployeeStore.updateTypeEmployee');
+        name: '_TypeEmployeeStore.updateDescriptionTypeEmployee');
     try {
-      return super.updateTypeEmployee(description);
+      return super.updateDescriptionTypeEmployee(description);
     } finally {
       _$_TypeEmployeeStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void createNewTypeEmployee(String description) {
+  void updateDescriptionNewTypeEmployee(String description) {
     final _$actionInfo = _$_TypeEmployeeStoreActionController.startAction(
-        name: '_TypeEmployeeStore.createNewTypeEmployee');
+        name: '_TypeEmployeeStore.updateDescriptionNewTypeEmployee');
     try {
-      return super.createNewTypeEmployee(description);
+      return super.updateDescriptionNewTypeEmployee(description);
     } finally {
       _$_TypeEmployeeStoreActionController.endAction(_$actionInfo);
     }

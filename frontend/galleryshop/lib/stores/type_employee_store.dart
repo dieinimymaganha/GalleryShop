@@ -47,24 +47,29 @@ abstract class _TypeEmployeeStore with Store {
       _controllerDescription = controller;
 
   @action
-  void updateTypeEmployee(String description) {
+  void updateDescriptionTypeEmployee(String description) {
     typeEmployeeModel.description = description;
   }
 
   @action
-  void createNewTypeEmployee(String description) {
+  void updateDescriptionNewTypeEmployee(String description) {
     newTypeEmployee.description = description;
   }
 
   @action
   Future<TypeEmployeeModel> saveOrUpdateTypeEmployee() async {
-    if (newTypeEmployee.description == null ||
-        typeEmployeeModel.description.isNotEmpty) {
-      createNewTypeEmployee(description);
+    if (newTypeEmployee.description == null && typeEmployeeModel == null) {
+      updateDescriptionNewTypeEmployee(description);
       TypeEmployeeModel typeEmployeeModelCreated = await saveTypeEmployee();
+      print('>>>AQUI<<<');
       return typeEmployeeModelCreated;
-    } else {
+    } else if (typeEmployeeModel.description != description &&
+        typeEmployeeModel.description.isNotEmpty) {
+      updateDescriptionTypeEmployee(description);
+      TypeEmployeeModel typeEmployeeModelUpdate = await updateTypeEmploee();
+      return typeEmployeeModelUpdate;
       print('>>>FOIAQUI<<<');
+    } else {
       return null;
     }
   }
@@ -104,6 +109,13 @@ abstract class _TypeEmployeeStore with Store {
     TypeEmployeeModel typeEmployeeModelCreated =
         await _webClient.save(newTypeEmployee);
     return typeEmployeeModelCreated;
+  }
+
+  @action
+  Future<TypeEmployeeModel> updateTypeEmploee() async {
+    TypeEmployeeModel typeEmployeeModelUpdate =
+        await _webClient.update(typeEmployeeModel);
+    return typeEmployeeModelUpdate;
   }
 
   @computed
