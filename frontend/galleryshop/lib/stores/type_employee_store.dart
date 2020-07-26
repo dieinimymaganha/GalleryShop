@@ -12,28 +12,32 @@ abstract class _TypeEmployeeStore with Store {
 
   final TypeEmployeeModel typeEmployeeModel;
 
-  TypeEmployeeModel newTypeEmployee = TypeEmployeeModel();
+  TypeEmployeeForm newTypeEmployee = TypeEmployeeForm();
 
   @observable
   TextEditingController _controllerDescription;
 
-  _TypeEmployeeStore({this.typeEmployeeModel}) {
-    autorun((_) {
-      print('description -> ${description}');
-      print('Controler -> ${_controllerDescription.text}');
-      print('TypeEmployee -> ${typeEmployeeModel.toString()}');
-      print('NEWTypeEmployee -> ${newTypeEmployee.toString()}');
-      print('isValid -> ${isValid}');
-      print('descriptionDif -> ${descriptionDif}');
-      print('descriptionValid -> ${descriptionValid}');
-      print('validSave -> ${validSave}');
-    });
-  }
+//  _TypeEmployeeStore({this.typeEmployeeModel}) {
+//    autorun((_) {
+//      print('TypeEmployee -> ${typeEmployeeModel.toString()}');
+//      print('newTypeEmployee -> ${newTypeEmployee.toString()}');
+//      print('description -> ${description}');
+//    });
+//  }
 
-//  _TypeEmployeeStore({this.typeEmployeeModel});
+  _TypeEmployeeStore({this.typeEmployeeModel});
 
   @observable
   String description;
+
+  @observable
+  bool excluding = false;
+
+  @observable
+  bool notAuthorized = false;
+
+  @observable
+  bool excluded = false;
 
   @action
   void setDescription(String value) => description = value;
@@ -42,27 +46,65 @@ abstract class _TypeEmployeeStore with Store {
           TextEditingController controller) =>
       _controllerDescription = controller;
 
-  void setNewTypeEmployee(String description) {
+  @action
+  void updateTypeEmployee(String description) {
+    typeEmployeeModel.description = description;
+  }
+
+  @action
+  void createNewTypeEmployee(String description) {
     newTypeEmployee.description = description;
   }
 
-  void verifyTypeEmployee(
-    TypeEmployeeModel typeEmployeeModel,
-  ) {
-    if (typeEmployeeModel.description != description) {
-      setNewTypeEmployee(description);
+  @action
+  Future<TypeEmployeeModel> saveOrUpdateTypeEmployee() async {
+    if (newTypeEmployee.description == null ||
+        typeEmployeeModel.description.isNotEmpty) {
+      createNewTypeEmployee(description);
+      TypeEmployeeModel typeEmployeeModelCreated = await saveTypeEmployee();
+      return typeEmployeeModelCreated;
+    } else {
+      print('>>>FOIAQUI<<<');
+      return null;
     }
   }
 
   @action
-  Future<void> excludeTypeEmployee() async{
-    await send(typeEmployeeModel);
+  Future<void> excludeTypeEmployee() async {
+    excluding = true;
+    await sendExcludeTypeEmployee(typeEmployeeModel);
+    excluding = false;
   }
 
-  Future<bool> send(TypeEmployeeModel typeEmployeeExclude)async{
-    return await _webClient.exclude(typeEmployeeExclude);
+  @action
+  Future<int> sendExcludeTypeEmployee(
+      TypeEmployeeModel typeEmployeeExclude) async {
+    int status = await _webClient.exclude(typeEmployeeExclude);
+
+    if (status == 500) {
+      notAuthorized = true;
+      await Future.delayed(Duration(seconds: 5));
+      notAuthorized = false;
+    }
+    return status;
   }
 
+//  @action
+//  Future<void> saveOrUpdateTypeEmployee() async {
+//    if (typeEmployeeModel.description != null) {
+//      verifyTypeEmployee(typeEmployeeModel);
+//      print('Salvando');
+//    } else {
+//      print('Toaqui');
+//    }
+//  }
+
+  @action
+  Future<TypeEmployeeModel> saveTypeEmployee() async {
+    TypeEmployeeModel typeEmployeeModelCreated =
+        await _webClient.save(newTypeEmployee);
+    return typeEmployeeModelCreated;
+  }
 
   @computed
   bool get isValid => typeEmployeeModel != null;
@@ -82,4 +124,10 @@ abstract class _TypeEmployeeStore with Store {
 
   @computed
   Function get excludePressed => (isValid) ? excludeTypeEmployee : null;
+
+  @computed
+  Function get savePressed =>
+      descriptionValid && (isValid || isValidNewTypeEmployee)
+          ? saveOrUpdateTypeEmployee
+          : null;
 }

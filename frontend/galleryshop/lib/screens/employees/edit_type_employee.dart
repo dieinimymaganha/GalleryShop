@@ -55,7 +55,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
                 return FlatButton(
                   child: Text('Salvar'),
                   textColor: Colors.blue,
-                  onPressed: typeEmployeeStore.validSave ? (){} : null,
+                  onPressed: typeEmployeeStore.savePressed,
                 );
               },)
             ],

@@ -50,6 +50,13 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
           Computed<Function>(() => super.excludePressed,
               name: '_TypeEmployeeStore.excludePressed'))
       .value;
+  Computed<Function> _$savePressedComputed;
+
+  @override
+  Function get savePressed =>
+      (_$savePressedComputed ??= Computed<Function>(() => super.savePressed,
+              name: '_TypeEmployeeStore.savePressed'))
+          .value;
 
   final _$_controllerDescriptionAtom =
       Atom(name: '_TypeEmployeeStore._controllerDescription');
@@ -83,6 +90,60 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
+  final _$excludingAtom = Atom(name: '_TypeEmployeeStore.excluding');
+
+  @override
+  bool get excluding {
+    _$excludingAtom.reportRead();
+    return super.excluding;
+  }
+
+  @override
+  set excluding(bool value) {
+    _$excludingAtom.reportWrite(value, super.excluding, () {
+      super.excluding = value;
+    });
+  }
+
+  final _$notAuthorizedAtom = Atom(name: '_TypeEmployeeStore.notAuthorized');
+
+  @override
+  bool get notAuthorized {
+    _$notAuthorizedAtom.reportRead();
+    return super.notAuthorized;
+  }
+
+  @override
+  set notAuthorized(bool value) {
+    _$notAuthorizedAtom.reportWrite(value, super.notAuthorized, () {
+      super.notAuthorized = value;
+    });
+  }
+
+  final _$excludedAtom = Atom(name: '_TypeEmployeeStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
+  final _$saveOrUpdateTypeEmployeeAsyncAction =
+      AsyncAction('_TypeEmployeeStore.saveOrUpdateTypeEmployee');
+
+  @override
+  Future<TypeEmployeeModel> saveOrUpdateTypeEmployee() {
+    return _$saveOrUpdateTypeEmployeeAsyncAction
+        .run(() => super.saveOrUpdateTypeEmployee());
+  }
+
   final _$excludeTypeEmployeeAsyncAction =
       AsyncAction('_TypeEmployeeStore.excludeTypeEmployee');
 
@@ -90,6 +151,23 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   Future<void> excludeTypeEmployee() {
     return _$excludeTypeEmployeeAsyncAction
         .run(() => super.excludeTypeEmployee());
+  }
+
+  final _$sendExcludeTypeEmployeeAsyncAction =
+      AsyncAction('_TypeEmployeeStore.sendExcludeTypeEmployee');
+
+  @override
+  Future<int> sendExcludeTypeEmployee(TypeEmployeeModel typeEmployeeExclude) {
+    return _$sendExcludeTypeEmployeeAsyncAction
+        .run(() => super.sendExcludeTypeEmployee(typeEmployeeExclude));
+  }
+
+  final _$saveTypeEmployeeAsyncAction =
+      AsyncAction('_TypeEmployeeStore.saveTypeEmployee');
+
+  @override
+  Future<TypeEmployeeModel> saveTypeEmployee() {
+    return _$saveTypeEmployeeAsyncAction.run(() => super.saveTypeEmployee());
   }
 
   final _$_TypeEmployeeStoreActionController =
@@ -107,15 +185,41 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   }
 
   @override
+  void updateTypeEmployee(String description) {
+    final _$actionInfo = _$_TypeEmployeeStoreActionController.startAction(
+        name: '_TypeEmployeeStore.updateTypeEmployee');
+    try {
+      return super.updateTypeEmployee(description);
+    } finally {
+      _$_TypeEmployeeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void createNewTypeEmployee(String description) {
+    final _$actionInfo = _$_TypeEmployeeStoreActionController.startAction(
+        name: '_TypeEmployeeStore.createNewTypeEmployee');
+    try {
+      return super.createNewTypeEmployee(description);
+    } finally {
+      _$_TypeEmployeeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 description: ${description},
+excluding: ${excluding},
+notAuthorized: ${notAuthorized},
+excluded: ${excluded},
 isValid: ${isValid},
 isValidNewTypeEmployee: ${isValidNewTypeEmployee},
 descriptionDif: ${descriptionDif},
 descriptionValid: ${descriptionValid},
 validSave: ${validSave},
-excludePressed: ${excludePressed}
+excludePressed: ${excludePressed},
+savePressed: ${savePressed}
     ''';
   }
 }
