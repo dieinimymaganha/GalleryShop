@@ -10,7 +10,6 @@ import 'package:galleryshop/screens/employees/widget/button_create_new_type_empl
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/progress.dart';
 
-const Utf8Codec utf8 = Utf8Codec();
 
 class TypeEmployeeListScreen extends StatelessWidget {
   final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
