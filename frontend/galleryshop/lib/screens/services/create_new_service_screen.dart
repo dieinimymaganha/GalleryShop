@@ -1,15 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/http/webclients/webclient_services.dart';
-import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
-import 'package:galleryshop/stores/service_store.dart';
+import 'package:galleryshop/stores/provision_store.dart';
 import 'package:galleryshop/widgets/custom_button.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
-import 'package:mobx/mobx.dart';
 
 const _labelFieldDescription = 'Descrição';
 const _tipFieldDescription = 'Digite o nome do serviço';
@@ -25,8 +20,7 @@ class CreateNewServiceScreen extends StatefulWidget {
 }
 
 class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
-
-  ServiceStore serviceStore = ServiceStore();
+  ProvisionStore serviceStore = ProvisionStore();
 
   @override
   void initState() {
@@ -38,10 +32,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
 
   final TextEditingController _controllerFieldDescription =
       TextEditingController();
-  final TextEditingController _controllerFieldValue = TextEditingController();
-  final TextEditingController _controllerFieldFixedPrice =
-      TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,15 +63,21 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                     label: _labelFieldDescription,
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: (value) {
+                      serviceStore.setDescription(value);
+                    },
                   ),
                   SizedBox(height: _space),
                   CustomForm(
                     mandatory: true,
-                    controller: _controllerFieldValue,
+                    controller: serviceStore.controllerFieldValue,
                     tip: _tipFieldValue,
                     label: _labelFieldValue,
                     textInputType: TextInputType.number,
                     obscure: false,
+                    onChanged: (value){
+                      serviceStore.setValuePrice(value);
+                    },
                   ),
                   SizedBox(height: _space),
                   Container(
