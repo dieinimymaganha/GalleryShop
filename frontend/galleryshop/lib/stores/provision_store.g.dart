@@ -9,40 +9,6 @@ part of 'provision_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProvisionStore on _ProvisionStore, Store {
-  final _$controllerFieldValueAtom =
-      Atom(name: '_ProvisionStore.controllerFieldValue');
-
-  @override
-  MoneyMaskedTextController get controllerFieldValue {
-    _$controllerFieldValueAtom.reportRead();
-    return super.controllerFieldValue;
-  }
-
-  @override
-  set controllerFieldValue(MoneyMaskedTextController value) {
-    _$controllerFieldValueAtom.reportWrite(value, super.controllerFieldValue,
-        () {
-      super.controllerFieldValue = value;
-    });
-  }
-
-  final _$controllerDescriptionAtom =
-      Atom(name: '_ProvisionStore.controllerDescription');
-
-  @override
-  TextEditingController get controllerDescription {
-    _$controllerDescriptionAtom.reportRead();
-    return super.controllerDescription;
-  }
-
-  @override
-  set controllerDescription(TextEditingController value) {
-    _$controllerDescriptionAtom.reportWrite(value, super.controllerDescription,
-        () {
-      super.controllerDescription = value;
-    });
-  }
-
   final _$valuePriceAtom = Atom(name: '_ProvisionStore.valuePrice');
 
   @override
@@ -103,6 +69,21 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$typeEmployeeAtom = Atom(name: '_ProvisionStore.typeEmployee');
+
+  @override
+  TypeEmployeeModel get typeEmployee {
+    _$typeEmployeeAtom.reportRead();
+    return super.typeEmployee;
+  }
+
+  @override
+  set typeEmployee(TypeEmployeeModel value) {
+    _$typeEmployeeAtom.reportWrite(value, super.typeEmployee, () {
+      super.typeEmployee = value;
+    });
+  }
+
   final _$priceFixedAtom = Atom(name: '_ProvisionStore.priceFixed');
 
   @override
@@ -118,6 +99,30 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$setValuePriceAsyncAction =
+      AsyncAction('_ProvisionStore.setValuePrice');
+
+  @override
+  Future<void> setValuePrice(String value) {
+    return _$setValuePriceAsyncAction.run(() => super.setValuePrice(value));
+  }
+
+  final _$createServiceModelAsyncAction =
+      AsyncAction('_ProvisionStore.createServiceModel');
+
+  @override
+  Future<void> createServiceModel() {
+    return _$createServiceModelAsyncAction
+        .run(() => super.createServiceModel());
+  }
+
+  final _$saveAsyncAction = AsyncAction('_ProvisionStore.save');
+
+  @override
+  Future<void> save(ServiceForm serviceCreated) {
+    return _$saveAsyncAction.run(() => super.save(serviceCreated));
+  }
+
   final _$_ProvisionStoreActionController =
       ActionController(name: '_ProvisionStore');
 
@@ -127,17 +132,6 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
         name: '_ProvisionStore.setDescription');
     try {
       return super.setDescription(value);
-    } finally {
-      _$_ProvisionStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setValuePrice(String value) {
-    final _$actionInfo = _$_ProvisionStoreActionController.startAction(
-        name: '_ProvisionStore.setValuePrice');
-    try {
-      return super.setValuePrice(value);
     } finally {
       _$_ProvisionStoreActionController.endAction(_$actionInfo);
     }
@@ -168,12 +162,11 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
   @override
   String toString() {
     return '''
-controllerFieldValue: ${controllerFieldValue},
-controllerDescription: ${controllerDescription},
 valuePrice: ${valuePrice},
 description: ${description},
 dataServices: ${dataServices},
 valueSelect: ${valueSelect},
+typeEmployee: ${typeEmployee},
 priceFixed: ${priceFixed}
     ''';
   }
