@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
+import 'package:galleryshop/stores/service_store.dart';
 import 'package:galleryshop/widgets/custom_button.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:mobx/mobx.dart';
 
 const _labelFieldDescription = 'Descrição';
 const _tipFieldDescription = 'Digite o nome do serviço';
@@ -22,21 +25,13 @@ class CreateNewServiceScreen extends StatefulWidget {
 }
 
 class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
-  final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
 
-  List<dynamic> _dataProvince = List();
-
-  void getProvince() async {
-    final respose = await _webClient.findAll();
-    setState(() {
-      _dataProvince = respose;
-    });
-  }
+  ServiceStore serviceStore = ServiceStore();
 
   @override
   void initState() {
     super.initState();
-    getProvince();
+    serviceStore.getServices();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -46,9 +41,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
   final TextEditingController _controllerFieldValue = TextEditingController();
   final TextEditingController _controllerFieldFixedPrice =
       TextEditingController();
-
-  String _valProvince;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,23 +82,49 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                     textInputType: TextInputType.number,
                     obscure: false,
                   ),
-                  SizedBox(height: 50),
-                  DropdownButton(
-                    hint: Text('Selecione o tipo de funcionário'),
-                    value: _valProvince,
-                    items: _dataProvince.map((item) {
-                      return DropdownMenuItem(
-                        child: Text(item.description.toString()),
-                        value: item.toString(),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _valProvince = value;
-                      });
-                    },
+                  SizedBox(height: _space),
+                  Container(
+                    padding: EdgeInsets.only(right: 10, left: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Observer(builder: (_) {
+                          return DropdownButton(
+                            hint: Text('Tipo de funcionário'),
+                            value: serviceStore.valueSelect,
+                            items: serviceStore.dataServices.map((item) {
+                              return DropdownMenuItem(
+                                child: Text(item.description.toString()),
+                                value: item.toString(),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              serviceStore.selectTypeService(value);
+                            },
+                          );
+                        }),
+                        Row(
+                          children: <Widget>[
+                            Text(
+                              'Valor fixo',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            Observer(
+                              builder: (_) {
+                                return Checkbox(
+                                  value: serviceStore.priceFixed,
+                                  onChanged: (_) {
+                                    serviceStore.alterPriceFixed();
+                                  },
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: _space),
                   CustomButton(
                     icon: Icons.send,
                     name_button: 'Cadastrar',
