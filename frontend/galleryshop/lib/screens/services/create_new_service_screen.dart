@@ -5,6 +5,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/stores/provision_store.dart';
 import 'package:galleryshop/widgets/custom_button.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:galleryshop/widgets/custom_form_coin.dart';
 
 const _labelFieldDescription = 'Descrição';
 const _tipFieldDescription = 'Digite o nome do serviço';
@@ -68,14 +69,14 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                     },
                   ),
                   SizedBox(height: _space),
-                  CustomForm(
+                  CustomFormCoin(
                     mandatory: true,
                     controller: serviceStore.controllerFieldValue,
                     tip: _tipFieldValue,
                     label: _labelFieldValue,
-                    textInputType: TextInputType.number,
-                    obscure: false,
-                    onChanged: (value){
+                    textInputType:
+                        TextInputType.numberWithOptions(decimal: true),
+                    onChanged: (value) {
                       serviceStore.setValuePrice(value);
                     },
                   ),
@@ -92,7 +93,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                             items: serviceStore.dataServices.map((item) {
                               return DropdownMenuItem(
                                 child: Text(item.description.toString()),
-                                value: item.toString(),
+                                value: item.description.toString(),
                               );
                             }).toList(),
                             onChanged: (value) {
@@ -125,7 +126,10 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                   CustomButton(
                     icon: Icons.send,
                     name_button: 'Cadastrar',
-                    onConfirm: () {},
+                    onConfirm: () {
+                      serviceStore.createServiceModel();
+                      Navigator.of(context).pop();
+                    },
                   )
                 ],
               ),
