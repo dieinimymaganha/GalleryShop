@@ -143,6 +143,21 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$duplicateAtom = Atom(name: '_ProvisionStore.duplicate');
+
+  @override
+  bool get duplicate {
+    _$duplicateAtom.reportRead();
+    return super.duplicate;
+  }
+
+  @override
+  set duplicate(bool value) {
+    _$duplicateAtom.reportWrite(value, super.duplicate, () {
+      super.duplicate = value;
+    });
+  }
+
   final _$createdAtom = Atom(name: '_ProvisionStore.created');
 
   @override
@@ -261,6 +276,7 @@ valueSelect: ${valueSelect},
 typeEmployee: ${typeEmployee},
 sending: ${sending},
 errorSending: ${errorSending},
+duplicate: ${duplicate},
 created: ${created},
 priceFinal: ${priceFinal},
 priceFixed: ${priceFixed},

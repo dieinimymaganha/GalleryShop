@@ -13,7 +13,7 @@ class ProvisionStore = _ProvisionStore with _$ProvisionStore;
 abstract class _ProvisionStore with Store {
   _ProvisionStore() {
     autorun((_) {
-      print('sending >>>>>>> ${sending}');
+      print('created >>>>>>> ${created}');
     });
   }
 
@@ -44,6 +44,9 @@ abstract class _ProvisionStore with Store {
 
   @observable
   bool errorSending = false;
+
+  @observable
+  bool duplicate = false;
 
   @observable
   bool created = false;
@@ -126,14 +129,18 @@ abstract class _ProvisionStore with Store {
   }
 
   Future<ServiceModel> send(ServiceForm serviceCreated) async {
-    ServiceModel serviceModelReturn =
-        await _webClientService.save(serviceCreated);
+    int response  = await _webClientService.save(serviceCreated);
 
-    if (serviceModelReturn != null) {
+    if (response == 201) {
       created = true;
-    } else {
+    } else if(response == 500){
+      duplicate = true;
+    }else{
       errorSending = true;
     }
+    await Future.delayed(Duration(seconds: 2));
     sending = false;
+    errorSending = false;
+    duplicate = false;
   }
 }
