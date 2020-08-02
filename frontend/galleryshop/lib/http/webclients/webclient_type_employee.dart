@@ -79,10 +79,10 @@ class TypeEmployeeWebClient {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString(("tokenjwt") ?? ''));
     String id = typeEmployeeModel.id.toString();
-    String url_exclude = urlTypeEmployee + '/' + id;
+    String urlExclude = urlTypeEmployee + '/' + id;
 
     final Response response = await webClient.delete(
-      url_exclude,
+      urlExclude,
       headers: {
         'Content-type': 'application/json',
         'Authorization': "Bearer $token",
