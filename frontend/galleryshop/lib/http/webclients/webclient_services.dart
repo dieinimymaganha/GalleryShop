@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/models/client.dart';
 import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/models/service.dart';
@@ -47,6 +48,22 @@ class ServicesWebClient {
 
   }
 
+
+  Future<int> exclude(ServiceModel serviceModel) async{
+    String token = await get_token();
+    String id = serviceModel.id.toString();
+    String urlExclude = urlService + '/' + id;
+
+    final Response response = await webClient.delete(
+      urlExclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+    return response.statusCode;
+  }
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];
@@ -60,12 +77,8 @@ class ServicesWebClient {
     409: 'transaction always exists'
   };
 
-  Future<String> get_token() async {
-    var prefs = await SharedPreferences.getInstance();
-    String token = (prefs.getString("tokenjwt") ?? "");
-    return token;
-  }
 }
+
 
 class HttpException implements Exception {
   final String message;
