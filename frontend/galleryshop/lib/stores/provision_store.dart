@@ -11,9 +11,12 @@ part 'provision_store.g.dart';
 class ProvisionStore = _ProvisionStore with _$ProvisionStore;
 
 abstract class _ProvisionStore with Store {
-  _ProvisionStore() {
+  final ServiceModel serviceModel;
+
+  _ProvisionStore({this.serviceModel}) {
     autorun((_) {
-      print('created >>>>>>> ${created}');
+      print('serviceModel >>>>>>> ${serviceModel}');
+      print('excluded >>>>>>> ${excluded}');
     });
   }
 
@@ -56,6 +59,9 @@ abstract class _ProvisionStore with Store {
 
   @observable
   bool priceFixed = true;
+
+  @observable
+  bool excluded = false;
 
   @action
   void setDescription(String value) => description = value;
@@ -129,18 +135,29 @@ abstract class _ProvisionStore with Store {
   }
 
   Future<ServiceModel> send(ServiceForm serviceCreated) async {
-    int response  = await _webClientService.save(serviceCreated);
+    int response = await _webClientService.save(serviceCreated);
 
     if (response == 201) {
       created = true;
-    } else if(response == 500){
+    } else if (response == 500) {
       duplicate = true;
-    }else{
+    } else {
       errorSending = true;
     }
     await Future.delayed(Duration(seconds: 2));
     sending = false;
     errorSending = false;
     duplicate = false;
+  }
+
+  @computed
+  Function get excludePressed => excludeService;
+
+  @action
+  Future<void> excludeService() async {
+    await _webClientService.exclude(serviceModel);
+    print(serviceModel);
+    excluded = true;
+    await Future.delayed(Duration(seconds: 2));
   }
 }

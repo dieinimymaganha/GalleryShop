@@ -37,6 +37,13 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
       (_$buttomPressedComputed ??= Computed<Function>(() => super.buttomPressed,
               name: '_ProvisionStore.buttomPressed'))
           .value;
+  Computed<Function> _$excludePressedComputed;
+
+  @override
+  Function get excludePressed => (_$excludePressedComputed ??=
+          Computed<Function>(() => super.excludePressed,
+              name: '_ProvisionStore.excludePressed'))
+      .value;
 
   final _$valuePriceAtom = Atom(name: '_ProvisionStore.valuePrice');
 
@@ -203,6 +210,21 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$excludedAtom = Atom(name: '_ProvisionStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
   final _$createServiceModelAsyncAction =
       AsyncAction('_ProvisionStore.createServiceModel');
 
@@ -217,6 +239,14 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
   @override
   Future<void> save(ServiceForm serviceCreated) {
     return _$saveAsyncAction.run(() => super.save(serviceCreated));
+  }
+
+  final _$excludeServiceAsyncAction =
+      AsyncAction('_ProvisionStore.excludeService');
+
+  @override
+  Future<void> excludeService() {
+    return _$excludeServiceAsyncAction.run(() => super.excludeService());
   }
 
   final _$_ProvisionStoreActionController =
@@ -280,10 +310,12 @@ duplicate: ${duplicate},
 created: ${created},
 priceFinal: ${priceFinal},
 priceFixed: ${priceFixed},
+excluded: ${excluded},
 descriptionIsValid: ${descriptionIsValid},
 valueSelectIsValid: ${valueSelectIsValid},
 prixeFixedIsValid: ${prixeFixedIsValid},
-buttomPressed: ${buttomPressed}
+buttomPressed: ${buttomPressed},
+excludePressed: ${excludePressed}
     ''';
   }
 }
