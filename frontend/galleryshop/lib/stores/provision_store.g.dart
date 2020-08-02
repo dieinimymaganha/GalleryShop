@@ -264,6 +264,17 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
   }
 
   @override
+  void setDataInitial() {
+    final _$actionInfo = _$_ProvisionStoreActionController.startAction(
+        name: '_ProvisionStore.setDataInitial');
+    try {
+      return super.setDataInitial();
+    } finally {
+      _$_ProvisionStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setValuePrice(String value) {
     final _$actionInfo = _$_ProvisionStoreActionController.startAction(
         name: '_ProvisionStore.setValuePrice');

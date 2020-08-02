@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/service.dart';
@@ -16,7 +15,7 @@ abstract class _ProvisionStore with Store {
   _ProvisionStore({this.serviceModel}) {
     autorun((_) {
       print('serviceModel >>>>>>> ${serviceModel}');
-      print('excluded >>>>>>> ${excluded}');
+      print('description >>>>>>> ${description}');
     });
   }
 
@@ -65,6 +64,20 @@ abstract class _ProvisionStore with Store {
 
   @action
   void setDescription(String value) => description = value;
+
+  @action
+  void setDataInitial(){
+    if(serviceModel != null){
+      controllerDescription.text = serviceModel.description.toString();
+      if(serviceModel.value != null){
+        controllerFieldValue.text = serviceModel.value.toString();
+      }else{
+        controllerFieldValue.text = '';
+      }
+      valueSelect = serviceModel.typeEmployee;
+      priceFixed = serviceModel.fixedPrice;
+    }
+  }
 
   @action
   void setValuePrice(String value) {
