@@ -32,7 +32,7 @@ class ServicesWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<ServiceModel> save(ServiceForm service) async {
+  Future<int> save(ServiceForm service) async {
     String token = await get_token();
     final String serviceJson = jsonEncode(service.toJson());
     final Response response = await webClient.post(
@@ -43,10 +43,8 @@ class ServicesWebClient {
       },
       body: serviceJson,
     );
-    if (response.statusCode == 201) {
-      return ServiceModel.fromJson(jsonDecode(response.body));
-    }
-    throw HttpException(_getMessage(response.statusCode));
+    return response.statusCode;
+
   }
 
   String _getMessage(int statuscode) {
