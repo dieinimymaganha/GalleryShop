@@ -129,16 +129,62 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                     ),
                   ),
                   SizedBox(height: _space),
-                  CustomButton(
-                    icon: Icons.send,
-                    name_button: 'Cadastrar',
-                    onConfirm: () {
-                      serviceStore.createServiceModel();
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => BaseScreen(),
-                      ));
+                  Observer(
+                    builder: (_) {
+                      return Container(
+                        height: 60,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.3, 1],
+                            colors: [
+                              Color(0XFF212121),
+                              Color(0XFF616161),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                        child: SizedBox.expand(
+                          child: FlatButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Cadastrar',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Container(
+                                  child: SizedBox(
+                                    child: Icon(Icons.send),
+                                    height: 28,
+                                    width: 28,
+                                  ),
+                                )
+                              ],
+                            ),
+                            onPressed: serviceStore.buttomPressed,
+                          ),
+                        ),
+                      );
                     },
                   )
+//                  CustomButton(
+//                    icon: Icons.send,
+//                    name_button: 'Cadastrar',
+////                    onConfirm: () {
+////                      serviceStore.buttomPressed();
+
+////                      ));
+////                    },
+//                  )
                 ],
               ),
             )

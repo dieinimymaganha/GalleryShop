@@ -13,26 +13,24 @@ class ProvisionStore = _ProvisionStore with _$ProvisionStore;
 abstract class _ProvisionStore with Store {
   _ProvisionStore() {
     autorun((_) {
-      print('priceFixed >>>>>>> ${priceFixed}');
-      print('priceFinal >>>>>>> ${priceFinal}');
+      print('descriptionIsValid >>>>>>> ${descriptionIsValid}');
+      print('valueSelectIsValid >>>>>>> ${valueSelectIsValid}');
+      print('prixeFixedIsValid >>>>>>> ${prixeFixedIsValid}');
     });
   }
 
   final TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
   final ServicesWebClient _webClientService = ServicesWebClient();
 
-//  MoneyMaskedTextController controllerFieldValue =
-//      MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
-
   TextEditingController controllerFieldValue = TextEditingController();
 
   TextEditingController controllerDescription = TextEditingController();
 
   @observable
-  String valuePrice;
+  String valuePrice = '';
 
   @observable
-  String description;
+  String description = '';
 
   @observable
   List<dynamic> dataServices = List();
@@ -53,16 +51,32 @@ abstract class _ProvisionStore with Store {
   void setDescription(String value) => description = value;
 
   @action
-  void setValuePrice(String value)  {
+  void setValuePrice(String value) {
     if (!priceFixed) {
       priceFinal = null;
-    }else{
+    } else {
       valuePrice = value;
       value = value.replaceAll('.', '');
       value = value.replaceAll(',', '.');
       priceFinal = double.parse(value);
     }
   }
+
+  @computed
+  bool get descriptionIsValid => description != null && description.isNotEmpty;
+
+  @computed
+  bool get valueSelectIsValid => valueSelect != null;
+
+  @computed
+  bool get prixeFixedIsValid =>
+      (priceFixed == false) || (priceFixed == true && valuePrice.length >= 4);
+
+  @computed
+  Function get buttomPressed =>
+      (descriptionIsValid && valueSelectIsValid && prixeFixedIsValid)
+          ? createServiceModel
+          : null;
 
   @action
   void selectTypeService(String value) => valueSelect = value;
@@ -80,7 +94,7 @@ abstract class _ProvisionStore with Store {
 
   @action
   Future<void> createServiceModel() async {
-    if(priceFinal != null){
+    if (priceFinal != null) {
       valuePrice = valuePrice.replaceAll('.', '');
       valuePrice = valuePrice.replaceAll(',', '.');
       valuePrice = valuePrice;

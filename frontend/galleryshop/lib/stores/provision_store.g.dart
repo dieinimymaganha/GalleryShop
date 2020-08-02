@@ -9,6 +9,35 @@ part of 'provision_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProvisionStore on _ProvisionStore, Store {
+  Computed<bool> _$descriptionIsValidComputed;
+
+  @override
+  bool get descriptionIsValid => (_$descriptionIsValidComputed ??=
+          Computed<bool>(() => super.descriptionIsValid,
+              name: '_ProvisionStore.descriptionIsValid'))
+      .value;
+  Computed<bool> _$valueSelectIsValidComputed;
+
+  @override
+  bool get valueSelectIsValid => (_$valueSelectIsValidComputed ??=
+          Computed<bool>(() => super.valueSelectIsValid,
+              name: '_ProvisionStore.valueSelectIsValid'))
+      .value;
+  Computed<bool> _$prixeFixedIsValidComputed;
+
+  @override
+  bool get prixeFixedIsValid => (_$prixeFixedIsValidComputed ??= Computed<bool>(
+          () => super.prixeFixedIsValid,
+          name: '_ProvisionStore.prixeFixedIsValid'))
+      .value;
+  Computed<Function> _$buttomPressedComputed;
+
+  @override
+  Function get buttomPressed =>
+      (_$buttomPressedComputed ??= Computed<Function>(() => super.buttomPressed,
+              name: '_ProvisionStore.buttomPressed'))
+          .value;
+
   final _$valuePriceAtom = Atom(name: '_ProvisionStore.valuePrice');
 
   @override
@@ -186,7 +215,11 @@ dataServices: ${dataServices},
 valueSelect: ${valueSelect},
 typeEmployee: ${typeEmployee},
 priceFinal: ${priceFinal},
-priceFixed: ${priceFixed}
+priceFixed: ${priceFixed},
+descriptionIsValid: ${descriptionIsValid},
+valueSelectIsValid: ${valueSelectIsValid},
+prixeFixedIsValid: ${prixeFixedIsValid},
+buttomPressed: ${buttomPressed}
     ''';
   }
 }
