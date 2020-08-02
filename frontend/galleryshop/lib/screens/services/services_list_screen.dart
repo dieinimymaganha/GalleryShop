@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/models/service.dart';
+import 'package:galleryshop/screens/services/create_new_service_screen.dart';
 import 'package:galleryshop/screens/services/widgets/buttom_create_service.dart';
 import 'package:galleryshop/screens/services/widgets/dialog_services.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
@@ -48,6 +49,12 @@ class ServicesListScreen extends StatelessWidget {
                               builder: (context) => DialogService(
                                     serviceModel: serviceModel,
                                   ));
+                        },
+                        onDoubleTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CreateNewServiceScreen(
+                                    serviceModel: serviceModel,
+                                  )));
                         },
                         child: Card(
                           elevation: 10,
