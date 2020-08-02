@@ -84,6 +84,21 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$priceFinalAtom = Atom(name: '_ProvisionStore.priceFinal');
+
+  @override
+  double get priceFinal {
+    _$priceFinalAtom.reportRead();
+    return super.priceFinal;
+  }
+
+  @override
+  set priceFinal(double value) {
+    _$priceFinalAtom.reportWrite(value, super.priceFinal, () {
+      super.priceFinal = value;
+    });
+  }
+
   final _$priceFixedAtom = Atom(name: '_ProvisionStore.priceFixed');
 
   @override
@@ -97,14 +112,6 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     _$priceFixedAtom.reportWrite(value, super.priceFixed, () {
       super.priceFixed = value;
     });
-  }
-
-  final _$setValuePriceAsyncAction =
-      AsyncAction('_ProvisionStore.setValuePrice');
-
-  @override
-  Future<void> setValuePrice(String value) {
-    return _$setValuePriceAsyncAction.run(() => super.setValuePrice(value));
   }
 
   final _$createServiceModelAsyncAction =
@@ -132,6 +139,17 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
         name: '_ProvisionStore.setDescription');
     try {
       return super.setDescription(value);
+    } finally {
+      _$_ProvisionStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValuePrice(String value) {
+    final _$actionInfo = _$_ProvisionStoreActionController.startAction(
+        name: '_ProvisionStore.setValuePrice');
+    try {
+      return super.setValuePrice(value);
     } finally {
       _$_ProvisionStoreActionController.endAction(_$actionInfo);
     }
@@ -167,6 +185,7 @@ description: ${description},
 dataServices: ${dataServices},
 valueSelect: ${valueSelect},
 typeEmployee: ${typeEmployee},
+priceFinal: ${priceFinal},
 priceFixed: ${priceFixed}
     ''';
   }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/provision_store.dart';
 import 'package:galleryshop/widgets/custom_button.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
@@ -69,15 +70,20 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                     },
                   ),
                   SizedBox(height: _space),
-                  CustomFormCoin(
-                    mandatory: true,
-                    controller: serviceStore.controllerFieldValue,
-                    tip: _tipFieldValue,
-                    label: _labelFieldValue,
-                    textInputType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    onChanged: (value) {
-                      serviceStore.setValuePrice(value);
+                  Observer(
+                    builder: (_) {
+                      return CustomFormCoin(
+                        mandatory: true,
+                        enabled: serviceStore.priceFixed,
+                        controller: serviceStore.controllerFieldValue,
+                        tip: _tipFieldValue,
+                        label: _labelFieldValue,
+                        textInputType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        onChanged: (value) {
+                          serviceStore.setValuePrice(value);
+                        },
+                      );
                     },
                   ),
                   SizedBox(height: _space),
@@ -128,7 +134,9 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                     name_button: 'Cadastrar',
                     onConfirm: () {
                       serviceStore.createServiceModel();
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => BaseScreen(),
+                      ));
                     },
                   )
                 ],

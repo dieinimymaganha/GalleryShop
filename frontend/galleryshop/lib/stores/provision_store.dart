@@ -13,8 +13,8 @@ class ProvisionStore = _ProvisionStore with _$ProvisionStore;
 abstract class _ProvisionStore with Store {
   _ProvisionStore() {
     autorun((_) {
-      print('valuePrice >>>>>>> ${double.parse(valuePrice)}');
-      print('valuePrice >>>>>>> ${double.parse(valuePrice)}');
+      print('priceFixed >>>>>>> ${priceFixed}');
+      print('priceFinal >>>>>>> ${priceFinal}');
     });
   }
 
@@ -43,25 +43,35 @@ abstract class _ProvisionStore with Store {
   @observable
   TypeEmployeeModel typeEmployee;
 
+  @observable
+  double priceFinal;
 
   @observable
-  bool priceFixed = false;
+  bool priceFixed = true;
 
   @action
   void setDescription(String value) => description = value;
 
   @action
-  Future<void> setValuePrice(String value) async {
-    value = value.replaceAll('.', '');
-    value = value.replaceAll(',', '.');
-    valuePrice = value;
+  void setValuePrice(String value)  {
+    if (!priceFixed) {
+      priceFinal = null;
+    }else{
+      valuePrice = value;
+      value = value.replaceAll('.', '');
+      value = value.replaceAll(',', '.');
+      priceFinal = double.parse(value);
+    }
   }
 
   @action
   void selectTypeService(String value) => valueSelect = value;
 
   @action
-  void alterPriceFixed() => priceFixed = !priceFixed;
+  void alterPriceFixed() {
+    priceFixed = !priceFixed;
+    setValuePrice(valuePrice);
+  }
 
   void getServices() async {
     final response = await _webClientTypeEmployee.findAll();
@@ -70,23 +80,27 @@ abstract class _ProvisionStore with Store {
 
   @action
   Future<void> createServiceModel() async {
+    if(priceFinal != null){
+      valuePrice = valuePrice.replaceAll('.', '');
+      valuePrice = valuePrice.replaceAll(',', '.');
+      valuePrice = valuePrice;
+      priceFinal = double.parse(valuePrice);
+    }
     ServiceForm serviceCreated = ServiceForm(
-        value: double.parse(valuePrice),
+        value: priceFinal,
         description: description,
         fixedPrice: priceFixed,
         descriptonTypeEmployee: valueSelect);
-    print(serviceCreated);
+//    print(serviceCreated);
     await save(serviceCreated);
   }
 
   @action
-  Future<void> save(ServiceForm serviceCreated)async{
+  Future<void> save(ServiceForm serviceCreated) async {
     await send(serviceCreated);
-
   }
 
-  Future<ServiceModel> send(ServiceForm serviceCreated) async{
+  Future<ServiceModel> send(ServiceForm serviceCreated) async {
     await _webClientService.save(serviceCreated);
   }
-
 }
