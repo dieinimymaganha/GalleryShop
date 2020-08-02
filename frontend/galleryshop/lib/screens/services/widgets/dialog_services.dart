@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/service.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/provision_store.dart';
