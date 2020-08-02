@@ -13,9 +13,7 @@ class ProvisionStore = _ProvisionStore with _$ProvisionStore;
 abstract class _ProvisionStore with Store {
   _ProvisionStore() {
     autorun((_) {
-      print('descriptionIsValid >>>>>>> ${descriptionIsValid}');
-      print('valueSelectIsValid >>>>>>> ${valueSelectIsValid}');
-      print('prixeFixedIsValid >>>>>>> ${prixeFixedIsValid}');
+      print('sending >>>>>>> ${sending}');
     });
   }
 
@@ -40,6 +38,15 @@ abstract class _ProvisionStore with Store {
 
   @observable
   TypeEmployeeModel typeEmployee;
+
+  @observable
+  bool sending = false;
+
+  @observable
+  bool errorSending = false;
+
+  @observable
+  bool created = false;
 
   @observable
   double priceFinal;
@@ -100,6 +107,10 @@ abstract class _ProvisionStore with Store {
       valuePrice = valuePrice;
       priceFinal = double.parse(valuePrice);
     }
+
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+
     ServiceForm serviceCreated = ServiceForm(
         value: priceFinal,
         description: description,
@@ -115,6 +126,14 @@ abstract class _ProvisionStore with Store {
   }
 
   Future<ServiceModel> send(ServiceForm serviceCreated) async {
-    await _webClientService.save(serviceCreated);
+    ServiceModel serviceModelReturn =
+        await _webClientService.save(serviceCreated);
+
+    if (serviceModelReturn != null) {
+      created = true;
+    } else {
+      errorSending = true;
+    }
+    sending = false;
   }
 }

@@ -113,6 +113,51 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$sendingAtom = Atom(name: '_ProvisionStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$errorSendingAtom = Atom(name: '_ProvisionStore.errorSending');
+
+  @override
+  bool get errorSending {
+    _$errorSendingAtom.reportRead();
+    return super.errorSending;
+  }
+
+  @override
+  set errorSending(bool value) {
+    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
+      super.errorSending = value;
+    });
+  }
+
+  final _$createdAtom = Atom(name: '_ProvisionStore.created');
+
+  @override
+  bool get created {
+    _$createdAtom.reportRead();
+    return super.created;
+  }
+
+  @override
+  set created(bool value) {
+    _$createdAtom.reportWrite(value, super.created, () {
+      super.created = value;
+    });
+  }
+
   final _$priceFinalAtom = Atom(name: '_ProvisionStore.priceFinal');
 
   @override
@@ -214,6 +259,9 @@ description: ${description},
 dataServices: ${dataServices},
 valueSelect: ${valueSelect},
 typeEmployee: ${typeEmployee},
+sending: ${sending},
+errorSending: ${errorSending},
+created: ${created},
 priceFinal: ${priceFinal},
 priceFixed: ${priceFixed},
 descriptionIsValid: ${descriptionIsValid},
