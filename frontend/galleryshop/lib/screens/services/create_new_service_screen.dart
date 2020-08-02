@@ -7,6 +7,7 @@ import 'package:galleryshop/stores/provision_store.dart';
 import 'package:galleryshop/widgets/custom_button.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:galleryshop/widgets/custom_form_coin.dart';
+import 'package:mobx/mobx.dart';
 
 const _labelFieldDescription = 'Descrição';
 const _tipFieldDescription = 'Digite o nome do serviço';
@@ -24,10 +25,53 @@ class CreateNewServiceScreen extends StatefulWidget {
 class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
   ProvisionStore serviceStore = ProvisionStore();
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
     serviceStore.getServices();
+  }
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction((_) => serviceStore.errorSending, (errorSending) async {
+      if (errorSending) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+
+          content: Text('Error ao cadastrar!', style: TextStyle(color: Colors.black),),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+      }
+    });
+
+    disposer = reaction((_) => serviceStore.created, (created) async {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('Serviço cadastrado!', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ));
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => BaseScreen()));
+    });
+
+    disposer = reaction((_) => serviceStore.duplicate,(duplicate) async{
+      if(duplicate){
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('Serviço já cadastrado!', style: TextStyle(color: Colors.black),),
+          backgroundColor: Colors.yellow,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+      }
+    });
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -38,6 +82,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
           'Cadastrar Serviço',
@@ -186,5 +231,10 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }
