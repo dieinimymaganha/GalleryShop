@@ -14,12 +14,12 @@ const _labelFieldPhoneNumber = 'Telefone';
 const _tipFieldPhoneNumber = '(000) 00000-0000';
 const _labelFieldPassword = 'Senha';
 
-class LoginPage extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   LoginStore loginStore = LoginStore();
