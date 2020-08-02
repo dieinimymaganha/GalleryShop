@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/service.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/provision_store.dart';
 import 'package:galleryshop/widgets/custom_button.dart';
@@ -18,11 +19,18 @@ const _tipFieldValue = 'Digite o valor';
 final double _space = 10.0;
 
 class CreateNewServiceScreen extends StatefulWidget {
+  final ServiceModel serviceModel;
+
+  CreateNewServiceScreen({this.serviceModel});
+
   @override
-  _CreateNewServiceScreenState createState() => _CreateNewServiceScreenState();
+  _CreateNewServiceScreenState createState() => _CreateNewServiceScreenState(serviceModel: serviceModel);
 }
 
 class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
+  _CreateNewServiceScreenState({ServiceModel serviceModel})
+      : serviceStore = ProvisionStore(serviceModel: serviceModel);
+
   ProvisionStore serviceStore = ProvisionStore();
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -31,6 +39,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
   void initState() {
     super.initState();
     serviceStore.getServices();
+    serviceStore.setDataInitial();
   }
 
   ReactionDisposer disposer;
@@ -42,8 +51,10 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
     disposer = reaction((_) => serviceStore.errorSending, (errorSending) async {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-
-          content: Text('Error ao cadastrar!', style: TextStyle(color: Colors.black),),
+          content: Text(
+            'Error ao cadastrar!',
+            style: TextStyle(color: Colors.black),
+          ),
           backgroundColor: Colors.red,
           duration: Duration(seconds: 2),
         ));
@@ -53,7 +64,10 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
 
     disposer = reaction((_) => serviceStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text('Serviço cadastrado!', style: TextStyle(color: Colors.black),),
+        content: Text(
+          'Serviço cadastrado!',
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.green,
         duration: Duration(seconds: 2),
       ));
@@ -62,10 +76,13 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
           .pushReplacement(MaterialPageRoute(builder: (_) => BaseScreen()));
     });
 
-    disposer = reaction((_) => serviceStore.duplicate,(duplicate) async{
-      if(duplicate){
+    disposer = reaction((_) => serviceStore.duplicate, (duplicate) async {
+      if (duplicate) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text('Serviço já cadastrado!', style: TextStyle(color: Colors.black),),
+          content: Text(
+            'Serviço já cadastrado!',
+            style: TextStyle(color: Colors.black),
+          ),
           backgroundColor: Colors.yellow,
           duration: Duration(seconds: 2),
         ));
@@ -105,7 +122,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                 children: <Widget>[
                   CustomForm(
                     mandatory: true,
-                    controller: _controllerFieldDescription,
+                    controller: serviceStore.controllerDescription,
                     tip: _tipFieldDescription,
                     label: _labelFieldDescription,
                     textInputType: TextInputType.text,
@@ -232,6 +249,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     disposer();
