@@ -10,7 +10,6 @@ import 'package:galleryshop/screens/employees/widget/button_create_new_type_empl
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/progress.dart';
 
-
 class TypeEmployeeListScreen extends StatelessWidget {
   final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
 
@@ -78,18 +77,7 @@ class TypeEmployeeListScreen extends StatelessWidget {
                                                 color: Colors.teal,
                                                 fontWeight: FontWeight.w700),
                                           ));
-                              }).toList()
-                                        ..add(ListTile(
-                                          leading: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            child: Icon(
-                                              Icons.add,
-                                              color: colorAppbar,
-                                            ),
-                                          ),
-                                          title: Text('Adicionar'),
-                                          onTap: () {},
-                                        )))
+                              }).toList())
                             ],
                           ),
                         ),

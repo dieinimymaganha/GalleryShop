@@ -26,7 +26,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
             text: typeEmployeeModel != null
                 ? typeEmployeeModel.description.toString()
                 : '');
-
+  
   @override
   Widget build(BuildContext context) {
     return Dialog(
