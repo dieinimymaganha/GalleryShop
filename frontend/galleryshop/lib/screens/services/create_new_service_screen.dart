@@ -24,7 +24,8 @@ class CreateNewServiceScreen extends StatefulWidget {
   CreateNewServiceScreen({this.serviceModel});
 
   @override
-  _CreateNewServiceScreenState createState() => _CreateNewServiceScreenState(serviceModel: serviceModel);
+  _CreateNewServiceScreenState createState() =>
+      _CreateNewServiceScreenState(serviceModel: serviceModel);
 }
 
 class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
@@ -40,6 +41,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
     super.initState();
     serviceStore.getServices();
     serviceStore.setDataInitial();
+    serviceStore.setChange();
   }
 
   ReactionDisposer disposer;
@@ -52,7 +54,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
-            'Error ao cadastrar!',
+            serviceStore.change ? 'Error ao atualizar' : 'Error ao cadastrar!',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.red,
@@ -65,7 +67,9 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
     disposer = reaction((_) => serviceStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          'Serviço cadastrado!',
+          serviceStore.created
+              ? 'Alterado com sucesso!'
+              : 'Serviço cadastrado!',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.green,
@@ -98,43 +102,45 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(
-          'Cadastrar Serviço',
-        ),
-        centerTitle: true,
-        backgroundColor: colorAppbar,
-      ),
-      body: Container(
-        padding: EdgeInsets.only(
-          top: 10,
-          left: 8,
-          right: 8,
-        ),
-        color: Colors.white,
-        child: ListView(
-          children: <Widget>[
-            Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  CustomForm(
-                    mandatory: true,
-                    controller: serviceStore.controllerDescription,
-                    tip: _tipFieldDescription,
-                    label: _labelFieldDescription,
-                    textInputType: TextInputType.text,
-                    obscure: false,
-                    onChanged: (value) {
-                      serviceStore.setDescription(value);
-                    },
+    return Observer(
+      builder: (_) {
+        return Scaffold(
+          key: _scaffoldKey,
+          appBar: AppBar(
+            title: serviceStore.change
+                ? Text('Editar serviço')
+                : Text(
+                    'Cadastrar Serviço',
                   ),
-                  SizedBox(height: _space),
-                  Observer(
-                    builder: (_) {
-                      return CustomFormCoin(
+            centerTitle: true,
+            backgroundColor: colorAppbar,
+          ),
+          body: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+              left: 8,
+              right: 8,
+            ),
+            color: Colors.white,
+            child: ListView(
+              children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      CustomForm(
+                        mandatory: true,
+                        controller: serviceStore.controllerDescription,
+                        tip: _tipFieldDescription,
+                        label: _labelFieldDescription,
+                        textInputType: TextInputType.text,
+                        obscure: false,
+                        onChanged: (value) {
+                          serviceStore.setDescription(value);
+                        },
+                      ),
+                      SizedBox(height: _space),
+                      CustomFormCoin(
                         mandatory: true,
                         enabled: serviceStore.priceFixed,
                         controller: serviceStore.controllerFieldValue,
@@ -145,77 +151,68 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                         onChanged: (value) {
                           serviceStore.setValuePrice(value);
                         },
-                      );
-                    },
-                  ),
-                  SizedBox(height: _space),
-                  Container(
-                    padding: EdgeInsets.only(right: 10, left: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Observer(builder: (_) {
-                          return DropdownButton(
-                            hint: Text('Tipo de funcionário'),
-                            value: serviceStore.valueSelect,
-                            items: serviceStore.dataServices.map((item) {
-                              return DropdownMenuItem(
-                                child: Text(item.description.toString()),
-                                value: item.description.toString(),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              serviceStore.selectTypeService(value);
-                            },
-                          );
-                        }),
-                        Row(
+                      ),
+                      SizedBox(height: _space),
+                      Container(
+                        padding: EdgeInsets.only(right: 10, left: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Text(
-                              'Valor fixo',
-                              style: TextStyle(fontSize: 16),
+                            DropdownButton(
+                              hint: Text('Tipo de funcionário'),
+                              value: serviceStore.valueSelect,
+                              items: serviceStore.dataServices.map((item) {
+                                return DropdownMenuItem(
+                                  child: Text(item.description.toString()),
+                                  value: item.description.toString(),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                serviceStore.selectTypeService(value);
+                              },
                             ),
-                            Observer(
-                              builder: (_) {
-                                return Checkbox(
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Valor fixo',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                Checkbox(
                                   value: serviceStore.priceFixed,
                                   onChanged: (_) {
                                     serviceStore.alterPriceFixed();
                                   },
-                                );
-                              },
-                            )
+                                )
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: _space),
-                  Container(
-                    height: 60,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [0.3, 1],
-                        colors: [
-                          Color(0XFF212121),
-                          Color(0XFF616161),
-                        ],
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(50),
-                      ),
-                    ),
-                    child: SizedBox.expand(child: Observer(
-                      builder: (_) {
-                        return FlatButton(
+                      SizedBox(height: _space),
+                      Container(
+                        height: 60,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.3, 1],
+                            colors: [
+                              Color(0XFF212121),
+                              Color(0XFF616161),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                        child: SizedBox.expand(
+                            child: FlatButton(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Cadastrar',
+                                serviceStore.change ? 'Alterar' : 'Cadastrar',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -236,17 +233,19 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                               )
                             ],
                           ),
-                          onPressed: serviceStore.buttomPressed,
-                        );
-                      },
-                    )),
+                          onPressed: serviceStore.change
+                              ? serviceStore.buttonChangePressed
+                              : serviceStore.buttomSavePressed,
+                        )),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
