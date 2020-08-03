@@ -56,13 +56,13 @@ class TypeEmployeeWebClient {
 
   Future<TypeEmployeeModel> update(TypeEmployeeModel typeEmployeeModel) async {
     String id = typeEmployeeModel.id.toString();
-    String url_update = urlTypeEmployee + '/' + id;
+    String urlUpdate = urlTypeEmployee + '/' + id;
 
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString(("tokenjwt") ?? ''));
     final String typeEmployeeJson = jsonEncode(typeEmployeeModel.toJson());
 
-    final Response response = await webClient.put(url_update,
+    final Response response = await webClient.put(urlUpdate,
         headers: {
           'Content-type': 'application/json',
           'Authorization': "Bearer $token",
