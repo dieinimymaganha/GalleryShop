@@ -45,11 +45,25 @@ class ServicesWebClient {
       body: serviceJson,
     );
     return response.statusCode;
-
   }
 
+  Future<int> update(ServiceForm serviceForm, int id) async {
+    String token = await get_token();
+    String urlUpdate = urlService + '/' + id.toString();
 
-  Future<int> exclude(ServiceModel serviceModel) async{
+    final String serviceJson = json.encode(serviceForm.toJson());
+
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
+  Future<int> exclude(ServiceModel serviceModel) async {
     String token = await get_token();
     String id = serviceModel.id.toString();
     String urlExclude = urlService + '/' + id;
@@ -76,9 +90,7 @@ class ServicesWebClient {
     401: 'authentication fail',
     409: 'transaction always exists'
   };
-
 }
-
 
 class HttpException implements Exception {
   final String message;
