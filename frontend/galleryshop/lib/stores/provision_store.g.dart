@@ -16,12 +16,40 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
           Computed<bool>(() => super.descriptionIsValid,
               name: '_ProvisionStore.descriptionIsValid'))
       .value;
+  Computed<bool> _$descriptionChangeIsValidComputed;
+
+  @override
+  bool get descriptionChangeIsValid => (_$descriptionChangeIsValidComputed ??=
+          Computed<bool>(() => super.descriptionChangeIsValid,
+              name: '_ProvisionStore.descriptionChangeIsValid'))
+      .value;
   Computed<bool> _$valueSelectIsValidComputed;
 
   @override
   bool get valueSelectIsValid => (_$valueSelectIsValidComputed ??=
           Computed<bool>(() => super.valueSelectIsValid,
               name: '_ProvisionStore.valueSelectIsValid'))
+      .value;
+  Computed<bool> _$valueSelectChangeIsValidComputed;
+
+  @override
+  bool get valueSelectChangeIsValid => (_$valueSelectChangeIsValidComputed ??=
+          Computed<bool>(() => super.valueSelectChangeIsValid,
+              name: '_ProvisionStore.valueSelectChangeIsValid'))
+      .value;
+  Computed<bool> _$priceFixedChangeIsValidComputed;
+
+  @override
+  bool get priceFixedChangeIsValid => (_$priceFixedChangeIsValidComputed ??=
+          Computed<bool>(() => super.priceFixedChangeIsValid,
+              name: '_ProvisionStore.priceFixedChangeIsValid'))
+      .value;
+  Computed<bool> _$valueChangeIsValidComputed;
+
+  @override
+  bool get valueChangeIsValid => (_$valueChangeIsValidComputed ??=
+          Computed<bool>(() => super.valueChangeIsValid,
+              name: '_ProvisionStore.valueChangeIsValid'))
       .value;
   Computed<bool> _$prixeFixedIsValidComputed;
 
@@ -30,13 +58,20 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
           () => super.prixeFixedIsValid,
           name: '_ProvisionStore.prixeFixedIsValid'))
       .value;
-  Computed<Function> _$buttomPressedComputed;
+  Computed<Function> _$buttomSavePressedComputed;
 
   @override
-  Function get buttomPressed =>
-      (_$buttomPressedComputed ??= Computed<Function>(() => super.buttomPressed,
-              name: '_ProvisionStore.buttomPressed'))
-          .value;
+  Function get buttomSavePressed => (_$buttomSavePressedComputed ??=
+          Computed<Function>(() => super.buttomSavePressed,
+              name: '_ProvisionStore.buttomSavePressed'))
+      .value;
+  Computed<Function> _$buttonChangePressedComputed;
+
+  @override
+  Function get buttonChangePressed => (_$buttonChangePressedComputed ??=
+          Computed<Function>(() => super.buttonChangePressed,
+              name: '_ProvisionStore.buttonChangePressed'))
+      .value;
   Computed<Function> _$excludePressedComputed;
 
   @override
@@ -225,6 +260,36 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$changeAtom = Atom(name: '_ProvisionStore.change');
+
+  @override
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
+  final _$updateServiceAsyncAction =
+      AsyncAction('_ProvisionStore.updateService');
+
+  @override
+  Future<void> updateService() {
+    return _$updateServiceAsyncAction.run(() => super.updateService());
+  }
+
+  final _$updateAsyncAction = AsyncAction('_ProvisionStore.update');
+
+  @override
+  Future<void> update(ServiceForm serviceForm) {
+    return _$updateAsyncAction.run(() => super.update(serviceForm));
+  }
+
   final _$createServiceModelAsyncAction =
       AsyncAction('_ProvisionStore.createServiceModel');
 
@@ -251,6 +316,17 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
 
   final _$_ProvisionStoreActionController =
       ActionController(name: '_ProvisionStore');
+
+  @override
+  void setChange() {
+    final _$actionInfo = _$_ProvisionStoreActionController.startAction(
+        name: '_ProvisionStore.setChange');
+    try {
+      return super.setChange();
+    } finally {
+      _$_ProvisionStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setDescription(String value) {
@@ -322,10 +398,16 @@ created: ${created},
 priceFinal: ${priceFinal},
 priceFixed: ${priceFixed},
 excluded: ${excluded},
+change: ${change},
 descriptionIsValid: ${descriptionIsValid},
+descriptionChangeIsValid: ${descriptionChangeIsValid},
 valueSelectIsValid: ${valueSelectIsValid},
+valueSelectChangeIsValid: ${valueSelectChangeIsValid},
+priceFixedChangeIsValid: ${priceFixedChangeIsValid},
+valueChangeIsValid: ${valueChangeIsValid},
 prixeFixedIsValid: ${prixeFixedIsValid},
-buttomPressed: ${buttomPressed},
+buttomSavePressed: ${buttomSavePressed},
+buttonChangePressed: ${buttonChangePressed},
 excludePressed: ${excludePressed}
     ''';
   }

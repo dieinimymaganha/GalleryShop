@@ -3,6 +3,7 @@ import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/service.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 part 'provision_store.g.dart';
@@ -14,10 +15,14 @@ abstract class _ProvisionStore with Store {
 
   _ProvisionStore({this.serviceModel}) {
     autorun((_) {
-      print('serviceModel >>>>>>> ${serviceModel}');
-      print('description >>>>>>> ${description}');
+      print('priceChangeIsValid >>>>>>> $valueChangeIsValid');
+      print('valuePrice >>>>>>> $valuePrice');
+      print(
+          'valuePrice <<<<<<< ${formatCurrency.format(serviceModel.value).toString()}');
     });
   }
+
+  final formatCurrency = new NumberFormat.currency(locale: 'pt_BR', symbol: '');
 
   final TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
   final ServicesWebClient _webClientService = ServicesWebClient();
@@ -62,16 +67,30 @@ abstract class _ProvisionStore with Store {
   @observable
   bool excluded = false;
 
+  @observable
+  bool change = false;
+
+  @action
+  void setChange() {
+    if (serviceModel != null) {
+      change = true;
+    }
+  }
+
   @action
   void setDescription(String value) => description = value;
 
   @action
-  void setDataInitial(){
-    if(serviceModel != null){
+  void setDataInitial() {
+    if (serviceModel != null) {
       controllerDescription.text = serviceModel.description.toString();
-      if(serviceModel.value != null){
-        controllerFieldValue.text = serviceModel.value.toString();
-      }else{
+      description = serviceModel.description.toString();
+      if (serviceModel.value != null) {
+        controllerFieldValue.text =
+            formatCurrency.format(serviceModel.value).toString();
+
+        valuePrice = formatCurrency.format(serviceModel.value).toString();
+      } else {
         controllerFieldValue.text = '';
       }
       valueSelect = serviceModel.typeEmployee;
@@ -95,17 +114,70 @@ abstract class _ProvisionStore with Store {
   bool get descriptionIsValid => description != null && description.isNotEmpty;
 
   @computed
+  bool get descriptionChangeIsValid =>
+      description != serviceModel.description.toString();
+
+  @computed
   bool get valueSelectIsValid => valueSelect != null;
+
+  @computed
+  bool get valueSelectChangeIsValid => valueSelect != serviceModel.typeEmployee;
+
+  @computed
+  bool get priceFixedChangeIsValid => priceFixed != serviceModel.fixedPrice;
+
+  @computed
+  bool get valueChangeIsValid =>
+      (valuePrice.length >= 4) &&
+      (valuePrice != formatCurrency.format(serviceModel.value).toString());
 
   @computed
   bool get prixeFixedIsValid =>
       (priceFixed == false) || (priceFixed == true && valuePrice.length >= 4);
 
   @computed
-  Function get buttomPressed =>
+  Function get buttomSavePressed =>
       (descriptionIsValid && valueSelectIsValid && prixeFixedIsValid)
           ? createServiceModel
           : null;
+
+  @computed
+  Function get buttonChangePressed => (descriptionChangeIsValid ||
+          valueSelectChangeIsValid ||
+          priceFixedChangeIsValid ||
+          valueChangeIsValid)
+      ? updateService
+      : null;
+
+  @action
+  Future<void> updateService() async {
+    ServiceForm serviceForm = ServiceForm(
+        description: description,
+        value: priceFinal,
+        fixedPrice: priceFixed,
+        descriptonTypeEmployee: valueSelect);
+
+    print(serviceForm.toJson());
+
+    await update(serviceForm);
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+  }
+
+  @action
+  Future<void> update(ServiceForm serviceForm) async {
+    int response = await _webClientService.update(serviceForm, serviceModel.id);
+    if (response == 200) {
+      created = true;
+    } else {
+      errorSending = true;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+    errorSending = false;
+    duplicate = false;
+  }
 
   @action
   void selectTypeService(String value) => valueSelect = value;
