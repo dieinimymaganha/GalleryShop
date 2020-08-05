@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/employees/create_new_employee_screen.dart';
 import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
 import 'package:galleryshop/screens/employees/type_employees_list_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
@@ -51,7 +52,10 @@ class EmployeeBaseScreen extends StatelessWidget {
                   title: Text('Cadastrar novo funcionários'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CreateNewEmployeeScreen()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
