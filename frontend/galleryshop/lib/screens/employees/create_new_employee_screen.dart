@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
+import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 
 class CreateNewEmployeeScreen extends StatefulWidget {
@@ -12,28 +14,14 @@ class CreateNewEmployeeScreen extends StatefulWidget {
 }
 
 class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
-  final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
+  EmployeeStore employeeStore = EmployeeStore();
 
   List<dynamic> dataTypeEmployee = List();
-
-  bool switchval = false;
-
-  void getLista() async {
-    dataTypeEmployee = await _webClient.findAll();
-    teste();
-  }
-
-  void teste() {
-    for (TypeEmployeeModel typeEmployeeModel in dataTypeEmployee) {
-      typeEmployeeModel.select = false;
-    }
-    print('Lista >>>>> ${dataTypeEmployee[0]}');
-  }
 
   @override
   void initState() {
     super.initState();
-    getLista();
+    employeeStore.getServices();
   }
 
   @override
@@ -59,6 +47,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     label: 'Nome',
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: employeeStore.setName,
                   ),
                   SizedBox(height: space),
                   CustomForm(
@@ -67,6 +56,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     label: 'Sobrenome',
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: employeeStore.setLastName,
                   ),
                   SizedBox(height: space),
                   CustomForm(
@@ -75,6 +65,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     label: 'Apelido',
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: employeeStore.setNickName,
                   ),
                   SizedBox(height: space),
                   CustomForm(
@@ -83,6 +74,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     label: 'Data nascimento',
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: employeeStore.setBirthDate,
                   ),
                   SizedBox(height: space),
                   CustomForm(
@@ -91,6 +83,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     label: 'Telefone',
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: employeeStore.setPhoneNumber,
                   ),
                   SizedBox(height: space),
                   CustomForm(
@@ -99,14 +92,25 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     label: 'RG',
                     textInputType: TextInputType.text,
                     obscure: false,
+                    onChanged: employeeStore.setRg,
+                  ),
+                  SizedBox(height: space),
+                  CustomForm(
+                    mandatory: true,
+                    tip: 'Digite o CPF',
+                    label: 'CPF',
+                    textInputType: TextInputType.text,
+                    obscure: false,
+                    onChanged: employeeStore.setCpf,
                   ),
                   SizedBox(height: space),
                   CustomForm(
                     mandatory: true,
                     tip: 'Digite a taxa de comissão',
                     label: 'Comissão',
-                    textInputType: TextInputType.text,
+                    textInputType: TextInputType.number,
                     obscure: false,
+                    onChanged: employeeStore.setComissionRate,
                   ),
                   SizedBox(height: space),
                   Divider(
@@ -116,25 +120,33 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     'Selecione as funções:',
                     style: TextStyle(fontSize: 18),
                   ),
-                  Column(
-                    children: dataTypeEmployee.map((typeEm) {
-                      return Column(
-                        children: <Widget>[
-                          SwitchListTile(
-                            value: typeEm.select,
-                            key: Key(typeEm.description),
-                            onChanged: (_) {
-                              setState(() {
-                                typeEm.select = !typeEm.select;
-                              });
-                            },
-                            title: Text(typeEm.description.toString()),
-                            selected: typeEm.select,
-                            secondary: Icon(Icons.account_circle),
-                          )
-                        ],
-                      );
-                    }).toList(),
+                  Observer(
+                    builder: (_) {
+                      return employeeStore.loadingTypeEmployee
+                          ? Column(
+                              children:
+                                  employeeStore.dataTypeEmployee.map((typeEm) {
+                                return Column(
+                                  children: <Widget>[
+                                    SwitchListTile(
+                                      value: typeEm.select,
+                                      key: Key(typeEm.description),
+                                      onChanged: (_) {
+                                        setState(() {
+                                          typeEm.select = !typeEm.select;
+                                        });
+                                      },
+                                      title:
+                                          Text(typeEm.description.toString()),
+                                      selected: typeEm.select,
+                                      secondary: Icon(Icons.account_circle),
+                                    )
+                                  ],
+                                );
+                              }).toList(),
+                            )
+                          : CircularProgressIndicator();
+                    },
                   ),
                   Divider(
                     color: Colors.black,
@@ -159,28 +171,29 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     ),
                     child: SizedBox.expand(
                         child: FlatButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Cadastrar',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                                fontSize: 20),
-                            textAlign: TextAlign.center,
-                          ),
-                          Container(
-                            child: SizedBox(
-                              child:Icon(Icons.send),
-                              height: 28,
-                              width: 28,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Cadastrar',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Container(
+                                  child: SizedBox(
+                                    child: Icon(Icons.send),
+                                    height: 28,
+                                    width: 28,
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                      onPressed: (){}
-                    )),
+                            onPressed: () {
+                              print(employeeStore.dataTypeEmployee);
+                            })),
                   ),
                 ],
               ),
