@@ -1,9 +1,10 @@
 class TypeEmployeeModel {
   int id;
   String description;
+  bool select = false;
   List<Services> services;
 
-  TypeEmployeeModel({this.id, this.description, this.services});
+  TypeEmployeeModel({this.id, this.description, this.services, this.select});
 
   TypeEmployeeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -28,7 +29,7 @@ class TypeEmployeeModel {
 
   @override
   String toString() {
-    return 'TypeEmployeeModel{id: $id, description: $description}';
+    return 'TypeEmployeeModel{id: $id, description: $description, select: $select, services: $services}';
   }
 }
 
