@@ -129,3 +129,109 @@ class Services {
     return 'Services{typeEmployee: $typeEmployee}';
   }
 }
+
+
+class EmployeeForm {
+  String name;
+  String lastName;
+  String nickname;
+  String cpf;
+  String birthDate;
+  String phoneNumber;
+  String rg;
+  int commissionRate;
+  String password;
+  List<ListTypeEmployees> listTypeEmployees;
+  List<ListProfiles> listProfiles;
+
+  EmployeeForm(
+      {this.name,
+        this.lastName,
+        this.nickname,
+        this.cpf,
+        this.birthDate,
+        this.phoneNumber,
+        this.rg,
+        this.commissionRate,
+        this.password,
+        this.listTypeEmployees,
+        this.listProfiles});
+
+  EmployeeForm.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    lastName = json['lastName'];
+    nickname = json['nickname'];
+    cpf = json['cpf'];
+    birthDate = json['birthDate'];
+    phoneNumber = json['phoneNumber'];
+    rg = json['rg'];
+    commissionRate = json['commissionRate'];
+    password = json['password'];
+    if (json['listTypeEmployees'] != null) {
+      listTypeEmployees = new List<ListTypeEmployees>();
+      json['listTypeEmployees'].forEach((v) {
+        listTypeEmployees.add(new ListTypeEmployees.fromJson(v));
+      });
+    }
+    if (json['listProfiles'] != null) {
+      listProfiles = new List<ListProfiles>();
+      json['listProfiles'].forEach((v) {
+        listProfiles.add(new ListProfiles.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['lastName'] = this.lastName;
+    data['nickname'] = this.nickname;
+    data['cpf'] = this.cpf;
+    data['birthDate'] = this.birthDate;
+    data['phoneNumber'] = this.phoneNumber;
+    data['rg'] = this.rg;
+    data['commissionRate'] = this.commissionRate;
+    data['password'] = this.password;
+    if (this.listTypeEmployees != null) {
+      data['listTypeEmployees'] =
+          this.listTypeEmployees.map((v) => v.toJson()).toList();
+    }
+    if (this.listProfiles != null) {
+      data['listProfiles'] = this.listProfiles.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ListTypeEmployees {
+  String description;
+
+  ListTypeEmployees({this.description});
+
+  ListTypeEmployees.fromJson(Map<String, dynamic> json) {
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['description'] = this.description;
+    return data;
+  }
+}
+
+class ListProfiles {
+  String role;
+
+  ListProfiles({this.role});
+
+  ListProfiles.fromJson(Map<String, dynamic> json) {
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['role'] = this.role;
+    return data;
+  }
+}
+
