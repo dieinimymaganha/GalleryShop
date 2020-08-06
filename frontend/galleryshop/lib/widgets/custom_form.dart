@@ -12,8 +12,9 @@ class CustomForm extends StatelessWidget {
   final Function(String) onChanged;
   final bool enabled;
   final Widget suffix;
-  final int maxlength_field;
+  final int maxlengthField;
   final Function ontap;
+  final Function(String) validator;
 
   CustomForm(
       {this.controller,
@@ -26,14 +27,15 @@ class CustomForm extends StatelessWidget {
       this.onChanged,
       this.enabled,
       this.suffix,
-      this.maxlength_field,
-      this.ontap});
+      this.maxlengthField,
+      this.ontap,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
         inputFormatters: [
-          LengthLimitingTextInputFormatter(maxlength_field),
+          LengthLimitingTextInputFormatter(maxlengthField),
         ],
         style:
             TextStyle(color: Color(0xFFF234253), fontWeight: FontWeight.bold),
@@ -56,14 +58,6 @@ class CustomForm extends StatelessWidget {
           hintText: tip,
         ),
         keyboardType: textInputType,
-        validator: (value) {
-          if (mandatory == true) {
-            if (value.isEmpty) {
-              return 'Campo obrigatório';
-            }
-            return null;
-          }
-          return null;
-        });
+        validator: validator);
   }
 }
