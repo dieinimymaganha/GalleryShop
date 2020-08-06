@@ -210,7 +210,6 @@ abstract class _ProvisionStore with Store {
         description: description,
         fixedPrice: priceFixed,
         descriptonTypeEmployee: valueSelect);
-//    print(serviceCreated);
     await save(serviceCreated);
   }
 
