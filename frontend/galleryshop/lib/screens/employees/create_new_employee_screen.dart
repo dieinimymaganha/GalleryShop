@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
-import 'package:galleryshop/models/type_employee_model.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 
@@ -17,6 +16,8 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
   EmployeeStore employeeStore = EmployeeStore();
 
   List<dynamic> dataTypeEmployee = List();
+
+  DateTime _dateTime;
 
   @override
   void initState() {
@@ -152,6 +153,49 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     color: Colors.black,
                   ),
                   SizedBox(height: space),
+//                  Center(
+//                    child: Column(
+//                      mainAxisAlignment: MainAxisAlignment.center,
+//                      children: <Widget>[
+//                        Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
+//                        RaisedButton(
+//                          child: Text('Pick a date'),
+//                          onPressed: () {
+//                            showDatePicker(
+//                                context: context,
+//
+//                                initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+//                                firstDate: DateTime(1990),
+//                                lastDate: DateTime(2050)
+//                            ).then((date) {
+//                              setState(() {
+//                                _dateTime = date;
+//                              });
+//                            });
+//                          },
+//                        )
+//                      ],
+//                    ),
+//                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(_dateTime == null
+                            ? 'Nothing has been picked yet'
+                            : _dateTime.toString()),
+                        RaisedButton(
+                            child: Text('Pick a date'),
+                            onPressed: () {
+                              DatePicker.showDatePicker(context,
+                                  dateFormat: 'dd MM yyyy', pickerTheme: DateTimePickerTheme(
+                                    cancel: Text('Cancelar', style: TextStyle(color: Colors.red),),
+                                    confirm: Text('Confirmar',style: TextStyle(color: Colors.blue),)
+                                  ));
+                            })
+                      ],
+                    ),
+                  ),
                   Container(
                     height: 60,
                     alignment: Alignment.centerLeft,
