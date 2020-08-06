@@ -5,6 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:galleryshop/widgets/custom_form_date.dart';
+import 'package:intl/intl.dart';
 
 class CreateNewEmployeeScreen extends StatefulWidget {
   @override
@@ -14,6 +16,8 @@ class CreateNewEmployeeScreen extends StatefulWidget {
 
 class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
   EmployeeStore employeeStore = EmployeeStore();
+
+  TextEditingController _controllerDate = TextEditingController();
 
   List<dynamic> dataTypeEmployee = List();
 
@@ -70,12 +74,16 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                   ),
                   SizedBox(height: space),
                   CustomForm(
+                    controller: _controllerDate,
                     mandatory: true,
                     tip: 'Digite a Data de nascimento',
                     label: 'Data nascimento',
                     textInputType: TextInputType.text,
                     obscure: false,
                     onChanged: employeeStore.setBirthDate,
+                    ontap: () {
+                      select();
+                    },
                   ),
                   SizedBox(height: space),
                   CustomForm(
@@ -153,49 +161,6 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                     color: Colors.black,
                   ),
                   SizedBox(height: space),
-//                  Center(
-//                    child: Column(
-//                      mainAxisAlignment: MainAxisAlignment.center,
-//                      children: <Widget>[
-//                        Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime.toString()),
-//                        RaisedButton(
-//                          child: Text('Pick a date'),
-//                          onPressed: () {
-//                            showDatePicker(
-//                                context: context,
-//
-//                                initialDate: _dateTime == null ? DateTime.now() : _dateTime,
-//                                firstDate: DateTime(1990),
-//                                lastDate: DateTime(2050)
-//                            ).then((date) {
-//                              setState(() {
-//                                _dateTime = date;
-//                              });
-//                            });
-//                          },
-//                        )
-//                      ],
-//                    ),
-//                  ),
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(_dateTime == null
-                            ? 'Nothing has been picked yet'
-                            : _dateTime.toString()),
-                        RaisedButton(
-                            child: Text('Pick a date'),
-                            onPressed: () {
-                              DatePicker.showDatePicker(context,
-                                  dateFormat: 'dd MM yyyy', pickerTheme: DateTimePickerTheme(
-                                    cancel: Text('Cancelar', style: TextStyle(color: Colors.red),),
-                                    confirm: Text('Confirmar',style: TextStyle(color: Colors.blue),)
-                                  ));
-                            })
-                      ],
-                    ),
-                  ),
                   Container(
                     height: 60,
                     alignment: Alignment.centerLeft,
@@ -246,5 +211,28 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         ),
       ),
     );
+  }
+
+  void select() {
+    DatePicker.showDatePicker(context,
+        locale: DateTimePickerLocale.pt_br,
+        dateFormat: 'dd/MM/yyyy', onConfirm: (dateTime, selectedIndex) {
+      setState(() {
+        _controllerDate.text = DateFormat('dd/MM/yyyy').format(dateTime);
+      });
+    },
+        pickerTheme: DateTimePickerTheme(
+          backgroundColor: colorAppbar,
+          itemTextStyle: TextStyle(color: Colors.white),
+          showTitle: true,
+          cancel: Text(
+            'Cancelar',
+            style: TextStyle(color: Colors.redAccent, fontSize: 18),
+          ),
+          confirm: Text(
+            'Confirmar',
+            style: TextStyle(color: Colors.blueAccent, fontSize: 18),
+          ),
+        ));
   }
 }
