@@ -197,9 +197,6 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                                 _controllerMaskFieldPhoneNumber.text;
                             final String birthdate =
                                 _controllerMaskFieldBirthDate.text;
-                            final newB = birthdate.split('/');
-                            final String new_birthDate =
-                                newB[2] + '-' + newB[1] + '-' + newB[0];
 
                             final String email = _controllerFieldEmail.text;
                             final String password = _passwordDefault;
@@ -209,16 +206,18 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                             listProfiles.add(new ListProfiles(role: role));
 
                             final clientCreated = ClientModelForm(
-                                name,
-                                lastName,
-                                nickname,
-                                cpf,
-                                new_birthDate,
-                                phoneNumber,
-                                email,
-                                password,
-                                listProfiles);
+                              name: name,
+                              lastName: lastName,
+                              nickname: nickname,
+                              cpf: cpf,
+                              phoneNumber: phoneNumber,
+                              birthDate: birthdate,
+                              email: email,
+                              password: password,
+                              listProfiles: listProfiles
+                            );
 
+                            print(clientCreated);
                             _save(clientCreated, context);
                           }
                           return null;
