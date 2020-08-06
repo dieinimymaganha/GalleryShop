@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Observer(builder: (_) {
                     return CustomForm(
-                      maxlength_field: 16,
+                      maxlengthField: 16,
                       enabled: !loginStore.loading,
                       mandatory: true,
                       controller: _controllerMaskFieldPhoneNumber,
