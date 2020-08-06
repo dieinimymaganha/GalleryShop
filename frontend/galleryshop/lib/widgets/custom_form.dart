@@ -13,6 +13,7 @@ class CustomForm extends StatelessWidget {
   final bool enabled;
   final Widget suffix;
   final int maxlength_field;
+  final Function ontap;
 
 
 
@@ -28,6 +29,7 @@ class CustomForm extends StatelessWidget {
     this.enabled,
     this.suffix,
     this.maxlength_field,
+    this.ontap
   });
 
   @override
@@ -42,6 +44,7 @@ class CustomForm extends StatelessWidget {
         obscureText: obscure,
         onChanged: onChanged,
         enabled: enabled,
+        onTap: ontap,
         decoration: InputDecoration(
           prefixIcon: icon,
           suffix: suffix,
