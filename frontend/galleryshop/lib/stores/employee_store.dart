@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
-import 'package:galleryshop/models/type_employee_model.dart';
+import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
 
 part 'employee_store.g.dart';
@@ -12,14 +13,13 @@ abstract class _EmployeeStore with Store {
 
   _EmployeeStore() {
     autorun((_) {
-      print('name ----> $name');
-      print('lastName ----> $lastName');
-      print('nickname ----> $nickname');
-      print('cpf ----> $cpf');
-      print('rg ----> $rg');
-      print('birthDate ----> $birthDate');
-      print('comissionRate ----> $comissionRate');
-      print('phoneNumber ----> $phoneNumber');
+      print('dataTypeEmployee ----> $dataTypeEmployee');
+//      print('lastName ----> $lastName');
+//      print('nickname ----> $nickname');
+//      print('cpf ----> $cpf');//      print('rg ----> $rg');
+//      print('birthDate ----> $birthDate');
+//      print('comissionRate ----> $comissionRate');
+//      print('phoneNumber ----> $phoneNumber');
     });
   }
 
@@ -65,7 +65,8 @@ abstract class _EmployeeStore with Store {
   void setCpf(String value) => cpf = value;
 
   @observable
-  TextEditingController controllerFieldCpf = TextEditingController();
+  MaskedTextController controllerFieldCpf =
+      MaskedTextController(mask: '000.000.000-00');
 
   @observable
   String birthDate = '';
@@ -76,16 +77,19 @@ abstract class _EmployeeStore with Store {
   @action
   void setBirthDate(String value) => birthDate = value;
 
+  @action
+  void setBirthDateController(String value) =>
+      controllerFieldBirthDate.text = value;
+
   @observable
   String phoneNumber = '';
 
-
   @observable
-  TextEditingController controllerFieldPhoneNumber = TextEditingController();
+  MaskedTextController controllerFieldPhoneNumber =
+      MaskedTextController(mask: '(000) 00000-0000');
 
   @action
   void setPhoneNumber(String value) => phoneNumber = value;
-
 
   @observable
   String rg = '';
@@ -96,13 +100,11 @@ abstract class _EmployeeStore with Store {
   @action
   void setRg(String value) => rg = value;
 
-
   @observable
   int comissionRate;
 
   @action
   void setComissionRate(String value) => comissionRate = int.parse(value);
-
 
   @observable
   TextEditingController controllerFieldComissionRate = TextEditingController();
@@ -116,5 +118,17 @@ abstract class _EmployeeStore with Store {
   @observable
   bool loadingTypeEmployee = false;
 
+  @action
+  Future<void> saveEmployee() {
+    EmployeeForm employeeCreated = EmployeeForm(
+      name: name,
+      lastName: lastName,
+      nickname: nickname,
+      birthDate: birthDate,
+    );
+    print(employeeCreated);
+  }
 
+  @computed
+  Function get buttonSavePressed => saveEmployee;
 }

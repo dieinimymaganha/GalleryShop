@@ -9,6 +9,14 @@ part of 'employee_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EmployeeStore on _EmployeeStore, Store {
+  Computed<Function> _$buttonSavePressedComputed;
+
+  @override
+  Function get buttonSavePressed => (_$buttonSavePressedComputed ??=
+          Computed<Function>(() => super.buttonSavePressed,
+              name: '_EmployeeStore.buttonSavePressed'))
+      .value;
+
   final _$dataTypeEmployeeAtom = Atom(name: '_EmployeeStore.dataTypeEmployee');
 
   @override
@@ -138,13 +146,13 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
       Atom(name: '_EmployeeStore.controllerFieldCpf');
 
   @override
-  TextEditingController get controllerFieldCpf {
+  MaskedTextController get controllerFieldCpf {
     _$controllerFieldCpfAtom.reportRead();
     return super.controllerFieldCpf;
   }
 
   @override
-  set controllerFieldCpf(TextEditingController value) {
+  set controllerFieldCpf(MaskedTextController value) {
     _$controllerFieldCpfAtom.reportWrite(value, super.controllerFieldCpf, () {
       super.controllerFieldCpf = value;
     });
@@ -201,13 +209,13 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
       Atom(name: '_EmployeeStore.controllerFieldPhoneNumber');
 
   @override
-  TextEditingController get controllerFieldPhoneNumber {
+  MaskedTextController get controllerFieldPhoneNumber {
     _$controllerFieldPhoneNumberAtom.reportRead();
     return super.controllerFieldPhoneNumber;
   }
 
   @override
-  set controllerFieldPhoneNumber(TextEditingController value) {
+  set controllerFieldPhoneNumber(MaskedTextController value) {
     _$controllerFieldPhoneNumberAtom
         .reportWrite(value, super.controllerFieldPhoneNumber, () {
       super.controllerFieldPhoneNumber = value;
@@ -384,6 +392,17 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   }
 
   @override
+  void setBirthDateController(String value) {
+    final _$actionInfo = _$_EmployeeStoreActionController.startAction(
+        name: '_EmployeeStore.setBirthDateController');
+    try {
+      return super.setBirthDateController(value);
+    } finally {
+      _$_EmployeeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setPhoneNumber(String value) {
     final _$actionInfo = _$_EmployeeStoreActionController.startAction(
         name: '_EmployeeStore.setPhoneNumber');
@@ -417,6 +436,17 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   }
 
   @override
+  Future<void> saveEmployee() {
+    final _$actionInfo = _$_EmployeeStoreActionController.startAction(
+        name: '_EmployeeStore.saveEmployee');
+    try {
+      return super.saveEmployee();
+    } finally {
+      _$_EmployeeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 dataTypeEmployee: ${dataTypeEmployee},
@@ -438,7 +468,8 @@ comissionRate: ${comissionRate},
 controllerFieldComissionRate: ${controllerFieldComissionRate},
 password: ${password},
 controllerFieldPassword: ${controllerFieldPassword},
-loadingTypeEmployee: ${loadingTypeEmployee}
+loadingTypeEmployee: ${loadingTypeEmployee},
+buttonSavePressed: ${buttonSavePressed}
     ''';
   }
 }
