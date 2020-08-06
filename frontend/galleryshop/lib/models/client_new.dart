@@ -3,29 +3,29 @@ class ClientModelForm {
   String lastName;
   String nickname;
   String cpf;
-  String birthdate;
+  String birthDate;
   String phoneNumber;
   String email;
   String password;
   List<ListProfiles> listProfiles;
 
-  ClientModelForm(
+  ClientModelForm({
       this.name,
       this.lastName,
       this.nickname,
       this.cpf,
-      this.birthdate,
+      this.birthDate,
       this.phoneNumber,
       this.email,
       this.password,
-      this.listProfiles);
+      this.listProfiles});
 
   ClientModelForm.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     lastName = json['lastName'];
     nickname = json['nickname'];
     cpf = json['cpf'];
-    birthdate = json['birthdate'];
+    birthDate = json['birthDate'];
     phoneNumber = json['phoneNumber'];
     email = json['email'];
     password = json['password'];
@@ -43,7 +43,7 @@ class ClientModelForm {
     data['lastName'] = this.lastName;
     data['nickname'] = this.nickname;
     data['cpf'] = this.cpf;
-    data['birthdate'] = this.birthdate;
+    data['birthDate'] = this.birthDate;
     data['phoneNumber'] = this.phoneNumber;
     data['email'] = this.email;
     data['password'] = this.password;
@@ -51,6 +51,11 @@ class ClientModelForm {
       data['listProfiles'] = this.listProfiles.map((v) => v.toJson()).toList();
     }
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'ClientModelForm{name: $name, lastName: $lastName, nickname: $nickname, cpf: $cpf, birthDate: $birthDate, phoneNumber: $phoneNumber, email: $email, password: $password, listProfiles: $listProfiles}';
   }
 }
 
