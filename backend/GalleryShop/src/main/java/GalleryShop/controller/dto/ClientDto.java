@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import GalleryShop.model.Client;
 
 public class ClientDto {
@@ -13,6 +15,7 @@ public class ClientDto {
 	private String lastName;
 	private String nickname;
 	private String cpf;
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date birthdate;
 	private String phoneNumber;
 	private String email;

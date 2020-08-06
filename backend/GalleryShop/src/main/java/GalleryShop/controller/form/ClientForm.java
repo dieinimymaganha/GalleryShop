@@ -16,6 +16,8 @@ import GalleryShop.repository.ProfileRepository;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class ClientForm {
@@ -35,6 +37,7 @@ public class ClientForm {
 	private String cpf;
 
 	@NotNull(message = "não pode ser nulo")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date birthDate;
 
 	@NotNull

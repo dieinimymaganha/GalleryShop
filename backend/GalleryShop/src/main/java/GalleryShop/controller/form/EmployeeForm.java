@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -41,6 +43,7 @@ public class EmployeeForm {
     @Cpf
     private String cpf;
     @NotNull(message = "não pode ser nulo")
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date birthDate;
     @NotNull
     @NotEmpty
