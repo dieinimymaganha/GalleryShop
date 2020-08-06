@@ -201,6 +201,11 @@ class EmployeeForm {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'EmployeeForm{name: $name, lastName: $lastName, nickname: $nickname, cpf: $cpf, birthDate: $birthDate, phoneNumber: $phoneNumber, rg: $rg, commissionRate: $commissionRate, password: $password, listTypeEmployees: $listTypeEmployees, listProfiles: $listProfiles}';
+  }
 }
 
 class ListTypeEmployees {
@@ -217,6 +222,11 @@ class ListTypeEmployees {
     data['description'] = this.description;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'ListTypeEmployees{description: $description}';
+  }
 }
 
 class ListProfiles {
@@ -232,6 +242,11 @@ class ListProfiles {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['role'] = this.role;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'ListProfiles{role: $role}';
   }
 }
 
