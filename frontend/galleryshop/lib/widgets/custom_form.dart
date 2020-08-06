@@ -15,22 +15,19 @@ class CustomForm extends StatelessWidget {
   final int maxlength_field;
   final Function ontap;
 
-
-
-  CustomForm({
-    this.controller,
-    this.label,
-    this.tip,
-    this.icon,
-    this.textInputType,
-    this.obscure,
-    this.mandatory,
-    this.onChanged,
-    this.enabled,
-    this.suffix,
-    this.maxlength_field,
-    this.ontap
-  });
+  CustomForm(
+      {this.controller,
+      this.label,
+      this.tip,
+      this.icon,
+      this.textInputType,
+      this.obscure,
+      this.mandatory,
+      this.onChanged,
+      this.enabled,
+      this.suffix,
+      this.maxlength_field,
+      this.ontap});
 
   @override
   Widget build(BuildContext context) {
