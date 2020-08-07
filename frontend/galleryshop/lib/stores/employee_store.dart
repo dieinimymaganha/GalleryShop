@@ -13,7 +13,7 @@ abstract class _EmployeeStore with Store {
 
   _EmployeeStore() {
     autorun((_) {
-      print('dataTypeEmployee ----> $dataTypeEmployee');
+//      print('dataTypeEmployee ----> $dataTypeEmployee');
 //      print('lastName ----> $lastName');
 //      print('nickname ----> $nickname');
 //      print('cpf ----> $cpf');//      print('rg ----> $rg');
@@ -119,14 +119,28 @@ abstract class _EmployeeStore with Store {
   bool loadingTypeEmployee = false;
 
   @action
-  Future<void> saveEmployee() {
+  Future<void> saveEmployee() async {
+    List<dynamic> newDataTypeEmployee = List();
+    newDataTypeEmployee =
+        dataTypeEmployee.where((element) => element.select == true).toList();
+
+    List<ListTypeEmployees> listTypeEmployee = List();
+
+    newDataTypeEmployee.forEach((element) {
+      ListTypeEmployees employeeSelect =
+          ListTypeEmployees(description: element.description);
+      listTypeEmployee.add(employeeSelect);
+    });
+
     EmployeeForm employeeCreated = EmployeeForm(
       name: name,
       lastName: lastName,
       nickname: nickname,
       birthDate: birthDate,
+      listTypeEmployees: listTypeEmployee,
     );
-    print(employeeCreated);
+
+    print(employeeCreated.toJson());
   }
 
   @computed

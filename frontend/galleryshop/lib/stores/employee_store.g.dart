@@ -333,6 +333,13 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$saveEmployeeAsyncAction = AsyncAction('_EmployeeStore.saveEmployee');
+
+  @override
+  Future<void> saveEmployee() {
+    return _$saveEmployeeAsyncAction.run(() => super.saveEmployee());
+  }
+
   final _$_EmployeeStoreActionController =
       ActionController(name: '_EmployeeStore');
 
@@ -430,17 +437,6 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
         name: '_EmployeeStore.setComissionRate');
     try {
       return super.setComissionRate(value);
-    } finally {
-      _$_EmployeeStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  Future<void> saveEmployee() {
-    final _$actionInfo = _$_EmployeeStoreActionController.startAction(
-        name: '_EmployeeStore.saveEmployee');
-    try {
-      return super.saveEmployee();
     } finally {
       _$_EmployeeStoreActionController.endAction(_$actionInfo);
     }
