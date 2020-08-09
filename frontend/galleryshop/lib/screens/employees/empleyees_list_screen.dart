@@ -48,7 +48,7 @@ class EmployeesListScreen extends StatelessWidget {
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0)),
-                            color: Colors.blueGrey[100],
+                            color: colorCard,
                             child: Column(
                               children: <Widget>[
                                 Row(

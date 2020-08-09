@@ -211,7 +211,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32.0)),
-                        color: Colors.blueGrey[100],
+                        color: colorCard,
                         child: Column(
                           children: <Widget>[
                             employeeStore.loadingTypeEmployee

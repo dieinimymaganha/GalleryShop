@@ -6,6 +6,7 @@ String appName = "Famguard";
 Color colorGradientTop = Color(0XFF212121);
 Color colorGradientBottom = Color(0XFF616161);
 Color colorAppbar = Color.fromRGBO(41, 52, 56, 1);
+Color colorCard = Colors.blueGrey[100];
 
 Gradient appGradient =
     LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
