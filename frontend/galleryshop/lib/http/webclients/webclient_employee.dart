@@ -1,6 +1,6 @@
-
 import 'dart:convert';
 
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:http/http.dart';
@@ -8,9 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const urlEmployee = baseUrl + 'employees';
 
-
 class EmployeeWebClient {
-
   Future<List<EmployeeModel>> findAll() async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString("tokenjwt") ?? "");
@@ -24,12 +22,26 @@ class EmployeeWebClient {
 
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
-      final List<dynamic> data =
-      decodeJson.map((dynamic json) => EmployeeModel.fromJson(json)).toList();
+      final List<dynamic> data = decodeJson
+          .map((dynamic json) => EmployeeModel.fromJson(json))
+          .toList();
       print('aqui: ${data}');
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<int> save(EmployeeForm employeeForm) async {
+    String token = await get_token();
+    final String employeeJson = jsonEncode(employeeForm.toJson());
+    final Response response = await webClient.post(urlEmployee,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: employeeJson);
+
+    return response.statusCode;
   }
 
   String _getMessage(int statuscode) {
