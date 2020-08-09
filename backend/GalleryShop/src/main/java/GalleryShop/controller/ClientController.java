@@ -1,6 +1,7 @@
 package GalleryShop.controller;
 
 import java.net.URI;
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,7 +69,17 @@ public class ClientController {
 	@CacheEvict(value = "customersList", allEntries = true)
 	public ResponseEntity<ClientDto> createNewClient(@RequestBody @Valid ClientForm form,
 			UriComponentsBuilder uriBuilder) {
+
 		Client client = form.converter(profileRepository);
+
+		Optional<Client> clientCpf = clientRepository.findByCpf(client.getCpf());
+		Optional<Client> clientPhoneNumber = clientRepository.findByPhoneNumber(client.getPhoneNumber());
+		Optional<Client> clientEmail = clientRepository.findByEmail(client.getEmail());
+
+		if(clientCpf.isPresent() || clientPhoneNumber.isPresent() || clientEmail.isPresent() ){
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}
+
 		clientRepository.save(client);
 		URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
 		return ResponseEntity.created(uri).body(new ClientDto(client));

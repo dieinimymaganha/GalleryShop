@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,6 +57,13 @@ public class ServiceController {
             UriComponentsBuilder uriBuilder) {
 
         Service service = form.converter(typeEmployeeRepository);
+
+        Optional<Service> serviceExist = serviceRepository.findByDescription(service.getDescription());
+
+        if (serviceExist.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         serviceRepository.save(service);
         URI uri = uriBuilder.path("/services/{id}").buildAndExpand(service.getId()).toUri();
 

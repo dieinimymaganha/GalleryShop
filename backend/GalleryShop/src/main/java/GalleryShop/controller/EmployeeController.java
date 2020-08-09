@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +61,16 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody @Valid EmployeeForm form,
             UriComponentsBuilder uriBuilder) {
         Employee employee = form.converter(typeEmployeeRepository,profileRepository);
+
+        Optional<Employee> employeeCpf = employeeRepository.findByCpf(employee.getCpf());
+        Optional<Employee> employeeRg = employeeRepository.findByRg(employee.getRg());
+        Optional<Employee> employeePhoneNumber = employeeRepository.findByPhoneNumber(employee.getPhoneNumber());
+
+        if(employeeCpf.isPresent() || employeeRg.isPresent() || employeePhoneNumber.isPresent()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+
         if (employee.getTypeEmployees() == null) {
             return ResponseEntity.noContent().build();
         } else {

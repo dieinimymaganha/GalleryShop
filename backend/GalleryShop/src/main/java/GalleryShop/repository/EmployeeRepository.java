@@ -9,4 +9,8 @@ import GalleryShop.model.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByPhoneNumber(String phoneNumber);
 
+    Optional<Employee> findByCpf(String cpf);
+
+    Optional<Employee> findByRg(String rg);
+
 }

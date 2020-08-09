@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,14 @@ public class TypeEmployeeController {
     public ResponseEntity<TypeEmployeeDto> createNewTypeEmployee(@RequestBody @Valid TypeEmployeeForm form,
             UriComponentsBuilder uriBuilder) {
         TypeEmployee typeEmployee = form.converter();
+
+        TypeEmployee typeEmployeeExist = typeEmployeeRepository
+                .findByDescription(typeEmployee.getDescription());
+
+        if(typeEmployeeExist != null){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         typeEmployeeRepository.save(typeEmployee);
         URI uri = uriBuilder.path("/typeemployees/{id}").buildAndExpand(typeEmployee.getId()).toUri();
         return ResponseEntity.created(uri).body(new TypeEmployeeDto(typeEmployee));
@@ -75,10 +84,10 @@ public class TypeEmployeeController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> deleteTypeEmployee(@PathVariable Long id){
+    public ResponseEntity<?> deleteTypeEmployee(@PathVariable Long id) {
         Optional<TypeEmployee> optional = typeEmployeeRepository.findById(id);
-        if(optional.isPresent()){
-           typeEmployeeRepository.deleteById(id);
+        if (optional.isPresent()) {
+            typeEmployeeRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
 
