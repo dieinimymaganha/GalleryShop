@@ -12,3 +12,6 @@ Gradient appGradient =
     colors: [colorGradientTop, colorGradientBottom,], stops: [0,0.7]);
 
 const double space = 10.0;
+
+const background = "images/grey-gradient-background.jpg";
+
