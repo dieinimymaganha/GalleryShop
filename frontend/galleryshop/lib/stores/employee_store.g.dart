@@ -9,6 +9,69 @@ part of 'employee_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EmployeeStore on _EmployeeStore, Store {
+  Computed<bool> _$nameIsValidComputed;
+
+  @override
+  bool get nameIsValid =>
+      (_$nameIsValidComputed ??= Computed<bool>(() => super.nameIsValid,
+              name: '_EmployeeStore.nameIsValid'))
+          .value;
+  Computed<bool> _$lastNameIsValidComputed;
+
+  @override
+  bool get lastNameIsValid =>
+      (_$lastNameIsValidComputed ??= Computed<bool>(() => super.lastNameIsValid,
+              name: '_EmployeeStore.lastNameIsValid'))
+          .value;
+  Computed<bool> _$nickNameIsValidComputed;
+
+  @override
+  bool get nickNameIsValid =>
+      (_$nickNameIsValidComputed ??= Computed<bool>(() => super.nickNameIsValid,
+              name: '_EmployeeStore.nickNameIsValid'))
+          .value;
+  Computed<bool> _$birthDateIsValidComputed;
+
+  @override
+  bool get birthDateIsValid => (_$birthDateIsValidComputed ??= Computed<bool>(
+          () => super.birthDateIsValid,
+          name: '_EmployeeStore.birthDateIsValid'))
+      .value;
+  Computed<bool> _$phoneNumberIsValidComputed;
+
+  @override
+  bool get phoneNumberIsValid => (_$phoneNumberIsValidComputed ??=
+          Computed<bool>(() => super.phoneNumberIsValid,
+              name: '_EmployeeStore.phoneNumberIsValid'))
+      .value;
+  Computed<bool> _$rgIsValidComputed;
+
+  @override
+  bool get rgIsValid =>
+      (_$rgIsValidComputed ??= Computed<bool>(() => super.rgIsValid,
+              name: '_EmployeeStore.rgIsValid'))
+          .value;
+  Computed<bool> _$cpfIsValidComputed;
+
+  @override
+  bool get cpfIsValid =>
+      (_$cpfIsValidComputed ??= Computed<bool>(() => super.cpfIsValid,
+              name: '_EmployeeStore.cpfIsValid'))
+          .value;
+  Computed<bool> _$comissionRateIsValidComputed;
+
+  @override
+  bool get comissionRateIsValid => (_$comissionRateIsValidComputed ??=
+          Computed<bool>(() => super.comissionRateIsValid,
+              name: '_EmployeeStore.comissionRateIsValid'))
+      .value;
+  Computed<bool> _$fieldIsValidComputed;
+
+  @override
+  bool get fieldIsValid =>
+      (_$fieldIsValidComputed ??= Computed<bool>(() => super.fieldIsValid,
+              name: '_EmployeeStore.fieldIsValid'))
+          .value;
   Computed<Function> _$buttonSavePressedComputed;
 
   @override
@@ -29,6 +92,52 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   set dataTypeEmployee(List<dynamic> value) {
     _$dataTypeEmployeeAtom.reportWrite(value, super.dataTypeEmployee, () {
       super.dataTypeEmployee = value;
+    });
+  }
+
+  final _$dataTypeEmployeeOldAtom =
+      Atom(name: '_EmployeeStore.dataTypeEmployeeOld');
+
+  @override
+  List<dynamic> get dataTypeEmployeeOld {
+    _$dataTypeEmployeeOldAtom.reportRead();
+    return super.dataTypeEmployeeOld;
+  }
+
+  @override
+  set dataTypeEmployeeOld(List<dynamic> value) {
+    _$dataTypeEmployeeOldAtom.reportWrite(value, super.dataTypeEmployeeOld, () {
+      super.dataTypeEmployeeOld = value;
+    });
+  }
+
+  final _$formStateAtom = Atom(name: '_EmployeeStore.formState');
+
+  @override
+  GlobalKey<FormState> get formState {
+    _$formStateAtom.reportRead();
+    return super.formState;
+  }
+
+  @override
+  set formState(GlobalKey<FormState> value) {
+    _$formStateAtom.reportWrite(value, super.formState, () {
+      super.formState = value;
+    });
+  }
+
+  final _$employeeCreatedAtom = Atom(name: '_EmployeeStore.employeeCreated');
+
+  @override
+  EmployeeForm get employeeCreated {
+    _$employeeCreatedAtom.reportRead();
+    return super.employeeCreated;
+  }
+
+  @override
+  set employeeCreated(EmployeeForm value) {
+    _$employeeCreatedAtom.reportWrite(value, super.employeeCreated, () {
+      super.employeeCreated = value;
     });
   }
 
@@ -268,6 +377,66 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$sendingAtom = Atom(name: '_EmployeeStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$errorSendingAtom = Atom(name: '_EmployeeStore.errorSending');
+
+  @override
+  bool get errorSending {
+    _$errorSendingAtom.reportRead();
+    return super.errorSending;
+  }
+
+  @override
+  set errorSending(bool value) {
+    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
+      super.errorSending = value;
+    });
+  }
+
+  final _$duplicateAtom = Atom(name: '_EmployeeStore.duplicate');
+
+  @override
+  bool get duplicate {
+    _$duplicateAtom.reportRead();
+    return super.duplicate;
+  }
+
+  @override
+  set duplicate(bool value) {
+    _$duplicateAtom.reportWrite(value, super.duplicate, () {
+      super.duplicate = value;
+    });
+  }
+
+  final _$createdAtom = Atom(name: '_EmployeeStore.created');
+
+  @override
+  bool get created {
+    _$createdAtom.reportRead();
+    return super.created;
+  }
+
+  @override
+  set created(bool value) {
+    _$createdAtom.reportWrite(value, super.created, () {
+      super.created = value;
+    });
+  }
+
   final _$controllerFieldComissionRateAtom =
       Atom(name: '_EmployeeStore.controllerFieldComissionRate');
 
@@ -333,11 +502,27 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$validaTesteAsyncAction = AsyncAction('_EmployeeStore.validaTeste');
+
+  @override
+  Future<String> validaTeste(String value) {
+    return _$validaTesteAsyncAction.run(() => super.validaTeste(value));
+  }
+
   final _$saveEmployeeAsyncAction = AsyncAction('_EmployeeStore.saveEmployee');
 
   @override
   Future<void> saveEmployee() {
     return _$saveEmployeeAsyncAction.run(() => super.saveEmployee());
+  }
+
+  final _$sendNewEmployeeAsyncAction =
+      AsyncAction('_EmployeeStore.sendNewEmployee');
+
+  @override
+  Future<void> sendNewEmployee(EmployeeForm employeeForm) {
+    return _$sendNewEmployeeAsyncAction
+        .run(() => super.sendNewEmployee(employeeForm));
   }
 
   final _$_EmployeeStoreActionController =
@@ -446,6 +631,9 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   String toString() {
     return '''
 dataTypeEmployee: ${dataTypeEmployee},
+dataTypeEmployeeOld: ${dataTypeEmployeeOld},
+formState: ${formState},
+employeeCreated: ${employeeCreated},
 name: ${name},
 controllerFieldName: ${controllerFieldName},
 lastName: ${lastName},
@@ -461,10 +649,23 @@ controllerFieldPhoneNumber: ${controllerFieldPhoneNumber},
 rg: ${rg},
 controllerFieldRg: ${controllerFieldRg},
 comissionRate: ${comissionRate},
+sending: ${sending},
+errorSending: ${errorSending},
+duplicate: ${duplicate},
+created: ${created},
 controllerFieldComissionRate: ${controllerFieldComissionRate},
 password: ${password},
 controllerFieldPassword: ${controllerFieldPassword},
 loadingTypeEmployee: ${loadingTypeEmployee},
+nameIsValid: ${nameIsValid},
+lastNameIsValid: ${lastNameIsValid},
+nickNameIsValid: ${nickNameIsValid},
+birthDateIsValid: ${birthDateIsValid},
+phoneNumberIsValid: ${phoneNumberIsValid},
+rgIsValid: ${rgIsValid},
+cpfIsValid: ${cpfIsValid},
+comissionRateIsValid: ${comissionRateIsValid},
+fieldIsValid: ${fieldIsValid},
 buttonSavePressed: ${buttonSavePressed}
     ''';
   }

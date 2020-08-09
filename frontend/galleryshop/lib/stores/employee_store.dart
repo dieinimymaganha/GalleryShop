@@ -1,5 +1,7 @@
+import 'package:collection/equality.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
@@ -10,10 +12,13 @@ class EmployeeStore = _EmployeeStore with _$EmployeeStore;
 
 abstract class _EmployeeStore with Store {
   TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
+  EmployeeWebClient _webClientEmployee = EmployeeWebClient();
 
   _EmployeeStore() {
     autorun((_) {
-//      print('dataTypeEmployee ----> $dataTypeEmployee');
+      print('dataTypeEmployee ----> $dataTypeEmployee');
+      print('dataTypeEmployeeOld ----> $dataTypeEmployeeOld');
+
 //      print('lastName ----> $lastName');
 //      print('nickname ----> $nickname');
 //      print('cpf ----> $cpf');//      print('rg ----> $rg');
@@ -26,10 +31,32 @@ abstract class _EmployeeStore with Store {
   @observable
   List<dynamic> dataTypeEmployee = List();
 
+  @observable
+  List<dynamic> dataTypeEmployeeOld = List();
+
+  @observable
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
+
   void getServices() async {
     dataTypeEmployee = await _webClientTypeEmployee.findAll();
+    dataTypeEmployee.sort(
+        (a, b) => a.description.toString().compareTo(b.description.toString()));
+
+    dataTypeEmployeeOld = await _webClientTypeEmployee.findAll();
+    dataTypeEmployeeOld.sort(
+        (a, b) => a.description.toString().compareTo(b.description.toString()));
+
     loadingTypeEmployee = true;
   }
+
+  void saveNew() async {
+    dataTypeEmployeeOld = await _webClientTypeEmployee.findAll();
+    dataTypeEmployeeOld.sort(
+        (a, b) => a.description.toString().compareTo(b.description.toString()));
+  }
+
+  @observable
+  EmployeeForm employeeCreated;
 
   @observable
   String name = '';
@@ -104,7 +131,38 @@ abstract class _EmployeeStore with Store {
   int comissionRate;
 
   @action
-  void setComissionRate(String value) => comissionRate = int.parse(value);
+  Future<String> validaTeste(String value) async {
+    if (comissionRate == null) {
+      return 'Campo obrigatório';
+    } else if (comissionRate != null) {
+      try {
+        return 'valido';
+      } on Exception catch (_) {
+        return 'Somente números, sem dígitos';
+      }
+    }
+    return null;
+  }
+
+  @observable
+  bool sending = false;
+
+  @observable
+  bool errorSending = false;
+
+  @observable
+  bool duplicate = false;
+
+  @observable
+  bool created = false;
+
+  @action
+  void setComissionRate(String value) {
+    if (value.isEmpty) {
+      comissionRate = null;
+    }
+    comissionRate = int.parse(value);
+  }
 
   @observable
   TextEditingController controllerFieldComissionRate = TextEditingController();
@@ -120,6 +178,29 @@ abstract class _EmployeeStore with Store {
 
   @action
   Future<void> saveEmployee() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+    await createNewEmployee();
+    await sendNewEmployee(employeeCreated);
+  }
+
+  @action
+  Future<void> sendNewEmployee(EmployeeForm employeeForm) async {
+    int response = await _webClientEmployee.save(employeeForm);
+    if (response == 201) {
+      created = true;
+    } else if (response == 409) {
+      duplicate = true;
+    } else {
+      errorSending = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    errorSending = false;
+    created = false;
+  }
+
+  void createNewEmployee() {
     List<dynamic> newDataTypeEmployee = List();
     newDataTypeEmployee =
         dataTypeEmployee.where((element) => element.select == true).toList();
@@ -132,17 +213,60 @@ abstract class _EmployeeStore with Store {
       listTypeEmployee.add(employeeSelect);
     });
 
-    EmployeeForm employeeCreated = EmployeeForm(
+    final listProfiles = new List<ListProfiles>();
+    final String role = 'ROLE_EMPLOYEE';
+    listProfiles.add(new ListProfiles(role: role));
+
+    employeeCreated = EmployeeForm(
       name: name,
       lastName: lastName,
       nickname: nickname,
       birthDate: birthDate,
+      phoneNumber: phoneNumber,
+      rg: rg,
+      cpf: cpf,
+      commissionRate: comissionRate,
+      password: 'galleryShop',
+      listProfiles: listProfiles,
       listTypeEmployees: listTypeEmployee,
     );
-
-    print(employeeCreated.toJson());
   }
 
   @computed
-  Function get buttonSavePressed => saveEmployee;
+  bool get nameIsValid => name.isNotEmpty;
+
+  @computed
+  bool get lastNameIsValid => lastName.isNotEmpty;
+
+  @computed
+  bool get nickNameIsValid => nickname.isNotEmpty;
+
+  @computed
+  bool get birthDateIsValid => birthDate.isNotEmpty;
+
+  @computed
+  bool get phoneNumberIsValid => phoneNumber.isNotEmpty;
+
+  @computed
+  bool get rgIsValid => rg.isNotEmpty;
+
+  @computed
+  bool get cpfIsValid => cpf.isNotEmpty;
+
+  @computed
+  bool get comissionRateIsValid => comissionRate != null;
+
+  @computed
+  bool get fieldIsValid =>
+      nameIsValid &&
+      lastNameIsValid &&
+      nickNameIsValid &&
+      birthDateIsValid &&
+      phoneNumberIsValid &&
+      rgIsValid &&
+      cpfIsValid &&
+      comissionRateIsValid;
+
+  @computed
+  Function get buttonSavePressed => fieldIsValid ? saveEmployee : null;
 }
