@@ -39,125 +39,131 @@ class EmployeesListScreen extends StatelessWidget {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       final EmployeeModel employeeModel = employees[index];
-                      return InkWell(
-                        onTap: () {
-                          print('Clicou');
-                        },
-                        child: Card(
-                          elevation: 1,
-                          shadowColor: Colors.grey,
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 2,
-                                        top: 10,
-                                        bottom: 10,
+                      return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: InkWell(
+                          onTap: () {
+                            print('Clicou');
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0)),
+                            color: Colors.blueGrey[100],
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 15,
+                                          right: 15,
+                                          top: 10,
+                                          bottom: 10,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Text(
+                                              employeeModel.nickname,
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Nome: ',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                Text(
+                                                  employeeModel.name,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Sobrenome: ',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                Text(
+                                                  employeeModel.lastName,
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Data Nascimento: ',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
+                                                Text(
+                                                  convertData(employeeModel
+                                                      .birthdate
+                                                      .toString()),
+                                                ),
+                                              ],
+                                            ),
+                                            Divider(
+                                              color: Colors.grey[200],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                employeeModel.typeEmployees
+                                                            .length ==
+                                                        1
+                                                    ? Text('Função:')
+                                                    : Text(
+                                                        'Funções:',
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                Column(
+                                                  children: employeeModel
+                                                      .typeEmployees
+                                                      .map((typeEm) {
+                                                    return Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                            typeEm.description),
+                                                      ],
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            employeeModel.nickname,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                'Nome: ',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              Text(
-                                                employeeModel.name,
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                'Sobrenome: ',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              Text(
-                                                employeeModel.lastName,
-                                                style: TextStyle(fontSize: 15),
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                'Data Nascimento: ',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              Text(
-                                                convertData(employeeModel
-                                                    .birthdate
-                                                    .toString()),
-                                                style: TextStyle(
-                                                    color: Colors.blue),
-                                              ),
-                                            ],
-                                          ),
-                                          Divider(
-                                            color: Colors.grey[200],
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              employeeModel.typeEmployees
-                                                          .length ==
-                                                      1
-                                                  ? Text('Função:')
-                                                  : Text(
-                                                      'Funções:',
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                              Column(
-                                                children: employeeModel
-                                                    .typeEmployees
-                                                    .map((typeEm) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(typeEm.description),
-                                                    ],
-                                                  );
-                                                }).toList(),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
