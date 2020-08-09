@@ -58,7 +58,6 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                         onChanged: employeeStore.setName,
                       ),
                       SizedBox(height: space),
-                      SizedBox(height: space),
                       CustomForm(
                         controller: employeeStore.controllerFieldLastName,
                         mandatory: true,
@@ -148,39 +147,44 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                         },
                       ),
                       SizedBox(height: space),
-                      Divider(
-                        color: Colors.black,
-                      ),
                       Text(
                         'Selecione as funções:',
                         style: TextStyle(fontSize: 18),
                       ),
-                      employeeStore.loadingTypeEmployee
-                          ? Column(
-                              children:
-                                  employeeStore.dataTypeEmployee.map((typeEm) {
-                                return Column(
-                                  children: <Widget>[
-                                    SwitchListTile(
-                                      value: typeEm.select,
-                                      key: Key(typeEm.description),
-                                      onChanged: (_) {
-                                        setState(() {
-                                          typeEm.select = !typeEm.select;
-                                        });
-                                      },
-                                      title:
-                                          Text(typeEm.description.toString()),
-                                      selected: typeEm.select,
-                                      secondary: Icon(Icons.account_circle),
-                                    )
-                                  ],
-                                );
-                              }).toList(),
-                            )
-                          : CircularProgressIndicator(),
-                      Divider(
-                        color: Colors.black,
+                      SizedBox(height: space),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32.0)),
+                        elevation: 5,
+                        child: Column(
+                          children: <Widget>[
+                            employeeStore.loadingTypeEmployee
+                                ? Column(
+                                    children: employeeStore.dataTypeEmployee
+                                        .map((typeEm) {
+                                      return Column(
+                                        children: <Widget>[
+                                          SwitchListTile(
+                                            value: typeEm.select,
+                                            key: Key(typeEm.description),
+                                            onChanged: (_) {
+                                              setState(() {
+                                                typeEm.select = !typeEm.select;
+                                              });
+                                            },
+                                            title: Text(
+                                                typeEm.description.toString()),
+                                            selected: typeEm.select,
+                                            secondary:
+                                                Icon(Icons.account_circle),
+                                          )
+                                        ],
+                                      );
+                                    }).toList(),
+                                  )
+                                : CircularProgressIndicator(),
+                          ],
+                        ),
                       ),
                       SizedBox(height: space),
                       Container(
