@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/data/validators.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
+import 'package:mobx/mobx.dart';
 
 class CreateNewEmployeeScreen extends StatefulWidget {
   @override
@@ -16,11 +19,11 @@ class CreateNewEmployeeScreen extends StatefulWidget {
 class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
   EmployeeStore employeeStore = EmployeeStore();
 
-  TextEditingController _controllerDate = TextEditingController();
-
   List<dynamic> dataTypeEmployee = List();
 
   final _formKey = GlobalKey<FormState>();
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -28,11 +31,59 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
     employeeStore.getServices();
   }
 
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer =
+        reaction((_) => employeeStore.errorSending, (errorSending) async {
+      if (errorSending) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Error ao cadastrar! Verifique os campos',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+      }
+    });
+
+    disposer = reaction((_) => employeeStore.created, (created) async {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          'Funcionário cadastrado!',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.blueAccent,
+        duration: Duration(seconds: 2),
+      ));
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => BaseScreen()));
+    });
+    disposer = reaction((_) => employeeStore.duplicate, (created) async {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          'Funcionário já cadastrado!',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.yellowAccent,
+        duration: Duration(seconds: 2),
+      ));
+      await Future.delayed(Duration(seconds: 2));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
               'Cadastrar novo funcionário',
@@ -45,7 +96,8 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
             child: ListView(
               children: <Widget>[
                 Form(
-                  key: _formKey,
+                  autovalidate: employeeStore.fieldIsValid,
+                  key: employeeStore.formState,
                   child: Column(
                     children: <Widget>[
                       CustomForm(
@@ -56,6 +108,9 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                         textInputType: TextInputType.text,
                         obscure: false,
                         onChanged: employeeStore.setName,
+                        validator: (value) {
+                          return validatorName(value);
+                        },
                       ),
                       SizedBox(height: space),
                       CustomForm(
@@ -90,6 +145,9 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                           changeAlterBirthDate();
                         },
                         onChanged: employeeStore.setBirthDate,
+                        validator: (value) {
+                          return validatorBirthDate(value);
+                        },
                       ),
                       SizedBox(height: space),
                       CustomForm(
@@ -102,14 +160,17 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                         textInputType: TextInputType.number,
                         obscure: false,
                         onChanged: employeeStore.setPhoneNumber,
+                        validator: (value) {
+                          return validatorPhoneNumber(value);
+                        },
                       ),
                       SizedBox(height: space),
                       CustomForm(
                         controller: employeeStore.controllerFieldRg,
                         mandatory: true,
-                        tip: 'Digite o RG',
-                        label: 'Incluir ponto e dígito "00.000.000-0"',
-                        textInputType: TextInputType.text,
+                        tip: 'Incluir ponto e dígito "00.000.000-0"',
+                        label: 'RG',
+                        textInputType: TextInputType.number,
                         obscure: false,
                         onChanged: employeeStore.setRg,
                       ),
@@ -118,32 +179,26 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                         maxlengthField: 14,
                         controller: employeeStore.controllerFieldCpf,
                         mandatory: true,
-                        tip: 'Digite o CPF',
-                        label: '000.000.000-00',
-                        textInputType: TextInputType.text,
+                        tip: '000.000.000-00',
+                        label: 'CPF',
+                        textInputType: TextInputType.number,
                         obscure: false,
                         onChanged: employeeStore.setCpf,
+                        validator: (value) {
+                          return validatorCpf(value);
+                        },
                       ),
                       SizedBox(height: space),
                       CustomForm(
                         controller: employeeStore.controllerFieldComissionRate,
                         mandatory: true,
                         tip: 'Digite a taxa de comissão',
-                        label: 'Comissão',
+                        label: 'Taxa de Comissão',
                         textInputType: TextInputType.number,
                         obscure: false,
                         onChanged: employeeStore.setComissionRate,
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Campo obrigatório';
-                          } else if (value.isNotEmpty) {
-                            try {
-                              int.parse(value);
-                            } on Exception catch (_) {
-                              return 'Somente números, sem dígitos';
-                            }
-                          }
-                          return null;
+                          return validatorComissionRate(value);
                         },
                       ),
                       SizedBox(height: space),
@@ -220,7 +275,13 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                                     ),
                                     Container(
                                       child: SizedBox(
-                                        child: Icon(Icons.send),
+                                        child: employeeStore.sending
+                                            ? CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation(
+                                                        Colors.blue),
+                                              )
+                                            : Icon(Icons.send),
                                         height: 28,
                                         width: 28,
                                       ),
@@ -229,6 +290,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                                 ),
                                 onPressed: employeeStore.buttonSavePressed)),
                       ),
+                      SizedBox(height: 20),
                     ],
                   ),
                 )
@@ -238,6 +300,12 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 
   void changeAlterBirthDate() {
