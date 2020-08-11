@@ -4,6 +4,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/screens/client/widget/button_create_client.dart';
+import 'package:galleryshop/screens/employees/employees_base_screen.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 import 'package:galleryshop/widgets/progress.dart';
@@ -22,6 +23,18 @@ class EmployeesListScreen extends StatelessWidget {
         title: Text(_titleAppbar),
         centerTitle: true,
         backgroundColor: colorAppbar,
+        leading: IconButton(
+          icon: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => EmployeeBaseScreen()));
+            },
+          ),
+        ),
       ),
       body: Container(
         padding: EdgeInsets.only(top: 10, bottom: 10),
