@@ -11,14 +11,14 @@ part 'employee_store.g.dart';
 class EmployeeStore = _EmployeeStore with _$EmployeeStore;
 
 abstract class _EmployeeStore with Store {
+  final EmployeeModel employeeModel;
+
   TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
   EmployeeWebClient _webClientEmployee = EmployeeWebClient();
 
-  _EmployeeStore() {
+  _EmployeeStore({this.employeeModel}) {
     autorun((_) {
-      print('dataTypeEmployee ----> $dataTypeEmployee');
-      print('dataTypeEmployeeOld ----> $dataTypeEmployeeOld');
-
+      print('excludedFail ----> $excludedFail');
 //      print('lastName ----> $lastName');
 //      print('nickname ----> $nickname');
 //      print('cpf ----> $cpf');//      print('rg ----> $rg');
@@ -269,4 +269,29 @@ abstract class _EmployeeStore with Store {
 
   @computed
   Function get buttonSavePressed => fieldIsValid ? saveEmployee : null;
+
+  @computed
+  Function get buttomExcludePressed => excludeEmployee;
+
+  @observable
+  bool excluded = false;
+
+  @observable
+  bool excludedFail = false;
+
+  @action
+  Future<void> excludeEmployee() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    int response = await _webClientEmployee.exclude(employeeModel);
+    if (response == 200) {
+      excluded = true;
+      await Future.delayed(Duration(seconds: 2));
+    } else {
+      excludedFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      excludedFail = false;
+      sending = false;
+    }
+  }
 }

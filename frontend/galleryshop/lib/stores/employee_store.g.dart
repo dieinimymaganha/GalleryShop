@@ -79,6 +79,13 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
           Computed<Function>(() => super.buttonSavePressed,
               name: '_EmployeeStore.buttonSavePressed'))
       .value;
+  Computed<Function> _$buttomExcludePressedComputed;
+
+  @override
+  Function get buttomExcludePressed => (_$buttomExcludePressedComputed ??=
+          Computed<Function>(() => super.buttomExcludePressed,
+              name: '_EmployeeStore.buttomExcludePressed'))
+      .value;
 
   final _$dataTypeEmployeeAtom = Atom(name: '_EmployeeStore.dataTypeEmployee');
 
@@ -502,6 +509,36 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$excludedAtom = Atom(name: '_EmployeeStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
+  final _$excludedFailAtom = Atom(name: '_EmployeeStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
   final _$validaTesteAsyncAction = AsyncAction('_EmployeeStore.validaTeste');
 
   @override
@@ -523,6 +560,14 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   Future<void> sendNewEmployee(EmployeeForm employeeForm) {
     return _$sendNewEmployeeAsyncAction
         .run(() => super.sendNewEmployee(employeeForm));
+  }
+
+  final _$excludeEmployeeAsyncAction =
+      AsyncAction('_EmployeeStore.excludeEmployee');
+
+  @override
+  Future<void> excludeEmployee() {
+    return _$excludeEmployeeAsyncAction.run(() => super.excludeEmployee());
   }
 
   final _$_EmployeeStoreActionController =
@@ -657,6 +702,8 @@ controllerFieldComissionRate: ${controllerFieldComissionRate},
 password: ${password},
 controllerFieldPassword: ${controllerFieldPassword},
 loadingTypeEmployee: ${loadingTypeEmployee},
+excluded: ${excluded},
+excludedFail: ${excludedFail},
 nameIsValid: ${nameIsValid},
 lastNameIsValid: ${lastNameIsValid},
 nickNameIsValid: ${nickNameIsValid},
@@ -666,7 +713,8 @@ rgIsValid: ${rgIsValid},
 cpfIsValid: ${cpfIsValid},
 comissionRateIsValid: ${comissionRateIsValid},
 fieldIsValid: ${fieldIsValid},
-buttonSavePressed: ${buttonSavePressed}
+buttonSavePressed: ${buttonSavePressed},
+buttomExcludePressed: ${buttomExcludePressed}
     ''';
   }
 }
