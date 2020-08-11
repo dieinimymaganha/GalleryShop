@@ -5,6 +5,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/validators.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
+import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
+import 'package:galleryshop/screens/employees/employees_base_screen.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +57,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
     disposer = reaction((_) => employeeStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          'Funcionário cadastrado!',
+          'Funcionário cadastrado  com sucesso!',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.blueAccent,
@@ -63,7 +65,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
       ));
       await Future.delayed(Duration(seconds: 2));
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => BaseScreen()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => EmployeesListScreen()));
     });
     disposer = reaction((_) => employeeStore.duplicate, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
