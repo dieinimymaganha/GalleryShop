@@ -25,7 +25,6 @@ class EmployeeWebClient {
       final List<dynamic> data = decodeJson
           .map((dynamic json) => EmployeeModel.fromJson(json))
           .toList();
-      print('aqui: ${data}');
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
@@ -41,6 +40,21 @@ class EmployeeWebClient {
         },
         body: employeeJson);
 
+    return response.statusCode;
+  }
+
+  Future<int> exclude(EmployeeModel employeeModel) async {
+    String token = await get_token();
+    String id = employeeModel.id.toString();
+    String urlExclude = urlEmployee + '/' + id;
+
+    final Response response = await webClient.delete(
+      urlExclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
     return response.statusCode;
   }
 
