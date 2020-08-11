@@ -4,9 +4,7 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/validators.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
-import 'package:galleryshop/screens/employees/employees_base_screen.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
@@ -22,8 +20,6 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
   EmployeeStore employeeStore = EmployeeStore();
 
   List<dynamic> dataTypeEmployee = List();
-
-  final _formKey = GlobalKey<FormState>();
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
