@@ -61,6 +61,11 @@ class EmployeeModel {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'EmployeeModel{id: $id, name: $name, lastName: $lastName, nickname: $nickname, cpf: $cpf, birthdate: $birthdate, phoneNumber: $phoneNumber, rg: $rg, commissionRate: $commissionRate, password: $password, typeEmployees: $typeEmployees}';
+  }
 }
 
 class TypeEmployees {
