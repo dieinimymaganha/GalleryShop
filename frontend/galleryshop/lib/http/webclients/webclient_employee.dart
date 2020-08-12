@@ -43,6 +43,22 @@ class EmployeeWebClient {
     return response.statusCode;
   }
 
+  Future<int> update(EmployeeForm employeeForm, int id) async {
+    String token = await get_token();
+    String urlUpdate = urlEmployee + '/' + id.toString();
+
+    final String serviceJson = json.encode(employeeForm.toJson());
+
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
   Future<int> exclude(EmployeeModel employeeModel) async {
     String token = await get_token();
     String id = employeeModel.id.toString();
