@@ -14,132 +14,129 @@ abstract class _TypeEmployeeStore with Store {
 
   TypeEmployeeForm newTypeEmployee = TypeEmployeeForm();
 
-  @observable
-  TextEditingController _controllerDescription;
-
-//  _TypeEmployeeStore({this.typeEmployeeModel}) {
-//    autorun((_) {
-//      print('TypeEmployee -> ${typeEmployeeModel.toString()}');
-//      print('newTypeEmployee -> ${newTypeEmployee.toString()}');
-//      print('description -> ${description}');
-//    });
-//  }
-
-  _TypeEmployeeStore({this.typeEmployeeModel});
+  _TypeEmployeeStore({this.typeEmployeeModel}) {
+    autorun((_) {
+      print('>>> ${typeEmployeeModel}');
+    });
+  }
 
   @observable
-  String description;
+  String description = '';
 
   @observable
-  bool excluding = false;
-
-  @observable
-  bool notAuthorized = false;
-
-  @observable
-  bool excluded = false;
+  TextEditingController controllerFieldDescription = TextEditingController();
 
   @action
   void setDescription(String value) => description = value;
 
-  TextEditingController setControllerDescription(
-          TextEditingController controller) =>
-      _controllerDescription = controller;
-
   @action
-  void updateDescriptionTypeEmployee(String description) {
-    typeEmployeeModel.description = description;
-  }
-
-  @action
-  void updateDescriptionNewTypeEmployee(String description) {
-    newTypeEmployee.description = description;
-  }
-
-  @action
-  Future<TypeEmployeeModel> saveOrUpdateTypeEmployee() async {
-    if (newTypeEmployee.description == null && typeEmployeeModel == null) {
-      updateDescriptionNewTypeEmployee(description);
-      TypeEmployeeModel typeEmployeeModelCreated = await saveTypeEmployee();
-      print('>>>AQUI<<<');
-      return typeEmployeeModelCreated;
-    } else if (typeEmployeeModel.description != description &&
-        typeEmployeeModel.description.isNotEmpty) {
-      updateDescriptionTypeEmployee(description);
-      TypeEmployeeModel typeEmployeeModelUpdate = await updateTypeEmploee();
-      return typeEmployeeModelUpdate;
-      print('>>>FOIAQUI<<<');
-    } else {
-      return null;
+  void setDescriptionInit() {
+    if (typeEmployeeModel != null) {
+      controllerFieldDescription.text = typeEmployeeModel.description;
+      description = typeEmployeeModel.description;
+      change = true;
     }
   }
+
+  @observable
+  bool sending = false;
+
+  @observable
+  bool excludedFail = false;
+
+  @observable
+  bool excluedBlock = false;
+
+  @observable
+  bool excluded = false;
+
+  @observable
+  bool change = false;
+
+  @observable
+  bool errorSending = false;
+
+  @observable
+  bool created = false;
 
   @action
   Future<void> excludeTypeEmployee() async {
-    excluding = true;
-    await sendExcludeTypeEmployee(typeEmployeeModel);
-    excluding = false;
-  }
-
-  @action
-  Future<int> sendExcludeTypeEmployee(
-      TypeEmployeeModel typeEmployeeExclude) async {
-    int status = await _webClient.exclude(typeEmployeeExclude);
-
-    if (status == 500) {
-      notAuthorized = true;
-      await Future.delayed(Duration(seconds: 5));
-      notAuthorized = false;
+    int response = await _webClient.exclude(typeEmployeeModel);
+//    int response = 500;
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    if (response == 200) {
+      excluded = true;
+    } else if (response == 500) {
+      excluedBlock = true;
+      await Future.delayed(Duration(seconds: 2));
+      sending = false;
+      excluedBlock = false;
+    } else {
+      excludedFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      excludedFail = false;
+      sending = false;
     }
-    return status;
   }
 
-//  @action
-//  Future<void> saveOrUpdateTypeEmployee() async {
-//    if (typeEmployeeModel.description != null) {
-//      verifyTypeEmployee(typeEmployeeModel);
-//      print('Salvando');
-//    } else {
-//      print('Toaqui');
-//    }
-//  }
+  @computed
+  bool get changeIsValid => typeEmployeeModel.description != description;
+
+  @computed
+  Function get buttomChangePressed => changeIsValid ? updateTypeEmployee : null;
+
+  @computed
+  Function get buttomSavePressed => saveIsValid ? saveTypeEmployee : null;
+
+  @computed
+  bool get saveIsValid => description.isNotEmpty;
 
   @action
-  Future<TypeEmployeeModel> saveTypeEmployee() async {
-    TypeEmployeeModel typeEmployeeModelCreated =
-        await _webClient.save(newTypeEmployee);
-    return typeEmployeeModelCreated;
+  Future<void> updateTypeEmployee() async {
+    TypeEmployeeForm typeEmployeeForm =
+        TypeEmployeeForm(description: description);
+
+    int response =
+        await _webClient.update(typeEmployeeForm, typeEmployeeModel.id);
+
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    if (response == 200) {
+      created = true;
+      await Future.delayed(Duration(seconds: 2));
+    } else {
+      errorSending = true;
+      await Future.delayed(Duration(seconds: 2));
+      sending = false;
+      errorSending = false;
+    }
   }
 
   @action
-  Future<TypeEmployeeModel> updateTypeEmploee() async {
-    TypeEmployeeModel typeEmployeeModelUpdate =
-        await _webClient.update(typeEmployeeModel);
-    return typeEmployeeModelUpdate;
+  Future<void> saveTypeEmployee() async {
+    TypeEmployeeForm typeEmployeeForm =
+        TypeEmployeeForm(description: description);
+
+    int response = await _webClient.save(typeEmployeeForm);
+
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    if (response == 201) {
+      created = true;
+      await Future.delayed(Duration(seconds: 2));
+    } else {
+      errorSending = true;
+      await Future.delayed(Duration(seconds: 2));
+      sending = false;
+      errorSending = false;
+    }
   }
 
   @computed
-  bool get isValid => typeEmployeeModel != null;
+  bool get excludeIsvalid => typeEmployeeModel != null;
 
   @computed
-  bool get isValidNewTypeEmployee => newTypeEmployee != null;
-
-  @computed
-  bool get descriptionDif =>
-      _controllerDescription.text != typeEmployeeModel.description;
-
-  @computed
-  bool get descriptionValid => description != null;
-
-  @computed
-  bool get validSave => descriptionValid && (isValid || isValidNewTypeEmployee);
-
-  @computed
-  Function get excludePressed => (isValid) ? excludeTypeEmployee : null;
-
-  @computed
-  Function get savePressed =>
-      descriptionValid && (isValid || isValidNewTypeEmployee)
-          ? saveOrUpdateTypeEmployee
-          : null;
+  Function get buttonExcludePressed =>
+      excludeIsvalid ? excludeTypeEmployee : null;
 }

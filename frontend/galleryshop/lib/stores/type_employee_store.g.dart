@@ -9,71 +9,48 @@ part of 'type_employee_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
-  Computed<bool> _$isValidComputed;
+  Computed<bool> _$changeIsValidComputed;
 
   @override
-  bool get isValid => (_$isValidComputed ??= Computed<bool>(() => super.isValid,
-          name: '_TypeEmployeeStore.isValid'))
-      .value;
-  Computed<bool> _$isValidNewTypeEmployeeComputed;
-
-  @override
-  bool get isValidNewTypeEmployee => (_$isValidNewTypeEmployeeComputed ??=
-          Computed<bool>(() => super.isValidNewTypeEmployee,
-              name: '_TypeEmployeeStore.isValidNewTypeEmployee'))
-      .value;
-  Computed<bool> _$descriptionDifComputed;
-
-  @override
-  bool get descriptionDif =>
-      (_$descriptionDifComputed ??= Computed<bool>(() => super.descriptionDif,
-              name: '_TypeEmployeeStore.descriptionDif'))
+  bool get changeIsValid =>
+      (_$changeIsValidComputed ??= Computed<bool>(() => super.changeIsValid,
+              name: '_TypeEmployeeStore.changeIsValid'))
           .value;
-  Computed<bool> _$descriptionValidComputed;
+  Computed<Function> _$buttomChangePressedComputed;
 
   @override
-  bool get descriptionValid => (_$descriptionValidComputed ??= Computed<bool>(
-          () => super.descriptionValid,
-          name: '_TypeEmployeeStore.descriptionValid'))
+  Function get buttomChangePressed => (_$buttomChangePressedComputed ??=
+          Computed<Function>(() => super.buttomChangePressed,
+              name: '_TypeEmployeeStore.buttomChangePressed'))
       .value;
-  Computed<bool> _$validSaveComputed;
+  Computed<Function> _$buttomSavePressedComputed;
 
   @override
-  bool get validSave =>
-      (_$validSaveComputed ??= Computed<bool>(() => super.validSave,
-              name: '_TypeEmployeeStore.validSave'))
-          .value;
-  Computed<Function> _$excludePressedComputed;
-
-  @override
-  Function get excludePressed => (_$excludePressedComputed ??=
-          Computed<Function>(() => super.excludePressed,
-              name: '_TypeEmployeeStore.excludePressed'))
+  Function get buttomSavePressed => (_$buttomSavePressedComputed ??=
+          Computed<Function>(() => super.buttomSavePressed,
+              name: '_TypeEmployeeStore.buttomSavePressed'))
       .value;
-  Computed<Function> _$savePressedComputed;
+  Computed<bool> _$saveIsValidComputed;
 
   @override
-  Function get savePressed =>
-      (_$savePressedComputed ??= Computed<Function>(() => super.savePressed,
-              name: '_TypeEmployeeStore.savePressed'))
+  bool get saveIsValid =>
+      (_$saveIsValidComputed ??= Computed<bool>(() => super.saveIsValid,
+              name: '_TypeEmployeeStore.saveIsValid'))
           .value;
-
-  final _$_controllerDescriptionAtom =
-      Atom(name: '_TypeEmployeeStore._controllerDescription');
+  Computed<bool> _$excludeIsvalidComputed;
 
   @override
-  TextEditingController get _controllerDescription {
-    _$_controllerDescriptionAtom.reportRead();
-    return super._controllerDescription;
-  }
+  bool get excludeIsvalid =>
+      (_$excludeIsvalidComputed ??= Computed<bool>(() => super.excludeIsvalid,
+              name: '_TypeEmployeeStore.excludeIsvalid'))
+          .value;
+  Computed<Function> _$buttonExcludePressedComputed;
 
   @override
-  set _controllerDescription(TextEditingController value) {
-    _$_controllerDescriptionAtom
-        .reportWrite(value, super._controllerDescription, () {
-      super._controllerDescription = value;
-    });
-  }
+  Function get buttonExcludePressed => (_$buttonExcludePressedComputed ??=
+          Computed<Function>(() => super.buttonExcludePressed,
+              name: '_TypeEmployeeStore.buttonExcludePressed'))
+      .value;
 
   final _$descriptionAtom = Atom(name: '_TypeEmployeeStore.description');
 
@@ -90,33 +67,65 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
-  final _$excludingAtom = Atom(name: '_TypeEmployeeStore.excluding');
+  final _$controllerFieldDescriptionAtom =
+      Atom(name: '_TypeEmployeeStore.controllerFieldDescription');
 
   @override
-  bool get excluding {
-    _$excludingAtom.reportRead();
-    return super.excluding;
+  TextEditingController get controllerFieldDescription {
+    _$controllerFieldDescriptionAtom.reportRead();
+    return super.controllerFieldDescription;
   }
 
   @override
-  set excluding(bool value) {
-    _$excludingAtom.reportWrite(value, super.excluding, () {
-      super.excluding = value;
+  set controllerFieldDescription(TextEditingController value) {
+    _$controllerFieldDescriptionAtom
+        .reportWrite(value, super.controllerFieldDescription, () {
+      super.controllerFieldDescription = value;
     });
   }
 
-  final _$notAuthorizedAtom = Atom(name: '_TypeEmployeeStore.notAuthorized');
+  final _$sendingAtom = Atom(name: '_TypeEmployeeStore.sending');
 
   @override
-  bool get notAuthorized {
-    _$notAuthorizedAtom.reportRead();
-    return super.notAuthorized;
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
   }
 
   @override
-  set notAuthorized(bool value) {
-    _$notAuthorizedAtom.reportWrite(value, super.notAuthorized, () {
-      super.notAuthorized = value;
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$excludedFailAtom = Atom(name: '_TypeEmployeeStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
+  final _$excluedBlockAtom = Atom(name: '_TypeEmployeeStore.excluedBlock');
+
+  @override
+  bool get excluedBlock {
+    _$excluedBlockAtom.reportRead();
+    return super.excluedBlock;
+  }
+
+  @override
+  set excluedBlock(bool value) {
+    _$excluedBlockAtom.reportWrite(value, super.excluedBlock, () {
+      super.excluedBlock = value;
     });
   }
 
@@ -135,13 +144,49 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
-  final _$saveOrUpdateTypeEmployeeAsyncAction =
-      AsyncAction('_TypeEmployeeStore.saveOrUpdateTypeEmployee');
+  final _$changeAtom = Atom(name: '_TypeEmployeeStore.change');
 
   @override
-  Future<TypeEmployeeModel> saveOrUpdateTypeEmployee() {
-    return _$saveOrUpdateTypeEmployeeAsyncAction
-        .run(() => super.saveOrUpdateTypeEmployee());
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
+  final _$errorSendingAtom = Atom(name: '_TypeEmployeeStore.errorSending');
+
+  @override
+  bool get errorSending {
+    _$errorSendingAtom.reportRead();
+    return super.errorSending;
+  }
+
+  @override
+  set errorSending(bool value) {
+    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
+      super.errorSending = value;
+    });
+  }
+
+  final _$createdAtom = Atom(name: '_TypeEmployeeStore.created');
+
+  @override
+  bool get created {
+    _$createdAtom.reportRead();
+    return super.created;
+  }
+
+  @override
+  set created(bool value) {
+    _$createdAtom.reportWrite(value, super.created, () {
+      super.created = value;
+    });
   }
 
   final _$excludeTypeEmployeeAsyncAction =
@@ -153,29 +198,21 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
         .run(() => super.excludeTypeEmployee());
   }
 
-  final _$sendExcludeTypeEmployeeAsyncAction =
-      AsyncAction('_TypeEmployeeStore.sendExcludeTypeEmployee');
+  final _$updateTypeEmployeeAsyncAction =
+      AsyncAction('_TypeEmployeeStore.updateTypeEmployee');
 
   @override
-  Future<int> sendExcludeTypeEmployee(TypeEmployeeModel typeEmployeeExclude) {
-    return _$sendExcludeTypeEmployeeAsyncAction
-        .run(() => super.sendExcludeTypeEmployee(typeEmployeeExclude));
+  Future<void> updateTypeEmployee() {
+    return _$updateTypeEmployeeAsyncAction
+        .run(() => super.updateTypeEmployee());
   }
 
   final _$saveTypeEmployeeAsyncAction =
       AsyncAction('_TypeEmployeeStore.saveTypeEmployee');
 
   @override
-  Future<TypeEmployeeModel> saveTypeEmployee() {
+  Future<void> saveTypeEmployee() {
     return _$saveTypeEmployeeAsyncAction.run(() => super.saveTypeEmployee());
-  }
-
-  final _$updateTypeEmploeeAsyncAction =
-      AsyncAction('_TypeEmployeeStore.updateTypeEmploee');
-
-  @override
-  Future<TypeEmployeeModel> updateTypeEmploee() {
-    return _$updateTypeEmploeeAsyncAction.run(() => super.updateTypeEmploee());
   }
 
   final _$_TypeEmployeeStoreActionController =
@@ -193,22 +230,11 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   }
 
   @override
-  void updateDescriptionTypeEmployee(String description) {
+  void setDescriptionInit() {
     final _$actionInfo = _$_TypeEmployeeStoreActionController.startAction(
-        name: '_TypeEmployeeStore.updateDescriptionTypeEmployee');
+        name: '_TypeEmployeeStore.setDescriptionInit');
     try {
-      return super.updateDescriptionTypeEmployee(description);
-    } finally {
-      _$_TypeEmployeeStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void updateDescriptionNewTypeEmployee(String description) {
-    final _$actionInfo = _$_TypeEmployeeStoreActionController.startAction(
-        name: '_TypeEmployeeStore.updateDescriptionNewTypeEmployee');
-    try {
-      return super.updateDescriptionNewTypeEmployee(description);
+      return super.setDescriptionInit();
     } finally {
       _$_TypeEmployeeStoreActionController.endAction(_$actionInfo);
     }
@@ -218,16 +244,20 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   String toString() {
     return '''
 description: ${description},
-excluding: ${excluding},
-notAuthorized: ${notAuthorized},
+controllerFieldDescription: ${controllerFieldDescription},
+sending: ${sending},
+excludedFail: ${excludedFail},
+excluedBlock: ${excluedBlock},
 excluded: ${excluded},
-isValid: ${isValid},
-isValidNewTypeEmployee: ${isValidNewTypeEmployee},
-descriptionDif: ${descriptionDif},
-descriptionValid: ${descriptionValid},
-validSave: ${validSave},
-excludePressed: ${excludePressed},
-savePressed: ${savePressed}
+change: ${change},
+errorSending: ${errorSending},
+created: ${created},
+changeIsValid: ${changeIsValid},
+buttomChangePressed: ${buttomChangePressed},
+buttomSavePressed: ${buttomSavePressed},
+saveIsValid: ${saveIsValid},
+excludeIsvalid: ${excludeIsvalid},
+buttonExcludePressed: ${buttonExcludePressed}
     ''';
   }
 }
