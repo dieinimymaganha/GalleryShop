@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/models/employee.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/client/widget/button_create_client.dart';
 import 'package:galleryshop/screens/employees/create_new_employee_screen.dart';
 import 'package:galleryshop/screens/employees/employees_base_screen.dart';
@@ -31,8 +32,8 @@ class EmployeesListScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => EmployeeBaseScreen()));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => BaseScreen()));
             },
           ),
         ),

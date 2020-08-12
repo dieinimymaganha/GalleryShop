@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/employees/edit_type_employee.dart';
 import 'package:galleryshop/screens/employees/widget/button_create_new_type_employee.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
@@ -30,7 +31,7 @@ class TypeEmployeeListScreen extends StatelessWidget {
             ),
             onPressed: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => EmployeeBaseScreen()));
+                  builder: (context) => BaseScreen()));
             },
           ),
         ),
