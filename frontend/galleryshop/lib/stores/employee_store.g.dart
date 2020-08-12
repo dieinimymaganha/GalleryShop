@@ -9,6 +9,13 @@ part of 'employee_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EmployeeStore on _EmployeeStore, Store {
+  Computed<Function> _$buttonChangePressedComputed;
+
+  @override
+  Function get buttonChangePressed => (_$buttonChangePressedComputed ??=
+          Computed<Function>(() => super.buttonChangePressed,
+              name: '_EmployeeStore.buttonChangePressed'))
+      .value;
   Computed<bool> _$nameIsValidComputed;
 
   @override
@@ -704,6 +711,7 @@ controllerFieldPassword: ${controllerFieldPassword},
 loadingTypeEmployee: ${loadingTypeEmployee},
 excluded: ${excluded},
 excludedFail: ${excludedFail},
+buttonChangePressed: ${buttonChangePressed},
 nameIsValid: ${nameIsValid},
 lastNameIsValid: ${lastNameIsValid},
 nickNameIsValid: ${nickNameIsValid},

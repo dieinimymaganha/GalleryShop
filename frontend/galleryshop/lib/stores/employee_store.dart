@@ -5,6 +5,7 @@ import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
+import 'package:path/path.dart';
 
 part 'employee_store.g.dart';
 
@@ -45,6 +46,8 @@ abstract class _EmployeeStore with Store {
     dataTypeEmployeeOld = await _webClientTypeEmployee.findAll();
     dataTypeEmployeeOld.sort(
         (a, b) => a.description.toString().compareTo(b.description.toString()));
+
+    setDataInitial();
 
     loadingTypeEmployee = true;
   }
@@ -176,6 +179,31 @@ abstract class _EmployeeStore with Store {
   @observable
   bool loadingTypeEmployee = false;
 
+  void setDataInitial() {
+    if (employeeModel != null) {
+      name = controllerFieldName.text = employeeModel.name;
+      lastName = controllerFieldLastName.text = employeeModel.lastName;
+      nickname = controllerFieldNickName.text = employeeModel.nickname;
+      birthDate =
+          controllerFieldBirthDate.text = employeeModel.birthdate.toString();
+      phoneNumber = controllerFieldPhoneNumber.text = employeeModel.phoneNumber;
+      rg = controllerFieldRg.text = employeeModel.rg;
+      cpf = controllerFieldCpf.text = employeeModel.cpf;
+      controllerFieldComissionRate.text =
+          employeeModel.commissionRate.toStringAsFixed(0);
+      comissionRate =
+          int.parse(employeeModel.commissionRate.toStringAsFixed(0));
+      dataTypeEmployee.forEach((listTypeEmployee) {
+        employeeModel.typeEmployees.forEach((listTypeEmployeeAtu) {
+          if (listTypeEmployee.description.toString() ==
+              listTypeEmployeeAtu.description.toString()) {
+            listTypeEmployee.select = true;
+          }
+        });
+      });
+    }
+  }
+
   @action
   Future<void> saveEmployee() async {
     sending = true;
@@ -201,22 +229,10 @@ abstract class _EmployeeStore with Store {
   }
 
   void createNewEmployee() {
-    List<dynamic> newDataTypeEmployee = List();
-    newDataTypeEmployee =
-        dataTypeEmployee.where((element) => element.select == true).toList();
-
-    List<ListTypeEmployees> listTypeEmployee = List();
-
-    newDataTypeEmployee.forEach((element) {
-      ListTypeEmployees employeeSelect =
-          ListTypeEmployees(description: element.description);
-      listTypeEmployee.add(employeeSelect);
-    });
-
+    List<ListTypeEmployees> listTypeEmployee = CreateListTypeEmployee();
     final listProfiles = new List<ListProfiles>();
     final String role = 'ROLE_EMPLOYEE';
     listProfiles.add(new ListProfiles(role: role));
-
     employeeCreated = EmployeeForm(
       name: name,
       lastName: lastName,
@@ -230,6 +246,49 @@ abstract class _EmployeeStore with Store {
       listProfiles: listProfiles,
       listTypeEmployees: listTypeEmployee,
     );
+  }
+
+  void updateEmployee() async {
+    List<ListTypeEmployees> listTypeEmployee = CreateListTypeEmployee();
+    final listProfiles = new List<ListProfiles>();
+    final String role = 'ROLE_EMPLOYEE';
+    listProfiles.add(new ListProfiles(role: role));
+    employeeCreated = EmployeeForm(
+      name: name,
+      lastName: lastName,
+      nickname: nickname,
+      birthDate: birthDate,
+      phoneNumber: phoneNumber,
+      rg: rg,
+      cpf: cpf,
+      commissionRate: comissionRate,
+      password: 'galleryShop',
+      listProfiles: listProfiles,
+      listTypeEmployees: listTypeEmployee,
+    );
+
+    await _webClientEmployee.update(employeeCreated, employeeModel.id);
+
+
+    print(employeeCreated.toJson());
+  }
+
+  @computed
+  Function get buttonChangePressed => updateEmployee;
+
+  List<ListTypeEmployees> CreateListTypeEmployee() {
+    List<dynamic> newDataTypeEmployee = List();
+    newDataTypeEmployee =
+        dataTypeEmployee.where((element) => element.select == true).toList();
+
+    List<ListTypeEmployees> listTypeEmployee = List();
+
+    newDataTypeEmployee.forEach((element) {
+      ListTypeEmployees employeeSelect =
+          ListTypeEmployees(description: element.description);
+      listTypeEmployee.add(employeeSelect);
+    });
+    return listTypeEmployee;
   }
 
   @computed
