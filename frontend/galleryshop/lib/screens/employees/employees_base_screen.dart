@@ -10,7 +10,7 @@ class EmployeeBaseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Funcioários'),
+        title: Text('Funcionários'),
         backgroundColor: colorAppbar,
         centerTitle: true,
       ),
