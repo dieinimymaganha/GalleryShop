@@ -29,8 +29,7 @@ class TypeEmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<TypeEmployeeModel> save(TypeEmployeeForm typeEmployee) async {
-    print('ta aqui');
+  Future<int> save(TypeEmployeeForm typeEmployee) async {
     String token = await get_token();
     final String typeEmployeeJson = jsonEncode(typeEmployee.toJson());
     final Response response = await webClient.post(
@@ -42,10 +41,7 @@ class TypeEmployeeWebClient {
       body: typeEmployeeJson,
     );
 
-    if (response.statusCode == 201) {
-      return TypeEmployeeModel.fromJson(jsonDecode(response.body));
-    }
-    throw HttpException(_getMessage(response.statusCode));
+    return response.statusCode;
   }
 
   Future<String> get_token() async {
@@ -54,13 +50,12 @@ class TypeEmployeeWebClient {
     return token;
   }
 
-  Future<TypeEmployeeModel> update(TypeEmployeeModel typeEmployeeModel) async {
-    String id = typeEmployeeModel.id.toString();
-    String urlUpdate = urlTypeEmployee + '/' + id;
+  Future<int> update(TypeEmployeeForm typeEmployeeForm, int id) async {
+    String urlUpdate = urlTypeEmployee + '/' + id.toString();
 
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString(("tokenjwt") ?? ''));
-    final String typeEmployeeJson = jsonEncode(typeEmployeeModel.toJson());
+    final String typeEmployeeJson = jsonEncode(typeEmployeeForm.toJson());
 
     final Response response = await webClient.put(urlUpdate,
         headers: {
@@ -68,11 +63,7 @@ class TypeEmployeeWebClient {
           'Authorization': "Bearer $token",
         },
         body: typeEmployeeJson);
-
-    if (response.statusCode == 200) {
-      return TypeEmployeeModel.fromJson(jsonDecode(response.body));
-    }
-    throw HttpException(_getMessage(response.statusCode));
+    return response.statusCode;
   }
 
   Future<int> exclude(TypeEmployeeModel typeEmployeeModel) async {
@@ -90,11 +81,6 @@ class TypeEmployeeWebClient {
     );
 
     return response.statusCode;
-
-//    if (response.statusCode == 200) {
-//      return true;
-//    }
-//    throw HttpException(_getMessage(response.statusCode));
   }
 
   String _getMessage(int statuscode) {
