@@ -148,6 +148,9 @@ abstract class _EmployeeStore with Store {
   }
 
   @observable
+  bool change = false;
+
+  @observable
   bool sending = false;
 
   @observable
@@ -179,8 +182,10 @@ abstract class _EmployeeStore with Store {
   @observable
   bool loadingTypeEmployee = false;
 
+  @action
   void setDataInitial() {
     if (employeeModel != null) {
+      change = true;
       name = controllerFieldName.text = employeeModel.name;
       lastName = controllerFieldLastName.text = employeeModel.lastName;
       nickname = controllerFieldNickName.text = employeeModel.nickname;
@@ -267,10 +272,19 @@ abstract class _EmployeeStore with Store {
       listTypeEmployees: listTypeEmployee,
     );
 
-    await _webClientEmployee.update(employeeCreated, employeeModel.id);
-
-
-    print(employeeCreated.toJson());
+    int response =
+        await _webClientEmployee.update(employeeCreated, employeeModel.id);
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+    if (response == 200) {
+      created = true;
+    }else{
+      errorSending = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    errorSending = false;
+    created = false;
   }
 
   @computed

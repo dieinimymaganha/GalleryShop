@@ -391,6 +391,21 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$changeAtom = Atom(name: '_EmployeeStore.change');
+
+  @override
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
   final _$sendingAtom = Atom(name: '_EmployeeStore.sending');
 
   @override
@@ -680,6 +695,17 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   }
 
   @override
+  void setDataInitial() {
+    final _$actionInfo = _$_EmployeeStoreActionController.startAction(
+        name: '_EmployeeStore.setDataInitial');
+    try {
+      return super.setDataInitial();
+    } finally {
+      _$_EmployeeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 dataTypeEmployee: ${dataTypeEmployee},
@@ -701,6 +727,7 @@ controllerFieldPhoneNumber: ${controllerFieldPhoneNumber},
 rg: ${rg},
 controllerFieldRg: ${controllerFieldRg},
 comissionRate: ${comissionRate},
+change: ${change},
 sending: ${sending},
 errorSending: ${errorSending},
 duplicate: ${duplicate},
