@@ -275,6 +275,36 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$excludedFailAtom = Atom(name: '_ProvisionStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
+  final _$excluedBlockAtom = Atom(name: '_ProvisionStore.excluedBlock');
+
+  @override
+  bool get excluedBlock {
+    _$excluedBlockAtom.reportRead();
+    return super.excluedBlock;
+  }
+
+  @override
+  set excluedBlock(bool value) {
+    _$excluedBlockAtom.reportWrite(value, super.excluedBlock, () {
+      super.excluedBlock = value;
+    });
+  }
+
   final _$updateServiceAsyncAction =
       AsyncAction('_ProvisionStore.updateService');
 
@@ -399,6 +429,8 @@ priceFinal: ${priceFinal},
 priceFixed: ${priceFixed},
 excluded: ${excluded},
 change: ${change},
+excludedFail: ${excludedFail},
+excluedBlock: ${excluedBlock},
 descriptionIsValid: ${descriptionIsValid},
 descriptionChangeIsValid: ${descriptionChangeIsValid},
 valueSelectIsValid: ${valueSelectIsValid},

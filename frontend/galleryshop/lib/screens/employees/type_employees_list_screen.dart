@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
@@ -10,8 +8,6 @@ import 'package:galleryshop/screens/employees/edit_type_employee.dart';
 import 'package:galleryshop/screens/employees/widget/button_create_new_type_employee.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/progress.dart';
-
-import 'employees_base_screen.dart';
 
 class TypeEmployeeListScreen extends StatelessWidget {
   final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();

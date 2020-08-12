@@ -67,12 +67,10 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
     disposer = reaction((_) => serviceStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          serviceStore.created
-              ? 'Alterado com sucesso!'
-              : 'Serviço cadastrado!',
+          serviceStore.change ? 'Alterado com sucesso!' : 'Serviço cadastrado!',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: serviceStore.change ? Colors.green : Colors.blueAccent,
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
