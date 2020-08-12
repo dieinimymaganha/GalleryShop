@@ -10,6 +10,8 @@ import 'package:galleryshop/screens/employees/widget/button_create_new_type_empl
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/progress.dart';
 
+import 'employees_base_screen.dart';
+
 class TypeEmployeeListScreen extends StatelessWidget {
   final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
 
@@ -20,6 +22,18 @@ class TypeEmployeeListScreen extends StatelessWidget {
         title: Text('Tipos Funcionarios e serviços'),
         centerTitle: true,
         backgroundColor: colorAppbar,
+        leading: IconButton(
+          icon: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => EmployeeBaseScreen()));
+            },
+          ),
+        ),
       ),
       body: FutureBuilder<List<TypeEmployeeModel>>(
         future: _webClient.findAll(),
@@ -48,6 +62,9 @@ class TypeEmployeeListScreen extends StatelessWidget {
                                   typeEmployeeModel: typeEmployeeModel));
                         },
                         child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          color: colorCard,
                           child: ExpansionTile(
                             title: Text(
                               typeEmployeeModel.description,
@@ -58,25 +75,33 @@ class TypeEmployeeListScreen extends StatelessWidget {
                               Column(
                                   children:
                                       typeEmployeeModel.services.map((service) {
-                                return ListTile(
-                                    leading: Icon(Icons.beenhere,
-                                        color: Colors.blue),
-                                    title: Text(
-                                      service.description,
-                                      style: TextStyle(fontSize: 18),
+                                return Column(
+                                  children: <Widget>[
+                                    Divider(
+                                      color: Colors.white,
+                                      thickness: 2,
                                     ),
-                                    subtitle: service.value == null
-                                        ? Text(
-                                            'Preço variavel',
-                                            style:
-                                                TextStyle(color: Colors.indigo),
-                                          )
-                                        : Text(
-                                            'R\$ ${service.value.toStringAsFixed(2)}',
-                                            style: TextStyle(
-                                                color: Colors.teal,
-                                                fontWeight: FontWeight.w700),
-                                          ));
+                                    ListTile(
+                                        leading: Icon(Icons.beenhere,
+                                            color: Colors.blue),
+                                        title: Text(
+                                          service.description,
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        subtitle: service.value == null
+                                            ? Text(
+                                                'Preço variavel',
+                                                style:
+                                                    TextStyle(color: Colors.indigo),
+                                              )
+                                            : Text(
+                                                'R\$ ${service.value.toStringAsFixed(2)}',
+                                                style: TextStyle(
+                                                    color: Colors.teal,
+                                                    fontWeight: FontWeight.w700),
+                                              )),
+                                  ],
+                                );
                               }).toList())
                             ],
                           ),
