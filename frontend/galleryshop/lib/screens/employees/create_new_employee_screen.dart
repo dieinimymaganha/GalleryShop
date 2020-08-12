@@ -47,7 +47,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         reaction((_) => employeeStore.errorSending, (errorSending) async {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(
+          content: Text(employeeStore.change ? 'Error ao atualizar':
             'Error ao cadastrar! Verifique os campos',
             style: TextStyle(color: Colors.black),
           ),
@@ -60,7 +60,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
 
     disposer = reaction((_) => employeeStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(
+        content: Text(employeeStore.change ? 'Funcionário alterado com sucesso!':
           'Funcionário cadastrado  com sucesso!',
           style: TextStyle(color: Colors.black),
         ),
@@ -91,9 +91,13 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text(
-              'Cadastrar novo funcionário',
-            ),
+            title: employeeStore.change
+                ? Text(
+                    'Alterar funcionário',
+                  )
+                : Text(
+                    'Cadastrar novo funcionário',
+                  ),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
@@ -273,7 +277,9 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Cadastrar',
+                                      employeeStore.change
+                                          ? 'Alterar'
+                                          : 'Cadastrar',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
@@ -295,7 +301,9 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                                     )
                                   ],
                                 ),
-                                onPressed: employeeStore.buttonChangePressed)),
+                                onPressed: employeeStore.change
+                                    ? employeeStore.buttonChangePressed
+                                    : employeeStore.buttonSavePressed)),
                       ),
                       SizedBox(height: 20),
                     ],
