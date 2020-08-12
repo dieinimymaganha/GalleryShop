@@ -4,6 +4,7 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/validators.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
@@ -11,12 +12,19 @@ import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 class CreateNewEmployeeScreen extends StatefulWidget {
+  final EmployeeModel employeeModel;
+
+  CreateNewEmployeeScreen({this.employeeModel});
+
   @override
   _CreateNewEmployeeScreenState createState() =>
-      _CreateNewEmployeeScreenState();
+      _CreateNewEmployeeScreenState(employeeModel: employeeModel);
 }
 
 class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
+  _CreateNewEmployeeScreenState({EmployeeModel employeeModel})
+      : employeeStore = EmployeeStore(employeeModel: employeeModel);
+
   EmployeeStore employeeStore = EmployeeStore();
 
   List<dynamic> dataTypeEmployee = List();
@@ -60,8 +68,8 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => EmployeesListScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => EmployeesListScreen()));
     });
     disposer = reaction((_) => employeeStore.duplicate, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -287,7 +295,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                                     )
                                   ],
                                 ),
-                                onPressed: employeeStore.buttonSavePressed)),
+                                onPressed: employeeStore.buttonChangePressed)),
                       ),
                       SizedBox(height: 20),
                     ],
