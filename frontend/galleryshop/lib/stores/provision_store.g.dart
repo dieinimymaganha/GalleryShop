@@ -80,6 +80,66 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
               name: '_ProvisionStore.excludePressed'))
       .value;
 
+  final _$loadingAtom = Atom(name: '_ProvisionStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$errorListAtom = Atom(name: '_ProvisionStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_ProvisionStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
+  final _$listServicesAtom = Atom(name: '_ProvisionStore.listServices');
+
+  @override
+  List<dynamic> get listServices {
+    _$listServicesAtom.reportRead();
+    return super.listServices;
+  }
+
+  @override
+  set listServices(List<dynamic> value) {
+    _$listServicesAtom.reportWrite(value, super.listServices, () {
+      super.listServices = value;
+    });
+  }
+
   final _$valuePriceAtom = Atom(name: '_ProvisionStore.valuePrice');
 
   @override
@@ -305,6 +365,21 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     });
   }
 
+  final _$setListAsyncAction = AsyncAction('_ProvisionStore.setList');
+
+  @override
+  Future<void> setList() {
+    return _$setListAsyncAction.run(() => super.setList());
+  }
+
+  final _$recarregarListAsyncAction =
+      AsyncAction('_ProvisionStore.recarregarList');
+
+  @override
+  Future<void> recarregarList() {
+    return _$recarregarListAsyncAction.run(() => super.recarregarList());
+  }
+
   final _$updateServiceAsyncAction =
       AsyncAction('_ProvisionStore.updateService');
 
@@ -416,6 +491,10 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
   @override
   String toString() {
     return '''
+loading: ${loading},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
+listServices: ${listServices},
 valuePrice: ${valuePrice},
 description: ${description},
 dataServices: ${dataServices},

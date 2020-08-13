@@ -14,12 +14,7 @@ abstract class _ProvisionStore with Store {
   final ServiceModel serviceModel;
 
   _ProvisionStore({this.serviceModel}) {
-    autorun((_) {
-      print('priceChangeIsValid >>>>>>> $valueChangeIsValid');
-      print('valuePrice >>>>>>> $valuePrice');
-      print(
-          'valuePrice <<<<<<< ${formatCurrency.format(serviceModel.value).toString()}');
-    });
+    autorun((_) {});
   }
 
   final formatCurrency = new NumberFormat.currency(locale: 'pt_BR', symbol: '');
@@ -30,6 +25,43 @@ abstract class _ProvisionStore with Store {
   TextEditingController controllerFieldValue = TextEditingController();
 
   TextEditingController controllerDescription = TextEditingController();
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @observable
+  List<dynamic> listServices = List();
+
+  @action
+  Future<void> setList() async {
+    loading = true;
+//    await Future.delayed(Duration(seconds: 2));
+    try {
+      listServices = await _webClientService.findAll();
+      listServices.sort((a, b) =>
+          a.description.toString().compareTo(b.description.toString()));
+      if (listServices.isEmpty) {
+        errorList = true;
+        listEmpty = true;
+        loading = false;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    loading = false;
+  }
+
+  @action
+  Future<void> recarregarList() async {
+    errorList = false;
+    setList();
+  }
 
   @observable
   String valuePrice = '';
