@@ -13,7 +13,7 @@ class ButtonCreateClient extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => CreateNewEmployeeScreen()));
+            .push(MaterialPageRoute(builder: (context) => CreateNewUserClientScreen()));
       },
       backgroundColor: colorAppbar,
     );
