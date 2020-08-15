@@ -79,6 +79,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                             ),
                           ))
                 : Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: employeeStore.loading
                         ? Center(
                             child: CircularProgressIndicator(),
