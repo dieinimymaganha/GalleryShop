@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/http/webclients/webclient_client.dart';
-import 'package:galleryshop/models/client_new.dart';
+import 'package:galleryshop/models/client.dart';
+import 'package:galleryshop/models/profile.dart';
 import 'package:mobx/mobx.dart';
 
 part 'client_store.g.dart';
@@ -138,7 +139,7 @@ abstract class _ClientStore with Store {
     final listProfiles = new List<ListProfiles>();
     final String role = 'ROLE_EMPLOYEE';
     listProfiles.add(new ListProfiles(role: role));
-    ClientModelForm clientForm = ClientModelForm(
+    ClientForm clientForm = ClientForm(
         name: name,
         lastName: lastName,
         nickname: nickname,

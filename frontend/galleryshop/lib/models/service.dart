@@ -1,18 +1,18 @@
-class ServiceModel {
+class ServiceDto {
   int id;
   String description;
   double value;
   bool fixedPrice;
   String typeEmployee;
 
-  ServiceModel({
+  ServiceDto({
       this.id,
         this.description,
         this.value,
         this.fixedPrice,
         this.typeEmployee});
 
-  ServiceModel.fromJson(Map<String, dynamic> json) {
+  ServiceDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     description = json['description'];
     value = json['value'];

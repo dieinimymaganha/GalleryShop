@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const urlEmployee = baseUrl + 'employees';
 
 class EmployeeWebClient {
-  Future<List<EmployeeModel>> findAll() async {
+  Future<List<EmployeeDto>> findAll() async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString("tokenjwt") ?? "");
     final Response response = await webClient.get(
@@ -23,7 +23,7 @@ class EmployeeWebClient {
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       final List<dynamic> data = decodeJson
-          .map((dynamic json) => EmployeeModel.fromJson(json))
+          .map((dynamic json) => EmployeeDto.fromJson(json))
           .toList();
       return data;
     }
@@ -31,7 +31,7 @@ class EmployeeWebClient {
   }
 
   Future<int> save(EmployeeForm employeeForm) async {
-    String token = await get_token();
+    String token = await getToken();
     final String employeeJson = jsonEncode(employeeForm.toJson());
     final Response response = await webClient.post(urlEmployee,
         headers: {
@@ -44,7 +44,7 @@ class EmployeeWebClient {
   }
 
   Future<int> update(EmployeeForm employeeForm, int id) async {
-    String token = await get_token();
+    String token = await getToken();
     String urlUpdate = urlEmployee + '/' + id.toString();
 
     final String serviceJson = json.encode(employeeForm.toJson());
@@ -59,8 +59,8 @@ class EmployeeWebClient {
     return response.statusCode;
   }
 
-  Future<int> exclude(EmployeeModel employeeModel) async {
-    String token = await get_token();
+  Future<int> exclude(EmployeeDto employeeModel) async {
+    String token = await getToken();
     String id = employeeModel.id.toString();
     String urlExclude = urlEmployee + '/' + id;
 

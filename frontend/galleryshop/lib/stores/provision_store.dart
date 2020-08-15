@@ -11,7 +11,7 @@ part 'provision_store.g.dart';
 class ProvisionStore = _ProvisionStore with _$ProvisionStore;
 
 abstract class _ProvisionStore with Store {
-  final ServiceModel serviceModel;
+  final ServiceDto serviceModel;
 
   _ProvisionStore({this.serviceModel}) {
     autorun((_) {});
@@ -76,7 +76,7 @@ abstract class _ProvisionStore with Store {
   String valueSelect;
 
   @observable
-  TypeEmployeeModel typeEmployee;
+  TypeEmployeeDto typeEmployee;
 
   @observable
   bool sending = false;
@@ -255,7 +255,7 @@ abstract class _ProvisionStore with Store {
     await send(serviceCreated);
   }
 
-  Future<ServiceModel> send(ServiceForm serviceCreated) async {
+  Future<ServiceDto> send(ServiceForm serviceCreated) async {
     int response = await _webClientService.save(serviceCreated);
     await Future.delayed(Duration(seconds: 2));
     sending = false;

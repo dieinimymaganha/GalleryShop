@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
 class CreateNewEmployeeScreen extends StatefulWidget {
-  final EmployeeModel employeeModel;
+  final EmployeeDto employeeModel;
 
   CreateNewEmployeeScreen({this.employeeModel});
 
@@ -22,7 +22,7 @@ class CreateNewEmployeeScreen extends StatefulWidget {
 }
 
 class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
-  _CreateNewEmployeeScreenState({EmployeeModel employeeModel})
+  _CreateNewEmployeeScreenState({EmployeeDto employeeModel})
       : employeeStore = EmployeeStore(employeeModel: employeeModel);
 
   EmployeeStore employeeStore = EmployeeStore();

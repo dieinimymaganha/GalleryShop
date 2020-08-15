@@ -8,7 +8,7 @@ import 'package:galleryshop/widgets/dialogs.dart';
 import 'package:mobx/mobx.dart';
 
 class DialogService extends StatefulWidget {
-  final ServiceModel serviceModel;
+  final ServiceDto serviceModel;
 
   DialogService({this.serviceModel});
 
@@ -20,7 +20,7 @@ class DialogService extends StatefulWidget {
 class _DialogServiceState extends State<DialogService> {
   ProvisionStore serviceStore = ProvisionStore();
 
-  _DialogServiceState({ServiceModel serviceModel})
+  _DialogServiceState({ServiceDto serviceModel})
       : serviceStore = ProvisionStore(serviceModel: serviceModel);
 
   ReactionDisposer disposer;

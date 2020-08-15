@@ -12,7 +12,7 @@ class CustomFormCoin extends StatelessWidget {
   final Function(String) onChanged;
   final bool enabled;
   final Widget suffix;
-  final int maxlength_field;
+  final int maxlengthField;
 
   CustomFormCoin({
     this.controller,
@@ -24,14 +24,14 @@ class CustomFormCoin extends StatelessWidget {
     this.onChanged,
     this.enabled,
     this.suffix,
-    this.maxlength_field,
+    this.maxlengthField,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
         inputFormatters: [
-          LengthLimitingTextInputFormatter(maxlength_field),
+          LengthLimitingTextInputFormatter(maxlengthField),
           WhitelistingTextInputFormatter.digitsOnly,
           RealInputFormatter(centavos: true),
         ],

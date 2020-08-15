@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
-import 'package:galleryshop/widgets/option_card.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

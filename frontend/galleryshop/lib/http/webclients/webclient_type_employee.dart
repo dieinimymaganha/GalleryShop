@@ -9,8 +9,8 @@ import '../WebClient.dart';
 const urlTypeEmployee = baseUrl + 'typeemployees';
 
 class TypeEmployeeWebClient {
-  Future<List<TypeEmployeeModel>> findAll() async {
-    String token = await get_token();
+  Future<List<TypeEmployeeDto>> findAll() async {
+    String token = await getToken();
     final Response response = await webClient.get(
       urlTypeEmployee,
       headers: {
@@ -22,7 +22,7 @@ class TypeEmployeeWebClient {
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       final List<dynamic> data = decodeJson
-          .map((dynamic json) => TypeEmployeeModel.fromJson(json))
+          .map((dynamic json) => TypeEmployeeDto.fromJson(json))
           .toList();
       return data;
     }
@@ -30,7 +30,7 @@ class TypeEmployeeWebClient {
   }
 
   Future<int> save(TypeEmployeeForm typeEmployee) async {
-    String token = await get_token();
+    String token = await getToken();
     final String typeEmployeeJson = jsonEncode(typeEmployee.toJson());
     final Response response = await webClient.post(
       urlTypeEmployee,
@@ -44,7 +44,7 @@ class TypeEmployeeWebClient {
     return response.statusCode;
   }
 
-  Future<String> get_token() async {
+  Future<String> getToken() async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString("tokenjwt") ?? "");
     return token;
@@ -66,7 +66,7 @@ class TypeEmployeeWebClient {
     return response.statusCode;
   }
 
-  Future<int> exclude(TypeEmployeeModel typeEmployeeModel) async {
+  Future<int> exclude(TypeEmployeeDto typeEmployeeModel) async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString(("tokenjwt") ?? ''));
     String id = typeEmployeeModel.id.toString();

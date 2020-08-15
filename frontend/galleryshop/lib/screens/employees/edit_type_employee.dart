@@ -10,7 +10,7 @@ import 'package:galleryshop/widgets/dialogs.dart';
 import 'package:mobx/mobx.dart';
 
 class EditTypeEmployeeDialog extends StatefulWidget {
-  final TypeEmployeeModel typeEmployeeModel;
+  final TypeEmployeeDto typeEmployeeModel;
 
   EditTypeEmployeeDialog({this.typeEmployeeModel});
 
@@ -22,7 +22,7 @@ class EditTypeEmployeeDialog extends StatefulWidget {
 class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
   TypeEmployeeStore typeEmployeeStore;
 
-  _EditTypeEmployeeDialogState({TypeEmployeeModel typeEmployeeModel})
+  _EditTypeEmployeeDialogState({TypeEmployeeDto typeEmployeeModel})
       : typeEmployeeStore =
             TypeEmployeeStore(typeEmployeeModel: typeEmployeeModel);
 

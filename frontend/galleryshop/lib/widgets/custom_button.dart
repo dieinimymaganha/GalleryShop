@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
-  final String name_button;
+  final String nameButton;
   final IconData icon;
   final Function onConfirm;
 
-  CustomButton({this.name_button, this.icon, this.onConfirm});
+  CustomButton({this.nameButton, this.icon, this.onConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class CustomButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                name_button,
+                nameButton,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,

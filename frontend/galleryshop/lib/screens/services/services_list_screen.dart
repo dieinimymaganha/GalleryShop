@@ -59,6 +59,7 @@ class _ServicesListScreenState extends State<ServicesListScreen> {
                           ),
                         ))
               : Container(
+            padding: EdgeInsets.only(top: 10,bottom: 10),
                   child: serviceStore.loading
                       ? Center(child: CircularProgressIndicator())
                       : ListView(
@@ -84,8 +85,7 @@ class _ServicesListScreenState extends State<ServicesListScreen> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0)),
                                 color: colorCard,
-                                elevation: 10,
-                                shadowColor: Colors.grey,
+                                elevation: 3,
                                 child: ListTile(
                                   leading: Icon(
                                     Icons.beenhere,

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
-import 'package:galleryshop/data/values.dart';
 import 'package:provider/provider.dart';
 
 import 'icon_tile.dart';

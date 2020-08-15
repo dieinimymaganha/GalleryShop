@@ -203,13 +203,13 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
   final _$typeEmployeeAtom = Atom(name: '_ProvisionStore.typeEmployee');
 
   @override
-  TypeEmployeeModel get typeEmployee {
+  TypeEmployeeDto get typeEmployee {
     _$typeEmployeeAtom.reportRead();
     return super.typeEmployee;
   }
 
   @override
-  set typeEmployee(TypeEmployeeModel value) {
+  set typeEmployee(TypeEmployeeDto value) {
     _$typeEmployeeAtom.reportWrite(value, super.typeEmployee, () {
       super.typeEmployee = value;
     });

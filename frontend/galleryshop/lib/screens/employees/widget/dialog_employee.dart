@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/alert_dialog_sending.dart';
@@ -10,7 +9,7 @@ import 'package:mobx/mobx.dart';
 import '../empleyees_list_screen.dart';
 
 class DialogEmployee extends StatefulWidget {
-  final EmployeeModel employeeModel;
+  final EmployeeDto employeeModel;
 
   DialogEmployee({this.employeeModel});
 
@@ -22,7 +21,7 @@ class DialogEmployee extends StatefulWidget {
 class _DialogEmployeeState extends State<DialogEmployee> {
   EmployeeStore employeeStore = EmployeeStore();
 
-  _DialogEmployeeState({EmployeeModel employeeModel})
+  _DialogEmployeeState({EmployeeDto employeeModel})
       : employeeStore = EmployeeStore(employeeModel: employeeModel);
 
   ReactionDisposer disposer;
