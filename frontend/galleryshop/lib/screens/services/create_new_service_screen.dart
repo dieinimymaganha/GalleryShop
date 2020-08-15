@@ -5,7 +5,6 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/service.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/provision_store.dart';
-import 'package:galleryshop/widgets/custom_button.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
@@ -19,7 +18,7 @@ const _tipFieldValue = 'Digite o valor';
 final double _space = 10.0;
 
 class CreateNewServiceScreen extends StatefulWidget {
-  final ServiceModel serviceModel;
+  final ServiceDto serviceModel;
 
   CreateNewServiceScreen({this.serviceModel});
 
@@ -29,7 +28,7 @@ class CreateNewServiceScreen extends StatefulWidget {
 }
 
 class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
-  _CreateNewServiceScreenState({ServiceModel serviceModel})
+  _CreateNewServiceScreenState({ServiceDto serviceModel})
       : serviceStore = ProvisionStore(serviceModel: serviceModel);
 
   ProvisionStore serviceStore = ProvisionStore();
@@ -95,8 +94,6 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _controllerFieldDescription =
-      TextEditingController();
 
   @override
   Widget build(BuildContext context) {

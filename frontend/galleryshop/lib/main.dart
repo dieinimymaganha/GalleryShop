@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
-import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +33,7 @@ class GalleryShop extends StatelessWidget {
         ),
 //      home: FormCreateNewClient(),
         debugShowCheckedModeBanner: false,
-        home: BaseScreen(),
+        home: LoginScreen(),
       ),
     );
   }

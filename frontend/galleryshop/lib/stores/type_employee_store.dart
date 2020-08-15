@@ -10,14 +10,12 @@ class TypeEmployeeStore = _TypeEmployeeStore with _$TypeEmployeeStore;
 abstract class _TypeEmployeeStore with Store {
   final TypeEmployeeWebClient _webClient = TypeEmployeeWebClient();
 
-  final TypeEmployeeModel typeEmployeeModel;
+  final TypeEmployeeDto typeEmployeeModel;
 
   TypeEmployeeForm newTypeEmployee = TypeEmployeeForm();
 
   _TypeEmployeeStore({this.typeEmployeeModel}) {
-    autorun((_) {
-      print('>>> ${typeEmployeeModel}');
-    });
+    autorun((_) {});
   }
 
   @observable
@@ -59,9 +57,6 @@ abstract class _TypeEmployeeStore with Store {
     errorList = false;
     setList();
   }
-
-
-
 
   @observable
   TextEditingController controllerFieldDescription = TextEditingController();

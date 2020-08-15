@@ -2,16 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/http/webclients/webclient_employee.dart';
-import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
-import 'package:galleryshop/screens/client/widget/button_create_client.dart';
 import 'package:galleryshop/screens/employees/create_new_employee_screen.dart';
-import 'package:galleryshop/screens/employees/employees_base_screen.dart';
+import 'package:galleryshop/screens/employees/widget/button_create_employee.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
-import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
-import 'package:galleryshop/widgets/progress.dart';
 
 import 'widget/dialog_employee.dart';
 
@@ -106,6 +101,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                                             ));
                                   },
                                   child: Card(
+                                    elevation: 3,
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20.0)),
@@ -248,7 +244,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                             }).toList(),
                           ),
                   ),
-            floatingActionButton: ButtonCreateClient());
+            floatingActionButton: ButtonCreateNewEmployee());
       },
     );
   }

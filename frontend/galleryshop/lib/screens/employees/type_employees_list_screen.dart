@@ -2,14 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
-import 'package:galleryshop/models/type_employee_model.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/employees/edit_type_employee.dart';
 import 'package:galleryshop/screens/employees/widget/button_create_new_type_employee.dart';
 import 'package:galleryshop/stores/type_employee_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
-import 'package:galleryshop/widgets/progress.dart';
 
 class TypeEmployeeListScreen extends StatefulWidget {
   @override
@@ -73,7 +70,8 @@ class _TypeEmployeeListScreenState extends State<TypeEmployeeListScreen> {
                           ),
                         ))
               : Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
+                  padding:
+                      EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
                   child: typeEmployeeStore.loading
                       ? Center(child: CircularProgressIndicator())
                       : ListView(
@@ -100,38 +98,68 @@ class _TypeEmployeeListScreenState extends State<TypeEmployeeListScreen> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   children: <Widget>[
-                                    Column(
-                                        children: typeEmployeeModel.services
-                                            .map<Widget>((service) {
-                                      return Column(
-                                        children: <Widget>[
-                                          Divider(
-                                            color: Colors.white,
-                                            thickness: 2,
-                                          ),
-                                          ListTile(
-                                              leading: Icon(Icons.beenhere,
-                                                  color: Colors.blue),
-                                              title: Text(
-                                                service.description,
-                                                style: TextStyle(fontSize: 18),
+                                    typeEmployeeModel.services.isEmpty
+                                        ? Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Divider(
+                                                color: Colors.white,
+                                                thickness: 2,
                                               ),
-                                              subtitle: service.value == null
-                                                  ? Text(
-                                                      'Preço variavel',
+                                              ListTile(
+                                                leading: Icon(
+                                                  Icons.description,
+                                                  color: Colors.redAccent,
+                                                ),
+                                                title: Text(
+                                                  'Não á serviços cadastrados',
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : Column(
+                                            children: typeEmployeeModel.services
+                                                .map<Widget>((service) {
+                                            return Column(
+                                              children: <Widget>[
+                                                Divider(
+                                                  color: Colors.white,
+                                                  thickness: 2,
+                                                ),
+                                                ListTile(
+                                                    leading: Icon(
+                                                        Icons.beenhere,
+                                                        color: Colors.blue),
+                                                    title: Text(
+                                                      service.description,
                                                       style: TextStyle(
-                                                          color: Colors.indigo),
-                                                    )
-                                                  : Text(
-                                                      'R\$ ${service.value.toStringAsFixed(2)}',
-                                                      style: TextStyle(
-                                                          color: Colors.teal,
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    )),
-                                        ],
-                                      );
-                                    }).toList())
+                                                          fontSize: 18),
+                                                    ),
+                                                    subtitle: service.value ==
+                                                            null
+                                                        ? Text(
+                                                            'Preço variavel',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .indigo),
+                                                          )
+                                                        : Text(
+                                                            'R\$ ${service.value.toStringAsFixed(2)}',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.teal,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                          )),
+                                              ],
+                                            );
+                                          }).toList())
                                   ],
                                 ),
                               ),

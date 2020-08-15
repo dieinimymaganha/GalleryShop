@@ -70,6 +70,7 @@ class _ClientListScreenState extends State<ClientListScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 5,),
                               child: InkWell(
                                 child: Card(
+                                  elevation: 3,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(20.0)),

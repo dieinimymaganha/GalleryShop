@@ -1,18 +1,18 @@
-import 'package:collection/equality.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/employee.dart';
+import 'package:galleryshop/models/profile.dart';
+import 'package:galleryshop/models/type_employee_model.dart';
 import 'package:mobx/mobx.dart';
-import 'package:path/path.dart';
 
 part 'employee_store.g.dart';
 
 class EmployeeStore = _EmployeeStore with _$EmployeeStore;
 
 abstract class _EmployeeStore with Store {
-  final EmployeeModel employeeModel;
+  final EmployeeDto employeeModel;
 
   TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
   EmployeeWebClient _webClientEmployee = EmployeeWebClient();
@@ -254,7 +254,7 @@ abstract class _EmployeeStore with Store {
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     sending = false;
-    await createNewEmployee();
+    createNewEmployee();
     await sendNewEmployee(employeeCreated);
   }
 
@@ -274,7 +274,7 @@ abstract class _EmployeeStore with Store {
   }
 
   void createNewEmployee() {
-    List<ListTypeEmployees> listTypeEmployee = CreateListTypeEmployee();
+    List<ListTypeEmployeesForm> listTypeEmployee = createListTypeEmployee();
     final listProfiles = new List<ListProfiles>();
     final String role = 'ROLE_EMPLOYEE';
     listProfiles.add(new ListProfiles(role: role));
@@ -294,7 +294,7 @@ abstract class _EmployeeStore with Store {
   }
 
   void updateEmployee() async {
-    List<ListTypeEmployees> listTypeEmployee = CreateListTypeEmployee();
+    List<ListTypeEmployeesForm> listTypeEmployee = createListTypeEmployee();
     final listProfiles = new List<ListProfiles>();
     final String role = 'ROLE_EMPLOYEE';
     listProfiles.add(new ListProfiles(role: role));
@@ -330,16 +330,16 @@ abstract class _EmployeeStore with Store {
   @computed
   Function get buttonChangePressed => updateEmployee;
 
-  List<ListTypeEmployees> CreateListTypeEmployee() {
+  List<ListTypeEmployeesForm> createListTypeEmployee() {
     List<dynamic> newDataTypeEmployee = List();
     newDataTypeEmployee =
         dataTypeEmployee.where((element) => element.select == true).toList();
 
-    List<ListTypeEmployees> listTypeEmployee = List();
+    List<ListTypeEmployeesForm> listTypeEmployee = List();
 
     newDataTypeEmployee.forEach((element) {
-      ListTypeEmployees employeeSelect =
-          ListTypeEmployees(description: element.description);
+      ListTypeEmployeesForm employeeSelect =
+          ListTypeEmployeesForm(description: element.description);
       listTypeEmployee.add(employeeSelect);
     });
     return listTypeEmployee;

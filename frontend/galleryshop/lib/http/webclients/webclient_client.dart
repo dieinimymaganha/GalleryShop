@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+
 import 'package:galleryshop/models/client.dart';
-import 'package:galleryshop/models/client_new.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +10,7 @@ import '../WebClient.dart';
 const urlClients = baseUrl + 'clients';
 
 class ClientWebClient {
-  Future<List<ClientModel>> findAll() async {
+  Future<List<ClientDto>> findAll() async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString("tokenjwt") ?? "");
     final Response response = await webClient.get(
@@ -24,13 +24,13 @@ class ClientWebClient {
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       final List<dynamic> data =
-          decodeJson.map((dynamic json) => ClientModel.fromJson(json)).toList();
+          decodeJson.map((dynamic json) => ClientDto.fromJson(json)).toList();
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<int> save(ClientModelForm client) async {
+  Future<int> save(ClientForm client) async {
     final String clientJson = jsonEncode(client.toJson());
 
     final Response response = await webClient.post(urlClients,

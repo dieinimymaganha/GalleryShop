@@ -1,18 +1,20 @@
-class TypeEmployeeModel {
+import 'package:galleryshop/models/service.dart';
+
+class TypeEmployeeDto {
   int id;
   String description;
   bool select = false;
-  List<Services> services;
+  List<ServiceDto> services;
 
-  TypeEmployeeModel({this.id, this.description, this.services, this.select});
+  TypeEmployeeDto({this.id, this.description, this.services, this.select});
 
-  TypeEmployeeModel.fromJson(Map<String, dynamic> json) {
+  TypeEmployeeDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     description = json['description'];
     if (json['services'] != null) {
-      services = new List<Services>();
+      services = new List<ServiceDto>();
       json['services'].forEach((v) {
-        services.add(new Services.fromJson(v));
+        services.add(new ServiceDto.fromJson(v));
       });
     }
   }
@@ -30,39 +32,6 @@ class TypeEmployeeModel {
   @override
   String toString() {
     return 'TypeEmployeeModel{id: $id, description: $description, select: $select, services: $services}';
-  }
-}
-
-class Services {
-  int id;
-  String description;
-  double value;
-  bool fixedPrice;
-  String typeEmployee;
-
-  Services(
-      {this.id,
-        this.description,
-        this.value,
-        this.fixedPrice,
-        this.typeEmployee});
-
-  Services.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    description = json['description'];
-    value = json['value'];
-    fixedPrice = json['fixedPrice'];
-    typeEmployee = json['typeEmployee'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['description'] = this.description;
-    data['value'] = this.value;
-    data['fixedPrice'] = this.fixedPrice;
-    data['typeEmployee'] = this.typeEmployee;
-    return data;
   }
 }
 
@@ -84,5 +53,27 @@ class TypeEmployeeForm {
   @override
   String toString() {
     return '{description: $description}';
+  }
+}
+
+
+class ListTypeEmployeesForm {
+  String description;
+
+  ListTypeEmployeesForm({this.description});
+
+  ListTypeEmployeesForm.fromJson(Map<String, dynamic> json) {
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['description'] = this.description;
+    return data;
+  }
+
+  @override
+  String toString() {
+    return 'ListTypeEmployees{description: $description}';
   }
 }

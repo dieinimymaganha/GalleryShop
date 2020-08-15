@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:galleryshop/data/function_generic.dart';
-import 'package:galleryshop/models/client.dart';
-import 'package:galleryshop/models/client_new.dart';
 import 'package:galleryshop/models/service.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +10,7 @@ import '../WebClient.dart';
 const urlService = baseUrl + 'services';
 
 class ServicesWebClient {
-  Future<List<ServiceModel>> findAll() async {
+  Future<List<ServiceDto>> findAll() async {
     var prefs = await SharedPreferences.getInstance();
     String token = (prefs.getString("tokenjwt") ?? "");
     final Response response = await webClient.get(
@@ -27,14 +24,14 @@ class ServicesWebClient {
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       return decodeJson
-          .map((dynamic json) => ServiceModel.fromJson(json))
+          .map((dynamic json) => ServiceDto.fromJson(json))
           .toList();
     }
     throw HttpException(_getMessage(response.statusCode));
   }
 
   Future<int> save(ServiceForm service) async {
-    String token = await get_token();
+    String token = await getToken();
     final String serviceJson = jsonEncode(service.toJson());
     final Response response = await webClient.post(
       urlService,
@@ -48,7 +45,7 @@ class ServicesWebClient {
   }
 
   Future<int> update(ServiceForm serviceForm, int id) async {
-    String token = await get_token();
+    String token = await getToken();
     String urlUpdate = urlService + '/' + id.toString();
 
     final String serviceJson = json.encode(serviceForm.toJson());
@@ -63,8 +60,8 @@ class ServicesWebClient {
     return response.statusCode;
   }
 
-  Future<int> exclude(ServiceModel serviceModel) async {
-    String token = await get_token();
+  Future<int> exclude(ServiceDto serviceModel) async {
+    String token = await getToken();
     String id = serviceModel.id.toString();
     String urlExclude = urlService + '/' + id;
 
