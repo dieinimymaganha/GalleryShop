@@ -30,16 +30,12 @@ class ClientWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<ClientModelDto> save(ClientModelForm client) async {
+  Future<int> save(ClientModelForm client) async {
     final String clientJson = jsonEncode(client.toJson());
 
     final Response response = await webClient.post(urlClients,
         headers: {'Content-type': 'application/json'}, body: clientJson);
-
-    if (response.statusCode == 201) {
-      return ClientModelDto.fromJson(jsonDecode(response.body));
-    }
-    throw HttpException(_getMessage(response.statusCode));
+    return response.statusCode;
   }
 
   String _getMessage(int statuscode) {
