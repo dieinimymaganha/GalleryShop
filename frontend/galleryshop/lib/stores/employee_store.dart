@@ -38,7 +38,47 @@ abstract class _EmployeeStore with Store {
   @observable
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
-  void getServices() async {
+  @observable
+  bool loading = false;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @observable
+  List<dynamic> listEmployee = List();
+
+
+  @action
+  Future<void> setList() async {
+    loading = true;
+//    await Future.delayed(Duration(seconds: 2));
+    try {
+      listEmployee = await _webClientEmployee.findAll();
+      listEmployee.sort((a, b) =>
+          a.name.toString().compareTo(b.name.toString()));
+      if (listEmployee.isEmpty) {
+        errorList = true;
+        listEmpty = true;
+        loading = false;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    loading = false;
+  }
+
+  @action
+  Future<void> recarregarList() async {
+    errorList = false;
+    setList();
+  }
+
+
+
+    void getServices() async {
     dataTypeEmployee = await _webClientTypeEmployee.findAll();
     dataTypeEmployee.sort(
         (a, b) => a.description.toString().compareTo(b.description.toString()));

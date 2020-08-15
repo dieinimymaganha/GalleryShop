@@ -140,6 +140,66 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_EmployeeStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$errorListAtom = Atom(name: '_EmployeeStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_EmployeeStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
+  final _$listEmployeeAtom = Atom(name: '_EmployeeStore.listEmployee');
+
+  @override
+  List<dynamic> get listEmployee {
+    _$listEmployeeAtom.reportRead();
+    return super.listEmployee;
+  }
+
+  @override
+  set listEmployee(List<dynamic> value) {
+    _$listEmployeeAtom.reportWrite(value, super.listEmployee, () {
+      super.listEmployee = value;
+    });
+  }
+
   final _$employeeCreatedAtom = Atom(name: '_EmployeeStore.employeeCreated');
 
   @override
@@ -561,6 +621,21 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     });
   }
 
+  final _$setListAsyncAction = AsyncAction('_EmployeeStore.setList');
+
+  @override
+  Future<void> setList() {
+    return _$setListAsyncAction.run(() => super.setList());
+  }
+
+  final _$recarregarListAsyncAction =
+      AsyncAction('_EmployeeStore.recarregarList');
+
+  @override
+  Future<void> recarregarList() {
+    return _$recarregarListAsyncAction.run(() => super.recarregarList());
+  }
+
   final _$validaTesteAsyncAction = AsyncAction('_EmployeeStore.validaTeste');
 
   @override
@@ -711,6 +786,10 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
 dataTypeEmployee: ${dataTypeEmployee},
 dataTypeEmployeeOld: ${dataTypeEmployeeOld},
 formState: ${formState},
+loading: ${loading},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
+listEmployee: ${listEmployee},
 employeeCreated: ${employeeCreated},
 name: ${name},
 controllerFieldName: ${controllerFieldName},
