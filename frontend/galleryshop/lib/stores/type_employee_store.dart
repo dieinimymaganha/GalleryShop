@@ -24,6 +24,46 @@ abstract class _TypeEmployeeStore with Store {
   String description = '';
 
   @observable
+  bool loading = false;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @observable
+  List<dynamic> listTypeEmployee = List();
+
+  @action
+  Future<void> setList() async {
+    loading = true;
+//    await Future.delayed(Duration(seconds: 2));
+    try {
+      listTypeEmployee = await _webClient.findAll();
+      listTypeEmployee.sort((a, b) =>
+          a.description.toString().compareTo(b.description.toString()));
+      if (listTypeEmployee.isEmpty) {
+        errorList = true;
+        listEmpty = true;
+        loading = false;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    loading = false;
+  }
+
+  @action
+  Future<void> reloadList() async {
+    errorList = false;
+    setList();
+  }
+
+
+
+
+  @observable
   TextEditingController controllerFieldDescription = TextEditingController();
 
   @action

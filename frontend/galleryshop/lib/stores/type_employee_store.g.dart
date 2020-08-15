@@ -67,6 +67,67 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_TypeEmployeeStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$errorListAtom = Atom(name: '_TypeEmployeeStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_TypeEmployeeStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
+  final _$listTypeEmployeeAtom =
+      Atom(name: '_TypeEmployeeStore.listTypeEmployee');
+
+  @override
+  List<dynamic> get listTypeEmployee {
+    _$listTypeEmployeeAtom.reportRead();
+    return super.listTypeEmployee;
+  }
+
+  @override
+  set listTypeEmployee(List<dynamic> value) {
+    _$listTypeEmployeeAtom.reportWrite(value, super.listTypeEmployee, () {
+      super.listTypeEmployee = value;
+    });
+  }
+
   final _$controllerFieldDescriptionAtom =
       Atom(name: '_TypeEmployeeStore.controllerFieldDescription');
 
@@ -189,6 +250,20 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
+  final _$setListAsyncAction = AsyncAction('_TypeEmployeeStore.setList');
+
+  @override
+  Future<void> setList() {
+    return _$setListAsyncAction.run(() => super.setList());
+  }
+
+  final _$reloadListAsyncAction = AsyncAction('_TypeEmployeeStore.reloadList');
+
+  @override
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
+  }
+
   final _$excludeTypeEmployeeAsyncAction =
       AsyncAction('_TypeEmployeeStore.excludeTypeEmployee');
 
@@ -244,6 +319,10 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
   String toString() {
     return '''
 description: ${description},
+loading: ${loading},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
+listTypeEmployee: ${listTypeEmployee},
 controllerFieldDescription: ${controllerFieldDescription},
 sending: ${sending},
 excludedFail: ${excludedFail},
