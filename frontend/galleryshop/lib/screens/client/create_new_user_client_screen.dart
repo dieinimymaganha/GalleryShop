@@ -120,6 +120,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                   child: Column(
                     children: <Widget>[
                       CustomForm(
+                        enabled: !clientStore.sending,
                         mandatory: false,
                         controller: clientStore.controllerFieldName,
                         tip: _tipFieldName,
@@ -130,6 +131,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                       ),
                       SizedBox(height: _space),
                       CustomForm(
+                        enabled: !clientStore.sending,
                         controller: clientStore.controllerFieldLastName,
                         tip: _tipFieldLastName,
                         label: _labelFieldLastName,
@@ -139,6 +141,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                       ),
                       SizedBox(height: _space),
                       CustomForm(
+                        enabled: !clientStore.sending,
                         controller: clientStore.controllerFieldNickName,
                         tip: _tipFieldNickname,
                         label: _labelFieldNickname,
@@ -148,6 +151,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                       ),
                       SizedBox(height: _space),
                       CustomForm(
+                        enabled: !clientStore.sending,
                         maxlengthField: 14,
                         controller: clientStore.controllerFieldCpf,
                         tip: _tipFieldCpf,
@@ -161,6 +165,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                       ),
                       SizedBox(height: 10),
                       CustomForm(
+                        enabled: !clientStore.sending,
                         controller: clientStore.controllerFieldBirthDate,
                         tip: _tipFieldBirhdate,
                         label: _labelFieldBirhDate,
@@ -176,6 +181,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                       ),
                       SizedBox(height: _space),
                       CustomForm(
+                        enabled: !clientStore.sending,
                         maxlengthField: 16,
                         controller: clientStore.controllerFieldPhoneNumber,
                         tip: _tipFieldPhoneNumber,
@@ -189,6 +195,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                       ),
                       SizedBox(height: _space),
                       CustomForm(
+                        enabled: !clientStore.sending,
                         controller: clientStore.controllerFieldEmail,
                         tip: _tipFieldEmail,
                         label: _labelFieldEmail,

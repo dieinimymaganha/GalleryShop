@@ -111,6 +111,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                   child: Column(
                     children: <Widget>[
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         controller: employeeStore.controllerFieldName,
                         mandatory: true,
                         tip: 'Digite o Nome',
@@ -124,6 +125,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         controller: employeeStore.controllerFieldLastName,
                         mandatory: true,
                         tip: 'Digite o Sobrenome',
@@ -134,6 +136,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         controller: employeeStore.controllerFieldNickName,
                         mandatory: true,
                         tip: 'Digite o Apelido',
@@ -144,6 +147,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         icon: Icon(Icons.event),
                         controller: employeeStore.controllerFieldBirthDate,
                         mandatory: true,
@@ -161,6 +165,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         maxlengthField: 16,
                         controller: employeeStore.controllerFieldPhoneNumber,
                         icon: Icon(Icons.phone),
@@ -176,6 +181,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         controller: employeeStore.controllerFieldRg,
                         mandatory: true,
                         tip: 'Incluir ponto e dígito "00.000.000-0"',
@@ -186,6 +192,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         maxlengthField: 14,
                         controller: employeeStore.controllerFieldCpf,
                         mandatory: true,
@@ -200,6 +207,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        enabled: !employeeStore.sending,
                         icon: Icon(Icons.attach_money),
                         controller: employeeStore.controllerFieldComissionRate,
                         mandatory: true,

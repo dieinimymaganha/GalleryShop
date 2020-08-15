@@ -59,13 +59,14 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
 
     disposer =
         reaction((_) => typeEmployeeStore.errorSending, (errorSending) async {
-          if (errorSending) {
-            showDialog(
-                context: context, builder: (context) => buildAlertDialogErrorSending());
-            await Future.delayed(Duration(seconds: 2));
-            Navigator.of(context).pop();
-          }
-        });
+      if (errorSending) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogErrorSending());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
 
     disposer =
         reaction((_) => typeEmployeeStore.excludedFail, (excludedFail) async {
@@ -81,6 +82,16 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
       if (excludeBlock) {
         showDialog(
             context: context, builder: (context) => buildAlertDialogBlock());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
+
+    disposer = reaction((_) => typeEmployeeStore.duplicate, (duplicate) async {
+      if (duplicate) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogDuplicate());
         await Future.delayed(Duration(seconds: 2));
         Navigator.of(context).pop();
       }
@@ -103,6 +114,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         CustomForm(
+                          enabled: !typeEmployeeStore.sending,
                           controller:
                               typeEmployeeStore.controllerFieldDescription,
                           obscure: false,
@@ -136,6 +148,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
       },
     );
   }
+
   CustomAlertDialog buildAlertDialogCreated() {
     return CustomAlertDialog(
       icon: Icon(
@@ -155,11 +168,20 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
         Icons.error,
         color: Colors.white,
       ),
-      message: typeEmployeeStore.change
-          ? 'Erro ao alterar!'
-          : 'Erro ao salvar!',
+      message:
+          typeEmployeeStore.change ? 'Erro ao alterar!' : 'Erro ao salvar!',
       color: Colors.redAccent,
     );
   }
 
+  CustomAlertDialog buildAlertDialogDuplicate() {
+    return CustomAlertDialog(
+      icon: Icon(
+        Icons.error,
+        color: Colors.white,
+      ),
+      color: Colors.deepOrangeAccent,
+      message: 'Tipo já cadastrado',
+    );
+  }
 }

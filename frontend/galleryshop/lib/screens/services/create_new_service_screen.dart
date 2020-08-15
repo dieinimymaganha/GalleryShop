@@ -124,6 +124,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                   child: Column(
                     children: <Widget>[
                       CustomForm(
+                        enabled: !serviceStore.sending,
                         mandatory: true,
                         controller: serviceStore.controllerDescription,
                         tip: _tipFieldDescription,
@@ -137,7 +138,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                       SizedBox(height: _space),
                       CustomFormCoin(
                         mandatory: true,
-                        enabled: serviceStore.priceFixed,
+                        enabled: serviceStore.sending ? !serviceStore.sending : serviceStore.priceFixed,
                         controller: serviceStore.controllerFieldValue,
                         tip: _tipFieldValue,
                         label: _labelFieldValue,
