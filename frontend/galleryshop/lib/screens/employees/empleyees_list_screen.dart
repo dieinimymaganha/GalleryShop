@@ -74,7 +74,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                                 ),
                                 FlatButton(
                                     child: Text('Clique para recarregar!'),
-                                    onPressed: employeeStore.recarregarList)
+                                    onPressed: employeeStore.reloadList)
                               ],
                             ),
                           ))

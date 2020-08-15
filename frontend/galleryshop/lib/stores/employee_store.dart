@@ -71,7 +71,7 @@ abstract class _EmployeeStore with Store {
   }
 
   @action
-  Future<void> recarregarList() async {
+  Future<void> reloadList() async {
     errorList = false;
     setList();
   }

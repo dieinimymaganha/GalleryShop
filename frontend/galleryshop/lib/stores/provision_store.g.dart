@@ -372,12 +372,11 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     return _$setListAsyncAction.run(() => super.setList());
   }
 
-  final _$recarregarListAsyncAction =
-      AsyncAction('_ProvisionStore.recarregarList');
+  final _$reloadListAsyncAction = AsyncAction('_ProvisionStore.reloadList');
 
   @override
-  Future<void> recarregarList() {
-    return _$recarregarListAsyncAction.run(() => super.recarregarList());
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
   final _$updateServiceAsyncAction =

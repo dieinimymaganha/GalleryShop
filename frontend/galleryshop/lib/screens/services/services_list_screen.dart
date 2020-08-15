@@ -54,7 +54,7 @@ class _ServicesListScreenState extends State<ServicesListScreen> {
                               ),
                               FlatButton(
                                   child: Text('Clique para recarregar!'),
-                                  onPressed: serviceStore.recarregarList)
+                                  onPressed: serviceStore.reloadList)
                             ],
                           ),
                         ))

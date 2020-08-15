@@ -628,12 +628,11 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     return _$setListAsyncAction.run(() => super.setList());
   }
 
-  final _$recarregarListAsyncAction =
-      AsyncAction('_EmployeeStore.recarregarList');
+  final _$reloadListAsyncAction = AsyncAction('_EmployeeStore.reloadList');
 
   @override
-  Future<void> recarregarList() {
-    return _$recarregarListAsyncAction.run(() => super.recarregarList());
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
   final _$validaTesteAsyncAction = AsyncAction('_EmployeeStore.validaTeste');
