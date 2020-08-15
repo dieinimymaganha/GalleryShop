@@ -5,3 +5,8 @@ Future<String> get_token() async {
   String token = (prefs.getString("tokenjwt") ?? "");
   return token;
 }
+
+String convertData(String data) {
+  String nwdata = data.substring(0, 10);
+  return nwdata;
+}
