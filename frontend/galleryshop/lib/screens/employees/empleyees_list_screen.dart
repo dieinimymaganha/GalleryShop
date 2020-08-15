@@ -202,7 +202,7 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                                                                       .typeEmployees
                                                                       .length ==
                                                                   1
-                                                              ? 'Função'
+                                                              ? 'Função:'
                                                               : 'Funções:',
                                                           style: TextStyle(
                                                               fontSize: 16,
@@ -211,19 +211,28 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                                                                       .w500),
                                                         ),
                                                         Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           children:
                                                               employeeModel
                                                                   .typeEmployees
                                                                   .map<Widget>(
                                                                       (typeEm) {
                                                             return Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
                                                                       .start,
                                                               children: <
                                                                   Widget>[
-                                                                Text(typeEm
-                                                                    .description),
+                                                                Row(
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(typeEm
+                                                                        .description
+                                                                        .toString()),
+                                                                  ],
+                                                                ),
                                                               ],
                                                             );
                                                           }).toList(),
