@@ -137,7 +137,7 @@ abstract class _ClientStore with Store {
     sending = false;
 
     final listProfiles = new List<ListProfiles>();
-    final String role = 'ROLE_EMPLOYEE';
+    final String role = 'ROLE_CLIENT';
     listProfiles.add(new ListProfiles(role: role));
     ClientForm clientForm = ClientForm(
         name: name,
