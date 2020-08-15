@@ -40,9 +40,20 @@ String validatorBirthDate(String value) {
   return null;
 }
 
-String validatorPhoneNumber(String value){
+String validatorEmail(String value) {
   const Pattern pattern =
-      r'(\(\d{3}\)\s)(\d{4,5}\-\d{4})';
+      "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})";
+  final RegExp regex = RegExp(pattern);
+
+  if (!regex.hasMatch(value)) {
+    return 'Email inválido';
+  } else {
+    return null;
+  }
+}
+
+String validatorPhoneNumber(String value) {
+  const Pattern pattern = r'(\(\d{3}\)\s)(\d{4,5}\-\d{4})';
   final RegExp regex = RegExp(pattern);
   if (value.isEmpty) {
     return 'Campo obrigatório';
@@ -51,5 +62,3 @@ String validatorPhoneNumber(String value){
   }
   return null;
 }
-
-
