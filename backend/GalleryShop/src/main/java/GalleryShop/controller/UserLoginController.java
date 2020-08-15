@@ -38,6 +38,7 @@ public class UserLoginController {
     @Transactional
     public ResponseEntity<?> createNewUser(@RequestBody @Valid UserLoginForm form, UriComponentsBuilder uriBuilder) {
         UserLogin userLogin = form.converter(clientRepository, employeeRepository, profileRepository);
+        
 
         if (userLogin != null) {
 
