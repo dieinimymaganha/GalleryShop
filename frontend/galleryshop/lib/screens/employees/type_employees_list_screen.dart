@@ -73,6 +73,7 @@ class _TypeEmployeeListScreenState extends State<TypeEmployeeListScreen> {
                           ),
                         ))
               : Container(
+              padding: EdgeInsets.only(top: 10, bottom: 10, right: 5, left: 5),
                   child: typeEmployeeStore.loading
                       ? Center(child: CircularProgressIndicator())
                       : ListView(
