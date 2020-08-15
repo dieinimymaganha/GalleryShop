@@ -25,7 +25,7 @@ public class TypeEmployee {
 	@OneToMany(mappedBy = "typeEmployee")
 	private List<Service> services = new ArrayList<>();
 
-	@ManyToMany(mappedBy = "typeEmployees", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "typeEmployees")
 	private List<Employee> employees;
 
 	public TypeEmployee() {
