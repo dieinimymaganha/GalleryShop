@@ -261,8 +261,9 @@ abstract class _ProvisionStore with Store {
     sending = false;
     if (response == 201) {
       created = true;
-    } else if (response == 500) {
+    } else if (response == 409) {
       duplicate = true;
+      setValuePrice(controllerFieldValue.text);
     } else {
       errorSending = true;
     }
