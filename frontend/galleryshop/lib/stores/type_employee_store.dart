@@ -31,6 +31,9 @@ abstract class _TypeEmployeeStore with Store {
   bool listEmpty = false;
 
   @observable
+  bool duplicate = false;
+
+  @observable
   List<dynamic> listTypeEmployee = List();
 
   @action
@@ -160,6 +163,10 @@ abstract class _TypeEmployeeStore with Store {
     if (response == 201) {
       created = true;
       await Future.delayed(Duration(seconds: 2));
+    } else if (response == 409) {
+      duplicate = true;
+      await Future.delayed(Duration(seconds: 2));
+      sending = false;
     } else {
       errorSending = true;
       await Future.delayed(Duration(seconds: 2));

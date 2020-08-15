@@ -112,6 +112,21 @@ mixin _$TypeEmployeeStore on _TypeEmployeeStore, Store {
     });
   }
 
+  final _$duplicateAtom = Atom(name: '_TypeEmployeeStore.duplicate');
+
+  @override
+  bool get duplicate {
+    _$duplicateAtom.reportRead();
+    return super.duplicate;
+  }
+
+  @override
+  set duplicate(bool value) {
+    _$duplicateAtom.reportWrite(value, super.duplicate, () {
+      super.duplicate = value;
+    });
+  }
+
   final _$listTypeEmployeeAtom =
       Atom(name: '_TypeEmployeeStore.listTypeEmployee');
 
@@ -322,6 +337,7 @@ description: ${description},
 loading: ${loading},
 errorList: ${errorList},
 listEmpty: ${listEmpty},
+duplicate: ${duplicate},
 listTypeEmployee: ${listTypeEmployee},
 controllerFieldDescription: ${controllerFieldDescription},
 sending: ${sending},
