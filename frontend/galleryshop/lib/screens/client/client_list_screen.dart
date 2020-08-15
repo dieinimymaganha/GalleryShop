@@ -1,122 +1,181 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/http/webclients/webclient_client.dart';
-import 'package:galleryshop/models/client.dart';
 import 'package:galleryshop/screens/client/widget/button_create_client.dart';
+import 'package:galleryshop/stores/client_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
-import 'package:galleryshop/widgets/progress.dart';
 
 const _titleAppbar = 'Lista de clientes';
 
-class ClientListScreen extends StatelessWidget {
-  final ClientWebClient _webClient = ClientWebClient();
+class ClientListScreen extends StatefulWidget {
+  @override
+  _ClientListScreenState createState() => _ClientListScreenState();
+}
+
+class _ClientListScreenState extends State<ClientListScreen> {
+  ClientStore clientStore = ClientStore();
+
+  @override
+  void initState() {
+    super.initState();
+    clientStore.setList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_titleAppbar),
-        centerTitle: true,
-        backgroundColor: colorAppbar,
-      ),
-      body: FutureBuilder<List<ClientModel>>(
-        future: _webClient.findAll(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              break;
-            case ConnectionState.waiting:
-              return Progress();
-              break;
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              if (snapshot.hasData) {
-                final List<ClientModel> customers = snapshot.data;
-                if (customers.isNotEmpty) {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      final ClientModel clientModel = customers[index];
-                      return InkWell(
-                        onTap: () {
-                          print('Clicou');
-                        },
-                        child: Card(
+    return Observer(
+      builder: (_) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(_titleAppbar),
+            centerTitle: true,
+            backgroundColor: colorAppbar,
+          ),
+          body: clientStore.errorList
+              ? Container(
+                  child: clientStore.listEmpty
+                      ? CenteredMessage(
+                          'Não á dados Cadastrados',
+                          icon: Icons.description,
+                        )
+                      : Center(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(Icons.person),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 2,
-                                        top: 10,
-                                        bottom: 10,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            clientModel.nickname,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                          Text(
-                                            'Nome: ${clientModel.name}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          Text(
-                                            'Sobrenome: ${clientModel.lastName}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                          Text(
-                                            'Data Nascimento: ${convertData(clientModel.birthdate.toString())}',
-                                            style:
-                                                TextStyle(color: Colors.blue),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.only(top: 24.0),
+                                child: Text(
+                                  'Falha ao carregar',
+                                  style: TextStyle(fontSize: 24),
+                                ),
                               ),
+                              FlatButton(
+                                  child: Text('Clique para recarregar!'),
+                                  onPressed: clientStore.reloadList)
                             ],
                           ),
+                        ))
+              : Container(
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: clientStore.loading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView(
+                          children: clientStore.listClient.map((clientModel) {
+                            return Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5,),
+                              child: InkWell(
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  color: colorCard,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 15,
+                                                  right: 15,
+                                                  top: 10,
+                                                  bottom: 10),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    clientModel.nickname,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize: 18),
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Nome: ',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      Text(
+                                                        clientModel.name,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Sobrenome: ',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      Text(
+                                                        clientModel.lastName,
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Data Nascimento: ',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      Text(
+                                                        convertData(
+                                                          clientModel
+                                                              .birthdate
+                                                              .toString(),
+                                                        ),
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .blueAccent),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
-                      );
-                    },
-                    itemCount: customers.length,
-                  );
-                }
-              }
-
-              return CenteredMessage(
-                'Nenhum cliente encontrado',
-                icon: Icons.warning,
-              );
-              break;
-          }
-          return CenteredMessage('Erro desconhecido');
-        },
-      ),
-      drawer: CustomDrawer(),
-      floatingActionButton: ButtonCreateClient(),
+                ),
+          drawer: CustomDrawer(),
+          floatingActionButton: ButtonCreateClient(),
+        );
+      },
     );
-  }
-
-  String convertData(String data) {
-    String nwdata = data.substring(0, 10);
-    return nwdata;
   }
 }
