@@ -11,18 +11,13 @@ class LoginStore = _LoginStore with _$LoginStore;
 abstract class _LoginStore with Store {
   final LoginWebClient _webClient = LoginWebClient();
 
-//
-//  _LoginStore(){
-//    autorun((_){
-//      print('loading : ${loading}');
-//      print('obscure : ${obscure}');
-//      print('loggedIn : ${loggedIn}');
-//      print('errorLogin : ${errorLogin}');
-//
-//      print('phone : ${phone}');
-//      print('password : ${password}');
-//    });
-//  }
+  _LoginStore() {
+    autorun((_) {
+      print('loading : $loading');
+      print('loggedIn : $loggedIn');
+      print("errorLogin : $errorLogin");
+    });
+  }
 
   @observable
   String phone = '';
@@ -66,7 +61,6 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> save(LoginModel loginCreated) async {
-
     LoginModel loginModel = loginCreated;
     loading = true;
     await Future.delayed(Duration(seconds: 2));
@@ -75,28 +69,20 @@ abstract class _LoginStore with Store {
 
     if (tokenModel != null) {
       loggedIn = true;
-      errorLogin = false;
     } else {
-      loggedIn = false;
       errorLogin = true;
     }
-    loading = false;
-    print(tokenModel);
+    await Future.delayed(Duration(seconds: 2));
+    errorLogin = false;
   }
 
   Future<TokenModel> send(LoginModel loginModel) async {
-
-
     final TokenModel tokenModel =
         await _webClient.sendUser(loginModel).catchError((e) {
-          loggedIn = false;
-          errorLogin = true;
-          loading = false;
-
-          debugPrint(e);
+      loggedIn = false;
+      errorLogin = true;
+      loading = false;
     });
-
-    print(tokenModel);
     return tokenModel;
   }
 
