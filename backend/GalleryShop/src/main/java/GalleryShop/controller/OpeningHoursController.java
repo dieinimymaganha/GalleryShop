@@ -18,50 +18,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import GalleryShop.controller.dto.ScheduleDto;
-import GalleryShop.controller.form.ScheduleForm;
-import GalleryShop.model.Schedule;
+import GalleryShop.controller.dto.OpeningHoursDto;
+import GalleryShop.controller.form.OpeningHoursForm;
+import GalleryShop.model.OpeningHours;
 import GalleryShop.repository.EmployeeRepository;
-import GalleryShop.repository.ScheduleRepository;
+import GalleryShop.repository.OpeningHoursRepository;
 
 @RestController
-@RequestMapping("/schedules")
-public class ScheduleController {
+@RequestMapping("/openinghours")
+public class OpeningHoursController {
 
     @Autowired
     EmployeeRepository employeeRepository;
 
     @Autowired
-    ScheduleRepository scheduleRepository;
+    OpeningHoursRepository openingHoursRepository;
 
     @GetMapping
-    public List<ScheduleDto> getAll() {
-        List<Schedule> schedules = scheduleRepository.findAll();
-        return ScheduleDto.converter(schedules);
+    public List<OpeningHoursDto> getAll() {
+        List<OpeningHours> openingHours = openingHoursRepository.findAll();
+        return OpeningHoursDto.converter(openingHours);
 
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
+    public ResponseEntity<OpeningHoursDto> createNewSchedule(@RequestBody @Valid OpeningHoursForm form,
             UriComponentsBuilder uriBuilder) {
-        Schedule schedule = form.converter(employeeRepository);
+        OpeningHours schedule = form.converter(employeeRepository);
 
-        scheduleRepository.save(schedule);
+        openingHoursRepository.save(schedule);
 
-        URI uri = uriBuilder.path("/schedules/{id}").buildAndExpand(schedule.getId()).toUri();
+        URI uri = uriBuilder.path("/openinghours/{id}").buildAndExpand(schedule.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new ScheduleDto(schedule));
+        return ResponseEntity.created(uri).body(new OpeningHoursDto(schedule));
 
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> deleteSchedule(@PathVariable Long id) {
-        Optional<Schedule> optional = scheduleRepository.findById(id);
+        Optional<OpeningHours> optional = openingHoursRepository.findById(id);
 
         if (optional.isPresent()) {
-            scheduleRepository.deleteById(id);
+            openingHoursRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
 

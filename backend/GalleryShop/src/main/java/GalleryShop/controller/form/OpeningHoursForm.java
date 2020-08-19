@@ -6,44 +6,36 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import GalleryShop.model.Employee;
-import GalleryShop.model.Schedule;
+import GalleryShop.model.OpeningHours;
 import GalleryShop.model.Enum.DayOfTheWeek;
 import GalleryShop.repository.EmployeeRepository;
 
-public class ScheduleForm {
+public class OpeningHoursForm {
 
     private Long employeeId;
 
-    @JsonFormat(pattern="dd/MM/yyyy")
-    private Date day;
-    
     private DayOfTheWeek dayOfTheWeek;
-    
-    
+
+    @JsonFormat(pattern = "HH:mm")
     private Date earlyMorningJourney;
-    
-    
+
+    @JsonFormat(pattern = "HH:mm")
     private Date endMorningJourney;
-    
-    
+
+    @JsonFormat(pattern = "HH:mm")
     private Date earlyAfternoonJourney;
-    
-    
+
+    @JsonFormat(pattern = "HH:mm")
     private Date endJourneyLate;
 
-    private Integer attendanceTime;
-
-    public ScheduleForm(Long employeeId, Date day, DayOfTheWeek dayOfTheWeek, Date earlyMorningJourney,
-            Date endMorningJourney, Date earlyAfternoonJourney, Date endJourneyLate, Boolean available,
-            Integer attendanceTime) {
+    public OpeningHoursForm(Long employeeId, DayOfTheWeek dayOfTheWeek, Date earlyMorningJourney,
+            Date endMorningJourney, Date earlyAfternoonJourney, Date endJourneyLate) {
         this.employeeId = employeeId;
-        this.day = day;
         this.dayOfTheWeek = dayOfTheWeek;
         this.earlyMorningJourney = earlyMorningJourney;
         this.endMorningJourney = endMorningJourney;
         this.earlyAfternoonJourney = earlyAfternoonJourney;
         this.endJourneyLate = endJourneyLate;
-        this.attendanceTime = attendanceTime;
     }
 
     public Long getEmployeeId() {
@@ -52,14 +44,6 @@ public class ScheduleForm {
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public Date getDay() {
-        return day;
-    }
-
-    public void setDay(Date day) {
-        this.day = day;
     }
 
     public DayOfTheWeek getDayOfTheWeek() {
@@ -102,20 +86,11 @@ public class ScheduleForm {
         this.endJourneyLate = endJourneyLate;
     }
 
-
-    public Integer getAttendanceTime() {
-        return attendanceTime;
-    }
-
-    public void setAttendanceTime(Integer attendanceTime) {
-        this.attendanceTime = attendanceTime;
-    }
-
-    public Schedule converter(EmployeeRepository employeeRepository) {
+    public OpeningHours converter(EmployeeRepository employeeRepository) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
         Employee employeeRecuver = employee.get();
-        return new Schedule(employeeRecuver, day, dayOfTheWeek, earlyMorningJourney, endMorningJourney,
-                earlyAfternoonJourney, endJourneyLate, attendanceTime);
+        return new OpeningHours(employeeRecuver, dayOfTheWeek, earlyMorningJourney, endMorningJourney,
+                earlyAfternoonJourney, endJourneyLate);
 
     }
 
