@@ -19,7 +19,7 @@ public class Person {
 	private String nickname;
 	@Column(unique = true)
 	private String cpf;
-	private Date birthDate;
+	private @Temporal(TemporalType.DATE) Date birthDate;
 	@Column(unique = true)
 	private String phoneNumber;
 
