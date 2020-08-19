@@ -1,17 +1,19 @@
 package GalleryShop.model;
 
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import GalleryShop.model.Enum.DayOfTheWeek;
 
 @Entity
-public class Schedule {
+public class OpeningHours {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,25 +22,20 @@ public class Schedule {
     @ManyToOne()
     @JoinColumn(name = "employee_id")
     private Employee employee;
-    private Date day;
     private DayOfTheWeek dayOfTheWeek;
-    private Date earlyMorningJourney;
-    private Date endMorningJourney;
-    private Date earlyAfternoonJourney;
-    private Date endJourneyLate;
-    private Integer attendanceTime;
+    private @Temporal(TemporalType.TIME) Date earlyMorningJourney;
+    private @Temporal(TemporalType.TIME) Date endMorningJourney;
+    private @Temporal(TemporalType.TIME) Date earlyAfternoonJourney;
+    private @Temporal(TemporalType.TIME) Date endJourneyLate;
 
-    public Schedule(final Employee employee, final Date day, final DayOfTheWeek dayOfTheWeek,
-            final Date earlyMorningJourney, final Date endMorningJourney, final Date earlyAfternoonJourney,
-            final Date endJourneyLate, final Integer attendanceTime) {
+    public OpeningHours(final Employee employee, final DayOfTheWeek dayOfTheWeek, final Date earlyMorningJourney,
+            final Date endMorningJourney, final Date earlyAfternoonJourney, final Date endJourneyLate) {
         this.employee = employee;
-        this.day = day;
         this.dayOfTheWeek = dayOfTheWeek;
         this.earlyMorningJourney = earlyMorningJourney;
         this.endMorningJourney = endMorningJourney;
         this.earlyAfternoonJourney = earlyAfternoonJourney;
         this.endJourneyLate = endJourneyLate;
-        this.attendanceTime = attendanceTime;
     }
 
     public Long getId() {
@@ -55,14 +52,6 @@ public class Schedule {
 
     public void setEmployee(final Employee employee) {
         this.employee = employee;
-    }
-
-    public Date getDay() {
-        return day;
-    }
-
-    public void setDay(final Date day) {
-        this.day = day;
     }
 
     public DayOfTheWeek getDayOfTheWeek() {
@@ -105,15 +94,7 @@ public class Schedule {
         this.endJourneyLate = endJourneyLate;
     }
 
-    public Integer getAttendanceTime() {
-        return attendanceTime;
-    }
-
-    public void setAttendanceTime(final Integer attendanceTime) {
-        this.attendanceTime = attendanceTime;
-    }
-
-    public Schedule() {
+    public OpeningHours() {
     }
 
 }
