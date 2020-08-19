@@ -1,7 +1,6 @@
 package GalleryShop.controller;
 
 import java.net.URI;
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.List;
 import java.util.Optional;
 
