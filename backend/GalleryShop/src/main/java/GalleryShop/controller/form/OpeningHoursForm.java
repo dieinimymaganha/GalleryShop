@@ -1,7 +1,11 @@
 package GalleryShop.controller.form;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Optional;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,20 +20,22 @@ public class OpeningHoursForm {
 
     private DayOfTheWeek dayOfTheWeek;
 
-    @JsonFormat(pattern = "HH:mm")
-    private Date earlyMorningJourney;
+    private LocalTime earlyMorningJourney;
 
-    @JsonFormat(pattern = "HH:mm")
-    private Date endMorningJourney;
+    
+    
+    private LocalTime endMorningJourney;
 
-    @JsonFormat(pattern = "HH:mm")
-    private Date earlyAfternoonJourney;
+    
+    
+    private LocalTime earlyAfternoonJourney;
 
-    @JsonFormat(pattern = "HH:mm")
-    private Date endJourneyLate;
+    
+    
+    private LocalTime endJourneyLate;
 
-    public OpeningHoursForm(Long employeeId, DayOfTheWeek dayOfTheWeek, Date earlyMorningJourney,
-            Date endMorningJourney, Date earlyAfternoonJourney, Date endJourneyLate) {
+    public OpeningHoursForm(Long employeeId, DayOfTheWeek dayOfTheWeek, LocalTime earlyMorningJourney,
+    LocalTime endMorningJourney, LocalTime earlyAfternoonJourney, LocalTime endJourneyLate) {
         this.employeeId = employeeId;
         this.dayOfTheWeek = dayOfTheWeek;
         this.earlyMorningJourney = earlyMorningJourney;
@@ -54,43 +60,46 @@ public class OpeningHoursForm {
         this.dayOfTheWeek = dayOfTheWeek;
     }
 
-    public Date getEarlyMorningJourney() {
+    public LocalTime getEarlyMorningJourney() {
         return earlyMorningJourney;
     }
 
-    public void setEarlyMorningJourney(Date earlyMorningJourney) {
+    public void setEarlyMorningJourney(LocalTime earlyMorningJourney) {
         this.earlyMorningJourney = earlyMorningJourney;
     }
 
-    public Date getEndMorningJourney() {
+    public LocalTime getEndMorningJourney() {
         return endMorningJourney;
     }
 
-    public void setEndMorningJourney(Date endMorningJourney) {
+    public void setEndMorningJourney(LocalTime endMorningJourney) {
         this.endMorningJourney = endMorningJourney;
     }
 
-    public Date getEarlyAfternoonJourney() {
+    public LocalTime getEarlyAfternoonJourney() {
         return earlyAfternoonJourney;
     }
 
-    public void setEarlyAfternoonJourney(Date earlyAfternoonJourney) {
+    public void setEarlyAfternoonJourney(LocalTime earlyAfternoonJourney) {
         this.earlyAfternoonJourney = earlyAfternoonJourney;
     }
 
-    public Date getEndJourneyLate() {
+    public LocalTime getEndJourneyLate() {
         return endJourneyLate;
     }
 
-    public void setEndJourneyLate(Date endJourneyLate) {
+    public void setEndJourneyLate(LocalTime endJourneyLate) {
         this.endJourneyLate = endJourneyLate;
     }
 
     public OpeningHours converter(EmployeeRepository employeeRepository) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
-        Employee employeeRecuver = employee.get();
-        return new OpeningHours(employeeRecuver, dayOfTheWeek, earlyMorningJourney, endMorningJourney,
-                earlyAfternoonJourney, endJourneyLate);
+        if (employee.isPresent()) {
+            Employee employeeRecuver = employee.get();
+            return new OpeningHours(employeeRecuver, dayOfTheWeek, earlyMorningJourney, endMorningJourney,
+                    earlyAfternoonJourney, endJourneyLate);
+        }
+        return null;
 
     }
 

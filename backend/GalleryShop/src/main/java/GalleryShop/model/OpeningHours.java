@@ -1,5 +1,6 @@
 package GalleryShop.model;
 
+import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,13 +24,21 @@ public class OpeningHours {
     @JoinColumn(name = "employee_id")
     private Employee employee;
     private DayOfTheWeek dayOfTheWeek;
-    private @Temporal(TemporalType.TIME) Date earlyMorningJourney;
-    private @Temporal(TemporalType.TIME) Date endMorningJourney;
-    private @Temporal(TemporalType.TIME) Date earlyAfternoonJourney;
-    private @Temporal(TemporalType.TIME) Date endJourneyLate;
 
-    public OpeningHours(final Employee employee, final DayOfTheWeek dayOfTheWeek, final Date earlyMorningJourney,
-            final Date endMorningJourney, final Date earlyAfternoonJourney, final Date endJourneyLate) {
+
+    private LocalTime earlyMorningJourney;
+
+    
+    private LocalTime endMorningJourney;
+
+    
+    private LocalTime earlyAfternoonJourney;
+
+    
+    private LocalTime endJourneyLate;
+
+    public OpeningHours(final Employee employee, final DayOfTheWeek dayOfTheWeek, final LocalTime earlyMorningJourney,
+            final LocalTime endMorningJourney, final LocalTime earlyAfternoonJourney, final LocalTime endJourneyLate) {
         this.employee = employee;
         this.dayOfTheWeek = dayOfTheWeek;
         this.earlyMorningJourney = earlyMorningJourney;
@@ -62,35 +71,35 @@ public class OpeningHours {
         this.dayOfTheWeek = dayOfTheWeek;
     }
 
-    public Date getEarlyMorningJourney() {
+    public LocalTime getEarlyMorningJourney() {
         return earlyMorningJourney;
     }
 
-    public void setEarlyMorningJourney(final Date earlyMorningJourney) {
+    public void setEarlyMorningJourney(final LocalTime earlyMorningJourney) {
         this.earlyMorningJourney = earlyMorningJourney;
     }
 
-    public Date getEndMorningJourney() {
+    public LocalTime getEndMorningJourney() {
         return endMorningJourney;
     }
 
-    public void setEndMorningJourney(final Date endMorningJourney) {
+    public void setEndMorningJourney(final LocalTime endMorningJourney) {
         this.endMorningJourney = endMorningJourney;
     }
 
-    public Date getEarlyAfternoonJourney() {
+    public LocalTime getEarlyAfternoonJourney() {
         return earlyAfternoonJourney;
     }
 
-    public void setEarlyAfternoonJourney(final Date earlyAfternoonJourney) {
+    public void setEarlyAfternoonJourney(final LocalTime earlyAfternoonJourney) {
         this.earlyAfternoonJourney = earlyAfternoonJourney;
     }
 
-    public Date getEndJourneyLate() {
+    public LocalTime getEndJourneyLate() {
         return endJourneyLate;
     }
 
-    public void setEndJourneyLate(final Date endJourneyLate) {
+    public void setEndJourneyLate(final LocalTime endJourneyLate) {
         this.endJourneyLate = endJourneyLate;
     }
 
