@@ -13,14 +13,11 @@ public class ScheduleDto {
 
     private Long id;
 
-    private String employee;
     private Long employeeId;
 
-    private String client;
-    private Long clientId;
-
     private String openingHours;
-	@JsonFormat(pattern="dd/MM/yyyy")
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date day;
 
     private String typeEmployee;
@@ -35,11 +32,8 @@ public class ScheduleDto {
 
     public ScheduleDto(final Schedule schedule) {
         this.id = schedule.getId();
-        this.employee = schedule.getEmployee().getName();
         this.employeeId = schedule.getEmployee().getId();
         this.typeEmployee = schedule.getTypeEmployee().getDescription();
-        this.client = schedule.getClient().getName();
-        this.clientId = schedule.getClient().getId();
         this.openingHours = schedule.getOpeningHours().getDayOfTheWeek().toString();
         this.day = schedule.getDay();
         this.attendanceTime = schedule.getAttendanceTime();
@@ -54,22 +48,6 @@ public class ScheduleDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(String employee) {
-        this.employee = employee;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
     }
 
     public String getOpeningHours() {
@@ -120,24 +98,12 @@ public class ScheduleDto {
         this.available = available;
     }
 
-    public static List<ScheduleDto> converter(final List<Schedule> schedules) {
-        return schedules.stream().map(ScheduleDto::new).collect(Collectors.toList());
-    }
-
     public Long getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
     }
 
     public String getTypeEmployee() {
@@ -148,4 +114,7 @@ public class ScheduleDto {
         this.typeEmployee = typeEmployee;
     }
 
+    public static List<ScheduleDto> converter(final List<Schedule> schedules) {
+        return schedules.stream().map(ScheduleDto::new).collect(Collectors.toList());
+    }
 }
