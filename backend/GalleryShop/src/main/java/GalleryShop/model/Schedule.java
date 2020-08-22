@@ -19,14 +19,9 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(name = "employee_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
-
-
-    @ManyToOne()
-    @JoinColumn()
-    private Client client;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "opening_hours_id", referencedColumnName = "id")
@@ -36,6 +31,9 @@ public class Schedule {
     @JoinColumn(name = "type_employee_id", referencedColumnName = "id")
     private TypeEmployee typeEmployee;
 
+    @ManyToOne()
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 
     private Date day;
 
@@ -46,6 +44,37 @@ public class Schedule {
     private LocalTime endAttendance;
 
     private Boolean available;
+
+    public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Appointment appointment,
+            Date day, LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
+        this.employee = employee;
+        this.openingHours = openingHours;
+        this.typeEmployee = typeEmployee;
+        this.appointment = appointment;
+        this.day = day;
+        this.attendanceTime = attendanceTime;
+        this.startAttendance = startAttendance;
+        this.endAttendance = endAttendance;
+        this.available = available;
+    }
+
+    public Schedule() {
+    }
+
+    public Schedule(Long id, Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee,
+            Appointment appointment, Date day, LocalTime attendanceTime, LocalTime startAttendance,
+            LocalTime endAttendance, Boolean available) {
+        this.id = id;
+        this.employee = employee;
+        this.openingHours = openingHours;
+        this.typeEmployee = typeEmployee;
+        this.appointment = appointment;
+        this.day = day;
+        this.attendanceTime = attendanceTime;
+        this.startAttendance = startAttendance;
+        this.endAttendance = endAttendance;
+        this.available = available;
+    }
 
     public Long getId() {
         return id;
@@ -63,14 +92,6 @@ public class Schedule {
         this.employee = employee;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public OpeningHours getOpeningHours() {
         return openingHours;
     }
@@ -85,6 +106,14 @@ public class Schedule {
 
     public void setTypeEmployee(TypeEmployee typeEmployee) {
         this.typeEmployee = typeEmployee;
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     public Date getDay() {
@@ -126,23 +155,5 @@ public class Schedule {
     public void setAvailable(Boolean available) {
         this.available = available;
     }
-
-    public Schedule(Employee employee, Client client, OpeningHours openingHours, TypeEmployee typeEmployee, Date day,
-            LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
-        this.employee = employee;
-        this.client = client;
-        this.openingHours = openingHours;
-        this.typeEmployee = typeEmployee;
-        this.day = day;
-        this.attendanceTime = attendanceTime;
-        this.startAttendance = startAttendance;
-        this.endAttendance = endAttendance;
-        this.available = available;
-    }
-
-    public Schedule() {
-    }
-
-    
 
 }
