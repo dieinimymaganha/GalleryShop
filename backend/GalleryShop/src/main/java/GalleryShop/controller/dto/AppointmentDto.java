@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import GalleryShop.model.Appointment;
+import GalleryShop.model.Client;
 
 public class AppointmentDto {
 
     private Long id;
 
-    private List<ScheduleDto> scheduleDto;
+    private ScheduleDto scheduleDto;
 
     private Long clientId;
 
     public AppointmentDto(final Appointment appointment) {
         this.id = appointment.getId();
-        this.scheduleDto = new ArrayList<>();
-        this.scheduleDto.addAll(appointment.getSchedule().stream().map(ScheduleDto::new).collect(Collectors.toList()));
         this.clientId = appointment.getClient().getId();
+        this.scheduleDto = scheduleDto.converterDto(appointment.getSchedule());
     }
 
     public Long getId() {
@@ -33,7 +33,6 @@ public class AppointmentDto {
         return appointments.stream().map(AppointmentDto::new).collect(Collectors.toList());
     }
 
-
     public Long getClientId() {
         return clientId;
     }
@@ -42,12 +41,14 @@ public class AppointmentDto {
         this.clientId = clientId;
     }
 
-    public List<ScheduleDto> getScheduleDto() {
+    public ScheduleDto getScheduleDto() {
         return scheduleDto;
     }
 
-    public void setScheduleDto(List<ScheduleDto> scheduleDto) {
+    public void setScheduleDto(ScheduleDto scheduleDto) {
         this.scheduleDto = scheduleDto;
     }
+
+    
 
 }

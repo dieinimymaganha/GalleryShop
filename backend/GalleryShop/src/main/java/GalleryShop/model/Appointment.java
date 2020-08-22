@@ -2,6 +2,7 @@ package GalleryShop.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +24,11 @@ public class Appointment {
     private Client client;
 
 
-    @Column(unique = true)
-    @OneToMany(mappedBy = "appointment")
-    private List<Schedule> schedule;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "schedule_id", referencedColumnName = "id")
+    private Schedule schedule;
 
-    public Appointment(Client client, List<Schedule> schedule) {
+    public Appointment(Client client, Schedule schedule) {
         this.client = client;
         this.schedule = schedule;
     }
@@ -48,11 +49,11 @@ public class Appointment {
         this.client = client;
     }
 
-    public List<Schedule> getSchedule() {
+    public Schedule getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(List<Schedule> schedule) {
+    public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
     }
 

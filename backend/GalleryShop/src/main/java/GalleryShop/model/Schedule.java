@@ -31,10 +31,6 @@ public class Schedule {
     @JoinColumn(name = "type_employee_id", referencedColumnName = "id")
     private TypeEmployee typeEmployee;
 
-    @ManyToOne()
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
-
     private Date day;
 
     private LocalTime attendanceTime;
@@ -45,12 +41,11 @@ public class Schedule {
 
     private Boolean available;
 
-    public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Appointment appointment,
-            Date day, LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
+    public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Date day,
+            LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
         this.employee = employee;
         this.openingHours = openingHours;
         this.typeEmployee = typeEmployee;
-        this.appointment = appointment;
         this.day = day;
         this.attendanceTime = attendanceTime;
         this.startAttendance = startAttendance;
@@ -59,21 +54,6 @@ public class Schedule {
     }
 
     public Schedule() {
-    }
-
-    public Schedule(Long id, Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee,
-            Appointment appointment, Date day, LocalTime attendanceTime, LocalTime startAttendance,
-            LocalTime endAttendance, Boolean available) {
-        this.id = id;
-        this.employee = employee;
-        this.openingHours = openingHours;
-        this.typeEmployee = typeEmployee;
-        this.appointment = appointment;
-        this.day = day;
-        this.attendanceTime = attendanceTime;
-        this.startAttendance = startAttendance;
-        this.endAttendance = endAttendance;
-        this.available = available;
     }
 
     public Long getId() {
@@ -106,14 +86,6 @@ public class Schedule {
 
     public void setTypeEmployee(TypeEmployee typeEmployee) {
         this.typeEmployee = typeEmployee;
-    }
-
-    public Appointment getAppointment() {
-        return appointment;
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
     }
 
     public Date getDay() {

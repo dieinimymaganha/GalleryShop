@@ -117,4 +117,10 @@ public class ScheduleDto {
     public static List<ScheduleDto> converter(final List<Schedule> schedules) {
         return schedules.stream().map(ScheduleDto::new).collect(Collectors.toList());
     }
+
+    public static ScheduleDto converterDto(Schedule schedule) {
+        ScheduleDto dto = new ScheduleDto(schedule);
+        return dto;
+    }
+
 }
