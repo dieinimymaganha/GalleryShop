@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Schedule {
@@ -30,7 +32,7 @@ public class Schedule {
     @JoinColumn(name = "type_employee_id", referencedColumnName = "id")
     private TypeEmployee typeEmployee;
 
-    private Date day;
+    private @Temporal(TemporalType.DATE) Date day;
 
     private LocalTime attendanceTime;
 
