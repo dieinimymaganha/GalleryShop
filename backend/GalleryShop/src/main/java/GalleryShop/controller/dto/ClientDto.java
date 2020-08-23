@@ -15,11 +15,10 @@ public class ClientDto {
 	private String lastName;
 	private String nickname;
 	private String cpf;
-	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date birthdate;
 	private String phoneNumber;
 	private String email;
-	private String password;
 
 	public ClientDto(Client client) {
 		this.id = client.getId();
@@ -30,7 +29,7 @@ public class ClientDto {
 		this.birthdate = client.getBirthDate();
 		this.phoneNumber = client.getPhoneNumber();
 		this.email = client.getEmail();
-		this.password = client.getUserLogin().getPassword();
+
 	}
 
 	public Long getId() {
@@ -102,12 +101,8 @@ public class ClientDto {
 		return clients.stream().map(ClientDto::new).collect(Collectors.toList());
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public static ClientDto convertDto(Client client) {
+		return new ClientDto(client);
 	}
 
 }

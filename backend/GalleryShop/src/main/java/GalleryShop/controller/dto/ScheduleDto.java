@@ -15,6 +15,8 @@ public class ScheduleDto {
 
     private Long employeeId;
 
+    private String nicknameEmployee;
+
     private String openingHours;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -33,6 +35,7 @@ public class ScheduleDto {
     public ScheduleDto(final Schedule schedule) {
         this.id = schedule.getId();
         this.employeeId = schedule.getEmployee().getId();
+        this.nicknameEmployee = schedule.getEmployee().getNickname();
         this.typeEmployee = schedule.getTypeEmployee().getDescription();
         this.openingHours = schedule.getOpeningHours().getDayOfTheWeek().toString();
         this.day = schedule.getDay();
@@ -119,8 +122,16 @@ public class ScheduleDto {
     }
 
     public static ScheduleDto converterDto(Schedule schedule) {
-        ScheduleDto dto = new ScheduleDto(schedule);
-        return dto;
+
+        return new ScheduleDto(schedule);
+    }
+
+    public String getNicknameEmployee() {
+        return nicknameEmployee;
+    }
+
+    public void setNicknameEmployee(String nicknameEmployee) {
+        this.nicknameEmployee = nicknameEmployee;
     }
 
 }

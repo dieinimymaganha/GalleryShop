@@ -1,11 +1,9 @@
 package GalleryShop.controller.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import GalleryShop.model.Appointment;
-import GalleryShop.model.Client;
 
 public class AppointmentDto {
 
@@ -13,12 +11,12 @@ public class AppointmentDto {
 
     private ScheduleDto scheduleDto;
 
-    private Long clientId;
+    private ClientDto client;
 
     public AppointmentDto(final Appointment appointment) {
         this.id = appointment.getId();
-        this.clientId = appointment.getClient().getId();
-        this.scheduleDto = scheduleDto.converterDto(appointment.getSchedule());
+        this.client = ClientDto.convertDto(appointment.getClient());
+        this.scheduleDto = ScheduleDto.converterDto(appointment.getSchedule());
     }
 
     public Long getId() {
@@ -33,14 +31,6 @@ public class AppointmentDto {
         return appointments.stream().map(AppointmentDto::new).collect(Collectors.toList());
     }
 
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
     public ScheduleDto getScheduleDto() {
         return scheduleDto;
     }
@@ -49,6 +39,12 @@ public class AppointmentDto {
         this.scheduleDto = scheduleDto;
     }
 
-    
+    public ClientDto getClient() {
+        return client;
+    }
+
+    public void setClient(ClientDto client) {
+        this.client = client;
+    }
 
 }
