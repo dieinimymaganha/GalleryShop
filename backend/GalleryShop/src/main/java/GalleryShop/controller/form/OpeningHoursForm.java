@@ -16,17 +16,11 @@ public class OpeningHoursForm {
     private DayOfTheWeek dayOfTheWeek;
 
     private LocalTime earlyMorningJourney;
-
-    
-    
+   
     private LocalTime endMorningJourney;
-
-    
-    
+       
     private LocalTime earlyAfternoonJourney;
-
-    
-    
+ 
     private LocalTime endJourneyLate;
 
     public OpeningHoursForm(Long employeeId, DayOfTheWeek dayOfTheWeek, LocalTime earlyMorningJourney,

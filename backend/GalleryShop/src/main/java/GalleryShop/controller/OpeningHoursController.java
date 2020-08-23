@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import GalleryShop.controller.dto.OpeningHoursDto;
 import GalleryShop.controller.form.OpeningHoursForm;
+import GalleryShop.controller.form.OpeningHoursFormList;
 import GalleryShop.model.OpeningHours;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.OpeningHoursRepository;
@@ -43,15 +44,15 @@ public class OpeningHoursController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<OpeningHoursDto> createNewSchedule(@RequestBody @Valid OpeningHoursForm form,
-            UriComponentsBuilder uriBuilder) {
-        OpeningHours schedule = form.converter(employeeRepository);
+    public ResponseEntity<OpeningHoursDto> createNewSchedule(@RequestBody @Valid List<OpeningHoursForm> formOpen,
+            OpeningHoursFormList form, UriComponentsBuilder uriBuilder) {
+        List<OpeningHours> schedule = form.convertList(formOpen, employeeRepository);
 
-        openingHoursRepository.save(schedule);
+        for (OpeningHours openingHours : schedule) {
+            openingHoursRepository.save(openingHours);
+        }
 
-        URI uri = uriBuilder.path("/openinghours/{id}").buildAndExpand(schedule.getId()).toUri();
-
-        return ResponseEntity.created(uri).body(new OpeningHoursDto(schedule));
+        return ResponseEntity.ok().build();
 
     }
 
