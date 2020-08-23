@@ -129,4 +129,13 @@ public class Schedule {
         this.available = available;
     }
 
+    @Override
+    public String toString() {
+        return "Schedule [attendanceTime=" + attendanceTime + ", available=" + available + ", day=" + day
+                + ", employee=" + employee + ", endAttendance=" + endAttendance + ", openingHours=" + openingHours
+                + ", startAttendance=" + startAttendance + ", typeEmployee=" + typeEmployee + "]";
+    }
+
+    
+
 }

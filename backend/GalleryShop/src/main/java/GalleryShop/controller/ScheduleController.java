@@ -61,12 +61,14 @@ public class ScheduleController {
     public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
             UriComponentsBuilder uriBuilder) {
         Schedule schedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository);
-        scheduleRepository.save(schedule);
+        // scheduleRepository.save(schedule);
 
-        URI uri = uriBuilder.path("/schedules/{id}").buildAndExpand(schedule.getId()).toUri();
+        // URI uri =
+        // uriBuilder.path("/schedules/{id}").buildAndExpand(schedule.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new ScheduleDto(schedule));
-
+        // return ResponseEntity.created(uri).body(new ScheduleDto(schedule));
+        
+        return null;
     }
 
 }

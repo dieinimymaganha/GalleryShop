@@ -104,4 +104,14 @@ public class OpeningHours {
     public OpeningHours() {
     }
 
+    @Override
+    public String toString() {
+        return "OpeningHours [dayOfTheWeek=" + dayOfTheWeek + ", earlyAfternoonJourney=" + earlyAfternoonJourney
+                + ", earlyMorningJourney=" + earlyMorningJourney + ", employee=" + employee + ", endJourneyLate="
+                + endJourneyLate + ", endMorningJourney=" + endMorningJourney + ", id=" + id + "]";
+    }
+
+
+    
+
 }

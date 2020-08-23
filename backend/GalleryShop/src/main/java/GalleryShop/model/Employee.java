@@ -103,4 +103,11 @@ public class Employee extends Person {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "Employee [commissionRate=" + commissionRate + ", rg=" + rg + ", typeEmployees=" + typeEmployees + "]";
+	}
+
+	
+
 }
