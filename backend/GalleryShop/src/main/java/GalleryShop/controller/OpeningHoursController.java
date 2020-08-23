@@ -1,6 +1,5 @@
 package GalleryShop.controller;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,11 +43,11 @@ public class OpeningHoursController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<OpeningHoursDto> createNewSchedule(@RequestBody @Valid List<OpeningHoursForm> formOpen,
+    public ResponseEntity<OpeningHoursDto> createNewOpening(@RequestBody @Valid List<OpeningHoursForm> formOpen,
             OpeningHoursFormList form, UriComponentsBuilder uriBuilder) {
-        List<OpeningHours> schedule = form.convertList(formOpen, employeeRepository);
+        List<OpeningHours> opening = form.convertList(formOpen, employeeRepository);
 
-        for (OpeningHours openingHours : schedule) {
+        for (OpeningHours openingHours : opening) {
             openingHoursRepository.save(openingHours);
         }
 
