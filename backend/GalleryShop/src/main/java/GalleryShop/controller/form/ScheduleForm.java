@@ -117,6 +117,12 @@ public class ScheduleForm {
 
         final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
 
+        String hourColect = null;
+        LocalTime dateIni = null;
+        LocalTime dateant = null;
+
+        int dateSeconds = 0;
+
         for (OpeningHours openingHours : openingHoursRecover) {
             if (openingHours.getDayOfTheWeek() == weekRecover) {
                 final OpeningHours create = openingHours;
@@ -127,53 +133,24 @@ public class ScheduleForm {
                 int serviceQuantity = (morningAttendanceTime / convertedAttendanceTime);
 
                 int answeringTimeSeconds = morningAttendanceTime / serviceQuantity;
-                String dateini = null;
 
                 for (int hoursCalculate = create.getEarlyMorningJourney().toSecondOfDay(); hoursCalculate <= create
                         .getEndMorningJourney()
                         .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
 
-                    int hours = hoursCalculate / 3600;
-                    int minutes = (hoursCalculate % 3600) / 60;
-                    int seconds = hoursCalculate % 60;
+                    hourColect = extracted(hoursCalculate);
+                    dateIni = LocalTime.parse(hourColect);
 
-                    String datefim = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                    dateSeconds = hoursCalculate + answeringTimeSeconds;
 
-                    String dateant = datefim;
+                    LocalTime dateFim = LocalTime.parse(extracted(dateSeconds));
 
-                    // System.out.println("hora inicio >>>> " + hoursCalculate);
-                    // System.out.println("hora fim >>>> " +
-                    // create.getEarlyMorningJourney().toSecondOfDay());
-                    
-
-                    if (hoursCalculate == create.getEarlyMorningJourney().toSecondOfDay()) {
-                        dateini = datefim;
-                        System.out.println("Ta aqui 1");
-                        // datefim = null;
-                    } else if (dateini != dateant){
-                        dateini = dateini;
-                        System.out.println("Ta aqui 2");
-
-                    } else {
-                        dateini = datefim;
-                        System.out.println("Ta aqui 3");
+                    if (dateFim.isBefore(create.getEndMorningJourney()) || dateFim.equals(create.getEndMorningJourney())) {
+                        System.out.println("hora ini >>>> " + dateIni);
+                        System.out.println("Hora fim >>>> " + dateFim);
                     }
 
-                    
-                    // if (dateini != datefim) {
-
-                    // System.out.println("hora inicio >>>> " + dateini);
-                    // System.out.println("hora fim >>>> " + datefim);
-                    // }
-
-                    System.out.println("hora inicio >>>> " + dateini);
-                    System.out.println("hora fim >>>> " + datefim);
-
                 }
-
-                // String teste = extracted(divisao);
-                // System.out.println("tempo do tempo atendimento manhã convertido >>>> " +
-                // teste);
 
             }
         }
