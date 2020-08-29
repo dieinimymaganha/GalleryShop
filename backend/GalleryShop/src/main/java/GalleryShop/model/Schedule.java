@@ -20,15 +20,15 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "opening_hours_id", referencedColumnName = "id")
     private OpeningHours openingHours;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "type_employee_id", referencedColumnName = "id")
     private TypeEmployee typeEmployee;
 
