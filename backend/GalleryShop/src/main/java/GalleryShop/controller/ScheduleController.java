@@ -2,12 +2,14 @@ package GalleryShop.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,15 +62,26 @@ public class ScheduleController {
     @Transactional
     public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
             UriComponentsBuilder uriBuilder) {
-        Schedule schedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository);
-        // scheduleRepository.save(schedule);
+        List<Schedule> listSchedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository);
 
-        // URI uri =
-        // uriBuilder.path("/schedules/{id}").buildAndExpand(schedule.getId()).toUri();
+        for (Schedule schedule : listSchedule) {
+            scheduleRepository.save(schedule);
+        }
 
-        // return ResponseEntity.created(uri).body(new ScheduleDto(schedule));
-        
-        return null;
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<Schedule> optional = scheduleRepository.findById(id);
+
+        if (optional.isPresent()) {
+            scheduleRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }
