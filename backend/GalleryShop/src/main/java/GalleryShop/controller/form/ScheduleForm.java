@@ -108,52 +108,91 @@ public class ScheduleForm {
         this.available = available;
     }
 
-    public Schedule convert(final EmployeeRepository employeeRepository,
+    public List<Schedule> convert(final EmployeeRepository employeeRepository,
             final OpeningHoursRepository openingHoursRepository, final TypeEmployeeRepository typeEmployeeRepository) {
 
-        List<LocalDate> listDays = CreateListDates(10);
+        List<LocalDate> listDays = CreateListDates(1);
 
-        final DayOfTheWeek weekRecover = identifyDayOfWeek(day);
+        List<Schedule> listSchedules = new ArrayList<>();
 
-        final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
+        Optional<TypeEmployee> typeEmployee = typeEmployeeRepository.findById(typeEmployeeId);
 
-        String hourColect = null;
-        LocalTime dateIni = null;
-        LocalTime dateant = null;
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
 
-        int dateSeconds = 0;
+        for (LocalDate dateVerify : listDays) {
+            final DayOfTheWeek weekRecover = identifyDayOfWeek(day);
 
-        for (OpeningHours openingHours : openingHoursRecover) {
-            if (openingHours.getDayOfTheWeek() == weekRecover) {
-                final OpeningHours create = openingHours;
-                int convertedAttendanceTime = attendanceTime.toSecondOfDay();
-                int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
-                        - create.getEarlyMorningJourney().toSecondOfDay();
+            final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
 
-                int serviceQuantity = (morningAttendanceTime / convertedAttendanceTime);
+            String hourColectMorning = null;
+            LocalTime dateIniMorning = null;
 
-                int answeringTimeSeconds = morningAttendanceTime / serviceQuantity;
+            String hourColectAfternoon = null;
+            LocalTime dateIniAfternoon = null;
 
-                for (int hoursCalculate = create.getEarlyMorningJourney().toSecondOfDay(); hoursCalculate <= create
-                        .getEndMorningJourney()
-                        .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
+            int dateSeconds = 0;
+            for (OpeningHours openingHours : openingHoursRecover) {
+                if (openingHours.getDayOfTheWeek() == weekRecover) {
+                    final OpeningHours create = openingHours;
+                    int convertedAttendanceTime = attendanceTime.toSecondOfDay();
+                    int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                            - create.getEarlyMorningJourney().toSecondOfDay();
 
-                    hourColect = extracted(hoursCalculate);
-                    dateIni = LocalTime.parse(hourColect);
+                    int serviceQuantity = (morningAttendanceTime / convertedAttendanceTime);
 
-                    dateSeconds = hoursCalculate + answeringTimeSeconds;
+                    int answeringTimeSeconds = morningAttendanceTime / serviceQuantity;
 
-                    LocalTime dateFim = LocalTime.parse(extracted(dateSeconds));
+                    for (int hoursCalculate = create.getEarlyMorningJourney().toSecondOfDay(); hoursCalculate <= create
+                            .getEndMorningJourney()
+                            .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
 
-                    if (dateFim.isBefore(create.getEndMorningJourney()) || dateFim.equals(create.getEndMorningJourney())) {
-                        System.out.println("hora ini >>>> " + dateIni);
-                        System.out.println("Hora fim >>>> " + dateFim);
+                        hourColectMorning = extracted(hoursCalculate);
+                        dateIniMorning = LocalTime.parse(hourColectMorning);
+
+                        dateSeconds = hoursCalculate + answeringTimeSeconds;
+
+                        LocalTime dateFimMorning = LocalTime.parse(extracted(dateSeconds));
+
+                        if (dateFimMorning.isBefore(create.getEndMorningJourney())
+                                || dateFimMorning.equals(create.getEndMorningJourney())) {
+
+                            Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), day,
+                                    attendanceTime, dateIniMorning, dateFimMorning, available);
+
+                            listSchedules.add(schedulecreate);
+                            // System.out.println("Manhã hora ini >>>> " + dateIniMorning);
+                            // System.out.println("Manhã Hora fim >>>> " + dateFimMorning);
+                        }
+
+                    }
+
+                    for (int hoursCalculate = create.getEarlyAfternoonJourney()
+                            .toSecondOfDay(); hoursCalculate <= create.getEndJourneyLate()
+                                    .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
+
+                        hourColectAfternoon = extracted(hoursCalculate);
+                        dateIniAfternoon = LocalTime.parse(hourColectAfternoon);
+
+                        dateSeconds = hoursCalculate + answeringTimeSeconds;
+
+                        LocalTime dateFimAfternoon = LocalTime.parse(extracted(dateSeconds));
+
+                        if (dateFimAfternoon.isBefore(create.getEndJourneyLate())
+                                || dateFimAfternoon.equals(create.getEndJourneyLate())) {
+                            Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), day,
+                                    attendanceTime, dateIniAfternoon, dateIniAfternoon, available);
+                            listSchedules.add(schedulecreate);
+
+                        }
+
                     }
 
                 }
-
             }
+
         }
+
+        System.out.println("Lista de agenda >>>>>" + listSchedules);
 
         // final OpeningHours openingHoursCreate = new OpeningHours();
 
@@ -169,11 +208,6 @@ public class ScheduleForm {
 
         // System.out.println("Ta aqui >>>>>>>> " + openingHoursCreate.toString());
 
-        // Optional<Employee> employee = employeeRepository.findById(employeeId);
-
-        // Optional<TypeEmployee> typeEmployee =
-        // typeEmployeeRepository.findById(typeEmployeeId);
-
         // if (employee.isPresent() || openingHours.isPresent() ||
         // typeEmployee.isPresent()) {
         // return new Schedule(employee.get(), openingHours.get(), typeEmployee.get(),
@@ -181,7 +215,7 @@ public class ScheduleForm {
         // startAttendance, endAttendance, available);
 
         // }
-        return null;
+        return listSchedules;
 
     }
 
