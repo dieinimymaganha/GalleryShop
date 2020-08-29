@@ -1,8 +1,11 @@
 package GalleryShop.controller.form;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -108,22 +111,84 @@ public class ScheduleForm {
     public Schedule convert(final EmployeeRepository employeeRepository,
             final OpeningHoursRepository openingHoursRepository, final TypeEmployeeRepository typeEmployeeRepository) {
 
+        List<LocalDate> listDays = CreateListDates(10);
+
         final DayOfTheWeek weekRecover = identifyDayOfWeek(day);
 
         final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
 
-        OpeningHours openingHoursCreate = new OpeningHours();
-
-        for (final OpeningHours openingHours : openingHoursRecover) {
+        for (OpeningHours openingHours : openingHoursRecover) {
             if (openingHours.getDayOfTheWeek() == weekRecover) {
-                OpeningHours create = openingHours;
-                final int tempoAtendimento = attendanceTime.toSecondOfDay()
-                        + create.getEarlyMorningJourney().toSecondOfDay();
-                final String time2 = extracted(tempoAtendimento);
-                System.out.println("Tempo calculado >>>> " + time2);
+                final OpeningHours create = openingHours;
+                int convertedAttendanceTime = attendanceTime.toSecondOfDay();
+                int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                        - create.getEarlyMorningJourney().toSecondOfDay();
+
+                int serviceQuantity = (morningAttendanceTime / convertedAttendanceTime);
+
+                int answeringTimeSeconds = morningAttendanceTime / serviceQuantity;
+                String dateini = null;
+
+                for (int hoursCalculate = create.getEarlyMorningJourney().toSecondOfDay(); hoursCalculate <= create
+                        .getEndMorningJourney()
+                        .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
+
+                    int hours = hoursCalculate / 3600;
+                    int minutes = (hoursCalculate % 3600) / 60;
+                    int seconds = hoursCalculate % 60;
+
+                    String datefim = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+                    String dateant = datefim;
+
+                    // System.out.println("hora inicio >>>> " + hoursCalculate);
+                    // System.out.println("hora fim >>>> " +
+                    // create.getEarlyMorningJourney().toSecondOfDay());
+                    
+
+                    if (hoursCalculate == create.getEarlyMorningJourney().toSecondOfDay()) {
+                        dateini = datefim;
+                        System.out.println("Ta aqui 1");
+                        // datefim = null;
+                    } else if (dateini != dateant){
+                        dateini = dateini;
+                        System.out.println("Ta aqui 2");
+
+                    } else {
+                        dateini = datefim;
+                        System.out.println("Ta aqui 3");
+                    }
+
+                    
+                    // if (dateini != datefim) {
+
+                    // System.out.println("hora inicio >>>> " + dateini);
+                    // System.out.println("hora fim >>>> " + datefim);
+                    // }
+
+                    System.out.println("hora inicio >>>> " + dateini);
+                    System.out.println("hora fim >>>> " + datefim);
+
+                }
+
+                // String teste = extracted(divisao);
+                // System.out.println("tempo do tempo atendimento manhã convertido >>>> " +
+                // teste);
 
             }
         }
+
+        // final OpeningHours openingHoursCreate = new OpeningHours();
+
+        // for (final OpeningHours openingHours : openingHoursRecover) {
+        // if (openingHours.getDayOfTheWeek() == weekRecover) {
+        // final OpeningHours create = openingHours;
+        // final int tempoAtendimento = attendanceTime.toSecondOfDay()
+        // + create.getEarlyMorningJourney().toSecondOfDay();
+        // final String time2 = extracted(tempoAtendimento);
+        // System.out.println("Tempo calculado >>>> " + time2);
+        // }
+        // }
 
         // System.out.println("Ta aqui >>>>>>>> " + openingHoursCreate.toString());
 
@@ -141,6 +206,23 @@ public class ScheduleForm {
         // }
         return null;
 
+    }
+
+    private List<LocalDate> CreateListDates(int quantityDays) {
+        List<LocalDate> listDates = new ArrayList<>();
+        LocalDate newDate = convertToLocalDateViaInstant(day);
+
+        for (int x = 0; x <= quantityDays; x++) {
+            LocalDate dataIncrement = newDate.plusDays(x);
+
+            listDates.add(dataIncrement);
+
+        }
+        return listDates;
+    }
+
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     private String extracted(final int tempo) {
