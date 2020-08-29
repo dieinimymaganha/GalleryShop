@@ -3,13 +3,10 @@ package GalleryShop.controller.form;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.TextStyle;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,7 +26,6 @@ public class ScheduleForm {
 
     private Long typeEmployeeId;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date day;
 
     private LocalTime attendanceTime;
@@ -111,6 +107,8 @@ public class ScheduleForm {
     public List<Schedule> convert(final EmployeeRepository employeeRepository,
             final OpeningHoursRepository openingHoursRepository, final TypeEmployeeRepository typeEmployeeRepository) {
 
+        System.out.println("Dia que ta chegando" + day);
+
         List<LocalDate> listDays = CreateListDates(1);
 
         List<Schedule> listSchedules = new ArrayList<>();
@@ -134,93 +132,98 @@ public class ScheduleForm {
             for (OpeningHours openingHours : openingHoursRecover) {
                 if (openingHours.getDayOfTheWeek() == weekRecover) {
                     final OpeningHours create = openingHours;
-                    int convertedAttendanceTime = attendanceTime.toSecondOfDay();
-                    int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
-                            - create.getEarlyMorningJourney().toSecondOfDay();
+                    // Cria os horarios da manhã
+                    if (create.getEarlyMorningJourney() != null && create.getEndMorningJourney() != null) {
+                        int convertedAttendanceTime = attendanceTime.toSecondOfDay();
+                        int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                                - create.getEarlyMorningJourney().toSecondOfDay();
 
-                    int serviceQuantity = (morningAttendanceTime / convertedAttendanceTime);
+                        int serviceQuantityMorning = (morningAttendanceTime / convertedAttendanceTime);
 
-                    int answeringTimeSeconds = morningAttendanceTime / serviceQuantity;
+                        int answeringTimeSecondsMorning = morningAttendanceTime / serviceQuantityMorning;
 
-                    for (int hoursCalculate = create.getEarlyMorningJourney().toSecondOfDay(); hoursCalculate <= create
-                            .getEndMorningJourney()
-                            .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
+                        for (int hoursCalculate = create.getEarlyMorningJourney()
+                                .toSecondOfDay(); hoursCalculate <= create.getEndMorningJourney()
+                                        .toSecondOfDay(); hoursCalculate = hoursCalculate
+                                                + answeringTimeSecondsMorning) {
 
-                        hourColectMorning = extracted(hoursCalculate);
-                        dateIniMorning = LocalTime.parse(hourColectMorning);
+                            hourColectMorning = extracted(hoursCalculate);
+                            dateIniMorning = LocalTime.parse(hourColectMorning);
 
-                        dateSeconds = hoursCalculate + answeringTimeSeconds;
+                            dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
 
-                        LocalTime dateFimMorning = LocalTime.parse(extracted(dateSeconds));
+                            LocalTime dateFimMorning = LocalTime.parse(extracted(dateSeconds));
 
-                        if (dateFimMorning.isBefore(create.getEndMorningJourney())
-                                || dateFimMorning.equals(create.getEndMorningJourney())) {
+                            if (dateFimMorning.isBefore(create.getEndMorningJourney())
+                                    || dateFimMorning.equals(create.getEndMorningJourney())) {
 
-                            Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), day,
-                                    attendanceTime, dateIniMorning, dateFimMorning, available);
+                                Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), day,
+                                        attendanceTime, dateIniMorning, dateFimMorning, available);
 
-                            listSchedules.add(schedulecreate);
-                            // System.out.println("Manhã hora ini >>>> " + dateIniMorning);
-                            // System.out.println("Manhã Hora fim >>>> " + dateFimMorning);
+                                listSchedules.add(schedulecreate);
+                                // System.out.println("Manhã hora ini >>>> " + dateIniMorning);
+                                // System.out.println("Manhã Hora fim >>>> " + dateFimMorning);
+                            }
+
                         }
 
                     }
 
-                    for (int hoursCalculate = create.getEarlyAfternoonJourney()
-                            .toSecondOfDay(); hoursCalculate <= create.getEndJourneyLate()
-                                    .toSecondOfDay(); hoursCalculate = hoursCalculate + answeringTimeSeconds) {
+                    // Cria os horarios da tarde
+                    if (create.getEarlyAfternoonJourney() != null && create.getEndJourneyLate() != null) {
+                        int convertedAttendanceTime = attendanceTime.toSecondOfDay();
+                        int affternoonAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                                - create.getEarlyMorningJourney().toSecondOfDay();
 
-                        hourColectAfternoon = extracted(hoursCalculate);
-                        dateIniAfternoon = LocalTime.parse(hourColectAfternoon);
+                        int serviceQuantityafternoon = (affternoonAttendanceTime / convertedAttendanceTime);
 
-                        dateSeconds = hoursCalculate + answeringTimeSeconds;
+                        int answeringTimeSecondsMorning = affternoonAttendanceTime / serviceQuantityafternoon;
 
-                        LocalTime dateFimAfternoon = LocalTime.parse(extracted(dateSeconds));
+                        for (int hoursCalculate = create.getEarlyAfternoonJourney()
+                                .toSecondOfDay(); hoursCalculate <= create.getEndJourneyLate()
+                                        .toSecondOfDay(); hoursCalculate = hoursCalculate
+                                                + answeringTimeSecondsMorning) {
 
-                        if (dateFimAfternoon.isBefore(create.getEndJourneyLate())
-                                || dateFimAfternoon.equals(create.getEndJourneyLate())) {
-                            Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), day,
-                                    attendanceTime, dateIniAfternoon, dateIniAfternoon, available);
-                            listSchedules.add(schedulecreate);
+                            hourColectAfternoon = extracted(hoursCalculate);
+                            dateIniAfternoon = LocalTime.parse(hourColectAfternoon);
+
+                            dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
+
+                            LocalTime dateFimAfternoon = LocalTime.parse(extracted(dateSeconds));
+
+                            if (dateFimAfternoon.isBefore(create.getEndJourneyLate())
+                                    || dateFimAfternoon.equals(create.getEndJourneyLate())) {
+
+                                Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), day,
+                                        attendanceTime, dateIniAfternoon, dateIniAfternoon, available);
+                                listSchedules.add(schedulecreate);
+
+                                // System.out.println("Tarde hora ini >>>> " + dateIniAfternoon);
+                                // System.out.println("Tarde Hora fim >>>> " + dateFimAfternoon);
+
+                            }
 
                         }
 
                     }
 
                 }
+
             }
 
         }
 
         System.out.println("Lista de agenda >>>>>" + listSchedules);
 
-        // final OpeningHours openingHoursCreate = new OpeningHours();
-
-        // for (final OpeningHours openingHours : openingHoursRecover) {
-        // if (openingHours.getDayOfTheWeek() == weekRecover) {
-        // final OpeningHours create = openingHours;
-        // final int tempoAtendimento = attendanceTime.toSecondOfDay()
-        // + create.getEarlyMorningJourney().toSecondOfDay();
-        // final String time2 = extracted(tempoAtendimento);
-        // System.out.println("Tempo calculado >>>> " + time2);
-        // }
-        // }
-
-        // System.out.println("Ta aqui >>>>>>>> " + openingHoursCreate.toString());
-
-        // if (employee.isPresent() || openingHours.isPresent() ||
-        // typeEmployee.isPresent()) {
-        // return new Schedule(employee.get(), openingHours.get(), typeEmployee.get(),
-        // day, attendanceTime,
-        // startAttendance, endAttendance, available);
-
-        // }
         return listSchedules;
+        // return null;
 
     }
 
     private List<LocalDate> CreateListDates(int quantityDays) {
         List<LocalDate> listDates = new ArrayList<>();
+
+        quantityDays = quantityDays - 1;
         LocalDate newDate = convertToLocalDateViaInstant(day);
 
         for (int x = 0; x <= quantityDays; x++) {
