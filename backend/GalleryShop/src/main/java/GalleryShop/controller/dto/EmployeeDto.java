@@ -21,7 +21,6 @@ public class EmployeeDto {
     private String phoneNumber;
     private String rg;
     private Double commissionRate;
-    private String password;
     private List<TypeEmployeeDto> typeEmployees;
 
     public EmployeeDto(Employee employee) {
@@ -34,7 +33,6 @@ public class EmployeeDto {
         this.phoneNumber = employee.getPhoneNumber();
         this.rg = employee.getRg();
         this.commissionRate = employee.getCommissionRate();
-        this.password = employee.getUserLogin().getPassword();
         this.typeEmployees = new ArrayList<>();
         this.typeEmployees
                 .addAll(employee.getTypeEmployees().stream().map(TypeEmployeeDto::new).collect(Collectors.toList()));
@@ -125,12 +123,10 @@ public class EmployeeDto {
         return employees.stream().map(EmployeeDto::new).collect(Collectors.toList());
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
+
+    public static EmployeeDto convertDto(Employee employee){
+        return new EmployeeDto(employee);
     }
 
 }
