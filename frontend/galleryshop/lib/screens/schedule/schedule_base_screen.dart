@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/schedule/opening_hours_screen.dart';
+import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
 class ScheduleBaseScreen extends StatelessWidget {
   @override
@@ -20,7 +22,24 @@ class ScheduleBaseScreen extends StatelessWidget {
                   title: Text('Horário de atendimento'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: (){},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => OpeningHoursScreen()));
+                },
+              ),
+              Divider(
+                color: Colors.grey[400],
+                thickness: 0.5,
+              ),
+              GestureDetector(
+                child: ListTile(
+                  title: Text('Agendamentos'),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => OpeningHoursScreen()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
@@ -31,17 +50,18 @@ class ScheduleBaseScreen extends StatelessWidget {
                   title: Text('Minha agenda'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: (){},
+                onTap: () {},
               ),
               Divider(
                 color: Colors.grey[400],
                 thickness: 0.5,
-              ),              GestureDetector(
+              ),
+              GestureDetector(
                 child: ListTile(
                   title: Text('Agendas'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: (){},
+                onTap: () {},
               ),
               Divider(
                 color: Colors.grey[400],
@@ -51,6 +71,7 @@ class ScheduleBaseScreen extends StatelessWidget {
           ),
         ),
       ),
+      drawer: CustomDrawer(),
     );
   }
 }
