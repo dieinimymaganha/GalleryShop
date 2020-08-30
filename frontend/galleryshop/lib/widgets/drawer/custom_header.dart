@@ -32,7 +32,7 @@ class _CustomHeardState extends State<CustomHeard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    myAccountStore.phoneNumberLogin,
+                    "Seja bem vindo ${myAccountStore.employeeDto.nickname}",
                     style: TextStyle(color: Colors.white, fontSize: 15),
                   ),
                 ],
