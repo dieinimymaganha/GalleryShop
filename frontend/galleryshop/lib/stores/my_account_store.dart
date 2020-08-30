@@ -1,4 +1,6 @@
+import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
+import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,9 +11,13 @@ class MyAccountStore = _MyAccountStore with _$MyAccountStore;
 abstract class _MyAccountStore with Store {
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
 
+  @observable
+  EmployeeDto employeeDto = EmployeeDto();
+
   _MyAccountStore() {
     autorun((_) {
       print('phoneNumberLogin >>> $phoneNumberLogin');
+      print('employeeDto >>> ${employeeDto.toString()}');
     });
   }
 
@@ -21,6 +27,7 @@ abstract class _MyAccountStore with Store {
   @action
   Future<void> setPhoneNumberLogin() async {
     phoneNumberLogin = await getPhoneNumber();
+    await getEmployee();
   }
 
   @action
@@ -28,5 +35,10 @@ abstract class _MyAccountStore with Store {
     var prefs = await SharedPreferences.getInstance();
     String phoneNumber = (prefs.getString("phoneNumber") ?? "");
     return phoneNumber;
+  }
+
+  @action
+  Future<EmployeeDto> getEmployee() async {
+    employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
   }
 }
