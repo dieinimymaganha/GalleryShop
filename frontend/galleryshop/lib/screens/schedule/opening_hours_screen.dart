@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
+import 'package:galleryshop/screens/schedule/button_create_opening_hours.dart';
 import 'package:galleryshop/stores/opening_hours_store.dart';
 
 class OpeningHoursScreen extends StatefulWidget {
@@ -39,109 +40,65 @@ class _OpeningHoursScreenState extends State<OpeningHoursScreen> {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10),
           child: Observer(
             builder: ((_) {
               return ListView(
                 children:
                     openingHoursStore.listOpeningHours.map((openingHoursModel) {
                   return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 80),
-                    child: InkWell(
-                      onDoubleTap: () {},
-                      onLongPress: () {},
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(80.0),
-                        ),
-                        color: colorCard,
-                        child: Column(
-                          children: <Widget>[
-                            Row(
+                    padding: EdgeInsets.only(top: 10, left: 8, right: 8),
+                    child: Column(
+                      children: <Widget>[
+                        InkWell(
+                          onDoubleTap: () {},
+                          onLongPress: () {},
+                          child: ListTile(
+                            title: Text(
+                              openingHoursModel.dayOfTheWeek == 'TERCA'
+                                  ? 'TERÇA'
+                                  : openingHoursModel.dayOfTheWeek == 'SABADO'
+                                      ? 'SÁBADO'
+                                      : openingHoursModel.dayOfTheWeek, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 15,
-                                        right: 15,
-                                        top: 10,
-                                        bottom: 10),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          openingHoursModel.dayOfTheWeek ==
-                                                  'TERCA'
-                                              ? 'TERÇA'
-                                              : openingHoursModel
-                                                          .dayOfTheWeek ==
-                                                      'SABADO'
-                                                  ? 'SÁBADO'
-                                                  : openingHoursModel
-                                                      .dayOfTheWeek,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: 18),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Column(
-                                          children: <Widget>[
-                                            Text(
-                                              'Horario manhã:',
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(openingHoursModel
-                                                .earlyMorningJourney),
-                                            Text(openingHoursModel
-                                                .endMorningJourney),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                          ],
-                                        ),
-                                        openingHoursModel
-                                                    .earlyAfternoonJourney ==
-                                                null
-                                            ? Container()
-                                            : Column(
-                                                children: <Widget>[
-                                                  Text(
-                                                    'Horario tarde:',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                  Text(openingHoursModel
-                                                      .earlyAfternoonJourney)
-                                                ],
-                                              ),
-                                        openingHoursModel.endJourneyLate == null
-                                            ? Container()
-                                            : Column(
-                                                children: <Widget>[
-                                                  Text(openingHoursModel
-                                                      .endJourneyLate)
-                                                ],
-                                              ),
-                                      ],
-                                    ),
-                                  ),
-                                )
+                                Row(
+                                  children: <Widget>[
+                                    Text('Horario atendimento: ', style: TextStyle(color: Colors.black87),),
+                                    Text(openingHoursModel.endJourneyLate ==
+                                            null
+                                        ? '${openingHoursModel.earlyMorningJourney} ás ${openingHoursModel.endMorningJourney}'
+                                        : '${openingHoursModel.earlyMorningJourney} ás ${openingHoursModel.endJourneyLate}')
+                                  ],
+                                ),
+                                openingHoursModel.endJourneyLate == null
+                                    ? Container()
+                                    : Row(
+                                        children: <Widget>[
+                                          Text('Horario almoço: ', style: TextStyle(color: Colors.black87),),
+                                          Text(
+                                              '${openingHoursModel.endMorningJourney} ás ${openingHoursModel.earlyAfternoonJourney}')
+                                        ],
+                                      ),
                               ],
-                            )
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
+                        Divider(
+                          color: Colors.grey[400],
+                          thickness: 0.5,
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),
               );
             }),
+
           ),
-        ));
+
+        ),
+    floatingActionButton: ButtonCreateNewOpeningHours(),);
   }
 }
