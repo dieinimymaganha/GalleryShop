@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import GalleryShop.controller.dto.EmployeeDto;
 import GalleryShop.controller.dto.OpeningHoursDto;
 import GalleryShop.controller.form.OpeningHoursForm;
 import GalleryShop.controller.form.OpeningHoursFormList;
@@ -40,6 +41,15 @@ public class OpeningHoursController {
         return OpeningHoursDto.converter(openingHours);
 
     }
+
+    @GetMapping("/employee={id}")
+    public List<OpeningHoursDto> getListOpeningHoursEmployee(@PathVariable Long id){
+        List<OpeningHours> openingHours = openingHoursRepository.findByEmployeeId(id);
+
+        return OpeningHoursDto.converter(openingHours);
+    }
+
+
 
     @PostMapping
     @Transactional
