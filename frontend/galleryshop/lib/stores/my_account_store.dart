@@ -1,4 +1,3 @@
-import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
@@ -16,18 +15,21 @@ abstract class _MyAccountStore with Store {
 
   _MyAccountStore() {
     autorun((_) {
-      print('phoneNumberLogin >>> $phoneNumberLogin');
-      print('employeeDto >>> ${employeeDto.toString()}');
+      print('nickNameLogin >>> $nickNameLogin');
     });
   }
 
   @observable
   String phoneNumberLogin = '';
 
+  @observable
+  String nickNameLogin = '';
+
   @action
   Future<void> setPhoneNumberLogin() async {
     phoneNumberLogin = await getPhoneNumber();
     await getEmployee();
+    nickNameLogin = await getNickName();
   }
 
   @action
@@ -38,7 +40,19 @@ abstract class _MyAccountStore with Store {
   }
 
   @action
+  Future<String> getNickName() async {
+    var prefs = await SharedPreferences.getInstance();
+    String nickName = (prefs.getString("nickName") ?? "");
+    return nickName;
+  }
+
+  @action
   Future<EmployeeDto> getEmployee() async {
     employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
+    if (employeeDto != null) {
+      var prefs = await SharedPreferences.getInstance();
+      prefs.setInt("idEmployee", employeeDto.id);
+      prefs.setString("nickName", employeeDto.nickname);
+    }
   }
 }

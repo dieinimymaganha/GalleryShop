@@ -39,6 +39,21 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     });
   }
 
+  final _$nickNameLoginAtom = Atom(name: '_MyAccountStore.nickNameLogin');
+
+  @override
+  String get nickNameLogin {
+    _$nickNameLoginAtom.reportRead();
+    return super.nickNameLogin;
+  }
+
+  @override
+  set nickNameLogin(String value) {
+    _$nickNameLoginAtom.reportWrite(value, super.nickNameLogin, () {
+      super.nickNameLogin = value;
+    });
+  }
+
   final _$setPhoneNumberLoginAsyncAction =
       AsyncAction('_MyAccountStore.setPhoneNumberLogin');
 
@@ -56,6 +71,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getPhoneNumberAsyncAction.run(() => super.getPhoneNumber());
   }
 
+  final _$getNickNameAsyncAction = AsyncAction('_MyAccountStore.getNickName');
+
+  @override
+  Future<String> getNickName() {
+    return _$getNickNameAsyncAction.run(() => super.getNickName());
+  }
+
   final _$getEmployeeAsyncAction = AsyncAction('_MyAccountStore.getEmployee');
 
   @override
@@ -67,7 +89,8 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
   String toString() {
     return '''
 employeeDto: ${employeeDto},
-phoneNumberLogin: ${phoneNumberLogin}
+phoneNumberLogin: ${phoneNumberLogin},
+nickNameLogin: ${nickNameLogin}
     ''';
   }
 }
