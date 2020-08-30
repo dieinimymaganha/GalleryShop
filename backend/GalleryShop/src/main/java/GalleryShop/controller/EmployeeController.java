@@ -56,20 +56,29 @@ public class EmployeeController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/phoneNumber={phoneNumber}")
+    public ResponseEntity<EmployeeDto> getEmployeePhoneNumber(@PathVariable String phoneNumber) {
+        Optional<Employee> employee = employeeRepository.findByPhoneNumber(phoneNumber);
+
+        if (employee.isPresent()) {
+            return ResponseEntity.ok(new EmployeeDto(employee.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PostMapping
     @Transactional
     public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody @Valid EmployeeForm form,
             UriComponentsBuilder uriBuilder) {
-        Employee employee = form.converter(typeEmployeeRepository,profileRepository);
+        Employee employee = form.converter(typeEmployeeRepository, profileRepository);
 
         Optional<Employee> employeeCpf = employeeRepository.findByCpf(employee.getCpf());
         Optional<Employee> employeeRg = employeeRepository.findByRg(employee.getRg());
         Optional<Employee> employeePhoneNumber = employeeRepository.findByPhoneNumber(employee.getPhoneNumber());
 
-        if(employeeCpf.isPresent() || employeeRg.isPresent() || employeePhoneNumber.isPresent()){
+        if (employeeCpf.isPresent() || employeeRg.isPresent() || employeePhoneNumber.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-
 
         if (employee.getTypeEmployees() == null) {
             return ResponseEntity.noContent().build();
