@@ -24,6 +24,29 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     });
   }
 
+  final _$listOpeningHoursAtom =
+      Atom(name: '_OpeningHoursStore.listOpeningHours');
+
+  @override
+  List<dynamic> get listOpeningHours {
+    _$listOpeningHoursAtom.reportRead();
+    return super.listOpeningHours;
+  }
+
+  @override
+  set listOpeningHours(List<dynamic> value) {
+    _$listOpeningHoursAtom.reportWrite(value, super.listOpeningHours, () {
+      super.listOpeningHours = value;
+    });
+  }
+
+  final _$setListAsyncAction = AsyncAction('_OpeningHoursStore.setList');
+
+  @override
+  Future<void> setList() {
+    return _$setListAsyncAction.run(() => super.setList());
+  }
+
   final _$setIdEmployeeAsyncAction =
       AsyncAction('_OpeningHoursStore.setIdEmployee');
 
@@ -43,7 +66,8 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
   @override
   String toString() {
     return '''
-idEmployee: ${idEmployee}
+idEmployee: ${idEmployee},
+listOpeningHours: ${listOpeningHours}
     ''';
   }
 }
