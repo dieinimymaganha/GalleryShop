@@ -22,9 +22,25 @@ class EmployeeWebClient {
 
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
-      final List<dynamic> data = decodeJson
-          .map((dynamic json) => EmployeeDto.fromJson(json))
-          .toList();
+      final List<dynamic> data =
+          decodeJson.map((dynamic json) => EmployeeDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<EmployeeDto> findPhoneNumber(String phoneNumber) async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlEmployee + "/phoneNumber=" + phoneNumber,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final EmployeeDto data = EmployeeDto.fromJson(jsonDecode(response.body));
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
