@@ -19,6 +19,7 @@ class LoginWebClient {
     if (response.statusCode == 200) {
       TokenModel token = TokenModel.fromJson(jsonDecode(response.body));
       prefs.setString("tokenjwt", token.token.toString());
+      prefs.setString("phoneNumber", loginModel.phoneNumber.toString());
       return token;
     }
     throw HttpException(_getMessage(response.statusCode));
