@@ -341,8 +341,8 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
       employeeStore.setBirthDate(birthDate);
     },
         pickerTheme: DateTimePickerTheme(
-          backgroundColor: colorAppbar,
-          itemTextStyle: TextStyle(color: Colors.white),
+          pickerHeight: 110.0,
+          itemTextStyle: TextStyle(color: Colors.black87),
           showTitle: true,
           cancel: Text(
             'Cancelar',
