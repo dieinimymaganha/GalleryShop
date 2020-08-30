@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import GalleryShop.model.OpeningHours;
 import GalleryShop.model.Enum.DayOfTheWeek;
@@ -15,12 +15,16 @@ public class OpeningHoursDto {
     private String employee;
     private DayOfTheWeek dayOfTheWeek;
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime earlyMorningJourney;
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endMorningJourney;
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime earlyAfternoonJourney;
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endJourneyLate;
 
     public OpeningHoursDto(final OpeningHours schedule) {
