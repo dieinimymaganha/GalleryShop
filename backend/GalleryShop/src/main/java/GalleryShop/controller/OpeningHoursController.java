@@ -1,5 +1,6 @@
 package GalleryShop.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,25 +45,31 @@ public class OpeningHoursController {
     }
 
     @GetMapping("/employee={id}")
-    public List<OpeningHoursDto> getListOpeningHoursEmployee(@PathVariable Long id){
+    public List<OpeningHoursDto> getListOpeningHoursEmployee(@PathVariable Long id) {
         List<OpeningHours> openingHours = openingHoursRepository.findByEmployeeId(id);
 
         return OpeningHoursDto.converter(openingHours);
     }
 
-
-
     @PostMapping
     @Transactional
-    public ResponseEntity<OpeningHoursDto> createNewOpening(@RequestBody @Valid List<OpeningHoursForm> formOpen,
-            OpeningHoursFormList form, UriComponentsBuilder uriBuilder) {
-        List<OpeningHours> opening = form.convertList(formOpen, employeeRepository);
+    public ResponseEntity<OpeningHoursDto> createNewOpening(@RequestBody @Valid OpeningHoursForm form,
+            UriComponentsBuilder uriBuilder) {
+        OpeningHours opening = form.converter(employeeRepository);
 
-        for (OpeningHours openingHours : opening) {
-            openingHoursRepository.save(openingHours);
+        List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(opening.getEmployee().getId());
+
+        if (!openingHoursRecover.isEmpty()) {
+            for (OpeningHours openingHours : openingHoursRecover) {
+                if (opening.getDayOfTheWeek() == openingHours.getDayOfTheWeek()) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                }
+
+            }
         }
-
-        return ResponseEntity.ok().build();
+        openingHoursRepository.save(opening);
+        URI uri = uriBuilder.path("/openinghours/{id}").buildAndExpand(opening.getId()).toUri();
+        return ResponseEntity.created(uri).body(new OpeningHoursDto(opening));
 
     }
 
