@@ -15,10 +15,7 @@ class CreateNewOpeningHours extends StatefulWidget {
 class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
   OpeningHoursStore openingHoursStore = OpeningHoursStore();
 
-  TextEditingController controlerMorningStart = TextEditingController();
-  TextEditingController controlerMorningEnd = TextEditingController();
-  TextEditingController controlerAfternoonStart = TextEditingController();
-  TextEditingController controlerAfternoonEnd = TextEditingController();
+  final _formState = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +32,8 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
             child: ListView(
               children: <Widget>[
                 Form(
+                  key: _formState,
+                  autovalidate: true,
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -61,45 +60,102 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        mandatory: true,
+                        mandatory: false,
                         obscure: false,
                         label: 'Horario início manhã',
-                        controller: controlerMorningStart,
+                        controller: openingHoursStore.controlerMorningStart,
                         ontap: () {
-                          changeAlterHours(controlerMorningStart);
+                          changeAlterHours(
+                              openingHoursStore.controlerMorningStart,
+                              openingHoursStore.setMoringStart);
+                        },
+                        validator: (_) {
+                          return validatorHoursMorningStart(
+                              openingHoursStore.morningStart,
+                              openingHoursStore.morningEnd,
+                              openingHoursStore.afternoonStart,
+                              openingHoursStore.afternoonEnd);
                         },
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        mandatory: true,
+                        mandatory: false,
                         obscure: false,
                         label: 'Horario fim manhã',
-                        controller: controlerMorningEnd,
+                        controller: openingHoursStore.controlerMorningEnd,
                         ontap: () {
-                          changeAlterHours(controlerMorningEnd);
+                          changeAlterHours(
+                              openingHoursStore.controlerMorningEnd,
+                              openingHoursStore.setMoringEnd);
                         },
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        mandatory: true,
+                        mandatory: false,
                         obscure: false,
                         label: 'Horario início tarde',
-                        controller: controlerAfternoonStart,
+                        controller: openingHoursStore.controlerAfternoonStart,
                         ontap: () {
-                          changeAlterHours(controlerAfternoonStart);
+                          changeAlterHours(
+                              openingHoursStore.controlerAfternoonStart,
+                              openingHoursStore.setAfternoonStart);
                         },
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        mandatory: true,
+                        mandatory: false,
                         obscure: false,
                         label: 'Horario fim tarde',
-                        controller: controlerAfternoonEnd,
+                        controller: openingHoursStore.controlerAfternoonEnd,
                         ontap: () {
-                          changeAlterHours(controlerAfternoonEnd);
+                          changeAlterHours(
+                              openingHoursStore.controlerAfternoonEnd,
+                              openingHoursStore.setAfternoonEnd);
                         },
                       ),
                       SizedBox(height: 20),
+                      Container(
+                        height: 60,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.3, 1],
+                            colors: [
+                              Color(0XFF212121),
+                              Color(0XFF616161),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                        child: SizedBox.expand(
+                            child: FlatButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Cadastrar',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
+                              Container(
+                                child: SizedBox(
+                                  child: Icon(Icons.send),
+                                  height: 28,
+                                  width: 28,
+                                ),
+                              )
+                            ],
+                          ),
+                          onPressed: () {},
+                        )),
+                      ),
                     ],
                   ),
                 )
@@ -111,7 +167,7 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
     );
   }
 
-  void changeAlterHours(TextEditingController controller) {
+  void changeAlterHours(TextEditingController controller, Function function) {
     DatePicker.showDatePicker(context,
         locale: DateTimePickerLocale.pt_br,
         dateFormat: 'HH:mm',
@@ -119,6 +175,7 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
         onConfirm: (dateTime, selectedIndex) {
       String hour = DateFormat('HH:mm').format(dateTime);
       controller.text = hour;
+      function(controller);
     },
         pickerTheme: DateTimePickerTheme(
           cancelTextStyle: TextStyle(color: Colors.redAccent),
@@ -134,5 +191,56 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
             style: TextStyle(color: Colors.blueAccent, fontSize: 18),
           ),
         ));
+  }
+
+  String validatorHoursMorningStart(
+      DateTime hours1, DateTime hours2, DateTime hours3, DateTime hours4) {
+    if (hours1 == null && hours2 != null) {
+      return 'Preenchimento obrigatório';
+    } else if (hours1 != null &&
+        hours2 != null &&
+        hours3 != null &&
+        hours4 != null) {
+//      Comparando horarios iguais
+      if (hours1.isAtSameMomentAs(hours2)) {
+        return 'Horário de inicio manhã é igual ao fim da manhã';
+      } else if (hours1.isAtSameMomentAs(hours3)) {
+        return 'Horário de inicio  manhã é igual ao do inicio da tarde';
+      } else if (hours1.isAtSameMomentAs(hours4)) {
+        return 'Horário de inicio  manhã é igual ao do fim da tarde';
+      }
+
+//    Validando se o horario é menor do que os demais horarios
+      else if (hours1.isAfter(hours2)) {
+        return 'Horario de inicio manhã é maior que fim da manhã';
+      } else if (hours1.isAfter(hours3)) {
+        return 'Horario de inicio manhã é maior que inicio da tarde';
+      } else if (hours1.isAfter(hours4)) {
+        return 'Horario de inicio manhã é maior que fim da tarde';
+      }
+    } else if (hours1 != null && hours2 != null && hours3 != null) {
+//      Comparando horarios iguais
+      if (hours1.isAtSameMomentAs(hours2)) {
+        return 'Horário de inicio manhã é igual ao fim da manhã';
+      } else if (hours1.isAtSameMomentAs(hours3)) {
+        return 'Horário de inicio  manhã é igual ao do inicio da tarde';
+      }
+//    Validando se o horario é menor do que os demais horarios
+      else if (hours1.isAfter(hours2)) {
+        return 'Horario de inicio manhã é maior que fim da manhã';
+      } else if (hours1.isAfter(hours3)) {
+        return 'Horario de inicio manhã é maior que inicio da tarde';
+      }
+    } else if (hours1 != null && hours2 != null) {
+//      Comparando horarios iguais
+      if (hours1.isAtSameMomentAs(hours2)) {
+        return 'Horário de inicio manhã é igual ao fim da manhã';
+      }
+//    Validando se o horario é menor do que os demais horarios
+      else if (hours1.isAfter(hours2)) {
+        return 'Horario de inicio manhã é maior que fim da manhã';
+      }
+    }
+    return null;
   }
 }
