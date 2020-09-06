@@ -38,3 +38,33 @@ class OpeninigHoursDto {
     return data;
   }
 }
+
+
+class OpeningHoursForm {
+  int employeeId;
+  String dayOfTheWeek;
+  String earlyMorningJourney;
+  String endMorningJourney;
+
+  OpeningHoursForm(
+      {this.employeeId,
+        this.dayOfTheWeek,
+        this.earlyMorningJourney,
+        this.endMorningJourney});
+
+  OpeningHoursForm.fromJson(Map<String, dynamic> json) {
+    employeeId = json['employeeId'];
+    dayOfTheWeek = json['dayOfTheWeek'];
+    earlyMorningJourney = json['earlyMorningJourney'];
+    endMorningJourney = json['endMorningJourney'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['employeeId'] = this.employeeId;
+    data['dayOfTheWeek'] = this.dayOfTheWeek;
+    data['earlyMorningJourney'] = this.earlyMorningJourney;
+    data['endMorningJourney'] = this.endMorningJourney;
+    return data;
+  }
+}
