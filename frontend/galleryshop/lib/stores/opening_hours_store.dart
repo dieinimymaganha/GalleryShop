@@ -21,9 +21,7 @@ abstract class _OpeningHoursStore with Store {
   final OpeninigHoursDto openinigHoursDto;
 
   _OpeningHoursStore({this.openinigHoursDto}) {
-    autorun((_) {
-//      print('teste >>> $testessae');
-    });
+    autorun((_) {});
   }
 
   OpeningHoursWebClient openingHoursWebClient = OpeningHoursWebClient();
@@ -54,14 +52,11 @@ abstract class _OpeningHoursStore with Store {
           morningEnd == null &&
           afternoonStart == null &&
           afternoonEnd == null) {
-        print('>>> 1 ');
         return false;
       } else if (morningStart != null &&
           morningEnd != null &&
           afternoonStart != null &&
           afternoonEnd != null) {
-        print('>>> 2 ');
-
         if (morningStart.isAfter(morningEnd) ||
             morningStart.isAfter(afternoonStart) ||
             morningStart.isAfter(afternoonEnd) ||
@@ -71,7 +66,6 @@ abstract class _OpeningHoursStore with Store {
             morningStart.isAtSameMomentAs(morningEnd) ||
             morningStart.isAtSameMomentAs(afternoonStart) ||
             morningStart.isAtSameMomentAs(afternoonEnd)) {
-          print('>>> 3 ');
           return false;
         } else {
           return true;
@@ -80,51 +74,40 @@ abstract class _OpeningHoursStore with Store {
           morningEnd != null &&
           afternoonStart != null &&
           afternoonEnd == null) {
-        print('>>> 4 ');
         return false;
       } else if (morningStart != null &&
           morningEnd != null &&
           afternoonStart == null &&
           afternoonEnd != null) {
-        print('>>> 5 ');
         return false;
       } else if (morningStart == null &&
           morningEnd != null &&
           afternoonStart != null &&
           afternoonEnd != null) {
-        print('>>> 6 ');
         return false;
       } else if (morningStart != null &&
           morningEnd == null &&
           afternoonStart != null &&
           afternoonEnd != null) {
-        print('>>> 7 ');
         return false;
       } else if ((morningStart != null && morningEnd == null) ||
           (morningStart == null && morningEnd != null)) {
-        print('>>> 8 ');
         return false;
       } else if ((afternoonStart != null && afternoonEnd == null) ||
           (afternoonStart == null && afternoonEnd != null)) {
-        print('>>> 9 ');
         return false;
       } else if (morningStart != null && morningEnd != null) {
-        print('>>> 10 ');
         if (morningStart.isAfter(morningEnd) ||
             morningStart.isAtSameMomentAs(morningEnd)) {
-          print('>>> 11 ');
           return false;
         } else {
           return true;
         }
       } else if (afternoonStart != null && afternoonEnd != null) {
-        print('>>> 12 ');
         if (afternoonStart.isAfter(afternoonEnd) ||
             afternoonStart.isAtSameMomentAs(afternoonEnd)) {
-          print('>>> 13 ');
           return false;
         }
-        print('>>> 14 ');
         return true;
       }
     } else {
@@ -216,7 +199,21 @@ abstract class _OpeningHoursStore with Store {
 
   @action
   void saveHours() {
-    print('Salvou');
+    OpeningHoursForm openingHoursForm = new OpeningHoursForm(
+        dayOfTheWeek: valueSelect,
+        employeeId: idEmployee,
+        earlyMorningJourney: controlerMorningStart.text.isEmpty
+            ? null
+            : controlerMorningStart.text,
+        endMorningJourney:
+            controlerMorningEnd.text.isEmpty ? null : controlerMorningEnd.text,
+        earlyAfternoonJourney: controlerAfternoonStart.text.isEmpty
+            ? null
+            : controlerAfternoonStart.text,
+        endJourneyLate: controlerAfternoonEnd.text.isEmpty
+            ? null
+            : controlerAfternoonEnd.text);
+    print(openingHoursForm.toJson());
   }
 
   @computed
