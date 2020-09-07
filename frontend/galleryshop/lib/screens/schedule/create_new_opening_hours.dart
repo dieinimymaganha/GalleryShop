@@ -107,6 +107,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                               openingHoursStore.controlerAfternoonStart,
                               openingHoursStore.setAfternoonStart);
                         },
+                        validator: (_) {
+                          return validatorHoursAfternoonStart(
+                              openingHoursStore.morningStart,
+                              openingHoursStore.morningEnd,
+                              openingHoursStore.afternoonStart,
+                              openingHoursStore.afternoonEnd);
+                        },
                       ),
                       SizedBox(height: space),
                       CustomForm(
@@ -118,6 +125,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                           changeAlterHours(
                               openingHoursStore.controlerAfternoonEnd,
                               openingHoursStore.setAfternoonEnd);
+                        },
+                        validator: (_) {
+                          return validatorHoursAfternoonEnd(
+                              openingHoursStore.morningStart,
+                              openingHoursStore.morningEnd,
+                              openingHoursStore.afternoonStart,
+                              openingHoursStore.afternoonEnd);
                         },
                       ),
                       SizedBox(height: 20),
@@ -178,8 +192,9 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
     DatePicker.showDatePicker(context,
         locale: DateTimePickerLocale.pt_br,
         dateFormat: 'HH:mm',
-        pickerMode: DateTimePickerMode.time,
-        onConfirm: (dateTime, selectedIndex) {
+        pickerMode: DateTimePickerMode.time, onCancel: () {
+      controller.clear();
+    }, onConfirm: (dateTime, selectedIndex) {
       String hour = DateFormat('HH:mm').format(dateTime);
       controller.text = hour;
       function(controller);
@@ -277,6 +292,86 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
         return 'Fim da manhã é igual ao inicio da manhã';
       } else if (hours2.isBefore(hours1)) {
         return 'Fim da manhã é menor que início da manhã';
+      }
+    }
+    return null;
+  }
+
+  String validatorHoursAfternoonStart(
+      DateTime hours1, DateTime hours2, DateTime hours3, DateTime hours4) {
+    if (hours3 == null && hours4 != null) {
+      return 'Preenchimento obrigatório';
+    } else if (hours4 != null &&
+        hours3 != null &&
+        hours2 != null &&
+        hours1 != null) {
+      if (hours3.isAtSameMomentAs(hours1)) {
+        return 'Início da tarde é igual ao inicio da manhã';
+      } else if (hours3.isAtSameMomentAs(hours2)) {
+        return 'Início da tarde  é igual ao fim da manhã';
+      } else if (hours3.isAtSameMomentAs(hours4)) {
+        return 'Inicio da tarde é igual ao do fim da tarde';
+      } else if (hours3.isBefore(hours1)) {
+        return 'Início da tarde é menor que inicio da manhã';
+      } else if (hours3.isBefore(hours2)) {
+        return 'Início da tarde é menor que fim da manhã';
+      } else if (hours3.isAfter(hours4)) {
+        return 'Inicio da tarde é maior que fim da tarde';
+      }
+    } else if (hours3 != null && hours4 != null && hours2 != null) {
+      if (hours3.isAtSameMomentAs(hours2)) {
+        return 'Início da tarde  é igual ao fim da manhã';
+      } else if (hours3.isAtSameMomentAs(hours4)) {
+        return 'Inicio da tarde é igual ao do fim da tarde';
+      } else if (hours3.isBefore(hours2)) {
+        return 'Início da tarde é menor que fim da manhã';
+      } else if (hours3.isAfter(hours4)) {
+        return 'Fim da manhã é maior que fim da tarde';
+      }
+    } else if (hours3 != null && hours4 != null) {
+      if (hours3.isAtSameMomentAs(hours4)) {
+        return 'Inicio da tarde é igual ao do fim da tarde';
+      } else if (hours3.isAfter(hours4)) {
+        return 'Início da tarde é maior que fim da tarde';
+      }
+    }
+    return null;
+  }
+
+  String validatorHoursAfternoonEnd(
+      DateTime hours1, DateTime hours2, DateTime hours3, DateTime hours4) {
+    if (hours3 != null && hours4 == null) {
+      return 'Preenchimento obrigatório';
+    } else if (hours4 != null &&
+        hours3 != null &&
+        hours2 != null &&
+        hours1 != null) {
+      if (hours4.isAtSameMomentAs(hours1)) {
+        return 'Fim da tarde é igual ao inicio da manhã';
+      } else if (hours4.isAtSameMomentAs(hours2)) {
+        return 'Fim da tarde  é igual ao fim da manhã';
+      } else if (hours4.isAtSameMomentAs(hours3)) {
+        return 'Fim da tarde  é igual ao início da tarde';
+      } else if (hours4.isBefore(hours3)) {
+        return 'Fim da tarde é menor que inicio da tarde';
+      } else if (hours4.isBefore(hours2)) {
+        return 'Início da tarde é menor que fim da manhã';
+      } else if (hours4.isBefore(hours1)) {
+        return 'Início da tarde é menor que inicio da manhã';
+      }
+    } else if (hours3 != null && hours4 != null && hours2 != null) {
+      if (hours4.isAtSameMomentAs(hours2)) {
+        return 'Fim da tarde  é igual ao fim da manhã';
+      } else if (hours4.isAtSameMomentAs(hours3)) {
+        return 'Fim da tarde  é igual ao início da tarde';
+      } else if (hours4.isBefore(hours2)) {
+        return 'Início da tarde é menor que fim da manhã';
+      }
+    } else if (hours3 != null && hours4 != null) {
+      if (hours4.isAtSameMomentAs(hours3)) {
+        return 'Fim da tarde  é igual ao início da tarde';
+      } else if (hours4.isBefore(hours3)) {
+        return 'Fim da tarde é menor que inicio da tarde';
       }
     }
     return null;
