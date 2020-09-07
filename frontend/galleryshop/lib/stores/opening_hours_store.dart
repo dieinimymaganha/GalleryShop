@@ -22,10 +22,7 @@ abstract class _OpeningHoursStore with Store {
 
   _OpeningHoursStore({this.openinigHoursDto}) {
     autorun((_) {
-      print('morningStart >>> $morningStart');
-      print('morningEnd >>> $morningEnd');
-      print('afternoonStart >>> $afternoonStart');
-      print('afternoonEnd >>> $afternoonEnd');
+//      print('teste >>> $testessae');
     });
   }
 
@@ -51,21 +48,95 @@ abstract class _OpeningHoursStore with Store {
   @observable
   DateTime morningStart;
 
-  @computed
-  bool get fieldsValid => morningStart != null && morningEnd != null;
+  bool get fieldsValid {
+
+    if (morningStart == null &&
+        morningEnd == null &&
+        afternoonStart == null &&
+        afternoonEnd == null) {
+      print('>>> 1 ');
+      return false;
+    } else if (morningStart != null &&
+        morningEnd != null &&
+        afternoonStart != null &&
+        afternoonEnd != null) {
+      print('>>> 2 ');
+
+      if (morningStart.isAfter(morningEnd) ||
+          morningStart.isAfter(afternoonStart) ||
+          morningStart.isAfter(afternoonEnd) ||
+          morningEnd.isAfter(afternoonStart) ||
+          morningEnd.isAfter(afternoonEnd) ||
+          afternoonStart.isAfter(afternoonEnd) ||
+          morningStart.isAtSameMomentAs(morningEnd) ||
+          morningStart.isAtSameMomentAs(afternoonStart) ||
+          morningStart.isAtSameMomentAs(afternoonEnd)) {
+        print('>>> 3 ');
+        return false;
+      } else{
+        return true;
+      }
+    } else if (morningStart != null &&
+        morningEnd != null &&
+        afternoonStart != null &&
+        afternoonEnd == null) {
+      print('>>> 4 ');
+      return false;
+    } else if (morningStart != null &&
+        morningEnd != null &&
+        afternoonStart == null &&
+        afternoonEnd != null) {
+      print('>>> 5 ');
+      return false;
+    } else if (morningStart == null &&
+        morningEnd != null &&
+        afternoonStart != null &&
+        afternoonEnd != null) {
+      print('>>> 6 ');
+      return false;
+    } else if (morningStart != null &&
+        morningEnd == null &&
+        afternoonStart != null &&
+        afternoonEnd != null) {
+      print('>>> 7 ');
+      return false;
+    } else if ((morningStart != null && morningEnd == null) ||
+        (morningStart == null && morningEnd != null)) {
+      print('>>> 8 ');
+      return false;
+    } else if ((afternoonStart != null && afternoonEnd == null) ||
+        (afternoonStart == null && afternoonEnd != null)) {
+      print('>>> 9 ');
+      return false;
+    } else if (morningStart != null && morningEnd != null) {
+      print('>>> 10 ');
+      if (morningStart.isAfter(morningEnd) ||
+          morningStart.isAtSameMomentAs(morningEnd)) {
+        print('>>> 11 ');
+        return false;
+      } else{
+        return true;
+      }
+    } else if (afternoonStart != null && afternoonEnd != null) {
+      print('>>> 12 ');
+      if (afternoonStart.isAfter(afternoonEnd) ||
+          afternoonStart.isAtSameMomentAs(afternoonEnd)) {
+        print('>>> 13 ');
+        return false;
+      }
+      print('>>> 14 ');
+      return true;
+    }
+  }
 
   @action
   void setMoringStart(TextEditingController controller) {
-    print('Controller >>>> $controller');
     try {
       DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
       morningStart = dateConvert;
-      print('Passou aqui');
     } on Exception catch (_) {
       morningStart = null;
-      print('Ta aqui');
     }
-//    fieldsValid;
   }
 
   @action
@@ -139,4 +210,12 @@ abstract class _OpeningHoursStore with Store {
     int id = (prefs.getInt("idEmployee"));
     return id;
   }
+
+  @action
+  void saveHours() {
+    print('Salvou');
+  }
+
+  @computed
+  Function get butttonSavePressed => fieldsValid ? saveHours : null;
 }

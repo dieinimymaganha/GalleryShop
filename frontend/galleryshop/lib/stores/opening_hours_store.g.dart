@@ -9,13 +9,13 @@ part of 'opening_hours_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
-  Computed<bool> _$fieldsValidComputed;
+  Computed<Function> _$butttonSavePressedComputed;
 
   @override
-  bool get fieldsValid =>
-      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
-              name: '_OpeningHoursStore.fieldsValid'))
-          .value;
+  Function get butttonSavePressed => (_$butttonSavePressedComputed ??=
+          Computed<Function>(() => super.butttonSavePressed,
+              name: '_OpeningHoursStore.butttonSavePressed'))
+      .value;
 
   final _$listDayOfWeekAtom = Atom(name: '_OpeningHoursStore.listDayOfWeek');
 
@@ -220,6 +220,17 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
   }
 
   @override
+  void saveHours() {
+    final _$actionInfo = _$_OpeningHoursStoreActionController.startAction(
+        name: '_OpeningHoursStore.saveHours');
+    try {
+      return super.saveHours();
+    } finally {
+      _$_OpeningHoursStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listDayOfWeek: ${listDayOfWeek},
@@ -230,7 +241,7 @@ morningEnd: ${morningEnd},
 afternoonStart: ${afternoonStart},
 afternoonEnd: ${afternoonEnd},
 listOpeningHours: ${listOpeningHours},
-fieldsValid: ${fieldsValid}
+butttonSavePressed: ${butttonSavePressed}
     ''';
   }
 }
