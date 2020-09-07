@@ -88,6 +88,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                               openingHoursStore.controlerMorningEnd,
                               openingHoursStore.setMoringEnd);
                         },
+                        validator: (_) {
+                          return validatorHoursMorningEnd(
+                              openingHoursStore.morningStart,
+                              openingHoursStore.morningEnd,
+                              openingHoursStore.afternoonStart,
+                              openingHoursStore.afternoonEnd);
+                        },
                       ),
                       SizedBox(height: space),
                       CustomForm(
@@ -201,44 +208,75 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
         hours2 != null &&
         hours3 != null &&
         hours4 != null) {
-//      Comparando horarios iguais
       if (hours1.isAtSameMomentAs(hours2)) {
-        return 'Horário de inicio manhã é igual ao fim da manhã';
+        return 'Início da manhã é igual ao fim da manhã';
       } else if (hours1.isAtSameMomentAs(hours3)) {
-        return 'Horário de inicio  manhã é igual ao do inicio da tarde';
+        return 'Início da manhã é igual ao início da tarde';
       } else if (hours1.isAtSameMomentAs(hours4)) {
-        return 'Horário de inicio  manhã é igual ao do fim da tarde';
-      }
-
-//    Validando se o horario é menor do que os demais horarios
-      else if (hours1.isAfter(hours2)) {
-        return 'Horario de inicio manhã é maior que fim da manhã';
+        return 'Início da manhã é igual ao fim da tarde';
+      } else if (hours1.isAfter(hours2)) {
+        return 'Inicio manhã é maior que o fim da manhã';
       } else if (hours1.isAfter(hours3)) {
-        return 'Horario de inicio manhã é maior que inicio da tarde';
+        return 'Início manhã é maior que início da tarde';
       } else if (hours1.isAfter(hours4)) {
-        return 'Horario de inicio manhã é maior que fim da tarde';
+        return 'Início manhã é maior que o fim da tarde';
       }
     } else if (hours1 != null && hours2 != null && hours3 != null) {
-//      Comparando horarios iguais
       if (hours1.isAtSameMomentAs(hours2)) {
-        return 'Horário de inicio manhã é igual ao fim da manhã';
+        return 'Início da manhã é igual ao fim da manhã';
       } else if (hours1.isAtSameMomentAs(hours3)) {
-        return 'Horário de inicio  manhã é igual ao do inicio da tarde';
-      }
-//    Validando se o horario é menor do que os demais horarios
-      else if (hours1.isAfter(hours2)) {
-        return 'Horario de inicio manhã é maior que fim da manhã';
+        return 'Início da manhã é igual ao início da tarde';
+      } else if (hours1.isAfter(hours2)) {
+        return 'Inicio manhã é maior que o fim da manhã';
       } else if (hours1.isAfter(hours3)) {
-        return 'Horario de inicio manhã é maior que inicio da tarde';
+        return 'Início manhã é maior que início da tarde';
       }
     } else if (hours1 != null && hours2 != null) {
-//      Comparando horarios iguais
       if (hours1.isAtSameMomentAs(hours2)) {
-        return 'Horário de inicio manhã é igual ao fim da manhã';
+        return 'Início da manhã é igual ao fim da manhã';
+      } else if (hours1.isAfter(hours2)) {
+        return 'Início da manhã é maior que fim da manhã';
       }
-//    Validando se o horario é menor do que os demais horarios
-      else if (hours1.isAfter(hours2)) {
-        return 'Horario de inicio manhã é maior que fim da manhã';
+    }
+    return null;
+  }
+
+  String validatorHoursMorningEnd(
+      DateTime hours1, DateTime hours2, DateTime hours3, DateTime hours4) {
+    if (hours1 != null && hours2 == null) {
+      return 'Preenchimento obrigatório';
+    } else if (hours1 != null &&
+        hours2 != null &&
+        hours3 != null &&
+        hours4 != null) {
+      if (hours2.isAtSameMomentAs(hours1)) {
+        return 'Fim da manhã é igual ao inicio da manhã';
+      } else if (hours2.isAtSameMomentAs(hours3)) {
+        return 'Horário de inicio  manhã é igual ao do inicio da tarde';
+      } else if (hours2.isAtSameMomentAs(hours4)) {
+        return 'Fim da manhã é igual ao do fim da tarde';
+      } else if (hours2.isBefore(hours1)) {
+        return 'Fim da manhã é menor que início da manhã';
+      } else if (hours2.isAfter(hours3)) {
+        return 'Fim da manhã é maior que início da tarde';
+      } else if (hours2.isAfter(hours4)) {
+        return 'Fim da manhã é maior que fim da tarde';
+      }
+    } else if (hours1 != null && hours2 != null && hours3 != null) {
+      if (hours2.isAtSameMomentAs(hours1)) {
+        return 'Fim da manhã é igual ao inicio da manhã';
+      } else if (hours2.isAtSameMomentAs(hours3)) {
+        return 'Horário de inicio  manhã é igual ao do inicio da tarde';
+      } else if (hours2.isBefore(hours1)) {
+        return 'Fim da manhã é menor que início da manhã';
+      } else if (hours2.isAfter(hours3)) {
+        return 'Fim da manhã é maior que início da tarde';
+      }
+    } else if (hours1 != null && hours2 != null) {
+      if (hours2.isAtSameMomentAs(hours1)) {
+        return 'Fim da manhã é igual ao inicio da manhã';
+      } else if (hours2.isBefore(hours1)) {
+        return 'Fim da manhã é menor que início da manhã';
       }
     }
     return null;
