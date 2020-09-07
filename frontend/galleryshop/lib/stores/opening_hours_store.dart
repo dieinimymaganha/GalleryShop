@@ -56,30 +56,46 @@ abstract class _OpeningHoursStore with Store {
 
   @action
   void setMoringStart(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
-    morningStart = dateConvert;
-    fieldsValid;
+    print('Controller >>>> $controller');
+    try {
+      DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
+      morningStart = dateConvert;
+      print('Passou aqui');
+    } on Exception catch (_) {
+      morningStart = null;
+      print('Ta aqui');
+    }
+//    fieldsValid;
   }
 
   @action
   void setMoringEnd(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
-    morningEnd = dateConvert;
-    fieldsValid;
+    try {
+      DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
+      morningEnd = dateConvert;
+    } on Exception catch (_) {
+      morningEnd = null;
+    }
   }
 
   @action
   void setAfternoonStart(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
-    afternoonStart = dateConvert;
-    fieldsValid;
+    try {
+      DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
+      afternoonStart = dateConvert;
+    } on Exception catch (_) {
+      afternoonStart = null;
+    }
   }
 
   @action
   void setAfternoonEnd(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
-    afternoonEnd = dateConvert;
-    fieldsValid;
+    try {
+      DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
+      afternoonEnd = dateConvert;
+    } on Exception catch (_) {
+      afternoonEnd = null;
+    }
   }
 
   TextEditingController controlerMorningStart = TextEditingController();
