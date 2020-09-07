@@ -50,7 +50,7 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                             value: openingHoursStore.valueSelect,
                             items: openingHoursStore.listDayOfWeek.map((item) {
                               return DropdownMenuItem(
-                                value: item.day.toString(),
+                                value: item.description.toString(),
                                 child: Text(item.day.toString()),
                               );
                             }).toList(),
