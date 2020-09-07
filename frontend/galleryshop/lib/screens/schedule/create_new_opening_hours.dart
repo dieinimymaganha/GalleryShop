@@ -60,11 +60,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        textInputType: TextInputType.datetime,
                         mandatory: false,
                         obscure: false,
                         label: 'Horario início manhã',
                         controller: openingHoursStore.controlerMorningStart,
                         ontap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           changeAlterHours(
                               openingHoursStore.controlerMorningStart,
                               openingHoursStore.setMoringStart);
@@ -79,11 +81,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        textInputType: TextInputType.datetime,
                         mandatory: false,
                         obscure: false,
                         label: 'Horario fim manhã',
                         controller: openingHoursStore.controlerMorningEnd,
                         ontap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           changeAlterHours(
                               openingHoursStore.controlerMorningEnd,
                               openingHoursStore.setMoringEnd);
@@ -98,11 +102,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        textInputType: TextInputType.datetime,
                         mandatory: false,
                         obscure: false,
                         label: 'Horario início tarde',
                         controller: openingHoursStore.controlerAfternoonStart,
                         ontap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           changeAlterHours(
                               openingHoursStore.controlerAfternoonStart,
                               openingHoursStore.setAfternoonStart);
@@ -117,11 +123,13 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                       ),
                       SizedBox(height: space),
                       CustomForm(
+                        textInputType: TextInputType.datetime,
                         mandatory: false,
                         obscure: false,
                         label: 'Horario fim tarde',
                         controller: openingHoursStore.controlerAfternoonEnd,
                         ontap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           changeAlterHours(
                               openingHoursStore.controlerAfternoonEnd,
                               openingHoursStore.setAfternoonEnd);
@@ -194,6 +202,7 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
         dateFormat: 'HH:mm',
         pickerMode: DateTimePickerMode.time, onCancel: () {
       controller.clear();
+      function(controller);
     }, onConfirm: (dateTime, selectedIndex) {
       String hour = DateFormat('HH:mm').format(dateTime);
       controller.text = hour;
@@ -205,7 +214,7 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
           itemTextStyle: TextStyle(color: Colors.black87),
           showTitle: true,
           cancel: Text(
-            'Cancelar',
+            'Limpar',
             style: TextStyle(color: Colors.redAccent, fontSize: 18),
           ),
           confirm: Text(
