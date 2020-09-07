@@ -56,28 +56,28 @@ abstract class _OpeningHoursStore with Store {
 
   @action
   void setMoringStart(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("hh:mm").parse(controller.text);
+    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
     morningStart = dateConvert;
     fieldsValid;
   }
 
   @action
   void setMoringEnd(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("hh:mm").parse(controller.text);
+    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
     morningEnd = dateConvert;
     fieldsValid;
   }
 
   @action
   void setAfternoonStart(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("hh:mm").parse(controller.text);
+    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
     afternoonStart = dateConvert;
     fieldsValid;
   }
 
   @action
   void setAfternoonEnd(TextEditingController controller) {
-    DateTime dateConvert = DateFormat("hh:mm").parse(controller.text);
+    DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
     afternoonEnd = dateConvert;
     fieldsValid;
   }
