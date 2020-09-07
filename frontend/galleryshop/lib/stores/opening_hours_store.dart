@@ -49,83 +49,86 @@ abstract class _OpeningHoursStore with Store {
   DateTime morningStart;
 
   bool get fieldsValid {
-
-    if (morningStart == null &&
-        morningEnd == null &&
-        afternoonStart == null &&
-        afternoonEnd == null) {
-      print('>>> 1 ');
-      return false;
-    } else if (morningStart != null &&
-        morningEnd != null &&
-        afternoonStart != null &&
-        afternoonEnd != null) {
-      print('>>> 2 ');
-
-      if (morningStart.isAfter(morningEnd) ||
-          morningStart.isAfter(afternoonStart) ||
-          morningStart.isAfter(afternoonEnd) ||
-          morningEnd.isAfter(afternoonStart) ||
-          morningEnd.isAfter(afternoonEnd) ||
-          afternoonStart.isAfter(afternoonEnd) ||
-          morningStart.isAtSameMomentAs(morningEnd) ||
-          morningStart.isAtSameMomentAs(afternoonStart) ||
-          morningStart.isAtSameMomentAs(afternoonEnd)) {
-        print('>>> 3 ');
+    if (valueSelect != null) {
+      if (morningStart == null &&
+          morningEnd == null &&
+          afternoonStart == null &&
+          afternoonEnd == null) {
+        print('>>> 1 ');
         return false;
-      } else{
+      } else if (morningStart != null &&
+          morningEnd != null &&
+          afternoonStart != null &&
+          afternoonEnd != null) {
+        print('>>> 2 ');
+
+        if (morningStart.isAfter(morningEnd) ||
+            morningStart.isAfter(afternoonStart) ||
+            morningStart.isAfter(afternoonEnd) ||
+            morningEnd.isAfter(afternoonStart) ||
+            morningEnd.isAfter(afternoonEnd) ||
+            afternoonStart.isAfter(afternoonEnd) ||
+            morningStart.isAtSameMomentAs(morningEnd) ||
+            morningStart.isAtSameMomentAs(afternoonStart) ||
+            morningStart.isAtSameMomentAs(afternoonEnd)) {
+          print('>>> 3 ');
+          return false;
+        } else {
+          return true;
+        }
+      } else if (morningStart != null &&
+          morningEnd != null &&
+          afternoonStart != null &&
+          afternoonEnd == null) {
+        print('>>> 4 ');
+        return false;
+      } else if (morningStart != null &&
+          morningEnd != null &&
+          afternoonStart == null &&
+          afternoonEnd != null) {
+        print('>>> 5 ');
+        return false;
+      } else if (morningStart == null &&
+          morningEnd != null &&
+          afternoonStart != null &&
+          afternoonEnd != null) {
+        print('>>> 6 ');
+        return false;
+      } else if (morningStart != null &&
+          morningEnd == null &&
+          afternoonStart != null &&
+          afternoonEnd != null) {
+        print('>>> 7 ');
+        return false;
+      } else if ((morningStart != null && morningEnd == null) ||
+          (morningStart == null && morningEnd != null)) {
+        print('>>> 8 ');
+        return false;
+      } else if ((afternoonStart != null && afternoonEnd == null) ||
+          (afternoonStart == null && afternoonEnd != null)) {
+        print('>>> 9 ');
+        return false;
+      } else if (morningStart != null && morningEnd != null) {
+        print('>>> 10 ');
+        if (morningStart.isAfter(morningEnd) ||
+            morningStart.isAtSameMomentAs(morningEnd)) {
+          print('>>> 11 ');
+          return false;
+        } else {
+          return true;
+        }
+      } else if (afternoonStart != null && afternoonEnd != null) {
+        print('>>> 12 ');
+        if (afternoonStart.isAfter(afternoonEnd) ||
+            afternoonStart.isAtSameMomentAs(afternoonEnd)) {
+          print('>>> 13 ');
+          return false;
+        }
+        print('>>> 14 ');
         return true;
       }
-    } else if (morningStart != null &&
-        morningEnd != null &&
-        afternoonStart != null &&
-        afternoonEnd == null) {
-      print('>>> 4 ');
+    } else {
       return false;
-    } else if (morningStart != null &&
-        morningEnd != null &&
-        afternoonStart == null &&
-        afternoonEnd != null) {
-      print('>>> 5 ');
-      return false;
-    } else if (morningStart == null &&
-        morningEnd != null &&
-        afternoonStart != null &&
-        afternoonEnd != null) {
-      print('>>> 6 ');
-      return false;
-    } else if (morningStart != null &&
-        morningEnd == null &&
-        afternoonStart != null &&
-        afternoonEnd != null) {
-      print('>>> 7 ');
-      return false;
-    } else if ((morningStart != null && morningEnd == null) ||
-        (morningStart == null && morningEnd != null)) {
-      print('>>> 8 ');
-      return false;
-    } else if ((afternoonStart != null && afternoonEnd == null) ||
-        (afternoonStart == null && afternoonEnd != null)) {
-      print('>>> 9 ');
-      return false;
-    } else if (morningStart != null && morningEnd != null) {
-      print('>>> 10 ');
-      if (morningStart.isAfter(morningEnd) ||
-          morningStart.isAtSameMomentAs(morningEnd)) {
-        print('>>> 11 ');
-        return false;
-      } else{
-        return true;
-      }
-    } else if (afternoonStart != null && afternoonEnd != null) {
-      print('>>> 12 ');
-      if (afternoonStart.isAfter(afternoonEnd) ||
-          afternoonStart.isAtSameMomentAs(afternoonEnd)) {
-        print('>>> 13 ');
-        return false;
-      }
-      print('>>> 14 ');
-      return true;
     }
   }
 
