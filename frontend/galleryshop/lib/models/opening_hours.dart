@@ -2,6 +2,7 @@ class OpeninigHoursDto {
   int id;
   String employee;
   String dayOfTheWeek;
+  int dayOfTheWeekInt;
   String earlyMorningJourney;
   String endMorningJourney;
   String earlyAfternoonJourney;
@@ -11,6 +12,7 @@ class OpeninigHoursDto {
       {this.id,
       this.employee,
       this.dayOfTheWeek,
+      this.dayOfTheWeekInt,
       this.earlyMorningJourney,
       this.endMorningJourney,
       this.earlyAfternoonJourney,
@@ -20,6 +22,7 @@ class OpeninigHoursDto {
     id = json['id'];
     employee = json['employee'];
     dayOfTheWeek = json['dayOfTheWeek'];
+    dayOfTheWeekInt = json['dayOfTheWeekInt'];
     earlyMorningJourney = json['earlyMorningJourney'];
     endMorningJourney = json['endMorningJourney'];
     earlyAfternoonJourney = json['earlyAfternoonJourney'];
@@ -31,6 +34,7 @@ class OpeninigHoursDto {
     data['id'] = this.id;
     data['employee'] = this.employee;
     data['dayOfTheWeek'] = this.dayOfTheWeek;
+    data['dayOfTheWeekInt'] = this.dayOfTheWeekInt;
     data['earlyMorningJourney'] = this.earlyMorningJourney;
     data['endMorningJourney'] = this.endMorningJourney;
     data['earlyAfternoonJourney'] = this.earlyAfternoonJourney;
