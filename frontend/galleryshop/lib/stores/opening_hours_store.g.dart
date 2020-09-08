@@ -9,6 +9,13 @@ part of 'opening_hours_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
+  Computed<Function> _$buttoExcludePressedComputed;
+
+  @override
+  Function get buttoExcludePressed => (_$buttoExcludePressedComputed ??=
+          Computed<Function>(() => super.buttoExcludePressed,
+              name: '_OpeningHoursStore.buttoExcludePressed'))
+      .value;
   Computed<bool> _$fieldsValidComputed;
 
   @override
@@ -144,6 +151,51 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     });
   }
 
+  final _$excludedAtom = Atom(name: '_OpeningHoursStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
+  final _$sendingAtom = Atom(name: '_OpeningHoursStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$excludedFailAtom = Atom(name: '_OpeningHoursStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
   final _$morningEndAtom = Atom(name: '_OpeningHoursStore.morningEnd');
 
   @override
@@ -220,6 +272,15 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
         .reportWrite(value, super.listOpeningHoursRecover, () {
       super.listOpeningHoursRecover = value;
     });
+  }
+
+  final _$excludeOpeningHoursAsyncAction =
+      AsyncAction('_OpeningHoursStore.excludeOpeningHours');
+
+  @override
+  Future<void> excludeOpeningHours() {
+    return _$excludeOpeningHoursAsyncAction
+        .run(() => super.excludeOpeningHours());
   }
 
   final _$reloadListAsyncAction = AsyncAction('_OpeningHoursStore.reloadList');
@@ -347,11 +408,15 @@ morningStart: ${morningStart},
 errorList: ${errorList},
 listEmpty: ${listEmpty},
 loading: ${loading},
+excluded: ${excluded},
+sending: ${sending},
+excludedFail: ${excludedFail},
 morningEnd: ${morningEnd},
 afternoonStart: ${afternoonStart},
 afternoonEnd: ${afternoonEnd},
 listOpeningHours: ${listOpeningHours},
 listOpeningHoursRecover: ${listOpeningHoursRecover},
+buttoExcludePressed: ${buttoExcludePressed},
 fieldsValid: ${fieldsValid},
 butttonSavePressed: ${butttonSavePressed}
     ''';

@@ -75,6 +75,35 @@ abstract class _OpeningHoursStore with Store {
   @observable
   bool loading = false;
 
+  @observable
+  bool excluded = false;
+
+  @observable
+  bool sending = false;
+
+  @observable
+  bool excludedFail = false;
+
+  @computed
+  Function get buttoExcludePressed => excludeOpeningHours;
+
+  @action
+  Future<void> excludeOpeningHours() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    int response = await openingHoursWebClient.exclude(openinigHoursDto);
+//    int response = 1;
+    if (response == 200) {
+      excluded = true;
+      await Future.delayed(Duration(seconds: 2));
+    } else {
+      excludedFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      excludedFail = false;
+      sending = false;
+    }
+  }
+
   @computed
   bool get fieldsValid {
     if (valueSelect != null) {
