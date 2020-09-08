@@ -9,6 +9,13 @@ part of 'opening_hours_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
+  Computed<bool> _$fieldsValidComputed;
+
+  @override
+  bool get fieldsValid =>
+      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
+              name: '_OpeningHoursStore.fieldsValid'))
+          .value;
   Computed<Function> _$butttonSavePressedComputed;
 
   @override
@@ -138,11 +145,36 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     });
   }
 
+  final _$listOpeningHoursRecoverAtom =
+      Atom(name: '_OpeningHoursStore.listOpeningHoursRecover');
+
+  @override
+  List<dynamic> get listOpeningHoursRecover {
+    _$listOpeningHoursRecoverAtom.reportRead();
+    return super.listOpeningHoursRecover;
+  }
+
+  @override
+  set listOpeningHoursRecover(List<dynamic> value) {
+    _$listOpeningHoursRecoverAtom
+        .reportWrite(value, super.listOpeningHoursRecover, () {
+      super.listOpeningHoursRecover = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_OpeningHoursStore.setList');
 
   @override
   Future<void> setList() {
     return _$setListAsyncAction.run(() => super.setList());
+  }
+
+  final _$createNewListAsyncAction =
+      AsyncAction('_OpeningHoursStore.createNewList');
+
+  @override
+  Future<List<dynamic>> createNewList(List<dynamic> listData) {
+    return _$createNewListAsyncAction.run(() => super.createNewList(listData));
   }
 
   final _$setIdEmployeeAsyncAction =
@@ -159,6 +191,13 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
   @override
   Future<int> getIdEmployee() {
     return _$getIdEmployeeAsyncAction.run(() => super.getIdEmployee());
+  }
+
+  final _$saveHoursAsyncAction = AsyncAction('_OpeningHoursStore.saveHours');
+
+  @override
+  Future<void> saveHours() {
+    return _$saveHoursAsyncAction.run(() => super.saveHours());
   }
 
   final _$_OpeningHoursStoreActionController =
@@ -220,17 +259,6 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
   }
 
   @override
-  void saveHours() {
-    final _$actionInfo = _$_OpeningHoursStoreActionController.startAction(
-        name: '_OpeningHoursStore.saveHours');
-    try {
-      return super.saveHours();
-    } finally {
-      _$_OpeningHoursStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 listDayOfWeek: ${listDayOfWeek},
@@ -241,6 +269,8 @@ morningEnd: ${morningEnd},
 afternoonStart: ${afternoonStart},
 afternoonEnd: ${afternoonEnd},
 listOpeningHours: ${listOpeningHours},
+listOpeningHoursRecover: ${listOpeningHoursRecover},
+fieldsValid: ${fieldsValid},
 butttonSavePressed: ${butttonSavePressed}
     ''';
   }

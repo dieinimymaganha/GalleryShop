@@ -46,6 +46,7 @@ abstract class _OpeningHoursStore with Store {
   @observable
   DateTime morningStart;
 
+  @computed
   bool get fieldsValid {
     if (valueSelect != null) {
       if (morningStart == null &&
@@ -178,10 +179,49 @@ abstract class _OpeningHoursStore with Store {
   @observable
   List<dynamic> listOpeningHours = List();
 
+  @observable
+  List<dynamic> listOpeningHoursRecover = List();
+
   @action
   Future<void> setList() async {
-    listOpeningHours =
+    listOpeningHoursRecover =
         await openingHoursWebClient.findListOpeningHoursId(idEmployee);
+    listOpeningHours = await createNewList(listOpeningHoursRecover);
+  }
+
+  @action
+  Future<List<dynamic>> createNewList(List<dynamic> listData) async {
+    for (OpeninigHoursDto openinigHoursDto in listData) {
+      switch (openinigHoursDto.dayOfTheWeek) {
+        case 'DOMINGO':
+          openinigHoursDto.dayOfTheWeekInt = 7;
+          break;
+        case 'SABADO':
+          openinigHoursDto.dayOfTheWeekInt = 6;
+          break;
+        case 'SEXTA':
+          openinigHoursDto.dayOfTheWeekInt = 5;
+          break;
+        case 'QUINTA':
+          openinigHoursDto.dayOfTheWeekInt = 4;
+          break;
+        case 'QUARTA':
+          openinigHoursDto.dayOfTheWeekInt = 3;
+          break;
+        case 'TERCA':
+          openinigHoursDto.dayOfTheWeekInt = 2;
+          break;
+        case 'SEGUNDA':
+          openinigHoursDto.dayOfTheWeekInt = 1;
+          break;
+        default:
+          openinigHoursDto.dayOfTheWeekInt = 0;
+      }
+      listOpeningHours.add(openinigHoursDto);
+    }
+    listOpeningHours.sort((a, b) =>
+        a.dayOfTheWeekInt.toString().compareTo(b.dayOfTheWeekInt.toString()));
+    return listOpeningHours;
   }
 
   @action
@@ -198,10 +238,11 @@ abstract class _OpeningHoursStore with Store {
   }
 
   @action
-  void saveHours() {
+  Future<void> saveHours() async {
+    int id = await getIdEmployee();
     OpeningHoursForm openingHoursForm = new OpeningHoursForm(
         dayOfTheWeek: valueSelect,
-        employeeId: idEmployee,
+        employeeId: id,
         earlyMorningJourney: controlerMorningStart.text.isEmpty
             ? null
             : controlerMorningStart.text,
@@ -214,6 +255,7 @@ abstract class _OpeningHoursStore with Store {
             ? null
             : controlerAfternoonEnd.text);
     print(openingHoursForm.toJson());
+    await openingHoursWebClient.save(openingHoursForm);
   }
 
   @computed
