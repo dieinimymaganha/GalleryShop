@@ -3,19 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/opening_hours.dart';
 import 'package:galleryshop/stores/opening_hours_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
 
 class CreateNewOpeningHours extends StatefulWidget {
+  final OpeninigHoursDto openinigHoursDto;
+
+  CreateNewOpeningHours({this.openinigHoursDto});
+
   @override
-  _CreateNewOpeningHoursState createState() => _CreateNewOpeningHoursState();
+  _CreateNewOpeningHoursState createState() =>
+      _CreateNewOpeningHoursState(openinigHoursDto: openinigHoursDto);
 }
 
 class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
+  _CreateNewOpeningHoursState({OpeninigHoursDto openinigHoursDto})
+      : openingHoursStore =
+            OpeningHoursStore(openinigHoursDto: openinigHoursDto);
+
   OpeningHoursStore openingHoursStore = OpeningHoursStore();
 
   final _formState = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    openingHoursStore.setDataInitial();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +39,9 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Cadastrar novo horario'),
+            title: Text(openingHoursStore.change
+                ? 'Alterar horário'
+                : 'Cadastrar novo horario'),
             backgroundColor: colorAppbar,
             centerTitle: true,
           ),
@@ -166,7 +184,9 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Cadastrar',
+                                openingHoursStore.change
+                                    ? 'Alterar'
+                                    : 'Cadastrar',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
