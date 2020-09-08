@@ -21,7 +21,9 @@ abstract class _OpeningHoursStore with Store {
   final OpeninigHoursDto openinigHoursDto;
 
   _OpeningHoursStore({this.openinigHoursDto}) {
-    autorun((_) {});
+    autorun((_) {
+      print('>>>>> ${openinigHoursDto.toJson()}');
+    });
   }
 
   OpeningHoursWebClient openingHoursWebClient = OpeningHoursWebClient();
@@ -36,6 +38,25 @@ abstract class _OpeningHoursStore with Store {
     new DayOfTheWeek(description: 'SABADO', day: 'SÁBADO'),
     new DayOfTheWeek(description: 'DOMINGO', day: 'DOMINGO'),
   ];
+
+  @action
+  void setDataInitial() {
+    if (openinigHoursDto != null) {
+      change = true;
+      controlerMorningStart.text = openinigHoursDto.earlyMorningJourney;
+      setMoringStart(controlerMorningStart);
+      controlerMorningEnd.text = openinigHoursDto.endMorningJourney;
+      setMoringEnd(controlerMorningEnd);
+      controlerAfternoonStart.text = openinigHoursDto.earlyAfternoonJourney;
+      setAfternoonStart(controlerAfternoonStart);
+      controlerAfternoonEnd.text = openinigHoursDto.endJourneyLate;
+      setAfternoonEnd(controlerAfternoonEnd);
+      valueSelect = openinigHoursDto.dayOfTheWeek;
+    }
+  }
+
+  @observable
+  bool change = false;
 
   @observable
   int idEmployee = 0;

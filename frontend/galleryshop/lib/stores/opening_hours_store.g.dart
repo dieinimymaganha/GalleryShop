@@ -39,6 +39,21 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     });
   }
 
+  final _$changeAtom = Atom(name: '_OpeningHoursStore.change');
+
+  @override
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
   final _$idEmployeeAtom = Atom(name: '_OpeningHoursStore.idEmployee');
 
   @override
@@ -204,6 +219,17 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
       ActionController(name: '_OpeningHoursStore');
 
   @override
+  void setDataInitial() {
+    final _$actionInfo = _$_OpeningHoursStoreActionController.startAction(
+        name: '_OpeningHoursStore.setDataInitial');
+    try {
+      return super.setDataInitial();
+    } finally {
+      _$_OpeningHoursStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setMoringStart(TextEditingController controller) {
     final _$actionInfo = _$_OpeningHoursStoreActionController.startAction(
         name: '_OpeningHoursStore.setMoringStart');
@@ -262,6 +288,7 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
   String toString() {
     return '''
 listDayOfWeek: ${listDayOfWeek},
+change: ${change},
 idEmployee: ${idEmployee},
 valueSelect: ${valueSelect},
 morningStart: ${morningStart},
