@@ -28,6 +28,19 @@ class OpeningHoursWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<int> save(OpeningHoursForm openingHoursForm) async {
+    String token = await getToken();
+    final String openingHoursJson = jsonEncode(openingHoursForm.toJson());
+    final Response response = await webClient.post(urlOpeningHours,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: openingHoursJson);
+
+    return response.statusCode;
+  }
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];
