@@ -41,6 +41,21 @@ class OpeningHoursWebClient {
     return response.statusCode;
   }
 
+  Future<int> exclude(OpeninigHoursDto openinigHoursDto) async {
+    String token = await getToken();
+    String id = openinigHoursDto.id.toString();
+    String urlExclude = urlOpeningHours + '/' + id;
+
+    final Response response = await webClient.delete(
+      urlExclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+    return response.statusCode;
+  }
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];
