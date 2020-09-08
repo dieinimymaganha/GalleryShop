@@ -99,6 +99,51 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     });
   }
 
+  final _$errorListAtom = Atom(name: '_OpeningHoursStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_OpeningHoursStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_OpeningHoursStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   final _$morningEndAtom = Atom(name: '_OpeningHoursStore.morningEnd');
 
   @override
@@ -175,6 +220,13 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
         .reportWrite(value, super.listOpeningHoursRecover, () {
       super.listOpeningHoursRecover = value;
     });
+  }
+
+  final _$reloadListAsyncAction = AsyncAction('_OpeningHoursStore.reloadList');
+
+  @override
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
   final _$setListAsyncAction = AsyncAction('_OpeningHoursStore.setList');
@@ -292,6 +344,9 @@ change: ${change},
 idEmployee: ${idEmployee},
 valueSelect: ${valueSelect},
 morningStart: ${morningStart},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
+loading: ${loading},
 morningEnd: ${morningEnd},
 afternoonStart: ${afternoonStart},
 afternoonEnd: ${afternoonEnd},

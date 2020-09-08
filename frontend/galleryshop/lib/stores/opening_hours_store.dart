@@ -1,4 +1,3 @@
-import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:galleryshop/http/webclients/webclient_opening_hours.dart';
 import 'package:galleryshop/models/opening_hours.dart';
@@ -66,6 +65,15 @@ abstract class _OpeningHoursStore with Store {
 
   @observable
   DateTime morningStart;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @observable
+  bool loading = false;
 
   @computed
   bool get fieldsValid {
@@ -204,10 +212,24 @@ abstract class _OpeningHoursStore with Store {
   List<dynamic> listOpeningHoursRecover = List();
 
   @action
+  Future<void> reloadList() async {
+    errorList = false;
+    setList();
+  }
+
+  @action
   Future<void> setList() async {
-    listOpeningHoursRecover =
-        await openingHoursWebClient.findListOpeningHoursId(idEmployee);
-    listOpeningHours = await createNewList(listOpeningHoursRecover);
+    loading = true;
+    await Future.delayed(Duration(seconds: 2));
+
+    try {
+      listOpeningHoursRecover =
+          await openingHoursWebClient.findListOpeningHoursId(idEmployee);
+      listOpeningHours = await createNewList(listOpeningHoursRecover);
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    loading = false;
   }
 
   @action
@@ -239,6 +261,11 @@ abstract class _OpeningHoursStore with Store {
           openinigHoursDto.dayOfTheWeekInt = 0;
       }
       listOpeningHours.add(openinigHoursDto);
+    }
+    if (listOpeningHours.isEmpty) {
+      errorList = true;
+      listEmpty = true;
+      loading = false;
     }
     listOpeningHours.sort((a, b) =>
         a.dayOfTheWeekInt.toString().compareTo(b.dayOfTheWeekInt.toString()));
