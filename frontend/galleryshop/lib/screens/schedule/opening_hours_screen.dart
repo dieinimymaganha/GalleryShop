@@ -5,6 +5,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/schedule/button_create_opening_hours.dart';
 import 'package:galleryshop/screens/schedule/create_new_opening_hours.dart';
+import 'package:galleryshop/screens/schedule/widgets/dialog_opening_hours.dart';
 import 'package:galleryshop/stores/opening_hours_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 
@@ -97,7 +98,15 @@ class _OpeningHoursScreenState extends State<OpeningHoursScreen> {
                                                             openinigHoursDto:
                                                                 openingHoursModel)));
                                           },
-                                          onLongPress: () {},
+                                          onLongPress: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    DialogOpeningHours(
+                                                      openinigHoursDto:
+                                                          openingHoursModel,
+                                                    ));
+                                          },
                                           child: ListTile(
                                             title: Text(
                                               openingHoursModel.dayOfTheWeek ==
