@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/schedule/button_create_opening_hours.dart';
+import 'package:galleryshop/screens/schedule/create_new_opening_hours.dart';
 import 'package:galleryshop/stores/opening_hours_store.dart';
 
 class OpeningHoursScreen extends StatefulWidget {
@@ -52,7 +53,11 @@ class _OpeningHoursScreenState extends State<OpeningHoursScreen> {
                       child: Column(
                         children: <Widget>[
                           InkWell(
-                            onDoubleTap: () {},
+                            onDoubleTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CreateNewOpeningHours(
+                                      openinigHoursDto: openingHoursModel)));
+                            },
                             onLongPress: () {},
                             child: ListTile(
                               title: Text(
