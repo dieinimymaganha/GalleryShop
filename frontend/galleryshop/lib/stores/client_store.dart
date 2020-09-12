@@ -162,6 +162,9 @@ abstract class _ClientStore with Store {
     await Future.delayed(Duration(seconds: 2));
     errorSending = false;
     created = false;
+    duplicate = false;
+
+
   }
 
   @computed
