@@ -4,9 +4,11 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/opening_hours.dart';
+import 'package:galleryshop/screens/schedule/opening_hours_screen.dart';
 import 'package:galleryshop/stores/opening_hours_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
+import 'package:mobx/mobx.dart';
 
 class CreateNewOpeningHours extends StatefulWidget {
   final OpeninigHoursDto openinigHoursDto;
@@ -27,10 +29,66 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
 
   final _formState = GlobalKey<FormState>();
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
     openingHoursStore.setDataInitial();
+  }
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer =
+        reaction((_) => openingHoursStore.errorSending, (errorSending) async {
+      if (errorSending) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            openingHoursStore.change
+                ? 'Error ao atualizar'
+                : 'Error ao cadastrar! Verifique os campos',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        ));
+      }
+      await Future.delayed(Duration(seconds: 2));
+    });
+
+    disposer = reaction((_) => openingHoursStore.created, (created) async {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          openingHoursStore.change
+              ? 'Horário alterado com sucesso!'
+              : 'Horário cadastrado com sucesso!',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.blueAccent,
+        duration: Duration(seconds: 2),
+      ));
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => OpeningHoursScreen()));
+    });
+
+    disposer = reaction((_) => openingHoursStore.duplicate, (duplicate) async {
+      if (duplicate) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Dia da semana já cadastrado!',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.yellowAccent,
+          duration: Duration(seconds: 2),
+        ));
+      }
+      await Future.delayed(Duration(seconds: 2));
+    });
   }
 
   @override
@@ -38,6 +96,7 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
     return Observer(
       builder: (_) {
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text(openingHoursStore.change
                 ? 'Alterar horário'
@@ -195,7 +254,12 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                               ),
                               Container(
                                 child: SizedBox(
-                                  child: Icon(Icons.send),
+                                  child: openingHoursStore.sending
+                                      ? CircularProgressIndicator(
+                                          valueColor: AlwaysStoppedAnimation(
+                                              Colors.blue),
+                                        )
+                                      : Icon(Icons.send),
                                   height: 28,
                                   width: 28,
                                 ),
@@ -404,5 +468,11 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
       }
     }
     return null;
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }
