@@ -21,7 +21,8 @@ abstract class _OpeningHoursStore with Store {
 
   _OpeningHoursStore({this.openinigHoursDto}) {
     autorun((_) {
-      print('>>>>> ${openinigHoursDto.toJson()}');
+//      print('>>>>> ${errorSending}');
+      print('duplicate >>>>> ${duplicate}');
     });
   }
 
@@ -240,6 +241,15 @@ abstract class _OpeningHoursStore with Store {
   @observable
   List<dynamic> listOpeningHoursRecover = List();
 
+  @observable
+  bool created = false;
+
+  @observable
+  bool duplicate = false;
+
+  @observable
+  bool errorSending = false;
+
   @action
   Future<void> reloadList() async {
     errorList = false;
@@ -315,7 +325,29 @@ abstract class _OpeningHoursStore with Store {
   }
 
   @action
-  Future<void> saveHours() async {
+  Future<void> sendNewHours() async {
+    OpeningHoursForm openingHoursForm = await createNewOpeningHours();
+    sending = true;
+    print(openingHoursForm.toJson());
+    int response = await openingHoursWebClient.save(openingHoursForm);
+    await Future.delayed(Duration(seconds: 2));
+//    int response = 409;
+    sending = false;
+    if (response == 201) {
+      created = true;
+    } else if (response == 409) {
+      duplicate = true;
+    } else {
+      errorSending = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    created = false;
+    sending = false;
+    errorSending = false;
+    duplicate = false;
+  }
+
+  Future<OpeningHoursForm> createNewOpeningHours() async {
     int id = await getIdEmployee();
     OpeningHoursForm openingHoursForm = new OpeningHoursForm(
         dayOfTheWeek: valueSelect,
@@ -331,10 +363,9 @@ abstract class _OpeningHoursStore with Store {
         endJourneyLate: controlerAfternoonEnd.text.isEmpty
             ? null
             : controlerAfternoonEnd.text);
-    print(openingHoursForm.toJson());
-    await openingHoursWebClient.save(openingHoursForm);
+    return openingHoursForm;
   }
 
   @computed
-  Function get butttonSavePressed => fieldsValid ? saveHours : null;
+  Function get butttonSavePressed => fieldsValid ? sendNewHours : null;
 }

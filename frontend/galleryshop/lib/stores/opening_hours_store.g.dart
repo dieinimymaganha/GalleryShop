@@ -274,6 +274,51 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     });
   }
 
+  final _$createdAtom = Atom(name: '_OpeningHoursStore.created');
+
+  @override
+  bool get created {
+    _$createdAtom.reportRead();
+    return super.created;
+  }
+
+  @override
+  set created(bool value) {
+    _$createdAtom.reportWrite(value, super.created, () {
+      super.created = value;
+    });
+  }
+
+  final _$duplicateAtom = Atom(name: '_OpeningHoursStore.duplicate');
+
+  @override
+  bool get duplicate {
+    _$duplicateAtom.reportRead();
+    return super.duplicate;
+  }
+
+  @override
+  set duplicate(bool value) {
+    _$duplicateAtom.reportWrite(value, super.duplicate, () {
+      super.duplicate = value;
+    });
+  }
+
+  final _$errorSendingAtom = Atom(name: '_OpeningHoursStore.errorSending');
+
+  @override
+  bool get errorSending {
+    _$errorSendingAtom.reportRead();
+    return super.errorSending;
+  }
+
+  @override
+  set errorSending(bool value) {
+    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
+      super.errorSending = value;
+    });
+  }
+
   final _$excludeOpeningHoursAsyncAction =
       AsyncAction('_OpeningHoursStore.excludeOpeningHours');
 
@@ -321,11 +366,12 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     return _$getIdEmployeeAsyncAction.run(() => super.getIdEmployee());
   }
 
-  final _$saveHoursAsyncAction = AsyncAction('_OpeningHoursStore.saveHours');
+  final _$sendNewHoursAsyncAction =
+      AsyncAction('_OpeningHoursStore.sendNewHours');
 
   @override
-  Future<void> saveHours() {
-    return _$saveHoursAsyncAction.run(() => super.saveHours());
+  Future<void> sendNewHours() {
+    return _$sendNewHoursAsyncAction.run(() => super.sendNewHours());
   }
 
   final _$_OpeningHoursStoreActionController =
@@ -416,6 +462,9 @@ afternoonStart: ${afternoonStart},
 afternoonEnd: ${afternoonEnd},
 listOpeningHours: ${listOpeningHours},
 listOpeningHoursRecover: ${listOpeningHoursRecover},
+created: ${created},
+duplicate: ${duplicate},
+errorSending: ${errorSending},
 buttoExcludePressed: ${buttoExcludePressed},
 fieldsValid: ${fieldsValid},
 butttonSavePressed: ${butttonSavePressed}
