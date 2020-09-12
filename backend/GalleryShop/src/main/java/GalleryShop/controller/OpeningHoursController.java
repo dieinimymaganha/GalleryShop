@@ -1,31 +1,21 @@
 package GalleryShop.controller;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import GalleryShop.controller.dto.EmployeeDto;
 import GalleryShop.controller.dto.OpeningHoursDto;
 import GalleryShop.controller.form.OpeningHoursForm;
-import GalleryShop.controller.form.OpeningHoursFormList;
 import GalleryShop.model.OpeningHours;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.OpeningHoursRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/openinghours")
@@ -54,7 +44,7 @@ public class OpeningHoursController {
     @PostMapping
     @Transactional
     public ResponseEntity<OpeningHoursDto> createNewOpening(@RequestBody @Valid OpeningHoursForm form,
-            UriComponentsBuilder uriBuilder) {
+                                                            UriComponentsBuilder uriBuilder) {
         OpeningHours opening = form.converter(employeeRepository);
 
         List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(opening.getEmployee().getId());
@@ -72,6 +62,19 @@ public class OpeningHoursController {
         return ResponseEntity.created(uri).body(new OpeningHoursDto(opening));
 
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<OpeningHoursDto> updateOpeningHours(@PathVariable Long id, @RequestBody @Valid OpeningHoursForm form) {
+        Optional<OpeningHours> optional = openingHoursRepository.findById(id);
+
+        if (optional.isPresent()) {
+            OpeningHours openingHours = form.upload(id, employeeRepository, openingHoursRepository);
+            return ResponseEntity.ok(new OpeningHoursDto(openingHours));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 
     @DeleteMapping("/{id}")
     @Transactional

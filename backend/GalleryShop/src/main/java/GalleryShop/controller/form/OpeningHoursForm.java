@@ -1,13 +1,13 @@
 package GalleryShop.controller.form;
 
+import GalleryShop.model.Employee;
+import GalleryShop.model.Enum.DayOfTheWeek;
+import GalleryShop.model.OpeningHours;
+import GalleryShop.repository.EmployeeRepository;
+import GalleryShop.repository.OpeningHoursRepository;
+
 import java.time.LocalTime;
 import java.util.Optional;
-
-
-import GalleryShop.model.Employee;
-import GalleryShop.model.OpeningHours;
-import GalleryShop.model.Enum.DayOfTheWeek;
-import GalleryShop.repository.EmployeeRepository;
 
 public class OpeningHoursForm {
 
@@ -16,15 +16,15 @@ public class OpeningHoursForm {
     private DayOfTheWeek dayOfTheWeek;
 
     private LocalTime earlyMorningJourney;
-   
+
     private LocalTime endMorningJourney;
-       
+
     private LocalTime earlyAfternoonJourney;
- 
+
     private LocalTime endJourneyLate;
 
     public OpeningHoursForm(Long employeeId, DayOfTheWeek dayOfTheWeek, LocalTime earlyMorningJourney,
-    LocalTime endMorningJourney, LocalTime earlyAfternoonJourney, LocalTime endJourneyLate) {
+                            LocalTime endMorningJourney, LocalTime earlyAfternoonJourney, LocalTime endJourneyLate) {
         this.employeeId = employeeId;
         this.dayOfTheWeek = dayOfTheWeek;
         this.earlyMorningJourney = earlyMorningJourney;
@@ -91,5 +91,18 @@ public class OpeningHoursForm {
         return null;
 
     }
+
+
+    public OpeningHours upload(Long id, EmployeeRepository employeeRepository,
+                               OpeningHoursRepository openingHoursRepository) {
+        OpeningHours openingHours = openingHoursRepository.getOne(id);
+        openingHours.setDayOfTheWeek(this.dayOfTheWeek);
+        openingHours.setEarlyMorningJourney(this.earlyMorningJourney);
+        openingHours.setEndMorningJourney(this.endMorningJourney);
+        openingHours.setEarlyAfternoonJourney(this.earlyAfternoonJourney);
+        openingHours.setEndJourneyLate(this.endJourneyLate);
+        return openingHours;
+    }
+
 
 }
