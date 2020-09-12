@@ -266,7 +266,9 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
                               )
                             ],
                           ),
-                          onPressed: openingHoursStore.butttonSavePressed,
+                          onPressed: openingHoursStore.change
+                              ? openingHoursStore.buttonChangePressed
+                              : openingHoursStore.butttonSavePressed,
                         )),
                       ),
                     ],

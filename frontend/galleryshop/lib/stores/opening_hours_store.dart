@@ -333,18 +333,40 @@ abstract class _OpeningHoursStore with Store {
     await Future.delayed(Duration(seconds: 2));
 //    int response = 409;
     sending = false;
-    if (response == 201) {
+    if (response == 200) {
       created = true;
+      await Future.delayed(Duration(seconds: 2));
     } else if (response == 409) {
       duplicate = true;
+      await Future.delayed(Duration(seconds: 2));
     } else {
       errorSending = true;
+      await Future.delayed(Duration(seconds: 2));
     }
-    await Future.delayed(Duration(seconds: 2));
     created = false;
     sending = false;
     errorSending = false;
     duplicate = false;
+  }
+
+  @action
+  Future<void> updateOpening() async {
+    OpeningHoursForm openingHoursForm = await createNewOpeningHours();
+    sending = true;
+    int response = await openingHoursWebClient.update(
+        openingHoursForm, openinigHoursDto.id);
+    await Future.delayed(Duration(seconds: 2));
+//    int response = 409;
+    sending = false;
+    if (response == 201) {
+      created = true;
+    }
+    errorSending = true;
+
+    await Future.delayed(Duration(seconds: 2));
+    created = false;
+    sending = false;
+    errorSending = false;
   }
 
   Future<OpeningHoursForm> createNewOpeningHours() async {
@@ -368,4 +390,7 @@ abstract class _OpeningHoursStore with Store {
 
   @computed
   Function get butttonSavePressed => fieldsValid ? sendNewHours : null;
+
+  @computed
+  Function get buttonChangePressed => updateOpening;
 }

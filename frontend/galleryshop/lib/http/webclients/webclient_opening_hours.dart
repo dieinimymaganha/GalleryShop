@@ -41,6 +41,22 @@ class OpeningHoursWebClient {
     return response.statusCode;
   }
 
+  Future<int> update(OpeningHoursForm openingHoursForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlOpeningHours + '/' + id.toString();
+
+    final String serviceJson = json.encode(openingHoursForm.toJson());
+
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
   Future<int> exclude(OpeninigHoursDto openinigHoursDto) async {
     String token = await getToken();
     String id = openinigHoursDto.id.toString();

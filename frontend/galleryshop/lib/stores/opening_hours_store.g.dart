@@ -30,6 +30,13 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
           Computed<Function>(() => super.butttonSavePressed,
               name: '_OpeningHoursStore.butttonSavePressed'))
       .value;
+  Computed<Function> _$buttonChangePressedComputed;
+
+  @override
+  Function get buttonChangePressed => (_$buttonChangePressedComputed ??=
+          Computed<Function>(() => super.buttonChangePressed,
+              name: '_OpeningHoursStore.buttonChangePressed'))
+      .value;
 
   final _$listDayOfWeekAtom = Atom(name: '_OpeningHoursStore.listDayOfWeek');
 
@@ -374,6 +381,14 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
     return _$sendNewHoursAsyncAction.run(() => super.sendNewHours());
   }
 
+  final _$updateOpeningAsyncAction =
+      AsyncAction('_OpeningHoursStore.updateOpening');
+
+  @override
+  Future<void> updateOpening() {
+    return _$updateOpeningAsyncAction.run(() => super.updateOpening());
+  }
+
   final _$_OpeningHoursStoreActionController =
       ActionController(name: '_OpeningHoursStore');
 
@@ -467,7 +482,8 @@ duplicate: ${duplicate},
 errorSending: ${errorSending},
 buttoExcludePressed: ${buttoExcludePressed},
 fieldsValid: ${fieldsValid},
-butttonSavePressed: ${butttonSavePressed}
+butttonSavePressed: ${butttonSavePressed},
+buttonChangePressed: ${buttonChangePressed}
     ''';
   }
 }
