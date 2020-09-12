@@ -71,14 +71,16 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
           MaterialPageRoute(builder: (context) => BaseScreen()));
     });
     disposer = reaction((_) => clientStore.duplicate, (created) async {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(
-          'Cliente já cadastrado!',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.yellowAccent,
-        duration: Duration(seconds: 2),
-      ));
+      if (created) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Cliente já cadastrado!',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.yellowAccent,
+          duration: Duration(seconds: 2),
+        ));
+      }
       await Future.delayed(Duration(seconds: 2));
     });
   }
