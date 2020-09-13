@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/schedule/opening_hours_screen.dart';
+import 'package:galleryshop/screens/schedule/schedule_screen.dart';
+import 'package:galleryshop/screens/schedule/schedule_test.dart';
 import 'package:galleryshop/screens/schedule/schedule_times_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
@@ -51,7 +53,10 @@ class ScheduleBaseScreen extends StatelessWidget {
                   title: Text('Minha agenda'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScheduleScreen()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
@@ -62,7 +67,10 @@ class ScheduleBaseScreen extends StatelessWidget {
                   title: Text('Agendas'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScheduleTest()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
