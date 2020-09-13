@@ -61,14 +61,20 @@ public class ScheduleController {
     @PostMapping
     @Transactional
     public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
-            UriComponentsBuilder uriBuilder) {
+                                                         UriComponentsBuilder uriBuilder) {
         List<Schedule> listSchedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository);
+//        System.out.println(listSchedule);
 
-        for (Schedule schedule : listSchedule) {
-            scheduleRepository.save(schedule);
+        if (!listSchedule.isEmpty()) {
+            for (Schedule schedule : listSchedule) {
+                scheduleRepository.save(schedule);
+            }
+
+            return ResponseEntity.ok().build();
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
+
     }
 
     @DeleteMapping("/{id}")

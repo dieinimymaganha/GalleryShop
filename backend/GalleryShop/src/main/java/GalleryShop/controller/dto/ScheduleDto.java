@@ -19,7 +19,7 @@ public class ScheduleDto {
 
     private String openingHours;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date day;
 
     private String typeEmployee;
