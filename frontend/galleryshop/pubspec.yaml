@@ -21,6 +21,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_localizations:
+    sdk: flutter
+
   flutter:
     sdk: flutter
 
@@ -58,6 +61,7 @@ dependencies:
   date_format: ^1.0.8
   bloc_pattern: ^1.5.2
   flutter_cupertino_date_picker: ^1.0.26
+  table_calendar: ^2.2.3
 
 
 dev_dependencies:
