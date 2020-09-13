@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
-import 'package:galleryshop/screens/login/login_screen.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
+
 import 'package:provider/provider.dart';
 
 import 'stores/type_employee_store.dart';
@@ -31,9 +33,14 @@ class GalleryShop extends StatelessWidget {
             textTheme: ButtonTextTheme.primary,
           ),
         ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [const Locale('pt', 'BR')],
 //      home: FormCreateNewClient(),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: BaseScreen(),
       ),
     );
   }
