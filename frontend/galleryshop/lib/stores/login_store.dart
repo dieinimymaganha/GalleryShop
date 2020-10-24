@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
 import 'package:galleryshop/models/login.dart';
 import 'package:galleryshop/models/token.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_store.g.dart';
 
@@ -83,6 +83,8 @@ abstract class _LoginStore with Store {
       errorLogin = true;
       loading = false;
     });
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('idEmployee');
     return tokenModel;
   }
 
