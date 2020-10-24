@@ -21,8 +21,8 @@ abstract class _OpeningHoursStore with Store {
 
   _OpeningHoursStore({this.openinigHoursDto}) {
     autorun((_) {
-//      print('>>>>> ${errorSending}');
-      print('duplicate >>>>> ${duplicate}');
+      print('>>>>> ${idEmployee}');
+//      print('duplicate >>>>> ${duplicate}');
     });
   }
 
@@ -321,6 +321,9 @@ abstract class _OpeningHoursStore with Store {
   Future<int> getIdEmployee() async {
     var prefs = await SharedPreferences.getInstance();
     int id = (prefs.getInt("idEmployee"));
+    if(id == null){
+      id = 0;
+    }
     return id;
   }
 
