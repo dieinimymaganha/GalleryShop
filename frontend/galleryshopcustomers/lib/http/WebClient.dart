@@ -1,3 +1,4 @@
+
 import 'package:http/http.dart';
 import 'package:http_interceptor/http_client_with_interceptor.dart';
 
@@ -9,4 +10,4 @@ final Client webClient = HttpClientWithInterceptor.build(
 );
 
 
-const String baseUrl = 'http://192.168.0.102:8080/';
+const String baseUrl = 'http://192.168.0.104:8080/';

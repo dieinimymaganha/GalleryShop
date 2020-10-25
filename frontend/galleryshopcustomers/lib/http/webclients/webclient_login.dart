@@ -1,10 +1,10 @@
 import 'dart:convert';
-
-import 'package:galleryshopcustomers/http/WebClient.dart';
 import 'package:galleryshopcustomers/models/login.dart';
 import 'package:galleryshopcustomers/models/token.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../WebClient.dart';
 
 const urlLogin = baseUrl + 'auth';
 
@@ -18,6 +18,7 @@ class LoginWebClient {
     if (response.statusCode == 200) {
       TokenModel token = TokenModel.fromJson(jsonDecode(response.body));
       prefs.setString("tokenjwt", token.token.toString());
+      prefs.setString("phoneNumber", loginModel.phoneNumber.toString());
       return token;
     }
     throw HttpException(_getMessage(response.statusCode));
