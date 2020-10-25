@@ -49,8 +49,8 @@ abstract class _MyAccountStore with Store {
   @action
   Future<EmployeeDto> getEmployee() async {
     employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
+    var prefs = await SharedPreferences.getInstance();
     if (employeeDto != null) {
-      var prefs = await SharedPreferences.getInstance();
       prefs.setInt("idEmployee", employeeDto.id);
       prefs.setString("nickName", employeeDto.nickname);
     }
