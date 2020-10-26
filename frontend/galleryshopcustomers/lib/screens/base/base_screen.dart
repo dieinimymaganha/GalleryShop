@@ -59,17 +59,8 @@ class _BaseScreenState extends State<BaseScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           HomeScreen(),
-          ClientListScreen(),
-          EmployeeBaseScreen(),
           ScheduleBaseScreen(),
-          AccountsScreen(),
           MyAccountScreen(),
-          BillsToPayScreen(),
-          Bar(),
-          StoreScreen(),
-          ServicesListScreen(),
-          StockScreen(),
-          ReportsScreen(),
         ],
       ),
     );
