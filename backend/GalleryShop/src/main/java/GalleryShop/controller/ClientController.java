@@ -32,82 +32,92 @@ import GalleryShop.repository.ProfileRepository;
 @RequestMapping("/clients")
 public class ClientController {
 
-	@Autowired
-	private ClientRepository clientRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
-	@Autowired
-	private ProfileRepository profileRepository;
+    @Autowired
+    private ProfileRepository profileRepository;
 
-	@GetMapping
-	@Cacheable(value = "customersList")
-	public List<ClientDto> getAll() {
-		List<Client> clients = clientRepository.findAll();
-		return ClientDto.converter(clients);
-	}
+    @GetMapping
+    @Cacheable(value = "customersList")
+    public List<ClientDto> getAll() {
+        List<Client> clients = clientRepository.findAll();
+        return ClientDto.converter(clients);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<ClientDto> getClientId(@PathVariable Long id) {
-		Optional<Client> client = clientRepository.findById(id);
-		if (client.isPresent()) {
-			return ResponseEntity.ok(new ClientDto(client.get()));
-		}
-		return ResponseEntity.notFound().build();
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDto> getClientId(@PathVariable Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isPresent()) {
+            return ResponseEntity.ok(new ClientDto(client.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
 
-	@GetMapping("/cpf={cpf}")
-	public ResponseEntity<ClientDto> getClientCpf(@PathVariable String cpf) {
-		Optional<Client> client = clientRepository.findByCpf(cpf);
-		if (client.isPresent()) {
-			return ResponseEntity.ok(new ClientDto(client.get()));
-		}
-		return ResponseEntity.notFound().build();
-	}
+    @GetMapping("/phoneNumber={phoneNumber}")
+    public ResponseEntity<ClientDto> getClientPhoneNumber(@PathVariable String phoneNumber) {
+        Optional<Client> client = clientRepository.findByPhoneNumber(phoneNumber);
+        if (client.isPresent()) {
+            return ResponseEntity.ok(new ClientDto(client.get()));
+        }
+        return ResponseEntity.notFound().build();
 
-	@PostMapping
-	@Transactional
-	@CacheEvict(value = "customersList", allEntries = true)
-	public ResponseEntity<ClientDto> createNewClient(@RequestBody @Valid ClientForm form,
-			UriComponentsBuilder uriBuilder) {
+    }
 
-		Client client = form.converter(profileRepository);
+    @GetMapping("/cpf={cpf}")
+    public ResponseEntity<ClientDto> getClientCpf(@PathVariable String cpf) {
+        Optional<Client> client = clientRepository.findByCpf(cpf);
+        if (client.isPresent()) {
+            return ResponseEntity.ok(new ClientDto(client.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
 
-		Optional<Client> clientCpf = clientRepository.findByCpf(client.getCpf());
-		Optional<Client> clientPhoneNumber = clientRepository.findByPhoneNumber(client.getPhoneNumber());
-		Optional<Client> clientEmail = clientRepository.findByEmail(client.getEmail());
+    @PostMapping
+    @Transactional
+    @CacheEvict(value = "customersList", allEntries = true)
+    public ResponseEntity<ClientDto> createNewClient(@RequestBody @Valid ClientForm form,
+                                                     UriComponentsBuilder uriBuilder) {
 
-		if(clientCpf.isPresent() || clientPhoneNumber.isPresent() || clientEmail.isPresent() ){
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
+        Client client = form.converter(profileRepository);
 
-		clientRepository.save(client);
-		URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
-		return ResponseEntity.created(uri).body(new ClientDto(client));
-	}
+        Optional<Client> clientCpf = clientRepository.findByCpf(client.getCpf());
+        Optional<Client> clientPhoneNumber = clientRepository.findByPhoneNumber(client.getPhoneNumber());
+        Optional<Client> clientEmail = clientRepository.findByEmail(client.getEmail());
 
-	@PutMapping("/{id}")
-	@Transactional
-	@CacheEvict(value = "customersList", allEntries = true)
-	public ResponseEntity<ClientDto> updateClient(@PathVariable Long id, @RequestBody @Valid ClientForm form) {
-		Optional<Client> optional = clientRepository.findById(id);
+        if (clientCpf.isPresent() || clientPhoneNumber.isPresent() || clientEmail.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
 
-		if (optional.isPresent()) {
-			Client client = form.upload(id, clientRepository);
-			return ResponseEntity.ok(new ClientDto(client));
-		}
-		return ResponseEntity.notFound().build();
-	}
+        clientRepository.save(client);
+        URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
+        return ResponseEntity.created(uri).body(new ClientDto(client));
+    }
 
-	@DeleteMapping("/{id}")
-	@Transactional
-	@CacheEvict(value = "customersList", allEntries = true)
-	public ResponseEntity<?> deleteClient(@PathVariable Long id) {
-		Optional<Client> optional = clientRepository.findById(id);
+    @PutMapping("/{id}")
+    @Transactional
+    @CacheEvict(value = "customersList", allEntries = true)
+    public ResponseEntity<ClientDto> updateClient(@PathVariable Long id, @RequestBody @Valid ClientForm form) {
+        Optional<Client> optional = clientRepository.findById(id);
 
-		if (optional.isPresent()) {
-			clientRepository.deleteById(id);
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.notFound().build();
-	}
+        if (optional.isPresent()) {
+            Client client = form.upload(id, clientRepository);
+            return ResponseEntity.ok(new ClientDto(client));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    @CacheEvict(value = "customersList", allEntries = true)
+    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
+        Optional<Client> optional = clientRepository.findById(id);
+
+        if (optional.isPresent()) {
+            clientRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }
