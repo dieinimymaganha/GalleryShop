@@ -5,9 +5,6 @@ import 'package:galleryshopcustomers/screens/schedule/schedule_test.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_times_screen.dart';
 import 'package:galleryshopcustomers/widgets/drawer/custom_drawer.dart';
 
-import 'opening_hours_screen.dart';
-
-
 class ScheduleBaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -27,10 +24,7 @@ class ScheduleBaseScreen extends StatelessWidget {
                   title: Text('Horário de atendimento'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => OpeningHoursScreen()));
-                },
+                onTap: () {},
               ),
               Divider(
                 color: Colors.grey[400],
@@ -70,8 +64,8 @@ class ScheduleBaseScreen extends StatelessWidget {
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleTest()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ScheduleTest()));
                 },
               ),
               Divider(
