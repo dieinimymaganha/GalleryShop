@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:galleryshopcustomers/data/function_generic.dart';
 import 'package:galleryshopcustomers/models/client.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,23 @@ class ClientWebClient {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       final List<dynamic> data =
           decodeJson.map((dynamic json) => ClientDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<ClientDto> findPhoneNumber(String phoneNumber) async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlClients + "/phoneNumber=" + phoneNumber,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final ClientDto data = ClientDto.fromJson(jsonDecode(response.body));
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));

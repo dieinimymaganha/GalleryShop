@@ -1,4 +1,5 @@
-import 'package:galleryshopcustomers/http/webclients/webclient_employee.dart';
+import 'package:galleryshopcustomers/http/webclients/webclient_client.dart';
+import 'package:galleryshopcustomers/models/client.dart';
 import 'package:galleryshopcustomers/models/employee.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,10 +9,10 @@ part 'my_account_store.g.dart';
 class MyAccountStore = _MyAccountStore with _$MyAccountStore;
 
 abstract class _MyAccountStore with Store {
-  EmployeeWebClient employeeWebClient = EmployeeWebClient();
+  ClientWebClient clientWebClient = ClientWebClient();
 
   @observable
-  EmployeeDto employeeDto = EmployeeDto();
+  ClientDto clienteDto = ClientDto();
 
   _MyAccountStore() {
     autorun((_) {
@@ -28,7 +29,7 @@ abstract class _MyAccountStore with Store {
   @action
   Future<void> setPhoneNumberLogin() async {
     phoneNumberLogin = await getPhoneNumber();
-    await getEmployee();
+    await getClient();
     nickNameLogin = await getNickName();
   }
 
@@ -47,12 +48,12 @@ abstract class _MyAccountStore with Store {
   }
 
   @action
-  Future<EmployeeDto> getEmployee() async {
-    employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
+  Future<EmployeeDto> getClient() async {
+    clienteDto = await clientWebClient.findPhoneNumber(phoneNumberLogin);
     var prefs = await SharedPreferences.getInstance();
-    if (employeeDto != null) {
-      prefs.setInt("idEmployee", employeeDto.id);
-      prefs.setString("nickName", employeeDto.nickname);
+    if (clienteDto != null) {
+      prefs.setInt("idEmployee", clienteDto.id);
+      prefs.setString("nickName", clienteDto.nickname);
     }
   }
 }

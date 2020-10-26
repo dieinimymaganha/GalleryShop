@@ -74,8 +74,8 @@ class ClientDto {
   String email;
   String password;
 
-  ClientDto(this.id, this.name, this.lastName, this.nickname, this.cpf,
-      this.birthdate, this.phoneNumber, this.email, this.password);
+  ClientDto({this.id, this.name, this.lastName, this.nickname, this.cpf,
+      this.birthdate, this.phoneNumber, this.email, this.password});
 
   ClientDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];

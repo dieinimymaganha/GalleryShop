@@ -9,18 +9,18 @@ part of 'my_account_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MyAccountStore on _MyAccountStore, Store {
-  final _$employeeDtoAtom = Atom(name: '_MyAccountStore.employeeDto');
+  final _$clienteDtoAtom = Atom(name: '_MyAccountStore.clienteDto');
 
   @override
-  EmployeeDto get employeeDto {
-    _$employeeDtoAtom.reportRead();
-    return super.employeeDto;
+  ClientDto get clienteDto {
+    _$clienteDtoAtom.reportRead();
+    return super.clienteDto;
   }
 
   @override
-  set employeeDto(EmployeeDto value) {
-    _$employeeDtoAtom.reportWrite(value, super.employeeDto, () {
-      super.employeeDto = value;
+  set clienteDto(ClientDto value) {
+    _$clienteDtoAtom.reportWrite(value, super.clienteDto, () {
+      super.clienteDto = value;
     });
   }
 
@@ -78,17 +78,17 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getNickNameAsyncAction.run(() => super.getNickName());
   }
 
-  final _$getEmployeeAsyncAction = AsyncAction('_MyAccountStore.getEmployee');
+  final _$getClientAsyncAction = AsyncAction('_MyAccountStore.getClient');
 
   @override
-  Future<EmployeeDto> getEmployee() {
-    return _$getEmployeeAsyncAction.run(() => super.getEmployee());
+  Future<EmployeeDto> getClient() {
+    return _$getClientAsyncAction.run(() => super.getClient());
   }
 
   @override
   String toString() {
     return '''
-employeeDto: ${employeeDto},
+clienteDto: ${clienteDto},
 phoneNumberLogin: ${phoneNumberLogin},
 nickNameLogin: ${nickNameLogin}
     ''';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:galleryshopcustomers/blocs/drawer_bloc.dart';
 import 'package:galleryshopcustomers/screens/base/base_screen.dart';
+import 'package:galleryshopcustomers/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -34,7 +35,7 @@ class GalleryShopCustomers extends StatelessWidget {
         supportedLocales: [const Locale('pt', 'BR')],
 //      home: FormCreateNewClient(),
         debugShowCheckedModeBanner: false,
-        home: BaseScreen(),
+        home: LoginScreen(),
       ),
     );
   }
