@@ -31,6 +31,21 @@ mixin _$LoginStore on _LoginStore, Store {
               name: '_LoginStore.loginPressed'))
           .value;
 
+  final _$clienteDtoAtom = Atom(name: '_LoginStore.clienteDto');
+
+  @override
+  ClientDto get clienteDto {
+    _$clienteDtoAtom.reportRead();
+    return super.clienteDto;
+  }
+
+  @override
+  set clienteDto(ClientDto value) {
+    _$clienteDtoAtom.reportWrite(value, super.clienteDto, () {
+      super.clienteDto = value;
+    });
+  }
+
   final _$phoneAtom = Atom(name: '_LoginStore.phone');
 
   @override
@@ -121,6 +136,36 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$phoneNumberLoginAtom = Atom(name: '_LoginStore.phoneNumberLogin');
+
+  @override
+  String get phoneNumberLogin {
+    _$phoneNumberLoginAtom.reportRead();
+    return super.phoneNumberLogin;
+  }
+
+  @override
+  set phoneNumberLogin(String value) {
+    _$phoneNumberLoginAtom.reportWrite(value, super.phoneNumberLogin, () {
+      super.phoneNumberLogin = value;
+    });
+  }
+
+  final _$nickNameLoginAtom = Atom(name: '_LoginStore.nickNameLogin');
+
+  @override
+  String get nickNameLogin {
+    _$nickNameLoginAtom.reportRead();
+    return super.nickNameLogin;
+  }
+
+  @override
+  set nickNameLogin(String value) {
+    _$nickNameLoginAtom.reportWrite(value, super.nickNameLogin, () {
+      super.nickNameLogin = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginStore.login');
 
   @override
@@ -133,6 +178,29 @@ mixin _$LoginStore on _LoginStore, Store {
   @override
   Future<void> save(LoginModel loginCreated) {
     return _$saveAsyncAction.run(() => super.save(loginCreated));
+  }
+
+  final _$setPhoneNumberLoginAsyncAction =
+      AsyncAction('_LoginStore.setPhoneNumberLogin');
+
+  @override
+  Future<void> setPhoneNumberLogin() {
+    return _$setPhoneNumberLoginAsyncAction
+        .run(() => super.setPhoneNumberLogin());
+  }
+
+  final _$getPhoneNumberAsyncAction = AsyncAction('_LoginStore.getPhoneNumber');
+
+  @override
+  Future<String> getPhoneNumber() {
+    return _$getPhoneNumberAsyncAction.run(() => super.getPhoneNumber());
+  }
+
+  final _$getClientAsyncAction = AsyncAction('_LoginStore.getClient');
+
+  @override
+  Future<void> getClient() {
+    return _$getClientAsyncAction.run(() => super.getClient());
   }
 
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
@@ -173,12 +241,15 @@ mixin _$LoginStore on _LoginStore, Store {
   @override
   String toString() {
     return '''
+clienteDto: ${clienteDto},
 phone: ${phone},
 password: ${password},
 obscure: ${obscure},
 loading: ${loading},
 loggedIn: ${loggedIn},
 errorLogin: ${errorLogin},
+phoneNumberLogin: ${phoneNumberLogin},
+nickNameLogin: ${nickNameLogin},
 isPasswordValid: ${isPasswordValid},
 isPhoneValid: ${isPhoneValid},
 loginPressed: ${loginPressed}

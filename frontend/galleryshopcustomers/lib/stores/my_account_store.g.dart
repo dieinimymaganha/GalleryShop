@@ -54,6 +54,21 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     });
   }
 
+  final _$idClientAtom = Atom(name: '_MyAccountStore.idClient');
+
+  @override
+  int get idClient {
+    _$idClientAtom.reportRead();
+    return super.idClient;
+  }
+
+  @override
+  set idClient(int value) {
+    _$idClientAtom.reportWrite(value, super.idClient, () {
+      super.idClient = value;
+    });
+  }
+
   final _$setPhoneNumberLoginAsyncAction =
       AsyncAction('_MyAccountStore.setPhoneNumberLogin');
 
@@ -71,6 +86,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getPhoneNumberAsyncAction.run(() => super.getPhoneNumber());
   }
 
+  final _$getIdClientAsyncAction = AsyncAction('_MyAccountStore.getIdClient');
+
+  @override
+  Future<int> getIdClient() {
+    return _$getIdClientAsyncAction.run(() => super.getIdClient());
+  }
+
   final _$getNickNameAsyncAction = AsyncAction('_MyAccountStore.getNickName');
 
   @override
@@ -78,19 +100,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getNickNameAsyncAction.run(() => super.getNickName());
   }
 
-  final _$getClientAsyncAction = AsyncAction('_MyAccountStore.getClient');
-
-  @override
-  Future<EmployeeDto> getClient() {
-    return _$getClientAsyncAction.run(() => super.getClient());
-  }
-
   @override
   String toString() {
     return '''
 clienteDto: ${clienteDto},
 phoneNumberLogin: ${phoneNumberLogin},
-nickNameLogin: ${nickNameLogin}
+nickNameLogin: ${nickNameLogin},
+idClient: ${idClient}
     ''';
   }
 }

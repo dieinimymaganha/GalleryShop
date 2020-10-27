@@ -1,4 +1,6 @@
+import 'package:galleryshopcustomers/http/webclients/webclient_client.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_login.dart';
+import 'package:galleryshopcustomers/models/client.dart';
 import 'package:galleryshopcustomers/models/login.dart';
 import 'package:galleryshopcustomers/models/token.dart';
 import 'package:mobx/mobx.dart';
@@ -11,13 +13,16 @@ class LoginStore = _LoginStore with _$LoginStore;
 abstract class _LoginStore with Store {
   final LoginWebClient _webClient = LoginWebClient();
 
+  ClientWebClient clientWebClient = ClientWebClient();
+
   _LoginStore() {
     autorun((_) {
-      print('loading : $loading');
-      print('loggedIn : $loggedIn');
-      print("errorLogin : $errorLogin");
+      print('phoneNumberLogin : $phoneNumberLogin');
     });
   }
+
+  @observable
+  ClientDto clienteDto = ClientDto();
 
   @observable
   String phone = '';
@@ -36,6 +41,12 @@ abstract class _LoginStore with Store {
 
   @observable
   bool errorLogin = false;
+
+  @observable
+  String phoneNumberLogin = '';
+
+  @observable
+  String nickNameLogin = '';
 
   @action
   void setObscure() => obscure = !obscure;
@@ -69,6 +80,7 @@ abstract class _LoginStore with Store {
 
     if (tokenModel != null) {
       loggedIn = true;
+      setPhoneNumberLogin();
     } else {
       errorLogin = true;
     }
@@ -76,16 +88,42 @@ abstract class _LoginStore with Store {
     errorLogin = false;
   }
 
+  @action
+  Future<void> setPhoneNumberLogin() async {
+    phoneNumberLogin = await getPhoneNumber();
+    await getClient();
+  }
+
   Future<TokenModel> send(LoginModel loginModel) async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('idClient');
+    await prefs.remove('phoneNumber');
+
     final TokenModel tokenModel =
         await _webClient.sendUser(loginModel).catchError((e) {
       loggedIn = false;
       errorLogin = true;
       loading = false;
     });
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.remove('idEmployee');
+
     return tokenModel;
+  }
+
+  @action
+  Future<String> getPhoneNumber() async {
+    var prefs = await SharedPreferences.getInstance();
+    String phoneNumber = (prefs.getString("phoneNumber") ?? "");
+    return phoneNumber;
+  }
+
+  @action
+  Future<void> getClient() async {
+    clienteDto = await clientWebClient.findPhoneNumber(phoneNumberLogin);
+    var prefs = await SharedPreferences.getInstance();
+    if (clienteDto != null) {
+      prefs.setInt("idClient", clienteDto.id);
+      prefs.setString("nickName", clienteDto.nickname);
+    }
   }
 
   @computed
