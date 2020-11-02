@@ -144,7 +144,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                               )),
                               GestureDetector(
                                 onTap: () {
-                                  print('Clicou');
+                                  print('Clicou ${event.toString()}');
                                 },
                                 child: Column(
                                   children: <Widget>[
@@ -154,9 +154,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                                         alignment: Alignment.center,
                                         width: 200,
                                         decoration: BoxDecoration(
-                                            color: event.available == true
-                                                ? Colors.greenAccent
-                                                : Colors.redAccent,
+                                            color: Colors.green[700],
                                             borderRadius:
                                                 BorderRadius.circular(15),
                                             boxShadow: [
@@ -168,11 +166,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            event.available == true
-                                                ? Text('Agendar')
-                                                : Text('Indisponivel')
-                                          ],
+                                          children: <Widget>[Text('Agendar', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.bold),)],
                                         )),
                                   ],
                                 ),
