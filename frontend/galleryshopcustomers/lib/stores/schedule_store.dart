@@ -1,4 +1,3 @@
-
 import 'package:galleryshopcustomers/http/webclients/webclient_schedule.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
 import 'package:mobx/mobx.dart';
@@ -33,9 +32,11 @@ abstract class _ScheduleStore with Store {
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
-      DateTime date = convertDateFromString(event.day);
-      if (data[date] == null) data[date] = [];
-      data[date].add(event);
+      if (event.available == false) {
+        DateTime date = convertDateFromString(event.day);
+        if (data[date] == null) data[date] = [];
+        data[date].add(event);
+      }
     });
     return data;
   }
