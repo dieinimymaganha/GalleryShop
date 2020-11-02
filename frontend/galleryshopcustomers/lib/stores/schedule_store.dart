@@ -8,9 +8,11 @@ part 'schedule_store.g.dart';
 class ScheduleStore = _ScheduleStore with _$ScheduleStore;
 
 abstract class _ScheduleStore with Store {
-  _ScheduleStore() {
+  final ScheduleDto scheduleDto;
+
+  _ScheduleStore({this.scheduleDto}) {
     autorun((_) {
-      print(selectedEvents);
+      print('Agenda >>>> ${scheduleDto.toString()}');
     });
   }
 
@@ -52,7 +54,5 @@ abstract class _ScheduleStore with Store {
 
 DateTime convertDateFromString(String strDate) {
   DateTime todayDate = DateTime.parse(strDate);
-  print('String >>>> $strDate');
-
   return todayDate;
 }
