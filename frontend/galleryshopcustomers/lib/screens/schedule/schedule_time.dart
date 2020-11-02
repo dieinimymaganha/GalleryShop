@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ScheduleTest extends StatefulWidget {
+class ScheduleTime extends StatefulWidget {
   @override
-  _ScheduleTestState createState() => _ScheduleTestState();
+  _ScheduleTimeState createState() => _ScheduleTimeState();
 }
 
-class _ScheduleTestState extends State<ScheduleTest> {
+class _ScheduleTimeState extends State<ScheduleTime> {
   ScheduleStore scheduleStore = ScheduleStore();
 
   CalendarController _calendarController;
@@ -25,7 +23,7 @@ class _ScheduleTestState extends State<ScheduleTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Teste'),
+        title: Text('Agendar horário'),
       ),
       body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -85,27 +83,27 @@ class _ScheduleTestState extends State<ScheduleTest> {
                     });
                   },
                   builders: CalendarBuilders(
-                      selectedDayBuilder: (context, date, events) => Container(
-                          margin: EdgeInsets.all(4.0),
+                    selectedDayBuilder: (context, date, events) => Container(
+                        margin: EdgeInsets.all(4.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: colorAppbar, shape: BoxShape.circle),
+                        child: Text(
+                          date.day.toString(),
+                          style: TextStyle(color: Colors.white),
+                        )),
+                    todayDayBuilder: (context, date, enevts) {
+                      return Container(
+                          margin: EdgeInsets.all(4),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              color: colorAppbar, shape: BoxShape.circle),
+                              color: Colors.teal.shade300,
+                              shape: BoxShape.circle),
                           child: Text(
                             date.day.toString(),
                             style: TextStyle(color: Colors.white),
-                          )),
-                      todayDayBuilder: (context, date, enevts) {
-                        return Container(
-                            margin: EdgeInsets.all(4),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.teal.shade300,
-                                shape: BoxShape.circle),
-                            child: Text(
-                              date.day.toString(),
-                              style: TextStyle(color: Colors.white),
-                            ));
-                      },
+                          ));
+                    },
                     markersBuilder: (context, date, events, holidays) {
                       final children = <Widget>[];
 
@@ -120,7 +118,7 @@ class _ScheduleTestState extends State<ScheduleTest> {
                       }
                       return children;
                     },
-                      ),
+                  ),
                   calendarController: scheduleStore.calendarController,
                 ),
               ),
@@ -156,7 +154,9 @@ class _ScheduleTestState extends State<ScheduleTest> {
                                         alignment: Alignment.center,
                                         width: 200,
                                         decoration: BoxDecoration(
-                                            color: colorCard,
+                                            color: event.available == true
+                                                ? Colors.greenAccent
+                                                : Colors.redAccent,
                                             borderRadius:
                                                 BorderRadius.circular(15),
                                             boxShadow: [
@@ -169,33 +169,9 @@ class _ScheduleTestState extends State<ScheduleTest> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text('Horário início: '),
-                                                Text(
-                                                  event.startAttendance,
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 12),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(height: 10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text('Horário fim: '),
-                                                Text(
-                                                  event.endAttendance,
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 12),
-                                                ),
-                                              ],
-                                            ),
+                                            event.available == true
+                                                ? Text('Agendar')
+                                                : Text('Indisponivel')
                                           ],
                                         )),
                                   ],
@@ -212,7 +188,6 @@ class _ScheduleTestState extends State<ScheduleTest> {
     );
   }
 
-
   Widget _buildEventsMarker(DateTime date, List events) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -220,7 +195,9 @@ class _ScheduleTestState extends State<ScheduleTest> {
         shape: BoxShape.circle,
         color: scheduleStore.calendarController.isSelected(date)
             ? Colors.green
-            : scheduleStore.calendarController.isToday(date) ? Colors.brown[300] : Colors.blue[400],
+            : scheduleStore.calendarController.isToday(date)
+                ? Colors.brown[300]
+                : Colors.blue[400],
       ),
       width: 16.0,
       height: 16.0,
@@ -235,6 +212,4 @@ class _ScheduleTestState extends State<ScheduleTest> {
       ),
     );
   }
-
-
 }

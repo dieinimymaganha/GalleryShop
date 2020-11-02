@@ -12,15 +12,15 @@ class ScheduleDto {
 
   ScheduleDto(
       {this.id,
-        this.employeeId,
-        this.nicknameEmployee,
-        this.openingHours,
-        this.day,
-        this.typeEmployee,
-        this.attendanceTime,
-        this.startAttendance,
-        this.endAttendance,
-        this.available});
+      this.employeeId,
+      this.nicknameEmployee,
+      this.openingHours,
+      this.day,
+      this.typeEmployee,
+      this.attendanceTime,
+      this.startAttendance,
+      this.endAttendance,
+      this.available});
 
   ScheduleDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,5 +48,10 @@ class ScheduleDto {
     data['endAttendance'] = this.endAttendance;
     data['available'] = this.available;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'ScheduleDto{id: $id, employeeId: $employeeId, nicknameEmployee: $nicknameEmployee, openingHours: $openingHours, day: $day, typeEmployee: $typeEmployee, attendanceTime: $attendanceTime, startAttendance: $startAttendance, endAttendance: $endAttendance, available: $available}';
   }
 }
