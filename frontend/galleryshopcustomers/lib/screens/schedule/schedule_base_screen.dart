@@ -21,18 +21,7 @@ class ScheduleBaseScreen extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 child: ListTile(
-                  title: Text('Horário de atendimento'),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                onTap: () {},
-              ),
-              Divider(
-                color: Colors.grey[400],
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                child: ListTile(
-                  title: Text('Agendamentos'),
+                  title: Text('Horaríos agendados'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
@@ -46,21 +35,7 @@ class ScheduleBaseScreen extends StatelessWidget {
               ),
               GestureDetector(
                 child: ListTile(
-                  title: Text('Minha agenda'),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleScreen()));
-                },
-              ),
-              Divider(
-                color: Colors.grey[400],
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                child: ListTile(
-                  title: Text('Agendas'),
+                  title: Text('Agendar atendimento'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
