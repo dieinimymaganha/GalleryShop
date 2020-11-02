@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import GalleryShop.repository.UserLoginRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import GalleryShop.model.Client;
@@ -53,7 +54,7 @@ public class UserLoginForm {
     }
 
     public UserLogin converter(ClientRepository clientRepository, EmployeeRepository employeeRepository,
-            ProfileRepository profileRepository) {
+                               ProfileRepository profileRepository) {
 
         List<Profile> newListProfile = new ArrayList<>();
 
@@ -79,6 +80,17 @@ public class UserLoginForm {
 
         return null;
 
+    }
+
+    public UserLogin upload(Long id, UserLoginRepository userLoginRepository) {
+        UserLogin userLogin = userLoginRepository.getOne(id);
+
+        if (userLogin != null) {
+            String passwordCrypt = new BCryptPasswordEncoder().encode(password);
+            userLogin.setPassword(passwordCrypt);
+            return userLogin;
+        }
+        return null;
     }
 
 }

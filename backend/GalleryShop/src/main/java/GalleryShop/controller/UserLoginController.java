@@ -3,12 +3,11 @@ package GalleryShop.controller;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import GalleryShop.controller.dto.UserLoginDto;
+import GalleryShop.controller.form.ServiceForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import GalleryShop.controller.form.UserLoginForm;
@@ -17,6 +16,8 @@ import GalleryShop.repository.ClientRepository;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.ProfileRepository;
 import GalleryShop.repository.UserLoginRepository;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -38,7 +39,7 @@ public class UserLoginController {
     @Transactional
     public ResponseEntity<?> createNewUser(@RequestBody @Valid UserLoginForm form, UriComponentsBuilder uriBuilder) {
         UserLogin userLogin = form.converter(clientRepository, employeeRepository, profileRepository);
-        
+
 
         if (userLogin != null) {
 
@@ -50,5 +51,21 @@ public class UserLoginController {
         return ResponseEntity.notFound().build();
 
     }
+
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<UserLoginDto> updatePassword(@PathVariable Long id, @RequestBody UserLoginForm form) {
+        Optional<UserLogin> optional = userLoginRepository.findById(id);
+
+        if (optional.isPresent()) {
+            UserLogin userLogin = form.upload(id, userLoginRepository);
+
+            return ResponseEntity.ok(new UserLoginDto(userLogin));
+
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 
 }
