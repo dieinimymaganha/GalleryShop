@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_screen.dart';
-import 'package:galleryshopcustomers/screens/schedule/schedule_test.dart';
+import 'package:galleryshopcustomers/screens/schedule/schedule_time.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_times_screen.dart';
 import 'package:galleryshopcustomers/widgets/drawer/custom_drawer.dart';
 
@@ -40,7 +40,7 @@ class ScheduleBaseScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ScheduleTest()));
+                      MaterialPageRoute(builder: (context) => ScheduleTime()));
                 },
               ),
               Divider(
