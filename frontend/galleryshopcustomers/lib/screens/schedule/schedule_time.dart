@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
+import 'package:galleryshopcustomers/screens/schedule/widgets/dialog_confirm_schedule.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -144,7 +145,12 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                               )),
                               GestureDetector(
                                 onTap: () {
-                                  print('Clicou ${event.toString()}');
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          DialogConfirmSchedule(
+                                            scheduleDto: event,
+                                          ));
                                 },
                                 child: Column(
                                   children: <Widget>[
@@ -166,7 +172,15 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: <Widget>[Text('Agendar', style: TextStyle(color: Colors.white, fontSize: 12.0, fontWeight: FontWeight.bold),)],
+                                          children: <Widget>[
+                                            Text(
+                                              'Agendar',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12.0,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
                                         )),
                                   ],
                                 ),
