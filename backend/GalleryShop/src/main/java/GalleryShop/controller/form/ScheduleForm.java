@@ -191,7 +191,7 @@ public class ScheduleForm {
                                     || dateFimAfternoon.equals(create.getEndJourneyLate())) {
 
                                 Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
-                                        attendanceTime, dateIniAfternoon, dateIniAfternoon, available);
+                                        attendanceTime, dateIniAfternoon, dateFimAfternoon, available);
                                 listSchedules.add(schedulecreate);
 
 
