@@ -1,4 +1,5 @@
 import 'package:galleryshopcustomers/http/webclients/webclient_schedule.dart';
+import 'package:galleryshopcustomers/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
 import 'package:mobx/mobx.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -12,11 +13,13 @@ abstract class _ScheduleStore with Store {
 
   _ScheduleStore({this.scheduleDto}) {
     autorun((_) {
-      print('Agenda >>>> ${scheduleDto.toString()}');
+      print('Tipos >>>> ${dataServices}');
     });
   }
 
   ScheduleWebClient scheduleWebClient = ScheduleWebClient();
+
+  TypeEmployeeWebClient typeEmployeeWebClient = TypeEmployeeWebClient();
 
   @observable
   CalendarController calendarController = CalendarController();
@@ -29,6 +32,13 @@ abstract class _ScheduleStore with Store {
 
   @observable
   List<dynamic> selectedEvents = List();
+
+
+  @observable
+  List<dynamic> dataServices = List();
+
+  @observable
+  String valueSelect;
 
   @action
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
@@ -50,6 +60,17 @@ abstract class _ScheduleStore with Store {
       events = fromModelToEvent(dataSchedule);
     }
   }
+
+
+  void getServices() async {
+    final response = await typeEmployeeWebClient.findAll();
+    dataServices = response;
+  }
+
+  @action
+  void selectTypeService(String value) => valueSelect = value;
+
+
 }
 
 DateTime convertDateFromString(String strDate) {

@@ -70,6 +70,36 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$dataServicesAtom = Atom(name: '_ScheduleStore.dataServices');
+
+  @override
+  List<dynamic> get dataServices {
+    _$dataServicesAtom.reportRead();
+    return super.dataServices;
+  }
+
+  @override
+  set dataServices(List<dynamic> value) {
+    _$dataServicesAtom.reportWrite(value, super.dataServices, () {
+      super.dataServices = value;
+    });
+  }
+
+  final _$valueSelectAtom = Atom(name: '_ScheduleStore.valueSelect');
+
+  @override
+  String get valueSelect {
+    _$valueSelectAtom.reportRead();
+    return super.valueSelect;
+  }
+
+  @override
+  set valueSelect(String value) {
+    _$valueSelectAtom.reportWrite(value, super.valueSelect, () {
+      super.valueSelect = value;
+    });
+  }
+
   final _$setListScheduleAsyncAction =
       AsyncAction('_ScheduleStore.setListSchedule');
 
@@ -93,12 +123,25 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
+  void selectTypeService(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.selectTypeService');
+    try {
+      return super.selectTypeService(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 calendarController: ${calendarController},
 dataSchedule: ${dataSchedule},
 events: ${events},
-selectedEvents: ${selectedEvents}
+selectedEvents: ${selectedEvents},
+dataServices: ${dataServices},
+valueSelect: ${valueSelect}
     ''';
   }
 }
