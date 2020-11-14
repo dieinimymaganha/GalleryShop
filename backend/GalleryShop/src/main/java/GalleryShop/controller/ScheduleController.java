@@ -7,25 +7,16 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import GalleryShop.controller.form.ScheduleAppointmentForm;
+import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import GalleryShop.controller.dto.ScheduleDto;
 import GalleryShop.controller.form.ScheduleForm;
 import GalleryShop.model.Schedule;
-import GalleryShop.repository.EmployeeRepository;
-import GalleryShop.repository.OpeningHoursRepository;
-import GalleryShop.repository.ScheduleRepository;
-import GalleryShop.repository.TypeEmployeeRepository;
 
 @RestController
 @RequestMapping("/schedules")
@@ -42,6 +33,9 @@ public class ScheduleController {
 
     @Autowired
     TypeEmployeeRepository typeEmployeeRepository;
+
+    @Autowired
+    ClientRepository clientRepository;
 
     @GetMapping
     public List<ScheduleDto> getAll() {
@@ -89,5 +83,20 @@ public class ScheduleController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @PatchMapping("{id}")
+    @Transactional
+    public ResponseEntity<?> scheduleAppointment(@PathVariable Long id, @RequestBody @Valid ScheduleAppointmentForm form, UriComponentsBuilder uriBuilder) {
+        Schedule schedule = form.appointment(id, scheduleRepository, clientRepository);
+
+        if (schedule != null) {
+            scheduleRepository.save(schedule);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
+
+    }
+
 
 }
