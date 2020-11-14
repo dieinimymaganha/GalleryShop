@@ -32,7 +32,12 @@ public class Schedule {
     @JoinColumn(name = "type_employee_id", referencedColumnName = "id")
     private TypeEmployee typeEmployee;
 
-    private @Temporal(TemporalType.DATE) Date day;
+    @OneToOne()
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    private Client client;
+
+    private @Temporal(TemporalType.DATE)
+    Date day;
 
     private LocalTime attendanceTime;
 
@@ -42,8 +47,19 @@ public class Schedule {
 
     private Boolean available;
 
-    public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Date day,
-            LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
+    public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Client client, Date day, LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
+        this.employee = employee;
+        this.openingHours = openingHours;
+        this.typeEmployee = typeEmployee;
+        this.client = client;
+        this.day = day;
+        this.attendanceTime = attendanceTime;
+        this.startAttendance = startAttendance;
+        this.endAttendance = endAttendance;
+        this.available = available;
+    }
+
+    public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Date day, LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
         this.employee = employee;
         this.openingHours = openingHours;
         this.typeEmployee = typeEmployee;
@@ -55,6 +71,14 @@ public class Schedule {
     }
 
     public Schedule() {
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Long getId() {
@@ -131,11 +155,17 @@ public class Schedule {
 
     @Override
     public String toString() {
-        return "Schedule [attendanceTime=" + attendanceTime + ", available=" + available + ", day=" + day
-                + ", employee=" + employee + ", endAttendance=" + endAttendance + ", openingHours=" + openingHours
-                + ", startAttendance=" + startAttendance + ", typeEmployee=" + typeEmployee + "]";
+        return "Schedule{" +
+                "id=" + id +
+                ", employee=" + employee +
+                ", openingHours=" + openingHours +
+                ", typeEmployee=" + typeEmployee +
+                ", client=" + client +
+                ", day=" + day +
+                ", attendanceTime=" + attendanceTime +
+                ", startAttendance=" + startAttendance +
+                ", endAttendance=" + endAttendance +
+                ", available=" + available +
+                '}';
     }
-
-    
-
 }

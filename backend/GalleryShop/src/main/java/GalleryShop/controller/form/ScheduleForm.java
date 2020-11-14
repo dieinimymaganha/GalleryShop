@@ -1,10 +1,7 @@
 package GalleryShop.controller.form;
 
-import GalleryShop.model.Employee;
+import GalleryShop.model.*;
 import GalleryShop.model.Enum.DayOfTheWeek;
-import GalleryShop.model.OpeningHours;
-import GalleryShop.model.Schedule;
-import GalleryShop.model.TypeEmployee;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.OpeningHoursRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
@@ -42,6 +39,11 @@ public class ScheduleForm {
         this.endAttendance = endAttendance;
         this.available = available;
     }
+
+
+
+
+
 
     public Long getEmployeeId() {
         return employeeId;
