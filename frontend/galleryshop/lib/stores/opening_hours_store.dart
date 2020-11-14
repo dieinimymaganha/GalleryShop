@@ -336,7 +336,7 @@ abstract class _OpeningHoursStore with Store {
     await Future.delayed(Duration(seconds: 2));
 //    int response = 409;
     sending = false;
-    if (response == 200) {
+    if (response == 201) {
       created = true;
       await Future.delayed(Duration(seconds: 2));
     } else if (response == 409) {
