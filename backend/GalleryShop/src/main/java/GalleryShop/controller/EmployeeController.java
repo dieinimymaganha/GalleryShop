@@ -69,7 +69,7 @@ public class EmployeeController {
     @PostMapping
     @Transactional
     public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody @Valid EmployeeForm form,
-            UriComponentsBuilder uriBuilder) {
+                                                         UriComponentsBuilder uriBuilder) {
         Employee employee = form.converter(typeEmployeeRepository, profileRepository);
 
         Optional<Employee> employeeCpf = employeeRepository.findByCpf(employee.getCpf());
@@ -116,6 +116,14 @@ public class EmployeeController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+
+    @GetMapping("/typeEmployeeId={id}")
+    @Transactional
+    public List<EmployeeDto> findEmployee(@PathVariable Long id) {
+        List<Employee> listEmployees = employeeRepository.findyEmployeeTypeEmployee(id);
+        return EmployeeDto.converter(listEmployees);
     }
 
 }
