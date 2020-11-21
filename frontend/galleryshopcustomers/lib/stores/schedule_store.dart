@@ -1,6 +1,9 @@
+import 'package:galleryshopcustomers/http/webclients/webclient_employee.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_schedule.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_type_employee.dart';
+import 'package:galleryshopcustomers/models/employee.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
+import 'package:galleryshopcustomers/models/type_employee_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -13,13 +16,15 @@ abstract class _ScheduleStore with Store {
 
   _ScheduleStore({this.scheduleDto}) {
     autorun((_) {
-      print('Tipos >>>> ${dataServices}');
+      print('listEmployee >>>> ${listEmployee}');
     });
   }
 
   ScheduleWebClient scheduleWebClient = ScheduleWebClient();
 
   TypeEmployeeWebClient typeEmployeeWebClient = TypeEmployeeWebClient();
+
+  EmployeeWebClient employeeWebClient = EmployeeWebClient();
 
   @observable
   CalendarController calendarController = CalendarController();
@@ -33,9 +38,20 @@ abstract class _ScheduleStore with Store {
   @observable
   List<dynamic> selectedEvents = List();
 
-
   @observable
   List<dynamic> dataServices = List();
+
+  @observable
+  List<dynamic> listEmployee = List();
+
+  @observable
+  int idFindEmployee;
+
+  @observable
+  String valueSelectEmployee;
+
+  @observable
+  bool loadingListEmployee = true;
 
   @observable
   String valueSelect;
@@ -61,16 +77,35 @@ abstract class _ScheduleStore with Store {
     }
   }
 
-
   void getServices() async {
     final response = await typeEmployeeWebClient.findAll();
     dataServices = response;
   }
 
   @action
+  Future<void> getEmployeeTypeEmployee(int id) async {
+    final response = await employeeWebClient.findEmployeeTypeEmployee(id);
+    listEmployee = response;
+  }
+
+  @action
   void selectTypeService(String value) => valueSelect = value;
 
+  @action
+  void resetEmployee() => valueSelectEmployee = null;
 
+  @action
+  void selectEmployee(String value) => valueSelectEmployee = value;
+
+  @action
+  Future<void> setIdTypeEmployee(String value) async {
+    dataServices.forEach((element) {
+      if (value == element.description) {
+        getEmployeeTypeEmployee(element.id);
+      }
+    });
+    loadingListEmployee = false;
+  }
 }
 
 DateTime convertDateFromString(String strDate) {

@@ -85,6 +85,68 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$listEmployeeAtom = Atom(name: '_ScheduleStore.listEmployee');
+
+  @override
+  List<dynamic> get listEmployee {
+    _$listEmployeeAtom.reportRead();
+    return super.listEmployee;
+  }
+
+  @override
+  set listEmployee(List<dynamic> value) {
+    _$listEmployeeAtom.reportWrite(value, super.listEmployee, () {
+      super.listEmployee = value;
+    });
+  }
+
+  final _$idFindEmployeeAtom = Atom(name: '_ScheduleStore.idFindEmployee');
+
+  @override
+  int get idFindEmployee {
+    _$idFindEmployeeAtom.reportRead();
+    return super.idFindEmployee;
+  }
+
+  @override
+  set idFindEmployee(int value) {
+    _$idFindEmployeeAtom.reportWrite(value, super.idFindEmployee, () {
+      super.idFindEmployee = value;
+    });
+  }
+
+  final _$valueSelectEmployeeAtom =
+      Atom(name: '_ScheduleStore.valueSelectEmployee');
+
+  @override
+  String get valueSelectEmployee {
+    _$valueSelectEmployeeAtom.reportRead();
+    return super.valueSelectEmployee;
+  }
+
+  @override
+  set valueSelectEmployee(String value) {
+    _$valueSelectEmployeeAtom.reportWrite(value, super.valueSelectEmployee, () {
+      super.valueSelectEmployee = value;
+    });
+  }
+
+  final _$loadingListEmployeeAtom =
+      Atom(name: '_ScheduleStore.loadingListEmployee');
+
+  @override
+  bool get loadingListEmployee {
+    _$loadingListEmployeeAtom.reportRead();
+    return super.loadingListEmployee;
+  }
+
+  @override
+  set loadingListEmployee(bool value) {
+    _$loadingListEmployeeAtom.reportWrite(value, super.loadingListEmployee, () {
+      super.loadingListEmployee = value;
+    });
+  }
+
   final _$valueSelectAtom = Atom(name: '_ScheduleStore.valueSelect');
 
   @override
@@ -106,6 +168,24 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   @override
   Future<void> setListSchedule() {
     return _$setListScheduleAsyncAction.run(() => super.setListSchedule());
+  }
+
+  final _$getEmployeeTypeEmployeeAsyncAction =
+      AsyncAction('_ScheduleStore.getEmployeeTypeEmployee');
+
+  @override
+  Future<void> getEmployeeTypeEmployee(int id) {
+    return _$getEmployeeTypeEmployeeAsyncAction
+        .run(() => super.getEmployeeTypeEmployee(id));
+  }
+
+  final _$setIdTypeEmployeeAsyncAction =
+      AsyncAction('_ScheduleStore.setIdTypeEmployee');
+
+  @override
+  Future<void> setIdTypeEmployee(String value) {
+    return _$setIdTypeEmployeeAsyncAction
+        .run(() => super.setIdTypeEmployee(value));
   }
 
   final _$_ScheduleStoreActionController =
@@ -134,6 +214,28 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
+  void resetEmployee() {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.resetEmployee');
+    try {
+      return super.resetEmployee();
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selectEmployee(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.selectEmployee');
+    try {
+      return super.selectEmployee(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 calendarController: ${calendarController},
@@ -141,6 +243,10 @@ dataSchedule: ${dataSchedule},
 events: ${events},
 selectedEvents: ${selectedEvents},
 dataServices: ${dataServices},
+listEmployee: ${listEmployee},
+idFindEmployee: ${idFindEmployee},
+valueSelectEmployee: ${valueSelectEmployee},
+loadingListEmployee: ${loadingListEmployee},
 valueSelect: ${valueSelect}
     ''';
   }
