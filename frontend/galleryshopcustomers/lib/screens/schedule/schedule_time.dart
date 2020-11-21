@@ -5,11 +5,19 @@ import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleTime extends StatefulWidget {
+  final int idEmployee;
+
+  ScheduleTime({this.idEmployee});
+
   @override
-  _ScheduleTimeState createState() => _ScheduleTimeState();
+  _ScheduleTimeState createState() =>
+      _ScheduleTimeState(idEmployee: idEmployee);
 }
 
 class _ScheduleTimeState extends State<ScheduleTime> {
+  _ScheduleTimeState({int idEmployee})
+      : scheduleStore = ScheduleStore(idEmployee: idEmployee);
+
   ScheduleStore scheduleStore = ScheduleStore();
 
   CalendarController _calendarController;
@@ -44,7 +52,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                       style: TextStyle(fontSize: 32),
                     ),
                     SizedBox(height: 10),
-                    Text("Dieinimy - Barbeiro",
+                    Text("Eve - Barbeiro",
                         style: TextStyle(
                             fontSize: 32, fontWeight: FontWeight.bold))
                   ],
