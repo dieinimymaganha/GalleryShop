@@ -20,7 +20,7 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_){
+      builder: (_) {
         return Scaffold(
           appBar: AppBar(
             title: Text('Consultar'),
@@ -32,7 +32,7 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
             child: ListView(
               children: <Widget>[
                 DropdownButton(
-                  hint: Text('Tipo de funcionário'),
+                  hint: Text('Selecione o Tipo de funcionário'),
                   value: scheduleStore.valueSelect,
                   items: scheduleStore.dataServices.map((item) {
                     return DropdownMenuItem(
@@ -42,8 +42,25 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
                   }).toList(),
                   onChanged: (value) {
                     scheduleStore.selectTypeService(value);
+                    scheduleStore.resetEmployee();
+                    scheduleStore.setIdTypeEmployee(value);
                   },
                 ),
+                scheduleStore.loadingListEmployee
+                    ? Text('Texxxti')
+                    : DropdownButton(
+                        hint: Text('Selecione o funcionário'),
+                        value: scheduleStore.valueSelectEmployee,
+                        items: scheduleStore.listEmployee.map((item) {
+                          return DropdownMenuItem(
+                            child: Text(item.nickname.toString()),
+                            value: item.nickname.toString(),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          scheduleStore.selectEmployee(value);
+                        },
+                      ),
               ],
             ),
           ),
