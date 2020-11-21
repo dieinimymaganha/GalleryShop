@@ -1,9 +1,7 @@
 import 'package:galleryshopcustomers/http/webclients/webclient_employee.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_schedule.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_type_employee.dart';
-import 'package:galleryshopcustomers/models/employee.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
-import 'package:galleryshopcustomers/models/type_employee_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -13,10 +11,11 @@ class ScheduleStore = _ScheduleStore with _$ScheduleStore;
 
 abstract class _ScheduleStore with Store {
   final ScheduleDto scheduleDto;
+  int idEmployee;
 
-  _ScheduleStore({this.scheduleDto}) {
+  _ScheduleStore({this.scheduleDto, this.idEmployee}) {
     autorun((_) {
-      print('listEmployee >>>> ${listEmployee}');
+      print('dataSchedule >>>> ${dataSchedule}');
     });
   }
 
@@ -48,7 +47,7 @@ abstract class _ScheduleStore with Store {
   int idFindEmployee;
 
   @observable
-  String valueSelectEmployee;
+  int valueSelectEmployee;
 
   @observable
   bool loadingListEmployee = true;
@@ -71,9 +70,11 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> setListSchedule() async {
-    dataSchedule = await scheduleWebClient.findScheduleIdEmployee('4');
+    dataSchedule = await scheduleWebClient.findScheduleIdEmployee(idEmployee.toString());
     if (dataSchedule.isNotEmpty) {
       events = fromModelToEvent(dataSchedule);
+    }else{
+      print('não carregou');
     }
   }
 
@@ -95,17 +96,37 @@ abstract class _ScheduleStore with Store {
   void resetEmployee() => valueSelectEmployee = null;
 
   @action
-  void selectEmployee(String value) => valueSelectEmployee = value;
+  void selectEmployee(int value) => valueSelectEmployee = value;
+
+  @action
+  void setIdEmployee(int value) => idEmployee = value;
+
+  @observable
+  bool loadingValues = false;
 
   @action
   Future<void> setIdTypeEmployee(String value) async {
+    loadingListEmployee = false;
+    loadingValues = true;
+    await Future.delayed(Duration(seconds: 2));
     dataServices.forEach((element) {
       if (value == element.description) {
         getEmployeeTypeEmployee(element.id);
       }
     });
-    loadingListEmployee = false;
+    loadingValues = false;
   }
+
+  @observable
+  bool sendEmployee = false;
+
+  @action
+  Future<void> buttonPressed() {
+    sendEmployee = true;
+  }
+
+  @computed
+  Function get sendPressed => buttonPressed;
 }
 
 DateTime convertDateFromString(String strDate) {

@@ -9,6 +9,14 @@ part of 'schedule_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ScheduleStore on _ScheduleStore, Store {
+  Computed<Function> _$sendPressedComputed;
+
+  @override
+  Function get sendPressed =>
+      (_$sendPressedComputed ??= Computed<Function>(() => super.sendPressed,
+              name: '_ScheduleStore.sendPressed'))
+          .value;
+
   final _$calendarControllerAtom =
       Atom(name: '_ScheduleStore.calendarController');
 
@@ -119,13 +127,13 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
       Atom(name: '_ScheduleStore.valueSelectEmployee');
 
   @override
-  String get valueSelectEmployee {
+  int get valueSelectEmployee {
     _$valueSelectEmployeeAtom.reportRead();
     return super.valueSelectEmployee;
   }
 
   @override
-  set valueSelectEmployee(String value) {
+  set valueSelectEmployee(int value) {
     _$valueSelectEmployeeAtom.reportWrite(value, super.valueSelectEmployee, () {
       super.valueSelectEmployee = value;
     });
@@ -159,6 +167,36 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   set valueSelect(String value) {
     _$valueSelectAtom.reportWrite(value, super.valueSelect, () {
       super.valueSelect = value;
+    });
+  }
+
+  final _$loadingValuesAtom = Atom(name: '_ScheduleStore.loadingValues');
+
+  @override
+  bool get loadingValues {
+    _$loadingValuesAtom.reportRead();
+    return super.loadingValues;
+  }
+
+  @override
+  set loadingValues(bool value) {
+    _$loadingValuesAtom.reportWrite(value, super.loadingValues, () {
+      super.loadingValues = value;
+    });
+  }
+
+  final _$sendEmployeeAtom = Atom(name: '_ScheduleStore.sendEmployee');
+
+  @override
+  bool get sendEmployee {
+    _$sendEmployeeAtom.reportRead();
+    return super.sendEmployee;
+  }
+
+  @override
+  set sendEmployee(bool value) {
+    _$sendEmployeeAtom.reportWrite(value, super.sendEmployee, () {
+      super.sendEmployee = value;
     });
   }
 
@@ -225,11 +263,33 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
-  void selectEmployee(String value) {
+  void selectEmployee(int value) {
     final _$actionInfo = _$_ScheduleStoreActionController.startAction(
         name: '_ScheduleStore.selectEmployee');
     try {
       return super.selectEmployee(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setIdEmployee(int value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setIdEmployee');
+    try {
+      return super.setIdEmployee(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> buttonPressed() {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.buttonPressed');
+    try {
+      return super.buttonPressed();
     } finally {
       _$_ScheduleStoreActionController.endAction(_$actionInfo);
     }
@@ -247,7 +307,10 @@ listEmployee: ${listEmployee},
 idFindEmployee: ${idFindEmployee},
 valueSelectEmployee: ${valueSelectEmployee},
 loadingListEmployee: ${loadingListEmployee},
-valueSelect: ${valueSelect}
+valueSelect: ${valueSelect},
+loadingValues: ${loadingValues},
+sendEmployee: ${sendEmployee},
+sendPressed: ${sendPressed}
     ''';
   }
 }
