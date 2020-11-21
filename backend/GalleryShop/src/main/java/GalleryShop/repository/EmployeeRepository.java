@@ -1,15 +1,11 @@
 package GalleryShop.repository;
 
-import java.util.List;
-import java.util.Optional;
-
-import GalleryShop.model.TypeEmployee;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import GalleryShop.model.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByPhoneNumber(String phoneNumber);
