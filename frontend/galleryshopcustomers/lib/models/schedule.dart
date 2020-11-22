@@ -55,3 +55,23 @@ class ScheduleDto {
     return 'ScheduleDto{id: $id, employeeId: $employeeId, nicknameEmployee: $nicknameEmployee, openingHours: $openingHours, day: $day, typeEmployee: $typeEmployee, attendanceTime: $attendanceTime, startAttendance: $startAttendance, endAttendance: $endAttendance, available: $available}';
   }
 }
+
+
+class ScheduleAppointmentForm {
+  int clientId;
+  bool avaliable;
+
+  ScheduleAppointmentForm({this.clientId, this.avaliable});
+
+  ScheduleAppointmentForm.fromJson(Map<String, dynamic> json) {
+    clientId = json['clientId'];
+    avaliable = json['avaliable'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['clientId'] = this.clientId;
+    data['avaliable'] = this.avaliable;
+    return data;
+  }
+}
