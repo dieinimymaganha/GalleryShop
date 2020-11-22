@@ -21,10 +21,27 @@ class ScheduleWebClient {
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       final List<dynamic> data =
-      decodeJson.map((dynamic json) => ScheduleDto.fromJson(json)).toList();
+          decodeJson.map((dynamic json) => ScheduleDto.fromJson(json)).toList();
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<int> scheduleAppointment(
+      ScheduleAppointmentForm scheduleAppointmentForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlSchedule + '/' + id.toString();
+
+    final String serviceJson = json.encode(scheduleAppointmentForm.toJson());
+
+    final Response response = await webClient.patch(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
   }
 
   String _getMessage(int statuscode) {
