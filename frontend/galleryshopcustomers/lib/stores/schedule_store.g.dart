@@ -226,6 +226,29 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
         .run(() => super.setIdTypeEmployee(value));
   }
 
+  final _$getIdClientAsyncAction = AsyncAction('_ScheduleStore.getIdClient');
+
+  @override
+  Future<int> getIdClient() {
+    return _$getIdClientAsyncAction.run(() => super.getIdClient());
+  }
+
+  final _$createScheduleAppointmentFormAsyncAction =
+      AsyncAction('_ScheduleStore.createScheduleAppointmentForm');
+
+  @override
+  Future<dynamic> createScheduleAppointmentForm() {
+    return _$createScheduleAppointmentFormAsyncAction
+        .run(() => super.createScheduleAppointmentForm());
+  }
+
+  final _$sendAsyncAction = AsyncAction('_ScheduleStore.send');
+
+  @override
+  Future<void> send(int value) {
+    return _$sendAsyncAction.run(() => super.send(value));
+  }
+
   final _$_ScheduleStoreActionController =
       ActionController(name: '_ScheduleStore');
 

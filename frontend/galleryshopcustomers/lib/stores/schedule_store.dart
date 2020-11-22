@@ -3,6 +3,7 @@ import 'package:galleryshopcustomers/http/webclients/webclient_schedule.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 part 'schedule_store.g.dart';
@@ -70,10 +71,11 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> setListSchedule() async {
-    dataSchedule = await scheduleWebClient.findScheduleIdEmployee(idEmployee.toString());
+    dataSchedule =
+        await scheduleWebClient.findScheduleIdEmployee(idEmployee.toString());
     if (dataSchedule.isNotEmpty) {
       events = fromModelToEvent(dataSchedule);
-    }else{
+    } else {
       print('não carregou');
     }
   }
@@ -127,9 +129,35 @@ abstract class _ScheduleStore with Store {
 
   @computed
   Function get sendPressed => buttonPressed;
-}
 
-DateTime convertDateFromString(String strDate) {
-  DateTime todayDate = DateTime.parse(strDate);
-  return todayDate;
+  @action
+  Future<int> getIdClient() async {
+    var prefs = await SharedPreferences.getInstance();
+    int client = (prefs.getInt("idClient") ?? "");
+    return client;
+  }
+
+  @action
+  Future<ScheduleAppointmentForm> createScheduleAppointmentForm() async {
+    int clientId = await getIdClient();
+    bool avaliable = true;
+    ScheduleAppointmentForm form =
+        ScheduleAppointmentForm(clientId: clientId, avaliable: avaliable);
+    return form;
+  }
+
+
+
+  @action
+  Future<void> send(int value) async {
+    ScheduleAppointmentForm form = await createScheduleAppointmentForm();
+    scheduleWebClient.scheduleAppointment(form, value);
+  }
+
+
+
+  DateTime convertDateFromString(String strDate) {
+    DateTime todayDate = DateTime.parse(strDate);
+    return todayDate;
+  }
 }
