@@ -237,7 +237,7 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
       AsyncAction('_ScheduleStore.createScheduleAppointmentForm');
 
   @override
-  Future<dynamic> createScheduleAppointmentForm() {
+  Future<ScheduleAppointmentForm> createScheduleAppointmentForm() {
     return _$createScheduleAppointmentFormAsyncAction
         .run(() => super.createScheduleAppointmentForm());
   }
