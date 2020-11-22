@@ -8,7 +8,8 @@ class DialogConfirmSchedule extends StatefulWidget {
   DialogConfirmSchedule({this.scheduleDto});
 
   @override
-  _DialogConfirmScheduleState createState() => _DialogConfirmScheduleState(scheduleDto: scheduleDto);
+  _DialogConfirmScheduleState createState() =>
+      _DialogConfirmScheduleState(scheduleDto: scheduleDto);
 }
 
 class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
@@ -33,10 +34,13 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
         'Confirmar',
         style: TextStyle(color: Colors.blue),
       ),
-      content: Text('Horário 09:00 - Dia 25/10'),
+      content: Text(
+          'Horário ${scheduleStore.scheduleDto.startAttendance} | ${scheduleStore.scheduleDto.day}'),
       actions: <Widget>[
         FlatButton(
-          onPressed: () {},
+          onPressed: () {
+            scheduleStore.send(scheduleStore.scheduleDto.id);
+          },
           child: Text(
             'Sim',
             style: TextStyle(fontWeight: FontWeight.w500),
