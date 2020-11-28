@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_consult_services.dart';
-import 'package:galleryshopcustomers/screens/schedule/schedule_screen.dart';
-import 'package:galleryshopcustomers/screens/schedule/schedule_time.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_times_screen.dart';
 import 'package:galleryshopcustomers/widgets/drawer/custom_drawer.dart';
 
