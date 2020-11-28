@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
+import 'package:galleryshopcustomers/widgets/alert_dialog_sending.dart';
+import 'package:galleryshopcustomers/widgets/custom_alert_dialog.dart';
+import 'package:galleryshopcustomers/widgets/dialogs.dart';
+import 'package:mobx/mobx.dart';
+
+import '../schedule_times_screen.dart';
 
 class DialogConfirmSchedule extends StatefulWidget {
   final ScheduleDto scheduleDto;
@@ -18,9 +25,54 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
   _DialogConfirmScheduleState({ScheduleDto scheduleDto})
       : scheduleStore = ScheduleStore(scheduleDto: scheduleDto);
 
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    disposer = reaction((_) => scheduleStore.scheduleOk, (exluded) async {
+      if (exluded) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogScheduleOK());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ScheduleTimesScreen()));
+      }
+    });
+
+    disposer =
+        reaction((_) => scheduleStore.scheduleFail, (excludedFail) async {
+      if (excludedFail) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogScheduleError());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
+
+    disposer =
+        reaction((_) => scheduleStore.scheduleDuplicate, (excludedFail) async {
+      if (excludedFail) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogScheduleBlock());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return buildAlertDiaglo(context);
+    return Observer(
+      builder: (_) {
+        return scheduleStore.scheduleSend
+            ? AlertDialogSending()
+            : buildAlertDialog(context);
+      },
+    );
   }
 
   @override
@@ -28,7 +80,7 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
     super.initState();
   }
 
-  AlertDialog buildAlertDiaglo(BuildContext context) {
+  AlertDialog buildAlertDialog(BuildContext context) {
     return AlertDialog(
       title: Text(
         'Confirmar',
@@ -60,5 +112,44 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
     );
+  }
+
+  CustomAlertDialog buildAlertDialogScheduleOK() {
+    return CustomAlertDialog(
+      icon: Icon(
+        Icons.message,
+        color: Colors.white,
+      ),
+      message: 'Agendado com sucesso!',
+      color: Colors.blueAccent,
+    );
+  }
+
+  CustomAlertDialog buildAlertDialogScheduleError() {
+    return CustomAlertDialog(
+      icon: Icon(
+        Icons.error,
+        color: Colors.white,
+      ),
+      message: 'Falha ao agendar!',
+      color: Colors.redAccent,
+    );
+  }
+
+  CustomAlertDialog buildAlertDialogScheduleBlock() {
+    return CustomAlertDialog(
+      icon: Icon(
+        Icons.message,
+        color: Colors.white,
+      ),
+      message: 'Horário não está mais disponivel',
+      color: Colors.deepOrange,
+    );
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }
