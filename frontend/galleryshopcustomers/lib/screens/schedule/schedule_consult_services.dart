@@ -64,8 +64,8 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
             child: ListView(
               children: <Widget>[
                 DropdownButton(
-                  hint: Text('Selecione o Tipo de funcionário'),
-                  value: scheduleStore.valueSelect,
+                  hint: Text('Selecione o tipo de funcionário'),
+                  value: scheduleStore.valueSelectTypeEmployee,
                   items: scheduleStore.dataServices.map((item) {
                     return DropdownMenuItem(
                       child: Text(item.description.toString()),
@@ -123,7 +123,7 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Login',
+                                'Buscar',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
