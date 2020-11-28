@@ -156,10 +156,41 @@ abstract class _ScheduleStore with Store {
     return form;
   }
 
+  @observable
+  bool scheduleOk = false;
+
+  @observable
+  bool scheduleFail = false;
+
+  @observable
+  bool scheduleDuplicate = false;
+
+  @observable
+  bool scheduleSend = false;
+
   @action
   Future<void> send(int value) async {
     ScheduleAppointmentForm form = await createScheduleAppointmentForm();
-    scheduleWebClient.scheduleAppointment(form, value);
+    scheduleSend = true;
+    int response = await scheduleWebClient.scheduleAppointment(form, value);
+    await Future.delayed(Duration(seconds: 2));
+//    int response = 200;
+    if (response == 200) {
+      scheduleOk = true;
+    } else if (response == 400) {
+      scheduleFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleFail = false;
+      scheduleSend = false;
+    }else if (response == 409){
+      scheduleDuplicate = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleDuplicate = false;
+      scheduleSend = false;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    scheduleOk = false;
   }
 
   DateTime convertDateFromString(String strDate) {

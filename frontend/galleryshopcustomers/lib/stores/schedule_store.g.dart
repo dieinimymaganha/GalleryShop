@@ -225,6 +225,67 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$scheduleOkAtom = Atom(name: '_ScheduleStore.scheduleOk');
+
+  @override
+  bool get scheduleOk {
+    _$scheduleOkAtom.reportRead();
+    return super.scheduleOk;
+  }
+
+  @override
+  set scheduleOk(bool value) {
+    _$scheduleOkAtom.reportWrite(value, super.scheduleOk, () {
+      super.scheduleOk = value;
+    });
+  }
+
+  final _$scheduleFailAtom = Atom(name: '_ScheduleStore.scheduleFail');
+
+  @override
+  bool get scheduleFail {
+    _$scheduleFailAtom.reportRead();
+    return super.scheduleFail;
+  }
+
+  @override
+  set scheduleFail(bool value) {
+    _$scheduleFailAtom.reportWrite(value, super.scheduleFail, () {
+      super.scheduleFail = value;
+    });
+  }
+
+  final _$scheduleDuplicateAtom =
+      Atom(name: '_ScheduleStore.scheduleDuplicate');
+
+  @override
+  bool get scheduleDuplicate {
+    _$scheduleDuplicateAtom.reportRead();
+    return super.scheduleDuplicate;
+  }
+
+  @override
+  set scheduleDuplicate(bool value) {
+    _$scheduleDuplicateAtom.reportWrite(value, super.scheduleDuplicate, () {
+      super.scheduleDuplicate = value;
+    });
+  }
+
+  final _$scheduleSendAtom = Atom(name: '_ScheduleStore.scheduleSend');
+
+  @override
+  bool get scheduleSend {
+    _$scheduleSendAtom.reportRead();
+    return super.scheduleSend;
+  }
+
+  @override
+  set scheduleSend(bool value) {
+    _$scheduleSendAtom.reportWrite(value, super.scheduleSend, () {
+      super.scheduleSend = value;
+    });
+  }
+
   final _$setListScheduleAsyncAction =
       AsyncAction('_ScheduleStore.setListSchedule');
 
@@ -358,6 +419,10 @@ loadingListEmployee: ${loadingListEmployee},
 valueSelectTypeEmployee: ${valueSelectTypeEmployee},
 loadingValues: ${loadingValues},
 sendEmployee: ${sendEmployee},
+scheduleOk: ${scheduleOk},
+scheduleFail: ${scheduleFail},
+scheduleDuplicate: ${scheduleDuplicate},
+scheduleSend: ${scheduleSend},
 isValueSelectEmployeeValid: ${isValueSelectEmployeeValid},
 isValueSelectTypeEmployeeValid: ${isValueSelectTypeEmployeeValid},
 isValidFieldFindSchedule: ${isValidFieldFindSchedule},
