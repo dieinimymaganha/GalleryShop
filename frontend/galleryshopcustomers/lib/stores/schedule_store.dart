@@ -54,7 +54,7 @@ abstract class _ScheduleStore with Store {
   bool loadingListEmployee = true;
 
   @observable
-  String valueSelect;
+  String valueSelectTypeEmployee;
 
   @action
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
@@ -92,7 +92,7 @@ abstract class _ScheduleStore with Store {
   }
 
   @action
-  void selectTypeService(String value) => valueSelect = value;
+  void selectTypeService(String value) => valueSelectTypeEmployee = value;
 
   @action
   void resetEmployee() => valueSelectEmployee = null;
@@ -128,7 +128,17 @@ abstract class _ScheduleStore with Store {
   }
 
   @computed
-  Function get sendPressed => buttonPressed;
+  bool get isValueSelectEmployeeValid => valueSelectEmployee != null;
+
+  @computed
+  bool get isValueSelectTypeEmployeeValid => valueSelectTypeEmployee != null;
+
+  @computed
+  bool get isValidFieldFindSchedule =>
+      (isValueSelectEmployeeValid && isValueSelectTypeEmployeeValid);
+
+  @computed
+  Function get sendPressed => isValidFieldFindSchedule ? buttonPressed : null;
 
   @action
   Future<int> getIdClient() async {
@@ -146,15 +156,11 @@ abstract class _ScheduleStore with Store {
     return form;
   }
 
-
-
   @action
   Future<void> send(int value) async {
     ScheduleAppointmentForm form = await createScheduleAppointmentForm();
     scheduleWebClient.scheduleAppointment(form, value);
   }
-
-
 
   DateTime convertDateFromString(String strDate) {
     DateTime todayDate = DateTime.parse(strDate);

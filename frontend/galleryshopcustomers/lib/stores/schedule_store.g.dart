@@ -9,6 +9,29 @@ part of 'schedule_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ScheduleStore on _ScheduleStore, Store {
+  Computed<bool> _$isValueSelectEmployeeValidComputed;
+
+  @override
+  bool get isValueSelectEmployeeValid =>
+      (_$isValueSelectEmployeeValidComputed ??= Computed<bool>(
+              () => super.isValueSelectEmployeeValid,
+              name: '_ScheduleStore.isValueSelectEmployeeValid'))
+          .value;
+  Computed<bool> _$isValueSelectTypeEmployeeValidComputed;
+
+  @override
+  bool get isValueSelectTypeEmployeeValid =>
+      (_$isValueSelectTypeEmployeeValidComputed ??= Computed<bool>(
+              () => super.isValueSelectTypeEmployeeValid,
+              name: '_ScheduleStore.isValueSelectTypeEmployeeValid'))
+          .value;
+  Computed<bool> _$isValidFieldFindScheduleComputed;
+
+  @override
+  bool get isValidFieldFindSchedule => (_$isValidFieldFindScheduleComputed ??=
+          Computed<bool>(() => super.isValidFieldFindSchedule,
+              name: '_ScheduleStore.isValidFieldFindSchedule'))
+      .value;
   Computed<Function> _$sendPressedComputed;
 
   @override
@@ -155,18 +178,20 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
-  final _$valueSelectAtom = Atom(name: '_ScheduleStore.valueSelect');
+  final _$valueSelectTypeEmployeeAtom =
+      Atom(name: '_ScheduleStore.valueSelectTypeEmployee');
 
   @override
-  String get valueSelect {
-    _$valueSelectAtom.reportRead();
-    return super.valueSelect;
+  String get valueSelectTypeEmployee {
+    _$valueSelectTypeEmployeeAtom.reportRead();
+    return super.valueSelectTypeEmployee;
   }
 
   @override
-  set valueSelect(String value) {
-    _$valueSelectAtom.reportWrite(value, super.valueSelect, () {
-      super.valueSelect = value;
+  set valueSelectTypeEmployee(String value) {
+    _$valueSelectTypeEmployeeAtom
+        .reportWrite(value, super.valueSelectTypeEmployee, () {
+      super.valueSelectTypeEmployee = value;
     });
   }
 
@@ -330,9 +355,12 @@ listEmployee: ${listEmployee},
 idFindEmployee: ${idFindEmployee},
 valueSelectEmployee: ${valueSelectEmployee},
 loadingListEmployee: ${loadingListEmployee},
-valueSelect: ${valueSelect},
+valueSelectTypeEmployee: ${valueSelectTypeEmployee},
 loadingValues: ${loadingValues},
 sendEmployee: ${sendEmployee},
+isValueSelectEmployeeValid: ${isValueSelectEmployeeValid},
+isValueSelectTypeEmployeeValid: ${isValueSelectTypeEmployeeValid},
+isValidFieldFindSchedule: ${isValidFieldFindSchedule},
 sendPressed: ${sendPressed}
     ''';
   }
