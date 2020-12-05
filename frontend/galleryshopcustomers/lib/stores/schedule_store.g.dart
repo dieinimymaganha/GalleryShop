@@ -195,6 +195,21 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$infoScheduleAtom = Atom(name: '_ScheduleStore.infoSchedule');
+
+  @override
+  ScheduleDto get infoSchedule {
+    _$infoScheduleAtom.reportRead();
+    return super.infoSchedule;
+  }
+
+  @override
+  set infoSchedule(ScheduleDto value) {
+    _$infoScheduleAtom.reportWrite(value, super.infoSchedule, () {
+      super.infoSchedule = value;
+    });
+  }
+
   final _$loadingValuesAtom = Atom(name: '_ScheduleStore.loadingValues');
 
   @override
@@ -312,6 +327,14 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
         .run(() => super.setIdTypeEmployee(value));
   }
 
+  final _$buttonPressedAsyncAction =
+      AsyncAction('_ScheduleStore.buttonPressed');
+
+  @override
+  Future<void> buttonPressed() {
+    return _$buttonPressedAsyncAction.run(() => super.buttonPressed());
+  }
+
   final _$getIdClientAsyncAction = AsyncAction('_ScheduleStore.getIdClient');
 
   @override
@@ -337,6 +360,17 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
 
   final _$_ScheduleStoreActionController =
       ActionController(name: '_ScheduleStore');
+
+  @override
+  Future<void> createInfoSchedule() {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.createInfoSchedule');
+    try {
+      return super.createInfoSchedule();
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
@@ -394,17 +428,6 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
-  Future<void> buttonPressed() {
-    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
-        name: '_ScheduleStore.buttonPressed');
-    try {
-      return super.buttonPressed();
-    } finally {
-      _$_ScheduleStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 calendarController: ${calendarController},
@@ -417,6 +440,7 @@ idFindEmployee: ${idFindEmployee},
 valueSelectEmployee: ${valueSelectEmployee},
 loadingListEmployee: ${loadingListEmployee},
 valueSelectTypeEmployee: ${valueSelectTypeEmployee},
+infoSchedule: ${infoSchedule},
 loadingValues: ${loadingValues},
 sendEmployee: ${sendEmployee},
 scheduleOk: ${scheduleOk},

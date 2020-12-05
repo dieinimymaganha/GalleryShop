@@ -17,6 +17,7 @@ abstract class _ScheduleStore with Store {
   _ScheduleStore({this.scheduleDto, this.idEmployee}) {
     autorun((_) {
       print('dataSchedule >>>> ${dataSchedule}');
+      createInfoSchedule();
     });
   }
 
@@ -56,6 +57,14 @@ abstract class _ScheduleStore with Store {
   @observable
   String valueSelectTypeEmployee;
 
+  @observable
+  ScheduleDto infoSchedule;
+
+  @action
+  Future<void> createInfoSchedule() {
+    infoSchedule = dataSchedule.last;
+  }
+
   @action
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
     Map<DateTime, List<dynamic>> data = {};
@@ -75,6 +84,7 @@ abstract class _ScheduleStore with Store {
         await scheduleWebClient.findScheduleIdEmployee(idEmployee.toString());
     if (dataSchedule.isNotEmpty) {
       events = fromModelToEvent(dataSchedule);
+      await createInfoSchedule();
     } else {
       print('não carregou');
     }
@@ -123,7 +133,7 @@ abstract class _ScheduleStore with Store {
   bool sendEmployee = false;
 
   @action
-  Future<void> buttonPressed() {
+  Future<void> buttonPressed() async {
     sendEmployee = true;
   }
 
@@ -182,7 +192,7 @@ abstract class _ScheduleStore with Store {
       await Future.delayed(Duration(seconds: 2));
       scheduleFail = false;
       scheduleSend = false;
-    }else if (response == 409){
+    } else if (response == 409) {
       scheduleDuplicate = true;
       await Future.delayed(Duration(seconds: 2));
       scheduleDuplicate = false;

@@ -20,8 +20,6 @@ class _ScheduleTimeState extends State<ScheduleTime> {
 
   ScheduleStore scheduleStore = ScheduleStore();
 
-  CalendarController _calendarController;
-
   @override
   void initState() {
     super.initState();
@@ -101,7 +99,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                           date.day.toString(),
                           style: TextStyle(color: Colors.white),
                         )),
-                    todayDayBuilder: (context, date, enevts) {
+                    todayDayBuilder: (context, date, events) {
                       return Container(
                           margin: EdgeInsets.all(4),
                           alignment: Alignment.center,
