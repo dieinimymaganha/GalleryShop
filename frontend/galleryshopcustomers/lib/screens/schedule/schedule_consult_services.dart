@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
-import 'package:galleryshopcustomers/screens/schedule/schedule_screen.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_time.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:mobx/mobx.dart';
