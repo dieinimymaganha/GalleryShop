@@ -43,10 +43,10 @@ public class ScheduleController {
         return ScheduleDto.converter(schedules);
     }
 
-    @GetMapping("/employeeId={id}")
-    public List<ScheduleDto> getByIdEmployee(@PathVariable Long id) {
+    @GetMapping("/employeeId={idEmployee}&typeEmployeeId={idTypeEmployee}")
+    public List<ScheduleDto> getByIdEmployee(@PathVariable Long idEmployee,@PathVariable Long idTypeEmployee) {
 
-        List<Schedule> schedules = scheduleRepository.findByEmployeeId(id);
+        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeId(idEmployee,idTypeEmployee);
 
         return ScheduleDto.converter(schedules);
 
