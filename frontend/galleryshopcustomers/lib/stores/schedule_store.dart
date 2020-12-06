@@ -60,6 +60,9 @@ abstract class _ScheduleStore with Store {
   @observable
   ScheduleDto infoSchedule;
 
+  @observable
+  bool loadingPageScheduleTime = false;
+
   @action
   Future<void> createInfoSchedule() {
     infoSchedule = dataSchedule.last;
@@ -76,6 +79,15 @@ abstract class _ScheduleStore with Store {
       }
     });
     return data;
+  }
+
+  @action
+  Future<void> loagingPageInit() async {
+    loadingPageScheduleTime = true;
+    await setListSchedule();
+    if (infoSchedule != null) {
+      loadingPageScheduleTime = false;
+    }
   }
 
   @action

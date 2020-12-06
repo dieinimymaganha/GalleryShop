@@ -210,6 +210,23 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$loadingPageScheduleTimeAtom =
+      Atom(name: '_ScheduleStore.loadingPageScheduleTime');
+
+  @override
+  bool get loadingPageScheduleTime {
+    _$loadingPageScheduleTimeAtom.reportRead();
+    return super.loadingPageScheduleTime;
+  }
+
+  @override
+  set loadingPageScheduleTime(bool value) {
+    _$loadingPageScheduleTimeAtom
+        .reportWrite(value, super.loadingPageScheduleTime, () {
+      super.loadingPageScheduleTime = value;
+    });
+  }
+
   final _$loadingValuesAtom = Atom(name: '_ScheduleStore.loadingValues');
 
   @override
@@ -299,6 +316,14 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     _$scheduleSendAtom.reportWrite(value, super.scheduleSend, () {
       super.scheduleSend = value;
     });
+  }
+
+  final _$loagingPageInitAsyncAction =
+      AsyncAction('_ScheduleStore.loagingPageInit');
+
+  @override
+  Future<void> loagingPageInit() {
+    return _$loagingPageInitAsyncAction.run(() => super.loagingPageInit());
   }
 
   final _$setListScheduleAsyncAction =
@@ -441,6 +466,7 @@ valueSelectEmployee: ${valueSelectEmployee},
 loadingListEmployee: ${loadingListEmployee},
 valueSelectTypeEmployee: ${valueSelectTypeEmployee},
 infoSchedule: ${infoSchedule},
+loadingPageScheduleTime: ${loadingPageScheduleTime},
 loadingValues: ${loadingValues},
 sendEmployee: ${sendEmployee},
 scheduleOk: ${scheduleOk},
