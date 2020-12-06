@@ -59,6 +59,14 @@ public class ScheduleController {
         return ScheduleDto.converter(schedules);
     }
 
+    @GetMapping("/employeeId={id}&available={available}")
+    public List<ScheduleDto> getByEmployeeIdAndAvailable(@PathVariable Long id, @PathVariable Boolean available) {
+        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndAvailable(id, available);
+
+        return ScheduleDto.converter(schedules);
+    }
+
+
     @PostMapping
     @Transactional
     public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
