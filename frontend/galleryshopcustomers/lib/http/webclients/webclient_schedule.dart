@@ -8,10 +8,10 @@ import '../WebClient.dart';
 const urlSchedule = baseUrl + 'schedules';
 
 class ScheduleWebClient {
-  Future<List<ScheduleDto>> findScheduleIdEmployee(String id) async {
+  Future<List<ScheduleDto>> findScheduleIdEmployee(String idEmployee, String idTypeEmployee) async {
     String token = await getToken();
     final Response response = await webClient.get(
-      urlSchedule + "/employeeId=" + id,
+      urlSchedule + "/employeeId=" + idEmployee + "&" + "typeEmployeeId=" + idTypeEmployee,
       headers: {
         'Content-type': 'application/json',
         'Authorization': "Bearer $token"

@@ -13,8 +13,9 @@ class ScheduleStore = _ScheduleStore with _$ScheduleStore;
 abstract class _ScheduleStore with Store {
   final ScheduleDto scheduleDto;
   int idEmployee;
+  int idTypeEmployee;
 
-  _ScheduleStore({this.scheduleDto, this.idEmployee}) {
+  _ScheduleStore({this.scheduleDto, this.idEmployee, this.idTypeEmployee}) {
     autorun((_) {
       print('dataSchedule >>>> ${dataSchedule}');
       createInfoSchedule();
@@ -92,8 +93,8 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> setListSchedule() async {
-    dataSchedule =
-        await scheduleWebClient.findScheduleIdEmployee(idEmployee.toString());
+    dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
+        idEmployee.toString(), idTypeEmployee.toString());
     if (dataSchedule.isNotEmpty) {
       events = fromModelToEvent(dataSchedule);
       await createInfoSchedule();
@@ -132,10 +133,11 @@ abstract class _ScheduleStore with Store {
   Future<void> setIdTypeEmployee(String value) async {
     loadingListEmployee = false;
     loadingValues = true;
-    await Future.delayed(Duration(seconds: 2));
+       await Future.delayed(Duration(seconds: 2));
     dataServices.forEach((element) {
       if (value == element.description) {
         getEmployeeTypeEmployee(element.id);
+        idTypeEmployee = element.id;
       }
     });
     loadingValues = false;

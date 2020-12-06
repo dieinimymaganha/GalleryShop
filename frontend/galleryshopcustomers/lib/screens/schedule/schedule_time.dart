@@ -7,17 +7,19 @@ import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleTime extends StatefulWidget {
   final int idEmployee;
+  final int idTypeEmployee;
 
-  ScheduleTime({this.idEmployee});
+  ScheduleTime({this.idEmployee, this.idTypeEmployee});
 
   @override
-  _ScheduleTimeState createState() =>
-      _ScheduleTimeState(idEmployee: idEmployee);
+  _ScheduleTimeState createState() => _ScheduleTimeState(
+      idEmployee: idEmployee, idTypeEmployee: idTypeEmployee);
 }
 
 class _ScheduleTimeState extends State<ScheduleTime> {
-  _ScheduleTimeState({int idEmployee})
-      : scheduleStore = ScheduleStore(idEmployee: idEmployee);
+  _ScheduleTimeState({int idEmployee, int idTypeEmployee})
+      : scheduleStore = ScheduleStore(
+            idEmployee: idEmployee, idTypeEmployee: idTypeEmployee);
 
   ScheduleStore scheduleStore = ScheduleStore();
 

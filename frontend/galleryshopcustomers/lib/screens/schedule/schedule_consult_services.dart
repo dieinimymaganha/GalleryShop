@@ -40,8 +40,11 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
           duration: Duration(seconds: 2),
         ));
         await Future.delayed(Duration(seconds: 2));
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ScheduleTime(idEmployee: scheduleStore.idEmployee,)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ScheduleTime(
+                  idEmployee: scheduleStore.idEmployee,
+                  idTypeEmployee: scheduleStore.idTypeEmployee,
+                )));
       }
     });
   }
