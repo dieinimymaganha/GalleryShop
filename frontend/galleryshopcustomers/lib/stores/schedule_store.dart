@@ -64,6 +64,12 @@ abstract class _ScheduleStore with Store {
   @observable
   bool loadingPageScheduleTime = false;
 
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
   @action
   Future<void> createInfoSchedule() {
     infoSchedule = dataSchedule.last;
@@ -93,15 +99,28 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> setListSchedule() async {
-    dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
-        idEmployee.toString(), idTypeEmployee.toString());
-    if (dataSchedule.isNotEmpty) {
-      events = fromModelToEvent(dataSchedule);
-      await createInfoSchedule();
-    } else {
-      print('não carregou');
+    try {
+      dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
+          idEmployee.toString(), idTypeEmployee.toString());
+      if (dataSchedule.isNotEmpty) {
+        events = fromModelToEvent(dataSchedule);
+        await createInfoSchedule();
+      } else {
+        errorList = true;
+        listEmpty = true;
+      }
+    } on Exception catch (_) {
+      errorList = true;
     }
   }
+
+  @action
+  Future<void> reloadList() async {
+    errorList = false;
+    loadingPageScheduleTime = false;
+    loagingPageInit();
+  }
+
 
   void getServices() async {
     final response = await typeEmployeeWebClient.findAll();
@@ -133,7 +152,7 @@ abstract class _ScheduleStore with Store {
   Future<void> setIdTypeEmployee(String value) async {
     loadingListEmployee = false;
     loadingValues = true;
-       await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 2));
     dataServices.forEach((element) {
       if (value == element.description) {
         getEmployeeTypeEmployee(element.id);

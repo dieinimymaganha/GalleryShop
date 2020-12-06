@@ -227,6 +227,36 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$errorListAtom = Atom(name: '_ScheduleStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_ScheduleStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
   final _$loadingValuesAtom = Atom(name: '_ScheduleStore.loadingValues');
 
   @override
@@ -332,6 +362,13 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   @override
   Future<void> setListSchedule() {
     return _$setListScheduleAsyncAction.run(() => super.setListSchedule());
+  }
+
+  final _$reloadListAsyncAction = AsyncAction('_ScheduleStore.reloadList');
+
+  @override
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
   final _$getEmployeeTypeEmployeeAsyncAction =
@@ -467,6 +504,8 @@ loadingListEmployee: ${loadingListEmployee},
 valueSelectTypeEmployee: ${valueSelectTypeEmployee},
 infoSchedule: ${infoSchedule},
 loadingPageScheduleTime: ${loadingPageScheduleTime},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
 loadingValues: ${loadingValues},
 sendEmployee: ${sendEmployee},
 scheduleOk: ${scheduleOk},
