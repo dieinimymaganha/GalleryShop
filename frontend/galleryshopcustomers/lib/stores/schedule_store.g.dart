@@ -438,6 +438,15 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     return _$sendAsyncAction.run(() => super.send(value));
   }
 
+  final _$cancelAppointmentAsyncAction =
+      AsyncAction('_ScheduleStore.cancelAppointment');
+
+  @override
+  Future<void> cancelAppointment(int id) {
+    return _$cancelAppointmentAsyncAction
+        .run(() => super.cancelAppointment(id));
+  }
+
   final _$_ScheduleStoreActionController =
       ActionController(name: '_ScheduleStore');
 

@@ -261,6 +261,25 @@ abstract class _ScheduleStore with Store {
     scheduleOk = false;
   }
 
+  @action
+  Future<void> cancelAppointment(int id) async {
+    scheduleSend = true;
+    int response = await scheduleWebClient.cancelAppointment(id);
+    await Future.delayed(Duration(seconds: 2));
+
+//    int response = 2;
+    if (response == 200) {
+      scheduleOk = true;
+    } else {
+      scheduleFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleFail = false;
+      scheduleSend = false;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    scheduleOk = false;
+  }
+
   DateTime convertDateFromString(String strDate) {
     DateTime todayDate = DateTime.parse(strDate);
     return todayDate;
