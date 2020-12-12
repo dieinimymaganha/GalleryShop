@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
@@ -45,7 +46,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    height: 21.0,
+                    height: 18.0,
                     child: Row(
                       children: <Widget>[
                         Text(
@@ -58,6 +59,38 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                     scheduleDto.typeEmployee,
                     style:
                         TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: FlatButton(
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                                Text(
+                                  'Cancelar horário',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              print('${scheduleDto}');
+                            },
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
