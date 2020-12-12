@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
+import 'package:galleryshopcustomers/screens/base/base_screen.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_time.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:mobx/mobx.dart';
@@ -59,6 +60,19 @@ class _ScheduleConsultServicesState extends State<ScheduleConsultServices> {
             title: Text('Consultar agendas'),
             backgroundColor: colorAppbar,
             centerTitle: true,
+              leading: IconButton(
+                icon: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => BaseScreen()));
+                  },
+                ),
+              )
           ),
           body: Container(
             padding: EdgeInsets.only(top: 10, left: 16, right: 16),
