@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
+import 'package:galleryshopcustomers/screens/schedule/schedule_consult_services.dart';
 import 'package:galleryshopcustomers/screens/schedule/widgets/dialog_confirm_schedule.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:galleryshopcustomers/widgets/centered_message.dart';
@@ -37,6 +38,19 @@ class _ScheduleTimeState extends State<ScheduleTime> {
         appBar: AppBar(
           backgroundColor: colorAppbar,
           title: Text('Agendar horário'),
+          centerTitle: true,
+          leading: IconButton(
+            icon: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => ScheduleConsultServices()));
+              },
+            ),
+          ),
         ),
         body: scheduleStore.errorList
             ? Container(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
+import 'package:galleryshopcustomers/screens/schedule/schedule_base_screen.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:galleryshopcustomers/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -26,6 +27,18 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
             title: Text('Horários agendados'),
             centerTitle: true,
             backgroundColor: colorAppbar,
+            leading: IconButton(
+              icon: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => ScheduleBaseScreen()));
+                },
+              ),
+            ),
           ),
           body: scheduleStore.errorList
               ? Container(
