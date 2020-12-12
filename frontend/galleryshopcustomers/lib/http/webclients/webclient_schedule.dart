@@ -50,6 +50,21 @@ class ScheduleWebClient {
     return response.statusCode;
   }
 
+  Future<int> cancelAppointment(int id) async {
+    String token = await getToken();
+    String urlCalncel = urlSchedule + '/cancel/' + id.toString();
+
+    final Response response = await webClient.patch(
+      urlCalncel,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+
+    return response.statusCode;
+  }
+
   Future<List<ScheduleDto>> getAppointmentClient(String clientId) async {
     String token = await getToken();
     final Response response = await webClient.get(
