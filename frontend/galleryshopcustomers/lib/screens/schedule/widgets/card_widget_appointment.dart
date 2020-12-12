@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
+import 'package:galleryshopcustomers/screens/schedule/widgets/dialog_cancel_appointment.dart';
 
 class CardWidgetScheduleAppointment extends StatelessWidget {
   ScheduleDto scheduleDto;
@@ -12,7 +13,9 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Divider(thickness: 1.0,),
+        Divider(
+          thickness: 1.0,
+        ),
         Row(
           children: <Widget>[
             Padding(
@@ -24,7 +27,11 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   lineGen(
-                    lines: [20.0, 30.0, 40.0, 10.0],
+                    lines: [40.0, 30.0, 20.0],
+                  ),
+                  Text(
+                    scheduleDto.endAttendance,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -52,16 +59,18 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                         height: 18.0,
                         child: Row(
                           children: <Widget>[
+                            Text('Profissional: '),
                             Text(
-                                '${scheduleDto.startAttendance} - ${scheduleDto.endAttendance} | '),
-                            Text(scheduleDto.nicknameEmployee),
+                              scheduleDto.nicknameEmployee,
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
                           ],
                         ),
                       ),
                       Text(
                         scheduleDto.typeEmployee,
-                        style:
-                            TextStyle(fontSize: 21.0, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 21.0, fontWeight: FontWeight.bold),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -88,7 +97,12 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                   ],
                                 ),
                                 onPressed: () {
-                                  print('${scheduleDto}');
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          DialogCancelAppointment(
+                                            scheduleDto: scheduleDto,
+                                          ));
                                 },
                               ),
                             ),
@@ -120,12 +134,12 @@ class lineGen extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
-            4,
+            3,
             (index) => Container(
                   height: 2.0,
                   width: lines[index],
                   color: Color(0xffd0d2d8),
-                  margin: EdgeInsets.symmetric(vertical: 14.0),
+                  margin: EdgeInsets.symmetric(vertical: 10.0),
                 )));
   }
 }
