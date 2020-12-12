@@ -356,6 +356,15 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     return _$loagingPageInitAsyncAction.run(() => super.loagingPageInit());
   }
 
+  final _$loadingInitPageAppointmentAsyncAction =
+      AsyncAction('_ScheduleStore.loadingInitPageAppointment');
+
+  @override
+  Future<void> loadingInitPageAppointment() {
+    return _$loadingInitPageAppointmentAsyncAction
+        .run(() => super.loadingInitPageAppointment());
+  }
+
   final _$setListScheduleAsyncAction =
       AsyncAction('_ScheduleStore.setListSchedule');
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
+import 'package:galleryshopcustomers/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'widgets/card_widget_appointment.dart';
@@ -26,7 +27,37 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
-          body: SingleChildScrollView(
+          body: scheduleStore.errorList
+              ? Container(
+                  child: scheduleStore.listEmpty
+                      ? CenteredMessage(
+                          'Não á horários agendados',
+                          icon: Icons.description,
+                        )
+                      : Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 24.0),
+                                child: Text(
+                                  'Falha ao carregar',
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ),
+                              FlatButton(
+                                  child: Text('Clique para recarregar!'),
+                                  onPressed: scheduleStore.reloadList)
+                            ],
+                          ),
+                        ),
+                )
+              : scheduleStore.loadingPageScheduleTime
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,9 +74,9 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                       calendarStyle: CalendarStyle(
                         outsideDaysVisible: false,
                         weekendStyle:
-                            TextStyle().copyWith(color: Colors.blue[800]),
+                        TextStyle().copyWith(color: Colors.blue[800]),
                         holidayStyle:
-                            TextStyle().copyWith(color: Colors.blue[800]),
+                        TextStyle().copyWith(color: Colors.blue[800]),
                       ),
                       availableCalendarFormats: const {
                         CalendarFormat.month: 'Mês',
@@ -57,12 +88,13 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                             color: Colors.blueGrey,
                             borderRadius: BorderRadius.circular(20.0),
                           ),
-                          formatButtonTextStyle: TextStyle(color: Colors.white),
+                          formatButtonTextStyle:
+                          TextStyle(color: Colors.white),
                           formatButtonShowsNext: false),
                       startingDayOfWeek: StartingDayOfWeek.monday,
                       daysOfWeekStyle: DaysOfWeekStyle(
                         weekendStyle:
-                            TextStyle().copyWith(color: Colors.blue[600]),
+                        TextStyle().copyWith(color: Colors.blue[600]),
                       ),
                       onDaySelected: (date, events) {
                         scheduleStore.setListSchedule();
@@ -76,7 +108,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                                 margin: EdgeInsets.all(4.0),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: colorAppbar, shape: BoxShape.circle),
+                                    color: colorAppbar,
+                                    shape: BoxShape.circle),
                                 child: Text(
                                   date.day.toString(),
                                   style: TextStyle(color: Colors.white),
@@ -119,12 +152,12 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )),
                   Column(
-                      children:
-                          scheduleStore.selectedEvents.map<Widget>((schedule) {
-                    return CardWidgetScheduleAppointment(
-                      scheduleDto: schedule,
-                    );
-                  }).toList()),
+                      children: scheduleStore.selectedEvents
+                          .map<Widget>((schedule) {
+                        return CardWidgetScheduleAppointment(
+                          scheduleDto: schedule,
+                        );
+                      }).toList()),
                 ],
               )),
         );
@@ -135,7 +168,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
   @override
   void initState() {
     super.initState();
-    scheduleStore.getAppointmentClient();
+    scheduleStore.loadingInitPageAppointment();
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {

@@ -18,10 +18,7 @@ abstract class _ScheduleStore with Store {
 
   _ScheduleStore(
       {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source}) {
-    autorun((_) {
-      print('dataSchedule >>>> ${dataSchedule}');
-//      print('source >>>> ${source}');
-    });
+    autorun((_) {});
   }
 
   ScheduleWebClient scheduleWebClient = ScheduleWebClient();
@@ -105,6 +102,13 @@ abstract class _ScheduleStore with Store {
     if (infoSchedule != null) {
       loadingPageScheduleTime = false;
     }
+  }
+
+  @action
+  Future<void> loadingInitPageAppointment() async {
+    loadingPageScheduleTime = true;
+    await setListSchedule();
+    loadingPageScheduleTime = false;
   }
 
   @action
