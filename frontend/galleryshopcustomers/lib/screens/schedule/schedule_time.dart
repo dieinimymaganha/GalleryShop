@@ -46,7 +46,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ScheduleConsultServices()));
               },
             ),
