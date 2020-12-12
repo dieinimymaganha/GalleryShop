@@ -101,7 +101,7 @@ public class ScheduleController {
 
     @PatchMapping("{id}")
     @Transactional
-    public ResponseEntity<?> scheduleAppointment(@PathVariable Long id, @RequestBody @Valid ScheduleAppointmentForm form, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> scheduleAppointment(@PathVariable Long id, @RequestBody @Valid ScheduleAppointmentForm form) {
         Schedule schedule = form.appointment(id, scheduleRepository, clientRepository);
 
         if (schedule != null) {
@@ -112,6 +112,25 @@ public class ScheduleController {
         return ResponseEntity.notFound().build();
 
     }
+
+
+    @PatchMapping("cancel/{id}")
+    @Transactional
+    public ResponseEntity<?> scheduleCancelAppointment(@PathVariable Long id) {
+        Schedule schedule = scheduleRepository.getOne(id);
+
+        if (schedule != null) {
+            schedule.setClient(null);
+            schedule.setAvailable(false);
+            scheduleRepository.save(schedule);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+
+    }
+
+
+
 
 
 }
