@@ -14,11 +14,13 @@ abstract class _ScheduleStore with Store {
   final ScheduleDto scheduleDto;
   int idEmployee;
   int idTypeEmployee;
+  String source;
 
-  _ScheduleStore({this.scheduleDto, this.idEmployee, this.idTypeEmployee}) {
+  _ScheduleStore(
+      {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source}) {
     autorun((_) {
       print('dataSchedule >>>> ${dataSchedule}');
-      createInfoSchedule();
+//      print('source >>>> ${source}');
     });
   }
 
@@ -79,10 +81,18 @@ abstract class _ScheduleStore with Store {
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
-      if (event.available == false) {
-        DateTime date = convertDateFromString(event.day);
-        if (data[date] == null) data[date] = [];
-        data[date].add(event);
+      if (source == 'cliente') {
+        if (event.available == true) {
+          DateTime date = convertDateFromString(event.day);
+          if (data[date] == null) data[date] = [];
+          data[date].add(event);
+        }
+      } else {
+        if (event.available == false) {
+          DateTime date = convertDateFromString(event.day);
+          if (data[date] == null) data[date] = [];
+          data[date].add(event);
+        }
       }
     });
     return data;
@@ -100,8 +110,13 @@ abstract class _ScheduleStore with Store {
   @action
   Future<void> setListSchedule() async {
     try {
-      dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
-          idEmployee.toString(), idTypeEmployee.toString());
+      if (source == 'cliente') {
+        await getAppointmentClient();
+      } else {
+        dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
+            idEmployee.toString(), idTypeEmployee.toString());
+      }
+
       if (dataSchedule.isNotEmpty) {
         events = fromModelToEvent(dataSchedule);
         await createInfoSchedule();
