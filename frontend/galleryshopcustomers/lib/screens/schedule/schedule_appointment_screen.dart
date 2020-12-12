@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
+import 'package:galleryshopcustomers/screens/base/base_screen.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_base_screen.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:galleryshopcustomers/widgets/centered_message.dart';
@@ -34,8 +35,9 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => ScheduleBaseScreen()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(
+                      builder: (context) => BaseScreen()));
                 },
               ),
             ),
