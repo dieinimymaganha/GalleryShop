@@ -34,8 +34,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => ScheduleBaseScreen()));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => ScheduleBaseScreen()));
                 },
               ),
             ),
@@ -67,112 +67,107 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                         ),
                 )
               : scheduleStore.loadingPageScheduleTime
-              ? Center(
-            child: CircularProgressIndicator(),
-          )
-              : SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 24.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TableCalendar(
-                      locale: 'pt_BR',
-                      events: scheduleStore.events,
-                      initialCalendarFormat: CalendarFormat.month,
-                      calendarStyle: CalendarStyle(
-                        outsideDaysVisible: false,
-                        weekendStyle:
-                        TextStyle().copyWith(color: Colors.blue[800]),
-                        holidayStyle:
-                        TextStyle().copyWith(color: Colors.blue[800]),
-                      ),
-                      availableCalendarFormats: const {
-                        CalendarFormat.month: 'Mês',
-                        CalendarFormat.week: 'Semana',
-                      },
-                      headerStyle: HeaderStyle(
-                          centerHeaderTitle: true,
-                          formatButtonDecoration: BoxDecoration(
-                            color: Colors.blueGrey,
-                            borderRadius: BorderRadius.circular(20.0),
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 24.0,
                           ),
-                          formatButtonTextStyle:
-                          TextStyle(color: Colors.white),
-                          formatButtonShowsNext: false),
-                      startingDayOfWeek: StartingDayOfWeek.monday,
-                      daysOfWeekStyle: DaysOfWeekStyle(
-                        weekendStyle:
-                        TextStyle().copyWith(color: Colors.blue[600]),
-                      ),
-                      onDaySelected: (date, events) {
-                        scheduleStore.setListSchedule();
-                        setState(() {
-                          scheduleStore.selectedEvents = events;
-                        });
-                      },
-                      builders: CalendarBuilders(
-                        selectedDayBuilder: (context, date, events) =>
-                            Container(
-                                margin: EdgeInsets.all(4.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    color: colorAppbar,
-                                    shape: BoxShape.circle),
-                                child: Text(
-                                  date.day.toString(),
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                        todayDayBuilder: (context, date, events) {
-                          return Container(
-                              margin: EdgeInsets.all(4),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: Colors.teal.shade300,
-                                  shape: BoxShape.circle),
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(color: Colors.white),
-                              ));
-                        },
-                        markersBuilder: (context, date, events, holidays) {
-                          final children = <Widget>[];
-
-                          if (events.isNotEmpty) {
-                            children.add(
-                              Positioned(
-                                right: 1,
-                                bottom: 1,
-                                child: _buildEventsMarker(date, events),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TableCalendar(
+                              locale: 'pt_BR',
+                              events: scheduleStore.events,
+                              initialCalendarFormat: CalendarFormat.month,
+                              calendarStyle: CalendarStyle(
+                                outsideDaysVisible: false,
+                                weekendStyle: TextStyle()
+                                    .copyWith(color: Colors.blue[800]),
+                                holidayStyle: TextStyle()
+                                    .copyWith(color: Colors.blue[800]),
                               ),
+                              availableCalendarFormats: const {
+                                CalendarFormat.month: 'Mês',
+                                CalendarFormat.week: 'Semana',
+                              },
+                              headerStyle: HeaderStyle(
+                                  centerHeaderTitle: true,
+                                  formatButtonDecoration: BoxDecoration(
+                                    color: Colors.blueGrey,
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  formatButtonTextStyle:
+                                      TextStyle(color: Colors.white),
+                                  formatButtonShowsNext: false),
+                              startingDayOfWeek: StartingDayOfWeek.monday,
+                              daysOfWeekStyle: DaysOfWeekStyle(
+                                weekendStyle: TextStyle()
+                                    .copyWith(color: Colors.blue[600]),
+                              ),
+                              onDaySelected: (date, events) {
+                                scheduleStore.setListSchedule();
+                                setState(() {
+                                  scheduleStore.selectedEvents = events;
+                                });
+                              },
+                              builders: CalendarBuilders(
+                                selectedDayBuilder: (context, date, events) =>
+                                    Container(
+                                        margin: EdgeInsets.all(4.0),
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: colorAppbar,
+                                            shape: BoxShape.circle),
+                                        child: Text(
+                                          date.day.toString(),
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                todayDayBuilder: (context, date, events) {
+                                  return Container(
+                                      margin: EdgeInsets.all(4),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: Colors.teal.shade300,
+                                          shape: BoxShape.circle),
+                                      child: Text(
+                                        date.day.toString(),
+                                        style: TextStyle(color: Colors.white),
+                                      ));
+                                },
+                                markersBuilder:
+                                    (context, date, events, holidays) {
+                                  final children = <Widget>[];
+
+                                  if (events.isNotEmpty) {
+                                    children.add(
+                                      Positioned(
+                                        right: 1,
+                                        bottom: 1,
+                                        child: _buildEventsMarker(date, events),
+                                      ),
+                                    );
+                                  }
+                                  return children;
+                                },
+                              ),
+                              calendarController:
+                                  scheduleStore.calendarController,
+                            ),
+                          ),
+                          Column(
+                              children: scheduleStore.selectedEvents
+                                  .map<Widget>((schedule) {
+                            return CardWidgetScheduleAppointment(
+                              scheduleDto: schedule,
                             );
-                          }
-                          return children;
-                        },
-                      ),
-                      calendarController: scheduleStore.calendarController,
-                    ),
-                  ),
-                  Container(
-                      padding: EdgeInsets.symmetric(horizontal: 32),
-                      child: Text(
-                        'Horários',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                          }).toList()),
+                        ],
                       )),
-                  Column(
-                      children: scheduleStore.selectedEvents
-                          .map<Widget>((schedule) {
-                        return CardWidgetScheduleAppointment(
-                          scheduleDto: schedule,
-                        );
-                      }).toList()),
-                ],
-              )),
         );
       },
     );
