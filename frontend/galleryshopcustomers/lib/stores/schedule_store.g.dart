@@ -413,6 +413,15 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
         .run(() => super.createScheduleAppointmentForm());
   }
 
+  final _$getAppointmentClientAsyncAction =
+      AsyncAction('_ScheduleStore.getAppointmentClient');
+
+  @override
+  Future<void> getAppointmentClient() {
+    return _$getAppointmentClientAsyncAction
+        .run(() => super.getAppointmentClient());
+  }
+
   final _$sendAsyncAction = AsyncAction('_ScheduleStore.send');
 
   @override

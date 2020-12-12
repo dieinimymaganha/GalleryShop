@@ -8,10 +8,16 @@ import '../WebClient.dart';
 const urlSchedule = baseUrl + 'schedules';
 
 class ScheduleWebClient {
-  Future<List<ScheduleDto>> findScheduleIdEmployee(String idEmployee, String idTypeEmployee) async {
+  Future<List<ScheduleDto>> findScheduleIdEmployee(
+      String idEmployee, String idTypeEmployee) async {
     String token = await getToken();
     final Response response = await webClient.get(
-      urlSchedule + "/employeeId=" + idEmployee + "&" + "typeEmployeeId=" + idTypeEmployee,
+      urlSchedule +
+          "/employeeId=" +
+          idEmployee +
+          "&" +
+          "typeEmployeeId=" +
+          idTypeEmployee,
       headers: {
         'Content-type': 'application/json',
         'Authorization': "Bearer $token"
@@ -42,6 +48,25 @@ class ScheduleWebClient {
         body: serviceJson);
 
     return response.statusCode;
+  }
+
+  Future<List<ScheduleDto>> getAppointmentClient(String clientId) async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlSchedule + "/clientId=" + clientId,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data =
+          decodeJson.map((dynamic json) => ScheduleDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
   }
 
   String _getMessage(int statuscode) {

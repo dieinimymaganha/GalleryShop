@@ -121,7 +121,6 @@ abstract class _ScheduleStore with Store {
     loagingPageInit();
   }
 
-
   void getServices() async {
     final response = await typeEmployeeWebClient.findAll();
     dataServices = response;
@@ -197,6 +196,13 @@ abstract class _ScheduleStore with Store {
     ScheduleAppointmentForm form =
         ScheduleAppointmentForm(clientId: clientId, avaliable: avaliable);
     return form;
+  }
+
+  @action
+  Future<void> getAppointmentClient() async {
+    int clientId = await getIdClient();
+    dataSchedule =
+        await scheduleWebClient.getAppointmentClient(clientId.toString());
   }
 
   @observable

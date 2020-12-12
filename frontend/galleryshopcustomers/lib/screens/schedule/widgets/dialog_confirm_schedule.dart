@@ -7,7 +7,7 @@ import 'package:galleryshopcustomers/widgets/custom_alert_dialog.dart';
 import 'package:galleryshopcustomers/widgets/dialogs.dart';
 import 'package:mobx/mobx.dart';
 
-import '../schedule_times_screen.dart';
+import '../schedule_appointment_screen.dart';
 
 class DialogConfirmSchedule extends StatefulWidget {
   final ScheduleDto scheduleDto;
@@ -37,7 +37,7 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
             builder: (context) => buildAlertDialogScheduleOK());
         await Future.delayed(Duration(seconds: 2));
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ScheduleTimesScreen()));
+            MaterialPageRoute(builder: (context) => ScheduleAppointmentScreen()));
       }
     });
 

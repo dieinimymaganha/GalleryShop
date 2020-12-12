@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_consult_services.dart';
-import 'package:galleryshopcustomers/screens/schedule/schedule_times_screen.dart';
+import 'package:galleryshopcustomers/screens/schedule/schedule_appointment_screen.dart';
 import 'package:galleryshopcustomers/widgets/drawer/custom_drawer.dart';
 
 class ScheduleBaseScreen extends StatelessWidget {
@@ -25,7 +25,7 @@ class ScheduleBaseScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleTimesScreen()));
+                      builder: (context) => ScheduleAppointmentScreen()));
                 },
               ),
               Divider(
