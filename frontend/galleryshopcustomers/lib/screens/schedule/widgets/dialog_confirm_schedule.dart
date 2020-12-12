@@ -4,7 +4,6 @@ import 'package:galleryshopcustomers/models/schedule.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:galleryshopcustomers/widgets/alert_dialog_sending.dart';
 import 'package:galleryshopcustomers/widgets/custom_alert_dialog.dart';
-import 'package:galleryshopcustomers/widgets/dialogs.dart';
 import 'package:mobx/mobx.dart';
 
 import '../schedule_appointment_screen.dart';
