@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import GalleryShop.controller.form.ScheduleAppointmentForm;
 import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -46,7 +47,8 @@ public class ScheduleController {
     @GetMapping("/employeeId={idEmployee}&typeEmployeeId={idTypeEmployee}")
     public List<ScheduleDto> getByIdEmployee(@PathVariable Long idEmployee, @PathVariable Long idTypeEmployee) {
 
-        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeId(idEmployee, idTypeEmployee);
+        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeId(idEmployee, idTypeEmployee,
+                Sort.by("day").ascending().and(Sort.by("startAttendance").ascending()));
 
         return ScheduleDto.converter(schedules);
 
@@ -54,7 +56,8 @@ public class ScheduleController {
 
     @GetMapping("/clientId={id}")
     public List<ScheduleDto> getByClientId(@PathVariable Long id) {
-        List<Schedule> schedules = scheduleRepository.findByClientId(id);
+        List<Schedule> schedules = scheduleRepository.findByClientId(id, Sort.by("day").ascending().
+                and(Sort.by("startAttendance").ascending()));
 
         return ScheduleDto.converter(schedules);
     }
@@ -128,9 +131,6 @@ public class ScheduleController {
         return ResponseEntity.notFound().build();
 
     }
-
-
-
 
 
 }
