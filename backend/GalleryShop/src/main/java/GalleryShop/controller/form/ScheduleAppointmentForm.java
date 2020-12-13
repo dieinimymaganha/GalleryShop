@@ -22,22 +22,24 @@ public class ScheduleAppointmentForm {
         this.avaliable = avaliable;
     }
 
+    public Long getSheduleId() {
+        return sheduleId;
+    }
 
-    public Schedule appointment(Long id, ScheduleRepository scheduleRepository, ClientRepository clientRepository) {
-        Schedule schedule = scheduleRepository.getOne(id);
+    public Long getClientId() {
+        return clientId;
+    }
 
-        Optional<Client> client = clientRepository.findById(clientId);
+    public Boolean getAvaliable() {
+        return avaliable;
+    }
 
+    public Schedule appointment(Schedule schedule, Client client) {
 
-        if (schedule != null && client.isPresent()) {
-            Client client_recover = client.get();
-            schedule.setAvailable(avaliable);
-            schedule.setClient(client_recover);
+        schedule.setAvailable(avaliable);
+        schedule.setClient(client);
 
-            return schedule;
-        }
-
-        return null;
+        return schedule;
     }
 
 

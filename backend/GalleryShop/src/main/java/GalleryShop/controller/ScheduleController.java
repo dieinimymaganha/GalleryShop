@@ -7,10 +7,15 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import GalleryShop.controller.dto.ClientDto;
+import GalleryShop.controller.form.ClientForm;
 import GalleryShop.controller.form.ScheduleAppointmentForm;
+import GalleryShop.model.Client;
 import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -102,18 +107,33 @@ public class ScheduleController {
         return ResponseEntity.notFound().build();
     }
 
+
     @PatchMapping("{id}")
     @Transactional
     public ResponseEntity<?> scheduleAppointment(@PathVariable Long id, @RequestBody @Valid ScheduleAppointmentForm form) {
-        Schedule schedule = form.appointment(id, scheduleRepository, clientRepository);
 
-        if (schedule != null) {
-            scheduleRepository.save(schedule);
-            return ResponseEntity.ok().build();
+        Schedule schedule = scheduleRepository.getOne(id);
+
+        Optional<Client> client = clientRepository.findById(form.getClientId());
+
+        if (schedule.getAvailable() == true) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+
+        } else if (schedule != null && client.isPresent()) {
+
+            Client client1 = client.get();
+
+            Optional<Schedule> scheduleOptional =
+                    scheduleRepository.findByClientIdAndDayAndStartAttendance(client1.getId(),
+                            schedule.getDay(), schedule.getStartAttendance());
+
+            if (scheduleOptional.isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
+
         }
-
-        return ResponseEntity.notFound().build();
-
+        Schedule scheduleupdate = form.appointment(schedule, client.get());
+        return ResponseEntity.ok().build();
     }
 
 
@@ -125,12 +145,11 @@ public class ScheduleController {
         if (schedule != null) {
             schedule.setClient(null);
             schedule.setAvailable(false);
-            scheduleRepository.save(schedule);
+//            scheduleRepository.save(schedule);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
 
     }
-
 
 }
