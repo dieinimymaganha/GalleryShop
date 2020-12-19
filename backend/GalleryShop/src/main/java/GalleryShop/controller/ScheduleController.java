@@ -131,7 +131,7 @@ public class ScheduleController {
         Optional<Client> client = clientRepository.findById(form.getClientId());
 
         if (schedule.getAvailable() == true) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+            return ResponseEntity.status(HttpStatus.LOCKED).build();
 
         } else if (schedule != null && client.isPresent()) {
 
@@ -149,7 +149,7 @@ public class ScheduleController {
                         && schedule.getEndAttendance().isBefore(scheduleOne.getEndAttendance()))
                         && !(schedule.getEndAttendance().isBefore(scheduleOne.getStartAttendance())
                         && scheduleOne.getEndAttendance().isAfter(schedule.getStartAttendance()))) {
-                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
                 }
             }
 
