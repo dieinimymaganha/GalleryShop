@@ -1,6 +1,9 @@
 package GalleryShop.controller;
 
 import java.net.URI;
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,16 +126,24 @@ public class ScheduleController {
 
             Client client1 = client.get();
 
-            Optional<Schedule> scheduleOptional =
-                    scheduleRepository.findByClientIdAndDayAndStartAttendance(client1.getId(),
-                            schedule.getDay(), schedule.getStartAttendance());
 
-            if (scheduleOptional.isPresent()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            List<Schedule> listSchedule = scheduleRepository.findByClientIdAndDay(client1.getId(), schedule.getDay());
+
+
+            for (Schedule scheduleOne : listSchedule
+            ) {
+                if (scheduleOne.getStartAttendance() == schedule.getStartAttendance()) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                } else if ((schedule.getStartAttendance().isBefore(scheduleOne.getStartAttendance())
+                        && schedule.getEndAttendance().isBefore(scheduleOne.getEndAttendance()))
+                        && !(schedule.getEndAttendance().isBefore(scheduleOne.getStartAttendance())
+                        && scheduleOne.getEndAttendance().isAfter(schedule.getStartAttendance()))) {
+                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                }
             }
 
         }
-        Schedule scheduleupdate = form.appointment(schedule, client.get());
+        Schedule scheduleUpdate = form.appointment(schedule, client.get());
         return ResponseEntity.ok().build();
     }
 
