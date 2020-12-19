@@ -13,7 +13,7 @@ class ScheduleWebClient {
     String token = await getToken();
     final Response response = await webClient.get(
       urlSchedule +
-          "/employeeId=" +
+          "/current/employeeId=" +
           idEmployee +
           "&" +
           "typeEmployeeId=" +
