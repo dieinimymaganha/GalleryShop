@@ -236,24 +236,40 @@ abstract class _ScheduleStore with Store {
   @observable
   bool scheduleSend = false;
 
+  @observable
+  bool scheduleNotAvailable = false;
+
+  @observable
+  bool scheduleConflit = false;
+
   @action
   Future<void> send(int value) async {
     ScheduleAppointmentForm form = await createScheduleAppointmentForm();
     scheduleSend = true;
     int response = await scheduleWebClient.scheduleAppointment(form, value);
     await Future.delayed(Duration(seconds: 2));
-//    int response = 200;
+//    int response = 1;
     if (response == 200) {
       scheduleOk = true;
-    } else if (response == 400) {
-      scheduleFail = true;
-      await Future.delayed(Duration(seconds: 2));
-      scheduleFail = false;
-      scheduleSend = false;
     } else if (response == 409) {
       scheduleDuplicate = true;
       await Future.delayed(Duration(seconds: 2));
       scheduleDuplicate = false;
+      scheduleSend = false;
+    } else if (response == 423) {
+      scheduleNotAvailable = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleNotAvailable = false;
+      scheduleSend = false;
+    } else if (response == 406) {
+      scheduleConflit = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleConflit = false;
+      scheduleSend = false;
+    } else {
+      scheduleFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleFail = false;
       scheduleSend = false;
     }
 

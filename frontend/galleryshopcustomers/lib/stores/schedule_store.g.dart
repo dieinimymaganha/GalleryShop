@@ -348,6 +348,38 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$scheduleNotAvailableAtom =
+      Atom(name: '_ScheduleStore.scheduleNotAvailable');
+
+  @override
+  bool get scheduleNotAvailable {
+    _$scheduleNotAvailableAtom.reportRead();
+    return super.scheduleNotAvailable;
+  }
+
+  @override
+  set scheduleNotAvailable(bool value) {
+    _$scheduleNotAvailableAtom.reportWrite(value, super.scheduleNotAvailable,
+        () {
+      super.scheduleNotAvailable = value;
+    });
+  }
+
+  final _$scheduleConflitAtom = Atom(name: '_ScheduleStore.scheduleConflit');
+
+  @override
+  bool get scheduleConflit {
+    _$scheduleConflitAtom.reportRead();
+    return super.scheduleConflit;
+  }
+
+  @override
+  set scheduleConflit(bool value) {
+    _$scheduleConflitAtom.reportWrite(value, super.scheduleConflit, () {
+      super.scheduleConflit = value;
+    });
+  }
+
   final _$loagingPageInitAsyncAction =
       AsyncAction('_ScheduleStore.loagingPageInit');
 
@@ -539,6 +571,8 @@ scheduleOk: ${scheduleOk},
 scheduleFail: ${scheduleFail},
 scheduleDuplicate: ${scheduleDuplicate},
 scheduleSend: ${scheduleSend},
+scheduleNotAvailable: ${scheduleNotAvailable},
+scheduleConflit: ${scheduleConflit},
 isValueSelectEmployeeValid: ${isValueSelectEmployeeValid},
 isValueSelectTypeEmployeeValid: ${isValueSelectTypeEmployeeValid},
 isValidFieldFindSchedule: ${isValidFieldFindSchedule},

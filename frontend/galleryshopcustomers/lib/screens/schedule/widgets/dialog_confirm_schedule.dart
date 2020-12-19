@@ -41,26 +41,49 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
     });
 
     disposer =
-        reaction((_) => scheduleStore.scheduleFail, (excludedFail) async {
+        reaction((_) => scheduleStore.scheduleDuplicate, (excludedFail) async {
       if (excludedFail) {
         showDialog(
             context: context,
-            builder: (context) => buildAlertDialogScheduleError());
+            builder: (context) => buildAlertDialogDuplicate());
         await Future.delayed(Duration(seconds: 2));
         Navigator.of(context).pop();
       }
     });
 
     disposer =
-        reaction((_) => scheduleStore.scheduleDuplicate, (excludedFail) async {
-      if (excludedFail) {
-        showDialog(
-            context: context,
-            builder: (context) => buildAlertDialogScheduleBlock());
-        await Future.delayed(Duration(seconds: 2));
-        Navigator.of(context).pop();
-      }
-    });
+        reaction((_) => scheduleStore.scheduleNotAvailable, (excludedFail) async {
+          if (excludedFail) {
+            showDialog(
+                context: context,
+                builder: (context) => buildAlertDialogScheduleBlock());
+            await Future.delayed(Duration(seconds: 2));
+            Navigator.of(context).pop();
+          }
+        });
+
+    disposer =
+        reaction((_) => scheduleStore.scheduleConflit, (excludedFail) async {
+          if (excludedFail) {
+            showDialog(
+                context: context,
+                builder: (context) => buildAlertDialogConflit());
+            await Future.delayed(Duration(seconds: 2));
+            Navigator.of(context).pop();
+          }
+        });    disposer =
+        reaction((_) => scheduleStore.scheduleFail, (excludedFail) async {
+          if (excludedFail) {
+            showDialog(
+                context: context,
+                builder: (context) => buildAlertDialogScheduleError());
+            await Future.delayed(Duration(seconds: 2));
+            Navigator.of(context).pop();
+          }
+        });
+
+
+
   }
 
   @override
@@ -130,7 +153,7 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
         Icons.error,
         color: Colors.white,
       ),
-      message: 'Falha ao agendar!',
+      message: 'Falha ao agendar!\nTente novamente',
       color: Colors.redAccent,
     );
   }
@@ -145,6 +168,30 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
       color: Colors.deepOrange,
     );
   }
+
+  CustomAlertDialog buildAlertDialogDuplicate() {
+    return CustomAlertDialog(
+      icon: Icon(
+        Icons.message,
+        color: Colors.white,
+      ),
+      message: 'Já existe agendamento\n nesse mesmo horario',
+      color: Colors.deepOrange,
+    );
+  }
+
+  CustomAlertDialog buildAlertDialogConflit() {
+    return CustomAlertDialog(
+      icon: Icon(
+        Icons.message,
+        color: Colors.white,
+      ),
+      message: 'Conflito de horárioz consulte\n seus horarios agendados',
+      color: Colors.deepOrange,
+    );
+  }
+
+
 
   @override
   void dispose() {
