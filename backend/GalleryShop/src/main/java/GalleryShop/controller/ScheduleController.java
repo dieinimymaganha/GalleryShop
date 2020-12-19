@@ -52,17 +52,29 @@ public class ScheduleController {
         return ScheduleDto.converter(schedules);
     }
 
-    @GetMapping("/employeeId={idEmployee}&typeEmployeeId={idTypeEmployee}")
-    public List<ScheduleDto> getByIdEmployee(@PathVariable Long idEmployee, @PathVariable Long idTypeEmployee) {
+    @GetMapping("current/employeeId={idEmployee}&typeEmployeeId={idTypeEmployee}")
+    public List<ScheduleDto> getByIdEmployeeCurrent(@PathVariable Long idEmployee, @PathVariable Long idTypeEmployee) {
 
-        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeId(idEmployee, idTypeEmployee,
-                Sort.by("day").ascending().and(Sort.by("startAttendance").ascending()));
+//        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeId(idEmployee, idTypeEmployee,
+//                Sort.by("day").ascending().and(Sort.by("startAttendance").ascending()));
+
+
+        List<Schedule> schedules = scheduleRepository.findByEmployeeTypeEmployeeScheduleCurrent(idEmployee, idTypeEmployee);
 
         return ScheduleDto.converter(schedules);
 
     }
 
-    @GetMapping("/clientId={id}")
+
+    @GetMapping("employeeId={idEmployee}&typeEmployeeId={idTypeEmployee}")
+    public List<ScheduleDto> getByIdEmployee(@PathVariable Long idEmployee, @PathVariable Long idTypeEmployee) {
+
+        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeId(idEmployee, idTypeEmployee,
+                Sort.by("day").ascending().and(Sort.by("startAttendance").ascending()));
+        return ScheduleDto.converter(schedules);
+    }
+
+        @GetMapping("/clientId={id}")
     public List<ScheduleDto> getByClientId(@PathVariable Long id) {
         List<Schedule> schedules = scheduleRepository.findByClientId(id, Sort.by("day").ascending().
                 and(Sort.by("startAttendance").ascending()));
@@ -83,7 +95,6 @@ public class ScheduleController {
     public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
                                                          UriComponentsBuilder uriBuilder) {
         List<Schedule> listSchedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository);
-//        System.out.println(listSchedule);
 
         if (!listSchedule.isEmpty()) {
             for (Schedule schedule : listSchedule) {
