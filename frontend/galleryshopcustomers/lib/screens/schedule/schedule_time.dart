@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_consult_services.dart';
+import 'package:galleryshopcustomers/screens/schedule/widgets/card_widget_schedule_time.dart';
 import 'package:galleryshopcustomers/screens/schedule/widgets/dialog_confirm_schedule.dart';
 import 'package:galleryshopcustomers/stores/schedule_store.dart';
 import 'package:galleryshopcustomers/widgets/centered_message.dart';
@@ -100,11 +101,6 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                                 style: TextStyle(fontSize: 32),
                               ),
                               SizedBox(height: 10),
-                              Text(
-                                  "${scheduleStore.infoSchedule.nicknameEmployee} - ${scheduleStore.infoSchedule.typeEmployee}",
-                                  style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold))
                             ],
                           ),
                         ),
@@ -197,76 +193,12 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             )),
                         Column(
-                          children:
-                              scheduleStore.selectedEvents.map<Widget>((event) {
-                            return Container(
-                                padding: EdgeInsets.symmetric(horizontal: 32),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                            child: Text(
-                                          event.startAttendance.toString(),
-                                          style: TextStyle(fontSize: 16),
-                                        )),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) =>
-                                                    DialogConfirmSchedule(
-                                                      scheduleDto: event,
-                                                    ));
-                                          },
-                                          child: Column(
-                                            children: <Widget>[
-                                              Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 10),
-                                                  padding: EdgeInsets.all(10),
-                                                  alignment: Alignment.center,
-                                                  width: 200,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.green[700],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color:
-                                                                Colors.black26,
-                                                            offset:
-                                                                Offset(0, 2),
-                                                            blurRadius: 2.0)
-                                                      ]),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Agendar',
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )
-                                                    ],
-                                                  )),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ));
-                          }).toList(),
-                        ),
+                            children: scheduleStore.selectedEvents
+                                .map<Widget>((schedule) {
+                          return CardWidgetScheduleTime(
+                            scheduleDto: schedule,
+                          );
+                        }).toList()),
                       ],
                     )),
       );
