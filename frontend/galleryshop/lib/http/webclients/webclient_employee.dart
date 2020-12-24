@@ -46,6 +46,28 @@ class EmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+
+  Future<EmployeeDto> findById(String id) async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlEmployee + "/" + id,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final EmployeeDto data = EmployeeDto.fromJson(jsonDecode(response.body));
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+
+
+
+
   Future<int> save(EmployeeForm employeeForm) async {
     String token = await getToken();
     final String employeeJson = jsonEncode(employeeForm.toJson());
