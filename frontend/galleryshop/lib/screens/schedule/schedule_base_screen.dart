@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/schedule/opening_hours_screen.dart';
+import 'package:galleryshop/screens/schedule/schedule_my_schedule_options.dart';
 import 'package:galleryshop/screens/schedule/schedule_screen.dart';
-import 'package:galleryshop/screens/schedule/schedule_test.dart';
 import 'package:galleryshop/screens/schedule/schedule_times_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
@@ -22,7 +22,7 @@ class ScheduleBaseScreen extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 child: ListTile(
-                  title: Text('Horário de atendimento'),
+                  title: Text('Meu horário de atendimento'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
@@ -36,7 +36,7 @@ class ScheduleBaseScreen extends StatelessWidget {
               ),
               GestureDetector(
                 child: ListTile(
-                  title: Text('Agendamentos'),
+                  title: Text('Horários agendados'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
@@ -55,7 +55,7 @@ class ScheduleBaseScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleScreen()));
+                      builder: (context) => ScheduleMyOptions()));
                 },
               ),
               Divider(
@@ -64,12 +64,11 @@ class ScheduleBaseScreen extends StatelessWidget {
               ),
               GestureDetector(
                 child: ListTile(
-                  title: Text('Agendas'),
+                  title: Text('Consultar agendas'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleTest()));
+
                 },
               ),
               Divider(
