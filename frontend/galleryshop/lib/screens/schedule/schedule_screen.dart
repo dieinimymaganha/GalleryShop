@@ -4,11 +4,23 @@ import 'package:galleryshop/stores/schedule_store.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleScreen extends StatefulWidget {
+  final int idEmployee;
+  final int idTypeEmployee;
+
+
+  ScheduleScreen({this.idEmployee, this.idTypeEmployee});
+
   @override
-  _ScheduleScreenState createState() => _ScheduleScreenState();
+  _ScheduleScreenState createState() =>
+      _ScheduleScreenState(
+          idEmployee: idEmployee, idTypeEmployee: idTypeEmployee);
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+  _ScheduleScreenState({int idEmployee, int idTypeEmployee})
+      : scheduleStore = ScheduleStore(
+      idEmployee: idEmployee, idTypeEmployee: idTypeEmployee);
+
   ScheduleStore scheduleStore = ScheduleStore();
 
   CalendarController _controller;
@@ -17,7 +29,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   void initState() {
     super.initState();
     _controller = CalendarController();
-    scheduleStore.setListSchedule();
+    scheduleStore.setListMySchedule();
   }
 
   @override
