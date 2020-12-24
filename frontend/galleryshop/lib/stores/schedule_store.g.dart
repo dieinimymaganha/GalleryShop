@@ -9,6 +9,21 @@ part of 'schedule_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ScheduleStore on _ScheduleStore, Store {
+  final _$employeeDtoAtom = Atom(name: '_ScheduleStore.employeeDto');
+
+  @override
+  EmployeeDto get employeeDto {
+    _$employeeDtoAtom.reportRead();
+    return super.employeeDto;
+  }
+
+  @override
+  set employeeDto(EmployeeDto value) {
+    _$employeeDtoAtom.reportWrite(value, super.employeeDto, () {
+      super.employeeDto = value;
+    });
+  }
+
   final _$calendarControllerAtom =
       Atom(name: '_ScheduleStore.calendarController');
 
@@ -70,12 +85,77 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
-  final _$setListScheduleAsyncAction =
-      AsyncAction('_ScheduleStore.setListSchedule');
+  final _$optionsMyScheduleAtom =
+      Atom(name: '_ScheduleStore.optionsMySchedule');
 
   @override
-  Future<void> setListSchedule() {
-    return _$setListScheduleAsyncAction.run(() => super.setListSchedule());
+  List<dynamic> get optionsMySchedule {
+    _$optionsMyScheduleAtom.reportRead();
+    return super.optionsMySchedule;
+  }
+
+  @override
+  set optionsMySchedule(List<dynamic> value) {
+    _$optionsMyScheduleAtom.reportWrite(value, super.optionsMySchedule, () {
+      super.optionsMySchedule = value;
+    });
+  }
+
+  final _$loadingPageScheduleTimeAtom =
+      Atom(name: '_ScheduleStore.loadingPageScheduleTime');
+
+  @override
+  bool get loadingPageScheduleTime {
+    _$loadingPageScheduleTimeAtom.reportRead();
+    return super.loadingPageScheduleTime;
+  }
+
+  @override
+  set loadingPageScheduleTime(bool value) {
+    _$loadingPageScheduleTimeAtom
+        .reportWrite(value, super.loadingPageScheduleTime, () {
+      super.loadingPageScheduleTime = value;
+    });
+  }
+
+  final _$infoScheduleAtom = Atom(name: '_ScheduleStore.infoSchedule');
+
+  @override
+  ScheduleDto get infoSchedule {
+    _$infoScheduleAtom.reportRead();
+    return super.infoSchedule;
+  }
+
+  @override
+  set infoSchedule(ScheduleDto value) {
+    _$infoScheduleAtom.reportWrite(value, super.infoSchedule, () {
+      super.infoSchedule = value;
+    });
+  }
+
+  final _$setOptionsMyScheduleAsyncAction =
+      AsyncAction('_ScheduleStore.setOptionsMySchedule');
+
+  @override
+  Future<void> setOptionsMySchedule() {
+    return _$setOptionsMyScheduleAsyncAction
+        .run(() => super.setOptionsMySchedule());
+  }
+
+  final _$setListMyScheduleAsyncAction =
+      AsyncAction('_ScheduleStore.setListMySchedule');
+
+  @override
+  Future<void> setListMySchedule() {
+    return _$setListMyScheduleAsyncAction.run(() => super.setListMySchedule());
+  }
+
+  final _$loagingPageInitAsyncAction =
+      AsyncAction('_ScheduleStore.loagingPageInit');
+
+  @override
+  Future<void> loagingPageInit() {
+    return _$loagingPageInitAsyncAction.run(() => super.loagingPageInit());
   }
 
   final _$_ScheduleStoreActionController =
@@ -95,10 +175,14 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   @override
   String toString() {
     return '''
+employeeDto: ${employeeDto},
 calendarController: ${calendarController},
 dataSchedule: ${dataSchedule},
 events: ${events},
-selectedEvents: ${selectedEvents}
+selectedEvents: ${selectedEvents},
+optionsMySchedule: ${optionsMySchedule},
+loadingPageScheduleTime: ${loadingPageScheduleTime},
+infoSchedule: ${infoSchedule}
     ''';
   }
 }
