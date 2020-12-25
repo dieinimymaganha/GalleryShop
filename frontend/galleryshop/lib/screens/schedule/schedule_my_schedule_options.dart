@@ -3,6 +3,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
 
+import 'schedule_my_schedule.dart';
+
 class ScheduleMyOptions extends StatefulWidget {
   @override
   _ScheduleMyOptionsState createState() => _ScheduleMyOptionsState();
@@ -41,7 +43,11 @@ class _ScheduleMyOptionsState extends State<ScheduleMyOptions> {
                           trailing: Icon(Icons.keyboard_arrow_right),
                         ),
                         onTap: () {
-                          print(typeEmployee.id);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ScheduleMySchedule(
+                                    idEmployee: scheduleStore.employeeDto.id,
+                                    idTypeEmployee: typeEmployee.id,
+                                  )));
                         },
                       ),
                       Divider(
