@@ -29,6 +29,29 @@ class TypeEmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+
+  Future<TypeEmployeeDto> findByIdTypeEmployee(String id) async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlTypeEmployee + "/" + id,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final TypeEmployeeDto data = TypeEmployeeDto.fromJson(jsonDecode(response.body));
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+
+
+
+
+
   Future<int> save(TypeEmployeeForm typeEmployee) async {
     String token = await getToken();
     final String typeEmployeeJson = jsonEncode(typeEmployee.toJson());
