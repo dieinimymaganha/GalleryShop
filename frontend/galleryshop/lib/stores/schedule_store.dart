@@ -1,7 +1,9 @@
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_schedule.dart';
+import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/models/schedule.dart';
+import 'package:galleryshop/models/type_employee_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -19,7 +21,8 @@ abstract class _ScheduleStore with Store {
   _ScheduleStore(
       {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source}) {
     autorun((_) {
-      print(employeeDto);
+      print('>>>>> ${typeEmployeeDto.toString()}');
+      print('id >>>>> ${idTypeEmployee}');
     });
   }
 
@@ -29,6 +32,8 @@ abstract class _ScheduleStore with Store {
   ScheduleWebClient scheduleWebClient = ScheduleWebClient();
 
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
+
+  TypeEmployeeWebClient typeEmployeeWebClient = TypeEmployeeWebClient();
 
   @observable
   CalendarController calendarController = CalendarController();
@@ -49,7 +54,16 @@ abstract class _ScheduleStore with Store {
   bool loadingPageScheduleTime = false;
 
   @observable
-  ScheduleDto infoSchedule;
+  TypeEmployeeDto typeEmployeeDto;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @observable
+  bool errorLoadingTypeEmployee = false;
 
   @action
   Future<void> setOptionsMySchedule() async {
@@ -71,10 +85,17 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> setListMySchedule() async {
-    dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
-        idEmployee.toString(), idTypeEmployee.toString());
-    if (dataSchedule.isNotEmpty) {
-      events = fromModelToEvent(dataSchedule);
+    try {
+      dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
+          idEmployee.toString(), idTypeEmployee.toString());
+      if (dataSchedule.isNotEmpty) {
+        events = fromModelToEvent(dataSchedule);
+      } else {
+        errorList = true;
+        listEmpty = true;
+      }
+    } on Exception catch (_) {
+      errorList = true;
     }
   }
 
@@ -82,9 +103,28 @@ abstract class _ScheduleStore with Store {
   Future<void> loagingPageInit() async {
     loadingPageScheduleTime = true;
     await setListMySchedule();
-    if (infoSchedule != null) {
+    if (typeEmployeeDto != null) {
       loadingPageScheduleTime = false;
     }
+  }
+
+  @action
+  Future<void> createInfoSchedule() async {
+    try {
+      typeEmployeeDto = await typeEmployeeWebClient
+          .findByIdTypeEmployee(idTypeEmployee.toString());
+      errorLoadingTypeEmployee = false;
+    } on Exception catch (_) {
+      errorLoadingTypeEmployee = true;
+    }
+  }
+
+  @action
+  Future<void> reloadList() async {
+    errorList = false;
+    loadingPageScheduleTime = false;
+    createInfoSchedule();
+    loagingPageInit();
   }
 }
 
