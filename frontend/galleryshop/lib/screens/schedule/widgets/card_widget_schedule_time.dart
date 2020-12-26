@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/schedule.dart';
+import 'package:galleryshop/screens/schedule/schedule_confirm_appointment.dart';
 
 class CardWidgetScheduleTime extends StatelessWidget {
   ScheduleDto scheduleDto;
@@ -95,6 +96,9 @@ class CardWidgetScheduleTime extends StatelessWidget {
                                   ],
                                 ),
                                 onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          ScheduleConfirmAppointment()));
 //                                  showDialog(
 //                                      context: context,
 //                                      builder: (context) =>

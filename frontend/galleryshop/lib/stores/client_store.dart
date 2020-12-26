@@ -4,6 +4,7 @@ import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client.dart';
 import 'package:galleryshop/models/profile.dart';
 import 'package:mobx/mobx.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'client_store.g.dart';
 
@@ -14,7 +15,7 @@ abstract class _ClientStore with Store {
 
   _ClientStore() {
     autorun((_) {
-      print('phoneNumber >>> $phoneNumber');
+      print(listClientDto);
     });
   }
 
@@ -163,8 +164,6 @@ abstract class _ClientStore with Store {
     errorSending = false;
     created = false;
     duplicate = false;
-
-
   }
 
   @computed
@@ -182,6 +181,54 @@ abstract class _ClientStore with Store {
   @observable
   List<dynamic> listClient = List();
 
+  @observable
+  ObservableList<ClientDto> listClientDto =
+      ObservableList<ClientDto>().asObservable();
+
+  @observable
+  String filter = '';
+
+  @action
+  setFilter(String value) => filter = value;
+
+  @computed
+  List<ClientDto> get lisFiltered {
+    if (filter.isEmpty) {
+      return listClientDto;
+    } else {
+      return listClientDto.where((element) {
+        if (element.cpf.contains(filter)) {
+          return element.cpf.contains(filter);
+        } else if (element.nickname
+            .toLowerCase()
+            .contains(filter.toLowerCase())) {
+          return element.nickname.toLowerCase().contains(filter.toLowerCase());
+        } else if (element.phoneNumber.contains(filter)) {
+          return element.phoneNumber.contains(filter);
+        }
+        return element.name.toLowerCase().contains(filter.toLowerCase());
+      }).toList();
+    }
+  }
+
+  @action
+  void setListDto() {
+    if (listClient.isEmpty) {
+      print('vazia');
+    } else {
+      listClient.forEach((element) {
+        if (element != null) {
+          ClientDto cli = element;
+          print(cli.toString());
+          listClientDto.add(element);
+        }
+      });
+    }
+  }
+
+  @computed
+  List<ClientDto> get listFiltered {}
+
   @action
   Future<void> setList() async {
     loading = true;
@@ -198,6 +245,7 @@ abstract class _ClientStore with Store {
       errorList = true;
     }
     loading = false;
+    setListDto();
   }
 
   @action

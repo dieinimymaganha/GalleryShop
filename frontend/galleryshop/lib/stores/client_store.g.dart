@@ -72,6 +72,20 @@ mixin _$ClientStore on _ClientStore, Store {
           Computed<Function>(() => super.buttomSavePressed,
               name: '_ClientStore.buttomSavePressed'))
       .value;
+  Computed<List<ClientDto>> _$lisFilteredComputed;
+
+  @override
+  List<ClientDto> get lisFiltered => (_$lisFilteredComputed ??=
+          Computed<List<ClientDto>>(() => super.lisFiltered,
+              name: '_ClientStore.lisFiltered'))
+      .value;
+  Computed<List<ClientDto>> _$listFilteredComputed;
+
+  @override
+  List<ClientDto> get listFiltered => (_$listFilteredComputed ??=
+          Computed<List<ClientDto>>(() => super.listFiltered,
+              name: '_ClientStore.listFiltered'))
+      .value;
 
   final _$formStateAtom = Atom(name: '_ClientStore.formState');
 
@@ -430,6 +444,36 @@ mixin _$ClientStore on _ClientStore, Store {
     });
   }
 
+  final _$listClientDtoAtom = Atom(name: '_ClientStore.listClientDto');
+
+  @override
+  ObservableList<ClientDto> get listClientDto {
+    _$listClientDtoAtom.reportRead();
+    return super.listClientDto;
+  }
+
+  @override
+  set listClientDto(ObservableList<ClientDto> value) {
+    _$listClientDtoAtom.reportWrite(value, super.listClientDto, () {
+      super.listClientDto = value;
+    });
+  }
+
+  final _$filterAtom = Atom(name: '_ClientStore.filter');
+
+  @override
+  String get filter {
+    _$filterAtom.reportRead();
+    return super.filter;
+  }
+
+  @override
+  set filter(String value) {
+    _$filterAtom.reportWrite(value, super.filter, () {
+      super.filter = value;
+    });
+  }
+
   final _$saveClientAsyncAction = AsyncAction('_ClientStore.saveClient');
 
   @override
@@ -542,6 +586,28 @@ mixin _$ClientStore on _ClientStore, Store {
   }
 
   @override
+  dynamic setFilter(String value) {
+    final _$actionInfo = _$_ClientStoreActionController.startAction(
+        name: '_ClientStore.setFilter');
+    try {
+      return super.setFilter(value);
+    } finally {
+      _$_ClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListDto() {
+    final _$actionInfo = _$_ClientStoreActionController.startAction(
+        name: '_ClientStore.setListDto');
+    try {
+      return super.setListDto();
+    } finally {
+      _$_ClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 formState: ${formState},
@@ -567,6 +633,8 @@ loading: ${loading},
 errorList: ${errorList},
 listEmpty: ${listEmpty},
 listClient: ${listClient},
+listClientDto: ${listClientDto},
+filter: ${filter},
 nameIsValid: ${nameIsValid},
 lastNameIsValid: ${lastNameIsValid},
 nickNameIsValid: ${nickNameIsValid},
@@ -575,7 +643,9 @@ phoneNumberIsValid: ${phoneNumberIsValid},
 cpfIsValid: ${cpfIsValid},
 emailIsValid: ${emailIsValid},
 fieldIsValid: ${fieldIsValid},
-buttomSavePressed: ${buttomSavePressed}
+buttomSavePressed: ${buttomSavePressed},
+lisFiltered: ${lisFiltered},
+listFiltered: ${listFiltered}
     ''';
   }
 }
