@@ -100,4 +100,9 @@ class ClientDto {
     data['password'] = this.password;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'ClientDto{id: $id, name: $name, lastName: $lastName, nickname: $nickname, cpf: $cpf, birthdate: $birthdate, phoneNumber: $phoneNumber, email: $email, password: $password}';
+  }
 }
