@@ -180,6 +180,99 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$scheduleSendAtom = Atom(name: '_ScheduleStore.scheduleSend');
+
+  @override
+  bool get scheduleSend {
+    _$scheduleSendAtom.reportRead();
+    return super.scheduleSend;
+  }
+
+  @override
+  set scheduleSend(bool value) {
+    _$scheduleSendAtom.reportWrite(value, super.scheduleSend, () {
+      super.scheduleSend = value;
+    });
+  }
+
+  final _$scheduleOkAtom = Atom(name: '_ScheduleStore.scheduleOk');
+
+  @override
+  bool get scheduleOk {
+    _$scheduleOkAtom.reportRead();
+    return super.scheduleOk;
+  }
+
+  @override
+  set scheduleOk(bool value) {
+    _$scheduleOkAtom.reportWrite(value, super.scheduleOk, () {
+      super.scheduleOk = value;
+    });
+  }
+
+  final _$scheduleDuplicateAtom =
+      Atom(name: '_ScheduleStore.scheduleDuplicate');
+
+  @override
+  bool get scheduleDuplicate {
+    _$scheduleDuplicateAtom.reportRead();
+    return super.scheduleDuplicate;
+  }
+
+  @override
+  set scheduleDuplicate(bool value) {
+    _$scheduleDuplicateAtom.reportWrite(value, super.scheduleDuplicate, () {
+      super.scheduleDuplicate = value;
+    });
+  }
+
+  final _$scheduleNotAvailableAtom =
+      Atom(name: '_ScheduleStore.scheduleNotAvailable');
+
+  @override
+  bool get scheduleNotAvailable {
+    _$scheduleNotAvailableAtom.reportRead();
+    return super.scheduleNotAvailable;
+  }
+
+  @override
+  set scheduleNotAvailable(bool value) {
+    _$scheduleNotAvailableAtom.reportWrite(value, super.scheduleNotAvailable,
+        () {
+      super.scheduleNotAvailable = value;
+    });
+  }
+
+  final _$scheduleConflitAtom = Atom(name: '_ScheduleStore.scheduleConflit');
+
+  @override
+  bool get scheduleConflit {
+    _$scheduleConflitAtom.reportRead();
+    return super.scheduleConflit;
+  }
+
+  @override
+  set scheduleConflit(bool value) {
+    _$scheduleConflitAtom.reportWrite(value, super.scheduleConflit, () {
+      super.scheduleConflit = value;
+    });
+  }
+
+  final _$scheduleFailAtom = Atom(name: '_ScheduleStore.scheduleFail');
+
+  @override
+  bool get scheduleFail {
+    _$scheduleFailAtom.reportRead();
+    return super.scheduleFail;
+  }
+
+  @override
+  set scheduleFail(bool value) {
+    _$scheduleFailAtom.reportWrite(value, super.scheduleFail, () {
+      super.scheduleFail = value;
+    });
+  }
+
   final _$setOptionsMyScheduleAsyncAction =
       AsyncAction('_ScheduleStore.setOptionsMySchedule');
 
@@ -221,6 +314,24 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
+  final _$createScheduleAppointmentFormAsyncAction =
+      AsyncAction('_ScheduleStore.createScheduleAppointmentForm');
+
+  @override
+  Future<ScheduleAppointmentForm> createScheduleAppointmentForm() {
+    return _$createScheduleAppointmentFormAsyncAction
+        .run(() => super.createScheduleAppointmentForm());
+  }
+
+  final _$sendConfirmScheduleEmployeeAsyncAction =
+      AsyncAction('_ScheduleStore.sendConfirmScheduleEmployee');
+
+  @override
+  Future<void> sendConfirmScheduleEmployee(int idSchedule) {
+    return _$sendConfirmScheduleEmployeeAsyncAction
+        .run(() => super.sendConfirmScheduleEmployee(idSchedule));
+  }
+
   final _$_ScheduleStoreActionController =
       ActionController(name: '_ScheduleStore');
 
@@ -248,7 +359,13 @@ loadingPageScheduleTime: ${loadingPageScheduleTime},
 typeEmployeeDto: ${typeEmployeeDto},
 errorList: ${errorList},
 listEmpty: ${listEmpty},
-errorLoadingTypeEmployee: ${errorLoadingTypeEmployee}
+errorLoadingTypeEmployee: ${errorLoadingTypeEmployee},
+scheduleSend: ${scheduleSend},
+scheduleOk: ${scheduleOk},
+scheduleDuplicate: ${scheduleDuplicate},
+scheduleNotAvailable: ${scheduleNotAvailable},
+scheduleConflit: ${scheduleConflit},
+scheduleFail: ${scheduleFail}
     ''';
   }
 }

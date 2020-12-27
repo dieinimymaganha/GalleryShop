@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_schedule.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
@@ -21,7 +22,11 @@ abstract class _ScheduleStore with Store {
   String source;
 
   _ScheduleStore(
-      {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source, this.clientDto}) {
+      {this.scheduleDto,
+      this.idEmployee,
+      this.idTypeEmployee,
+      this.source,
+      this.clientDto}) {
     autorun((_) {
       print('>>>>> ${typeEmployeeDto.toString()}');
       print('id >>>>> ${idTypeEmployee}');
@@ -127,6 +132,66 @@ abstract class _ScheduleStore with Store {
     loadingPageScheduleTime = false;
     createInfoSchedule();
     loagingPageInit();
+  }
+
+  @action
+  Future<ScheduleAppointmentForm> createScheduleAppointmentForm() async {
+    ScheduleAppointmentForm form =
+        ScheduleAppointmentForm(avaliable: true, clientId: clientDto.id);
+    return form;
+  }
+
+  @observable
+  bool scheduleSend = false;
+
+  @observable
+  bool scheduleOk = false;
+
+  @observable
+  bool scheduleDuplicate = false;
+
+  @observable
+  bool scheduleNotAvailable = false;
+
+  @observable
+  bool scheduleConflit = false;
+
+  @observable
+  bool scheduleFail = false;
+
+  @action
+  Future<void> sendConfirmScheduleEmployee(int idSchedule) async {
+    ScheduleAppointmentForm form = await createScheduleAppointmentForm();
+    scheduleSend = true;
+    int response = await scheduleWebClient.scheduleAppointment(form, idSchedule);
+    await Future.delayed(Duration(seconds: 2));
+//    int response = 200;
+    if (response == 200) {
+      scheduleOk = true;
+    } else if (response == 409) {
+      scheduleDuplicate = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleDuplicate = false;
+      scheduleSend = false;
+    } else if (response == 423) {
+      scheduleNotAvailable = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleNotAvailable = false;
+      scheduleSend = false;
+    } else if (response == 406) {
+      scheduleConflit = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleConflit = false;
+      scheduleSend = false;
+    } else {
+      scheduleFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      scheduleFail = false;
+      scheduleSend = false;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    scheduleOk = false;
   }
 }
 
