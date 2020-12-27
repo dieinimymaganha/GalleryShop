@@ -1,6 +1,7 @@
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_schedule.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
+import 'package:galleryshop/models/client.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/models/schedule.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
@@ -14,12 +15,13 @@ class ScheduleStore = _ScheduleStore with _$ScheduleStore;
 
 abstract class _ScheduleStore with Store {
   final ScheduleDto scheduleDto;
+  final ClientDto clientDto;
   int idEmployee;
   int idTypeEmployee;
   String source;
 
   _ScheduleStore(
-      {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source}) {
+      {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source, this.clientDto}) {
     autorun((_) {
       print('>>>>> ${typeEmployeeDto.toString()}');
       print('id >>>>> ${idTypeEmployee}');
