@@ -28,8 +28,7 @@ abstract class _ScheduleStore with Store {
       this.source,
       this.clientDto}) {
     autorun((_) {
-      print('>>>>> ${typeEmployeeDto.toString()}');
-      print('id >>>>> ${idTypeEmployee}');
+      print('Employee >>>>> ${employeeDto}');
     });
   }
 
@@ -72,11 +71,24 @@ abstract class _ScheduleStore with Store {
   @observable
   bool errorLoadingTypeEmployee = false;
 
+  @observable
+  bool errorLoadingOptionsMySchedule = false;
+
   @action
   Future<void> setOptionsMySchedule() async {
     var prefs = await SharedPreferences.getInstance();
     int idEmployee = (prefs.getInt("idEmployee") ?? "");
-    employeeDto = await employeeWebClient.findById(idEmployee.toString());
+    try {
+      errorLoadingOptionsMySchedule = false;
+      employeeDto = await employeeWebClient.findById(idEmployee.toString());
+    } on Exception catch (_) {
+      errorLoadingOptionsMySchedule = true;
+    }
+  }
+
+  @action
+  Future<void> realoadListOptionsMySchedule() async {
+    await setOptionsMySchedule();
   }
 
   @action
@@ -163,7 +175,8 @@ abstract class _ScheduleStore with Store {
   Future<void> sendConfirmScheduleEmployee(int idSchedule) async {
     ScheduleAppointmentForm form = await createScheduleAppointmentForm();
     scheduleSend = true;
-    int response = await scheduleWebClient.scheduleAppointment(form, idSchedule);
+    int response =
+        await scheduleWebClient.scheduleAppointment(form, idSchedule);
     await Future.delayed(Duration(seconds: 2));
 //    int response = 200;
     if (response == 200) {

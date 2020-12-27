@@ -180,6 +180,23 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$errorLoadingOptionsMyScheduleAtom =
+      Atom(name: '_ScheduleStore.errorLoadingOptionsMySchedule');
+
+  @override
+  bool get errorLoadingOptionsMySchedule {
+    _$errorLoadingOptionsMyScheduleAtom.reportRead();
+    return super.errorLoadingOptionsMySchedule;
+  }
+
+  @override
+  set errorLoadingOptionsMySchedule(bool value) {
+    _$errorLoadingOptionsMyScheduleAtom
+        .reportWrite(value, super.errorLoadingOptionsMySchedule, () {
+      super.errorLoadingOptionsMySchedule = value;
+    });
+  }
+
   final _$scheduleSendAtom = Atom(name: '_ScheduleStore.scheduleSend');
 
   @override
@@ -282,6 +299,15 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
         .run(() => super.setOptionsMySchedule());
   }
 
+  final _$realoadListOptionsMyScheduleAsyncAction =
+      AsyncAction('_ScheduleStore.realoadListOptionsMySchedule');
+
+  @override
+  Future<void> realoadListOptionsMySchedule() {
+    return _$realoadListOptionsMyScheduleAsyncAction
+        .run(() => super.realoadListOptionsMySchedule());
+  }
+
   final _$setListMyScheduleAsyncAction =
       AsyncAction('_ScheduleStore.setListMySchedule');
 
@@ -360,6 +386,7 @@ typeEmployeeDto: ${typeEmployeeDto},
 errorList: ${errorList},
 listEmpty: ${listEmpty},
 errorLoadingTypeEmployee: ${errorLoadingTypeEmployee},
+errorLoadingOptionsMySchedule: ${errorLoadingOptionsMySchedule},
 scheduleSend: ${scheduleSend},
 scheduleOk: ${scheduleOk},
 scheduleDuplicate: ${scheduleDuplicate},

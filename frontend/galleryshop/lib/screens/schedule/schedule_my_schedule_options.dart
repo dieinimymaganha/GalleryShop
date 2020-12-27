@@ -29,37 +29,57 @@ class _ScheduleMyOptionsState extends State<ScheduleMyOptions> {
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
-          body: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.only(top: 2, left: 8, right: 8),
-              child: Column(
-                children: scheduleStore.employeeDto.typeEmployees
-                    .map<Widget>((typeEmployee) {
-                  return Column(
+          body: scheduleStore.errorLoadingOptionsMySchedule
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      GestureDetector(
-                        child: ListTile(
-                          title: Text(typeEmployee.description),
-                          trailing: Icon(Icons.keyboard_arrow_right),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24.0),
+                        child: Text(
+                          'Falha ao carregar',
+                          style: TextStyle(fontSize: 24),
                         ),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ScheduleMySchedule(
-                                    idEmployee: scheduleStore.employeeDto.id,
-                                    idTypeEmployee: typeEmployee.id,
-                                  )));
-                        },
                       ),
-                      Divider(
-                        color: Colors.grey[400],
-                        thickness: 0.5,
-                      )
+                      FlatButton(
+                          child: Text('Clique para recarregar!'),
+                          onPressed: scheduleStore.realoadListOptionsMySchedule)
                     ],
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(top: 2, left: 8, right: 8),
+                    child: Column(
+                      children: scheduleStore.employeeDto.typeEmployees
+                          .map<Widget>((typeEmployee) {
+                        return Column(
+                          children: <Widget>[
+                            GestureDetector(
+                              child: ListTile(
+                                title: Text(typeEmployee.description),
+                                trailing: Icon(Icons.keyboard_arrow_right),
+                              ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ScheduleMySchedule(
+                                          idEmployee:
+                                              scheduleStore.employeeDto.id,
+                                          idTypeEmployee: typeEmployee.id,
+                                        )));
+                              },
+                            ),
+                            Divider(
+                              color: Colors.grey[400],
+                              thickness: 0.5,
+                            )
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
         );
       },
     );
