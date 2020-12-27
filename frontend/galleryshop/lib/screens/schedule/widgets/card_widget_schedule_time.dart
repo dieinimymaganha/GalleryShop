@@ -4,7 +4,7 @@ import 'package:galleryshop/models/schedule.dart';
 import 'package:galleryshop/screens/schedule/schedule_confirm_appointment.dart';
 
 class CardWidgetScheduleTime extends StatelessWidget {
-  ScheduleDto scheduleDto;
+  final ScheduleDto scheduleDto;
 
   CardWidgetScheduleTime({this.scheduleDto});
 
@@ -98,7 +98,7 @@ class CardWidgetScheduleTime extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
-                                          ScheduleConfirmAppointment()));
+                                          ScheduleConfirmAppointment(scheduleDto: scheduleDto,)));
 //                                  showDialog(
 //                                      context: context,
 //                                      builder: (context) =>
