@@ -33,6 +33,25 @@ class ScheduleWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+
+  Future<int> scheduleAppointment(
+      ScheduleAppointmentForm scheduleAppointmentForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlSchedule + '/' + id.toString();
+
+    final String serviceJson = json.encode(scheduleAppointmentForm.toJson());
+
+    final Response response = await webClient.patch(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];
