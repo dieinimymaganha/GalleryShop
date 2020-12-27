@@ -3,18 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/schedule.dart';
 import 'package:galleryshop/screens/client/widget/button_create_client.dart';
+import 'package:galleryshop/screens/schedule/widgets/dialog_confirm_schedule_employee.dart';
 import 'package:galleryshop/stores/client_store.dart';
+import 'package:galleryshop/stores/schedule_store.dart';
 
 class ScheduleConfirmAppointment extends StatefulWidget {
+  final ScheduleDto scheduleDto;
+
+  ScheduleConfirmAppointment({this.scheduleDto});
+
   @override
   _ScheduleConfirmAppointmentState createState() =>
-      _ScheduleConfirmAppointmentState();
+      _ScheduleConfirmAppointmentState(scheduleDto: scheduleDto);
 }
 
 class _ScheduleConfirmAppointmentState
     extends State<ScheduleConfirmAppointment> {
   ClientStore clientStore = ClientStore();
+  ScheduleStore scheduleStore = ScheduleStore();
+
+  _ScheduleConfirmAppointmentState({ScheduleDto scheduleDto})
+      : scheduleStore = ScheduleStore(scheduleDto: scheduleDto);
 
   @override
   void initState() {
@@ -30,10 +41,8 @@ class _ScheduleConfirmAppointmentState
           appBar: AppBar(
             backgroundColor: colorAppbar,
             title: TextFormField(
-//              style: TextStyle(color: Colors.white),
               onChanged: clientStore.setFilter,
               decoration: InputDecoration(
-                
                 suffixIcon: Icon(Icons.search),
                 hintText: 'Pesquisar...',
                 filled: true,
@@ -48,8 +57,12 @@ class _ScheduleConfirmAppointmentState
                   horizontal: 5,
                 ),
                 child: InkWell(
-                  onTap: () {
-                    print(clientModel);
+                  onLongPress: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => DialogConfirmScheduleEmployee(
+                              scheduleDto: scheduleStore.scheduleDto, clientDto: clientModel,
+                            ));
                   },
                   child: Card(
                     elevation: 3,
