@@ -20,13 +20,15 @@ abstract class _ScheduleStore with Store {
   int idEmployee;
   int idTypeEmployee;
   String source;
+  final ScheduleDtoAppointment scheduleDtoAppointment;
 
   _ScheduleStore(
       {this.scheduleDto,
       this.idEmployee,
       this.idTypeEmployee,
       this.source,
-      this.clientDto}) {
+      this.clientDto,
+      this.scheduleDtoAppointment}) {
     autorun((_) {
       print('Employee >>>>> ${employeeDto}');
     });
@@ -76,14 +78,18 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> setOptionsMySchedule() async {
-    var prefs = await SharedPreferences.getInstance();
-    int idEmployee = (prefs.getInt("idEmployee") ?? "");
+    await getIdEmployee();
     try {
       errorLoadingOptionsMySchedule = false;
       employeeDto = await employeeWebClient.findById(idEmployee.toString());
     } on Exception catch (_) {
       errorLoadingOptionsMySchedule = true;
     }
+  }
+
+  Future<void> getIdEmployee() async {
+    var prefs = await SharedPreferences.getInstance();
+    idEmployee = (prefs.getInt("idEmployee") ?? "");
   }
 
   @action
@@ -103,12 +109,49 @@ abstract class _ScheduleStore with Store {
   }
 
   @action
+  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+      List<ScheduleDtoAppointment> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      DateTime date = convertDateFromString(event.day);
+      if (data[date] == null) data[date] = [];
+      data[date].add(event);
+    });
+    return data;
+  }
+
+  @action
   Future<void> setListMySchedule() async {
+    await getIdEmployee();
     try {
       dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
           idEmployee.toString(), idTypeEmployee.toString());
       if (dataSchedule.isNotEmpty) {
         events = fromModelToEvent(dataSchedule);
+      } else {
+        errorList = true;
+        listEmpty = true;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+  }
+
+  @action
+  Future<void> loadingInitPageAppointment() async {
+    loadingPageScheduleTime = true;
+    await setListMyScheduleAppointment();
+    loadingPageScheduleTime = false;
+  }
+
+  @action
+  Future<void> setListMyScheduleAppointment() async {
+    await getIdEmployee();
+    try {
+      dataSchedule =
+          await scheduleWebClient.scheduleFindMyAppointment(idEmployee);
+      if (dataSchedule.isNotEmpty) {
+        events = fromModelToEventAppointment(dataSchedule);
       } else {
         errorList = true;
         listEmpty = true;

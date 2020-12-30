@@ -316,6 +316,24 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     return _$setListMyScheduleAsyncAction.run(() => super.setListMySchedule());
   }
 
+  final _$loadingInitPageAppointmentAsyncAction =
+      AsyncAction('_ScheduleStore.loadingInitPageAppointment');
+
+  @override
+  Future<void> loadingInitPageAppointment() {
+    return _$loadingInitPageAppointmentAsyncAction
+        .run(() => super.loadingInitPageAppointment());
+  }
+
+  final _$setListMyScheduleAppointmentAsyncAction =
+      AsyncAction('_ScheduleStore.setListMyScheduleAppointment');
+
+  @override
+  Future<void> setListMyScheduleAppointment() {
+    return _$setListMyScheduleAppointmentAsyncAction
+        .run(() => super.setListMyScheduleAppointment());
+  }
+
   final _$loagingPageInitAsyncAction =
       AsyncAction('_ScheduleStore.loagingPageInit');
 
@@ -367,6 +385,18 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
         name: '_ScheduleStore.fromModelToEvent');
     try {
       return super.fromModelToEvent(events);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+      List<ScheduleDtoAppointment> events) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.fromModelToEventAppointment');
+    try {
+      return super.fromModelToEventAppointment(events);
     } finally {
       _$_ScheduleStoreActionController.endAction(_$actionInfo);
     }
