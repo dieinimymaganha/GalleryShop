@@ -1,22 +1,16 @@
 package GalleryShop.controller;
 
-import java.net.URI;
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import GalleryShop.controller.dto.ClientDto;
-import GalleryShop.controller.form.ClientForm;
+import GalleryShop.controller.dto.ScheduleDtoAppointment;
 import GalleryShop.controller.form.ScheduleAppointmentForm;
 import GalleryShop.model.Client;
 import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,10 +77,10 @@ public class ScheduleController {
     }
 
     @GetMapping("/employeeId={id}&available={available}")
-    public List<ScheduleDto> getByEmployeeIdAndAvailable(@PathVariable Long id, @PathVariable Boolean available) {
+    public List<ScheduleDtoAppointment> getByEmployeeIdAndAvailable(@PathVariable Long id, @PathVariable Boolean available) {
         List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndAvailable(id, available);
 
-        return ScheduleDto.converter(schedules);
+        return ScheduleDtoAppointment.converterDto(schedules);
     }
 
 
