@@ -8,13 +8,38 @@ import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleAppointmentScreen extends StatefulWidget {
+  final int idEmployee;
+  final int idTypeEmployee;
+  final bool appointmentConsult;
+
+  ScheduleAppointmentScreen(
+      {this.idEmployee, this.idTypeEmployee, this.appointmentConsult});
+
   @override
   _ScheduleAppointmentScreenState createState() =>
-      _ScheduleAppointmentScreenState();
+      _ScheduleAppointmentScreenState(
+          idEmployee: idEmployee,
+          idTypeEmployee: idTypeEmployee,
+          appointmentConsult: appointmentConsult);
 }
 
 class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
-  ScheduleStore scheduleStore = ScheduleStore(source: 'funcionario');
+  _ScheduleAppointmentScreenState(
+      {int idEmployee, int idTypeEmployee, bool appointmentConsult})
+      : scheduleStore = ScheduleStore(
+            idEmployee: idEmployee,
+            idTypeEmployee: idTypeEmployee,
+            source: 'funcionario',
+            appointmentConsult: appointmentConsult);
+
+  ScheduleStore scheduleStore = ScheduleStore();
+
+  @override
+  void initState() {
+    super.initState();
+    scheduleStore.createInfoSchedule();
+    scheduleStore.loagingPageInit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +133,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                                     .copyWith(color: Colors.blue[600]),
                               ),
                               onDaySelected: (date, events) {
-                                scheduleStore.setListMyScheduleAppointment();
+                                scheduleStore.setListMySchedule();
                                 setState(() {
                                   scheduleStore.selectedEvents = events;
                                 });
@@ -169,12 +194,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
         );
       },
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    scheduleStore.loadingInitPageAppointment();
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
