@@ -197,6 +197,23 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$loadingOptionsScheduleTypeEmployeeAtom =
+      Atom(name: '_ScheduleStore.loadingOptionsScheduleTypeEmployee');
+
+  @override
+  bool get loadingOptionsScheduleTypeEmployee {
+    _$loadingOptionsScheduleTypeEmployeeAtom.reportRead();
+    return super.loadingOptionsScheduleTypeEmployee;
+  }
+
+  @override
+  set loadingOptionsScheduleTypeEmployee(bool value) {
+    _$loadingOptionsScheduleTypeEmployeeAtom
+        .reportWrite(value, super.loadingOptionsScheduleTypeEmployee, () {
+      super.loadingOptionsScheduleTypeEmployee = value;
+    });
+  }
+
   final _$scheduleSendAtom = Atom(name: '_ScheduleStore.scheduleSend');
 
   @override
@@ -316,30 +333,13 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     return _$setListMyScheduleAsyncAction.run(() => super.setListMySchedule());
   }
 
-  final _$loadingInitPageAppointmentAsyncAction =
-      AsyncAction('_ScheduleStore.loadingInitPageAppointment');
+  final _$loadingInitOptionsScheduleAsyncAction =
+      AsyncAction('_ScheduleStore.loadingInitOptionsSchedule');
 
   @override
-  Future<void> loadingInitPageAppointment() {
-    return _$loadingInitPageAppointmentAsyncAction
-        .run(() => super.loadingInitPageAppointment());
-  }
-
-  final _$setListMyScheduleAppointmentAsyncAction =
-      AsyncAction('_ScheduleStore.setListMyScheduleAppointment');
-
-  @override
-  Future<void> setListMyScheduleAppointment() {
-    return _$setListMyScheduleAppointmentAsyncAction
-        .run(() => super.setListMyScheduleAppointment());
-  }
-
-  final _$loagingPageInitAsyncAction =
-      AsyncAction('_ScheduleStore.loagingPageInit');
-
-  @override
-  Future<void> loagingPageInit() {
-    return _$loagingPageInitAsyncAction.run(() => super.loagingPageInit());
+  Future<void> loadingInitOptionsSchedule() {
+    return _$loadingInitOptionsScheduleAsyncAction
+        .run(() => super.loadingInitOptionsSchedule());
   }
 
   final _$createInfoScheduleAsyncAction =
@@ -349,6 +349,14 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   Future<void> createInfoSchedule() {
     return _$createInfoScheduleAsyncAction
         .run(() => super.createInfoSchedule());
+  }
+
+  final _$loagingPageInitAsyncAction =
+      AsyncAction('_ScheduleStore.loagingPageInit');
+
+  @override
+  Future<void> loagingPageInit() {
+    return _$loagingPageInitAsyncAction.run(() => super.loagingPageInit());
   }
 
   final _$reloadListAsyncAction = AsyncAction('_ScheduleStore.reloadList');
@@ -417,6 +425,7 @@ errorList: ${errorList},
 listEmpty: ${listEmpty},
 errorLoadingTypeEmployee: ${errorLoadingTypeEmployee},
 errorLoadingOptionsMySchedule: ${errorLoadingOptionsMySchedule},
+loadingOptionsScheduleTypeEmployee: ${loadingOptionsScheduleTypeEmployee},
 scheduleSend: ${scheduleSend},
 scheduleOk: ${scheduleOk},
 scheduleDuplicate: ${scheduleDuplicate},

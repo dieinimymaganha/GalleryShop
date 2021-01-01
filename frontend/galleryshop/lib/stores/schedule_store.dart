@@ -21,6 +21,7 @@ abstract class _ScheduleStore with Store {
   int idTypeEmployee;
   String source;
   final ScheduleDtoAppointment scheduleDtoAppointment;
+  bool appointmentConsult;
 
   _ScheduleStore(
       {this.scheduleDto,
@@ -28,9 +29,11 @@ abstract class _ScheduleStore with Store {
       this.idTypeEmployee,
       this.source,
       this.clientDto,
-      this.scheduleDtoAppointment}) {
+      this.scheduleDtoAppointment,
+      this.appointmentConsult}) {
     autorun((_) {
-      print('Employee >>>>> ${employeeDto}');
+      print('dataSchedule >>>>> $dataSchedule');
+      print('appointmentConsult >>>>> $appointmentConsult');
     });
   }
 
@@ -76,6 +79,9 @@ abstract class _ScheduleStore with Store {
   @observable
   bool errorLoadingOptionsMySchedule = false;
 
+  @observable
+  bool loadingOptionsScheduleTypeEmployee = false;
+
   @action
   Future<void> setOptionsMySchedule() async {
     await getIdEmployee();
@@ -94,7 +100,7 @@ abstract class _ScheduleStore with Store {
 
   @action
   Future<void> realoadListOptionsMySchedule() async {
-    await setOptionsMySchedule();
+    await loadingInitOptionsSchedule();
   }
 
   @action
@@ -124,13 +130,24 @@ abstract class _ScheduleStore with Store {
   Future<void> setListMySchedule() async {
     await getIdEmployee();
     try {
-      dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
-          idEmployee.toString(), idTypeEmployee.toString());
-      if (dataSchedule.isNotEmpty) {
-        events = fromModelToEvent(dataSchedule);
+      if (appointmentConsult == true) {
+        dataSchedule = await scheduleWebClient.scheduleFindMyAppointment(
+            idEmployee, idTypeEmployee);
+        if (dataSchedule.isNotEmpty) {
+          events = fromModelToEventAppointment(dataSchedule);
+        } else {
+          errorList = true;
+          listEmpty = true;
+        }
       } else {
-        errorList = true;
-        listEmpty = true;
+        dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
+            idEmployee.toString(), idTypeEmployee.toString());
+        if (dataSchedule.isNotEmpty) {
+          events = fromModelToEvent(dataSchedule);
+        } else {
+          errorList = true;
+          listEmpty = true;
+        }
       }
     } on Exception catch (_) {
       errorList = true;
@@ -138,36 +155,10 @@ abstract class _ScheduleStore with Store {
   }
 
   @action
-  Future<void> loadingInitPageAppointment() async {
+  Future<void> loadingInitOptionsSchedule() async {
     loadingPageScheduleTime = true;
-    await setListMyScheduleAppointment();
+    await setOptionsMySchedule();
     loadingPageScheduleTime = false;
-  }
-
-  @action
-  Future<void> setListMyScheduleAppointment() async {
-    await getIdEmployee();
-    try {
-      dataSchedule =
-          await scheduleWebClient.scheduleFindMyAppointment(idEmployee);
-      if (dataSchedule.isNotEmpty) {
-        events = fromModelToEventAppointment(dataSchedule);
-      } else {
-        errorList = true;
-        listEmpty = true;
-      }
-    } on Exception catch (_) {
-      errorList = true;
-    }
-  }
-
-  @action
-  Future<void> loagingPageInit() async {
-    loadingPageScheduleTime = true;
-    await setListMySchedule();
-    if (typeEmployeeDto != null) {
-      loadingPageScheduleTime = false;
-    }
   }
 
   @action
@@ -178,6 +169,15 @@ abstract class _ScheduleStore with Store {
       errorLoadingTypeEmployee = false;
     } on Exception catch (_) {
       errorLoadingTypeEmployee = true;
+    }
+  }
+
+  @action
+  Future<void> loagingPageInit() async {
+    loadingPageScheduleTime = true;
+    await setListMySchedule();
+    if (typeEmployeeDto != null) {
+      loadingPageScheduleTime = false;
     }
   }
 
