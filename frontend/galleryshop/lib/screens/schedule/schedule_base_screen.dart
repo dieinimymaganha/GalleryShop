@@ -41,7 +41,9 @@ class ScheduleBaseScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleAppointmentScreen()));
+                      builder: (context) => ScheduleMyOptions(
+                            appointmentConsult: true,
+                          )));
                 },
               ),
               Divider(
@@ -55,7 +57,9 @@ class ScheduleBaseScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleMyOptions()));
+                      builder: (context) => ScheduleMyOptions(
+                            appointmentConsult: false,
+                          )));
                 },
               ),
               Divider(
@@ -67,9 +71,7 @@ class ScheduleBaseScreen extends StatelessWidget {
                   title: Text('Consultar agendas'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {
-
-                },
+                onTap: () {},
               ),
               Divider(
                 color: Colors.grey[400],
