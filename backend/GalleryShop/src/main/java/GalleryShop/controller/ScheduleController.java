@@ -68,7 +68,7 @@ public class ScheduleController {
         return ScheduleDto.converter(schedules);
     }
 
-        @GetMapping("/clientId={id}")
+    @GetMapping("/clientId={id}")
     public List<ScheduleDto> getByClientId(@PathVariable Long id) {
         List<Schedule> schedules = scheduleRepository.findByClientId(id, Sort.by("day").ascending().
                 and(Sort.by("startAttendance").ascending()));
@@ -76,9 +76,11 @@ public class ScheduleController {
         return ScheduleDto.converter(schedules);
     }
 
-    @GetMapping("/employeeId={id}&available={available}")
-    public List<ScheduleDtoAppointment> getByEmployeeIdAndAvailable(@PathVariable Long id, @PathVariable Boolean available) {
-        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndAvailable(id, available);
+    @GetMapping("available/employeeId={employeeId}&typeEmployeeId={idTypeEmployee}")
+    public List<ScheduleDtoAppointment> getByEmployeeIdAndAvailable(@PathVariable Long employeeId,
+                                                                    @PathVariable Long idTypeEmployee) {
+        List<Schedule> schedules = scheduleRepository.findByEmployeeIdAndTypeEmployeeIdAndAvailable(employeeId,
+                idTypeEmployee, true, Sort.by("day").ascending().and(Sort.by("startAttendance").ascending()));
 
         return ScheduleDtoAppointment.converterDto(schedules);
     }
