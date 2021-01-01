@@ -50,10 +50,14 @@ class ScheduleWebClient {
     return response.statusCode;
   }
 
-  Future<List<ScheduleDtoAppointment>> scheduleFindMyAppointment(int id) async {
+  Future<List<ScheduleDtoAppointment>> scheduleFindMyAppointment(
+      int idEmployee, int idTypeEmployee) async {
     String token = await getToken();
-    String urlConsult =
-        urlSchedule + '/employeeId=' + id.toString() + '&available=true';
+    String urlConsult = urlSchedule +
+        '/available/employeeId=' +
+        idEmployee.toString() +
+        '&typeEmployeeId=' +
+        idTypeEmployee.toString();
 
     final Response response = await webClient.get(
       urlConsult,
@@ -65,8 +69,9 @@ class ScheduleWebClient {
 
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
-      final List<dynamic> data =
-          decodeJson.map((dynamic json) => ScheduleDtoAppointment.fromJson(json)).toList();
+      final List<dynamic> data = decodeJson
+          .map((dynamic json) => ScheduleDtoAppointment.fromJson(json))
+          .toList();
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
