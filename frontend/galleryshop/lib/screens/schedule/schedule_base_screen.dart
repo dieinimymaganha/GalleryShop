@@ -37,6 +37,20 @@ class ScheduleBaseScreen extends StatelessWidget {
               ),
               GestureDetector(
                 child: ListTile(
+                  title: Text('Habilitar agendas'),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScheduleEnableScheduleScreen()));
+                },
+              ),
+              Divider(
+                color: Colors.grey[400],
+                thickness: 0.5,
+              ),
+              GestureDetector(
+                child: ListTile(
                   title: Text('Horários agendados'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
@@ -73,20 +87,6 @@ class ScheduleBaseScreen extends StatelessWidget {
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {},
-              ),
-              Divider(
-                color: Colors.grey[400],
-                thickness: 0.5,
-              ),
-              GestureDetector(
-                child: ListTile(
-                  title: Text('Habilitar agendas'),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ScheduleEnableScheduleScreen()));
-                },
               ),
               Divider(
                 color: Colors.grey[400],
