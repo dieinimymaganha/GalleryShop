@@ -147,3 +147,40 @@ class ScheduleDtoAppointment {
     return data;
   }
 }
+
+class ScheduleEnableScheduleForm {
+  String attendanceTime;
+  bool available;
+  String day;
+  int employeeId;
+  int typeEmployeeId;
+  int quantityDays;
+
+  ScheduleEnableScheduleForm(
+      {this.attendanceTime,
+        this.available,
+        this.day,
+        this.employeeId,
+        this.typeEmployeeId,
+        this.quantityDays});
+
+  ScheduleEnableScheduleForm.fromJson(Map<String, dynamic> json) {
+    attendanceTime = json['attendanceTime'];
+    available = json['available'];
+    day = json['day'];
+    employeeId = json['employeeId'];
+    typeEmployeeId = json['typeEmployeeId'];
+    quantityDays = json['quantityDays'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['attendanceTime'] = this.attendanceTime;
+    data['available'] = this.available;
+    data['day'] = this.day;
+    data['employeeId'] = this.employeeId;
+    data['typeEmployeeId'] = this.typeEmployeeId;
+    data['quantityDays'] = this.quantityDays;
+    return data;
+  }
+}
