@@ -214,6 +214,86 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$valueSelectTypeEmployeeAtom =
+      Atom(name: '_ScheduleStore.valueSelectTypeEmployee');
+
+  @override
+  String get valueSelectTypeEmployee {
+    _$valueSelectTypeEmployeeAtom.reportRead();
+    return super.valueSelectTypeEmployee;
+  }
+
+  @override
+  set valueSelectTypeEmployee(String value) {
+    _$valueSelectTypeEmployeeAtom
+        .reportWrite(value, super.valueSelectTypeEmployee, () {
+      super.valueSelectTypeEmployee = value;
+    });
+  }
+
+  final _$controllerDayInitAtom =
+      Atom(name: '_ScheduleStore.controllerDayInit');
+
+  @override
+  TextEditingController get controllerDayInit {
+    _$controllerDayInitAtom.reportRead();
+    return super.controllerDayInit;
+  }
+
+  @override
+  set controllerDayInit(TextEditingController value) {
+    _$controllerDayInitAtom.reportWrite(value, super.controllerDayInit, () {
+      super.controllerDayInit = value;
+    });
+  }
+
+  final _$dayInitAtom = Atom(name: '_ScheduleStore.dayInit');
+
+  @override
+  String get dayInit {
+    _$dayInitAtom.reportRead();
+    return super.dayInit;
+  }
+
+  @override
+  set dayInit(String value) {
+    _$dayInitAtom.reportWrite(value, super.dayInit, () {
+      super.dayInit = value;
+    });
+  }
+
+  final _$controllerAttendanceTimeAtom =
+      Atom(name: '_ScheduleStore.controllerAttendanceTime');
+
+  @override
+  TextEditingController get controllerAttendanceTime {
+    _$controllerAttendanceTimeAtom.reportRead();
+    return super.controllerAttendanceTime;
+  }
+
+  @override
+  set controllerAttendanceTime(TextEditingController value) {
+    _$controllerAttendanceTimeAtom
+        .reportWrite(value, super.controllerAttendanceTime, () {
+      super.controllerAttendanceTime = value;
+    });
+  }
+
+  final _$attendanceTimeAtom = Atom(name: '_ScheduleStore.attendanceTime');
+
+  @override
+  String get attendanceTime {
+    _$attendanceTimeAtom.reportRead();
+    return super.attendanceTime;
+  }
+
+  @override
+  set attendanceTime(String value) {
+    _$attendanceTimeAtom.reportWrite(value, super.attendanceTime, () {
+      super.attendanceTime = value;
+    });
+  }
+
   final _$scheduleSendAtom = Atom(name: '_ScheduleStore.scheduleSend');
 
   @override
@@ -388,6 +468,61 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
       ActionController(name: '_ScheduleStore');
 
   @override
+  void setAttendanceTimeController(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setAttendanceTimeController');
+    try {
+      return super.setAttendanceTimeController(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAttendanceTime(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setAttendanceTime');
+    try {
+      return super.setAttendanceTime(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDayIniController(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setDayIniController');
+    try {
+      return super.setDayIniController(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDayIni(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setDayIni');
+    try {
+      return super.setDayIni(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selectTypeService(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.selectTypeService');
+    try {
+      return super.selectTypeService(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
     final _$actionInfo = _$_ScheduleStoreActionController.startAction(
         name: '_ScheduleStore.fromModelToEvent');
@@ -411,6 +546,17 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
+  void setIdTypeEmployee(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setIdTypeEmployee');
+    try {
+      return super.setIdTypeEmployee(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 employeeDto: ${employeeDto},
@@ -426,6 +572,11 @@ listEmpty: ${listEmpty},
 errorLoadingTypeEmployee: ${errorLoadingTypeEmployee},
 errorLoadingOptionsMySchedule: ${errorLoadingOptionsMySchedule},
 loadingOptionsScheduleTypeEmployee: ${loadingOptionsScheduleTypeEmployee},
+valueSelectTypeEmployee: ${valueSelectTypeEmployee},
+controllerDayInit: ${controllerDayInit},
+dayInit: ${dayInit},
+controllerAttendanceTime: ${controllerAttendanceTime},
+attendanceTime: ${attendanceTime},
 scheduleSend: ${scheduleSend},
 scheduleOk: ${scheduleOk},
 scheduleDuplicate: ${scheduleDuplicate},

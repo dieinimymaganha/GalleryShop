@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_schedule.dart';
@@ -32,8 +33,7 @@ abstract class _ScheduleStore with Store {
       this.scheduleDtoAppointment,
       this.appointmentConsult}) {
     autorun((_) {
-      print('dataSchedule >>>>> $dataSchedule');
-      print('appointmentConsult >>>>> $appointmentConsult');
+      print('idTypeEmployee >>>>> $idTypeEmployee');
     });
   }
 
@@ -81,6 +81,37 @@ abstract class _ScheduleStore with Store {
 
   @observable
   bool loadingOptionsScheduleTypeEmployee = false;
+
+  @observable
+  String valueSelectTypeEmployee;
+
+  @observable
+  TextEditingController controllerDayInit = TextEditingController();
+
+  @observable
+  String dayInit;
+
+  @observable
+  TextEditingController controllerAttendanceTime = TextEditingController();
+
+  @observable
+  String attendanceTime;
+
+  @action
+  void setAttendanceTimeController(String value) =>
+      controllerAttendanceTime.text = value;
+
+  @action
+  void setAttendanceTime(String value) => attendanceTime = value;
+
+  @action
+  void setDayIniController(String value) => controllerDayInit.text = value;
+
+  @action
+  void setDayIni(String value) => dayInit = value;
+
+  @action
+  void selectTypeService(String value) => valueSelectTypeEmployee = value;
 
   @action
   Future<void> setOptionsMySchedule() async {
@@ -159,6 +190,15 @@ abstract class _ScheduleStore with Store {
     loadingPageScheduleTime = true;
     await setOptionsMySchedule();
     loadingPageScheduleTime = false;
+  }
+
+  @action
+  void setIdTypeEmployee(String value) {
+    employeeDto.typeEmployees.forEach((element) {
+      if (value == element.description) {
+        idTypeEmployee = element.id;
+      }
+    });
   }
 
   @action
