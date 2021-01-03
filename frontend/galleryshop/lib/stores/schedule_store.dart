@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_schedule.dart';
 import 'package:galleryshop/http/webclients/webclient_type_employee.dart';
@@ -7,6 +6,7 @@ import 'package:galleryshop/models/client.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/models/schedule.dart';
 import 'package:galleryshop/models/type_employee_model.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -33,7 +33,7 @@ abstract class _ScheduleStore with Store {
       this.scheduleDtoAppointment,
       this.appointmentConsult}) {
     autorun((_) {
-      print('idTypeEmployee >>>>> $idTypeEmployee');
+      print('valueSelectTypeEmployee >>>>> $valueSelectTypeEmployee');
     });
   }
 
@@ -95,14 +95,33 @@ abstract class _ScheduleStore with Store {
   TextEditingController controllerAttendanceTime = TextEditingController();
 
   @observable
-  String attendanceTime;
+  DateTime attendanceTime;
+
+  @observable
+  int quantityDays;
+
+  @observable
+  bool sending = false;
+
+  @observable
+  TextEditingController controllerQuantityDays = TextEditingController();
 
   @action
-  void setAttendanceTimeController(String value) =>
-      controllerAttendanceTime.text = value;
+  void setControllerQuantityDays(int value) =>
+      controllerQuantityDays.text = value.toString();
 
   @action
-  void setAttendanceTime(String value) => attendanceTime = value;
+  void setQuantityDays(String value) => quantityDays = int.parse(value);
+
+  @action
+  void setAttendanceTime(TextEditingController controller) {
+    try {
+      DateTime dateConvert = DateFormat("HH:mm").parse(controller.text);
+      attendanceTime = dateConvert;
+    } on Exception catch (_) {
+      attendanceTime = null;
+    }
+  }
 
   @action
   void setDayIniController(String value) => controllerDayInit.text = value;
@@ -112,6 +131,35 @@ abstract class _ScheduleStore with Store {
 
   @action
   void selectTypeService(String value) => valueSelectTypeEmployee = value;
+
+  @computed
+  bool get fieldsValid {
+    if (valueSelectTypeEmployee != null &&
+        dayInit != null &&
+        controllerAttendanceTime.text != null &&
+        quantityDays != null) {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
+  Function get buttonEnableSchedulePressed =>
+      fieldsValid ? enableSchedule : null;
+
+  @action
+  Future<void> enableSchedule() async {
+    ScheduleEnableScheduleForm form = ScheduleEnableScheduleForm(
+        employeeId: idEmployee,
+        day: dayInit,
+        attendanceTime: controllerAttendanceTime.text,
+        typeEmployeeId: idTypeEmployee,
+        quantityDays: quantityDays,
+        available: false);
+
+    int response = await scheduleWebClient.scheduleEnableSchedue(form);
+    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $response');
+  }
 
   @action
   Future<void> setOptionsMySchedule() async {

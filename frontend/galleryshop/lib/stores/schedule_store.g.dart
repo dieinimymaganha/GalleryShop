@@ -9,6 +9,22 @@ part of 'schedule_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ScheduleStore on _ScheduleStore, Store {
+  Computed<bool> _$fieldsValidComputed;
+
+  @override
+  bool get fieldsValid =>
+      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
+              name: '_ScheduleStore.fieldsValid'))
+          .value;
+  Computed<Function> _$buttonEnableSchedulePressedComputed;
+
+  @override
+  Function get buttonEnableSchedulePressed =>
+      (_$buttonEnableSchedulePressedComputed ??= Computed<Function>(
+              () => super.buttonEnableSchedulePressed,
+              name: '_ScheduleStore.buttonEnableSchedulePressed'))
+          .value;
+
   final _$employeeDtoAtom = Atom(name: '_ScheduleStore.employeeDto');
 
   @override
@@ -282,15 +298,62 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   final _$attendanceTimeAtom = Atom(name: '_ScheduleStore.attendanceTime');
 
   @override
-  String get attendanceTime {
+  DateTime get attendanceTime {
     _$attendanceTimeAtom.reportRead();
     return super.attendanceTime;
   }
 
   @override
-  set attendanceTime(String value) {
+  set attendanceTime(DateTime value) {
     _$attendanceTimeAtom.reportWrite(value, super.attendanceTime, () {
       super.attendanceTime = value;
+    });
+  }
+
+  final _$quantityDaysAtom = Atom(name: '_ScheduleStore.quantityDays');
+
+  @override
+  int get quantityDays {
+    _$quantityDaysAtom.reportRead();
+    return super.quantityDays;
+  }
+
+  @override
+  set quantityDays(int value) {
+    _$quantityDaysAtom.reportWrite(value, super.quantityDays, () {
+      super.quantityDays = value;
+    });
+  }
+
+  final _$sendingAtom = Atom(name: '_ScheduleStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$controllerQuantityDaysAtom =
+      Atom(name: '_ScheduleStore.controllerQuantityDays');
+
+  @override
+  TextEditingController get controllerQuantityDays {
+    _$controllerQuantityDaysAtom.reportRead();
+    return super.controllerQuantityDays;
+  }
+
+  @override
+  set controllerQuantityDays(TextEditingController value) {
+    _$controllerQuantityDaysAtom
+        .reportWrite(value, super.controllerQuantityDays, () {
+      super.controllerQuantityDays = value;
     });
   }
 
@@ -387,6 +450,14 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$enableScheduleAsyncAction =
+      AsyncAction('_ScheduleStore.enableSchedule');
+
+  @override
+  Future<void> enableSchedule() {
+    return _$enableScheduleAsyncAction.run(() => super.enableSchedule());
+  }
+
   final _$setOptionsMyScheduleAsyncAction =
       AsyncAction('_ScheduleStore.setOptionsMySchedule');
 
@@ -468,22 +539,33 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
       ActionController(name: '_ScheduleStore');
 
   @override
-  void setAttendanceTimeController(String value) {
+  void setControllerQuantityDays(int value) {
     final _$actionInfo = _$_ScheduleStoreActionController.startAction(
-        name: '_ScheduleStore.setAttendanceTimeController');
+        name: '_ScheduleStore.setControllerQuantityDays');
     try {
-      return super.setAttendanceTimeController(value);
+      return super.setControllerQuantityDays(value);
     } finally {
       _$_ScheduleStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setAttendanceTime(String value) {
+  void setQuantityDays(String value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setQuantityDays');
+    try {
+      return super.setQuantityDays(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAttendanceTime(TextEditingController controller) {
     final _$actionInfo = _$_ScheduleStoreActionController.startAction(
         name: '_ScheduleStore.setAttendanceTime');
     try {
-      return super.setAttendanceTime(value);
+      return super.setAttendanceTime(controller);
     } finally {
       _$_ScheduleStoreActionController.endAction(_$actionInfo);
     }
@@ -577,12 +659,17 @@ controllerDayInit: ${controllerDayInit},
 dayInit: ${dayInit},
 controllerAttendanceTime: ${controllerAttendanceTime},
 attendanceTime: ${attendanceTime},
+quantityDays: ${quantityDays},
+sending: ${sending},
+controllerQuantityDays: ${controllerQuantityDays},
 scheduleSend: ${scheduleSend},
 scheduleOk: ${scheduleOk},
 scheduleDuplicate: ${scheduleDuplicate},
 scheduleNotAvailable: ${scheduleNotAvailable},
 scheduleConflit: ${scheduleConflit},
-scheduleFail: ${scheduleFail}
+scheduleFail: ${scheduleFail},
+fieldsValid: ${fieldsValid},
+buttonEnableSchedulePressed: ${buttonEnableSchedulePressed}
     ''';
   }
 }
