@@ -1,13 +1,17 @@
 package GalleryShop.controller.form;
 
-import GalleryShop.model.*;
+import GalleryShop.model.Employee;
 import GalleryShop.model.Enum.DayOfTheWeek;
+import GalleryShop.model.OpeningHours;
+import GalleryShop.model.Schedule;
+import GalleryShop.model.TypeEmployee;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.OpeningHoursRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -18,7 +22,8 @@ public class ScheduleForm {
 
     private Long typeEmployeeId;
 
-    private Date day;
+    private @Temporal(TemporalType.DATE)
+    Date day;
 
     private LocalTime attendanceTime;
 
@@ -28,9 +33,11 @@ public class ScheduleForm {
 
     private Boolean available;
 
+    private Long quantityDays;
+
     public ScheduleForm(final Long employeeId, final Long typeEmployeeId, final Date day,
                         final LocalTime attendanceTime, final LocalTime startAttendance, final LocalTime endAttendance,
-                        final Boolean available) {
+                        final Boolean available, final Long quantityDays) {
         this.employeeId = employeeId;
         this.typeEmployeeId = typeEmployeeId;
         this.day = day;
@@ -38,12 +45,16 @@ public class ScheduleForm {
         this.startAttendance = startAttendance;
         this.endAttendance = endAttendance;
         this.available = available;
+        this.quantityDays = quantityDays;
     }
 
+    public Long getQuantityDays() {
+        return quantityDays;
+    }
 
-
-
-
+    public void setQuantityDays(Long quantityDays) {
+        this.quantityDays = quantityDays;
+    }
 
     public Long getEmployeeId() {
         return employeeId;
@@ -104,7 +115,11 @@ public class ScheduleForm {
     public List<Schedule> convert(final EmployeeRepository employeeRepository,
                                   final OpeningHoursRepository openingHoursRepository, final TypeEmployeeRepository typeEmployeeRepository) {
 
-        List<LocalDate> listDays = CreateListDates(8);
+        LocalDate localDate = LocalDate.now();
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> localDate: " + localDate);
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " + day);
+
+        List<LocalDate> listDays = CreateListDates(quantityDays);
 
         List<Schedule> listSchedules = new ArrayList<>();
 
@@ -120,10 +135,10 @@ public class ScheduleForm {
 
             final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
 
-            String hourColectMorning = null;
+            String hourCollectMorning = null;
             LocalTime dateIniMorning = null;
 
-            String hourColectAfternoon = null;
+            String hourCollectAfternoon = null;
             LocalTime dateIniAfternoon = null;
 
             int dateSeconds = 0;
@@ -145,8 +160,8 @@ public class ScheduleForm {
                                 .toSecondOfDay(); hoursCalculate = hoursCalculate
                                 + answeringTimeSecondsMorning) {
 
-                            hourColectMorning = extracted(hoursCalculate);
-                            dateIniMorning = LocalTime.parse(hourColectMorning);
+                            hourCollectMorning = extracted(hoursCalculate);
+                            dateIniMorning = LocalTime.parse(hourCollectMorning);
 
                             dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
 
@@ -155,10 +170,10 @@ public class ScheduleForm {
                             if (dateFimMorning.isBefore(create.getEndMorningJourney())
                                     || dateFimMorning.equals(create.getEndMorningJourney())) {
 
-                                Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
+                                Schedule scheduleCreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
                                         attendanceTime, dateIniMorning, dateFimMorning, available);
 
-                                listSchedules.add(schedulecreate);
+                                listSchedules.add(scheduleCreate);
 
                             }
 
@@ -168,20 +183,20 @@ public class ScheduleForm {
 
                     if (create.getEarlyAfternoonJourney() != null && create.getEndJourneyLate() != null) {
                         int convertedAttendanceTime = attendanceTime.toSecondOfDay();
-                        int affternoonAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                        int afternoonAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
                                 - create.getEarlyMorningJourney().toSecondOfDay();
 
-                        int serviceQuantityafternoon = (affternoonAttendanceTime / convertedAttendanceTime);
+                        int serviceQuantityAfternoon = (afternoonAttendanceTime / convertedAttendanceTime);
 
-                        int answeringTimeSecondsMorning = affternoonAttendanceTime / serviceQuantityafternoon;
+                        int answeringTimeSecondsMorning = afternoonAttendanceTime / serviceQuantityAfternoon;
 
                         for (int hoursCalculate = create.getEarlyAfternoonJourney()
                                 .toSecondOfDay(); hoursCalculate <= create.getEndJourneyLate()
                                 .toSecondOfDay(); hoursCalculate = hoursCalculate
                                 + answeringTimeSecondsMorning) {
 
-                            hourColectAfternoon = extracted(hoursCalculate);
-                            dateIniAfternoon = LocalTime.parse(hourColectAfternoon);
+                            hourCollectAfternoon = extracted(hoursCalculate);
+                            dateIniAfternoon = LocalTime.parse(hourCollectAfternoon);
 
                             dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
 
@@ -214,7 +229,7 @@ public class ScheduleForm {
 
     }
 
-    private List<LocalDate> CreateListDates(int quantityDays) {
+    private List<LocalDate> CreateListDates(Long quantityDays) {
         List<LocalDate> listDates = new ArrayList<>();
 
         quantityDays = quantityDays - 1;
