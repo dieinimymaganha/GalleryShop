@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/schedule/opening_hours_screen.dart';
+import 'package:galleryshop/screens/schedule/schedule_enable_schedule_screen.dart';
 import 'package:galleryshop/screens/schedule/schedule_my_schedule_options.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
@@ -68,10 +69,24 @@ class ScheduleBaseScreen extends StatelessWidget {
               ),
               GestureDetector(
                 child: ListTile(
-                  title: Text('Consultar agendas'),
+                  title: Text('Consultar agenda'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {},
+              ),
+              Divider(
+                color: Colors.grey[400],
+                thickness: 0.5,
+              ),
+              GestureDetector(
+                child: ListTile(
+                  title: Text('Habilitar agendas'),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScheduleEnableScheduleScreen()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
