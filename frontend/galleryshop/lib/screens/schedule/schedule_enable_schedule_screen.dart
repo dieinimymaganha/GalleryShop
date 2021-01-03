@@ -66,30 +66,91 @@ class _ScheduleEnableScheduleScreenState
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        enabled: true,
+                        enabled: !scheduleStore.sending,
                         controller: scheduleStore.controllerDayInit,
                         tip: 'Data início',
                         label: 'Data início',
                         obscure: false,
                         ontap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           changeAlterDayIni();
                         },
                         onChanged: scheduleStore.setDayIni,
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        enabled: true,
+                        enabled: !scheduleStore.sending,
                         controller: scheduleStore.controllerAttendanceTime,
                         tip: 'HH:MM',
                         label: 'Tempo atendimento',
                         obscure: false,
                         ontap: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
                           changeAlterHours(
                               scheduleStore.controllerAttendanceTime,
                               scheduleStore.setAttendanceTime);
                         },
-                        onChanged: scheduleStore.setDayIni,
-                      )
+                      ),
+                      SizedBox(height: space),
+                      CustomForm(
+                        enabled: !scheduleStore.sending,
+                        controller: scheduleStore.controllerQuantityDays,
+                        tip: 'Quantidade de dias',
+                        label: 'Quantidade de dias',
+                        obscure: false,
+                        textInputType: TextInputType.number,
+                        onChanged: scheduleStore.setQuantityDays,
+                      ),
+                      SizedBox(height: space),
+                      Container(
+                        height: 60,
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.3, 1],
+                            colors: [
+                              Color(0XFF212121),
+                              Color(0XFF616161),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                        child: SizedBox.expand(
+                            child: FlatButton(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Cadastrar',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 20),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Container(
+                                      child: SizedBox(
+                                        child: scheduleStore.sending
+                                            ? CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation(
+                                                        Colors.blue),
+                                              )
+                                            : Icon(Icons.send),
+                                        height: 28,
+                                        width: 28,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                onPressed:
+                                    scheduleStore.buttonEnableSchedulePressed)),
+                      ),
                     ],
                   ),
                 ),
@@ -125,6 +186,7 @@ class _ScheduleEnableScheduleScreenState
   void changeAlterHours(TextEditingController controller, Function function) {
     DatePicker.showDatePicker(context,
         locale: DateTimePickerLocale.pt_br,
+        maxDateTime: DateTime(2020, 1, 59, 2),
         dateFormat: 'HH:mm',
         pickerMode: DateTimePickerMode.time, onCancel: () {
       controller.clear();
