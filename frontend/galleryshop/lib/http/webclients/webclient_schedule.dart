@@ -50,6 +50,22 @@ class ScheduleWebClient {
     return response.statusCode;
   }
 
+  Future<int> scheduleEnableSchedue(
+      ScheduleEnableScheduleForm scheduleEnableScheduleForm) async {
+    String token = await getToken();
+
+    final String serviceJson = json.encode(scheduleEnableScheduleForm.toJson());
+
+    final Response response = await webClient.post(urlSchedule,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
   Future<List<ScheduleDtoAppointment>> scheduleFindMyAppointment(
       int idEmployee, int idTypeEmployee) async {
     String token = await getToken();
