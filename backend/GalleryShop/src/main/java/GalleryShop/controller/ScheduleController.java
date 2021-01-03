@@ -163,7 +163,7 @@ public class ScheduleController {
         if (schedule != null) {
             schedule.setClient(null);
             schedule.setAvailable(false);
-//            scheduleRepository.save(schedule);
+            scheduleRepository.save(schedule);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
