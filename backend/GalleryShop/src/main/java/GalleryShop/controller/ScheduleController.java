@@ -90,7 +90,7 @@ public class ScheduleController {
     @Transactional
     public ResponseEntity<ScheduleDto> createNewSchedule(@RequestBody @Valid ScheduleForm form,
                                                          UriComponentsBuilder uriBuilder) {
-        List<Schedule> listSchedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository);
+        List<Schedule> listSchedule = form.convert(employeeRepository, openingHoursRepository, typeEmployeeRepository, scheduleRepository);
 
         if (!listSchedule.isEmpty()) {
             for (Schedule schedule : listSchedule) {

@@ -7,6 +7,7 @@ import GalleryShop.model.Schedule;
 import GalleryShop.model.TypeEmployee;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.OpeningHoursRepository;
+import GalleryShop.repository.ScheduleRepository;
 import GalleryShop.repository.TypeEmployeeRepository;
 
 import javax.persistence.Temporal;
@@ -113,7 +114,7 @@ public class ScheduleForm {
     }
 
     public List<Schedule> convert(final EmployeeRepository employeeRepository,
-                                  final OpeningHoursRepository openingHoursRepository, final TypeEmployeeRepository typeEmployeeRepository) {
+                                  final OpeningHoursRepository openingHoursRepository, final TypeEmployeeRepository typeEmployeeRepository, final ScheduleRepository scheduleRepository) {
 
         LocalDate localDate = LocalDate.now();
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> localDate: " + localDate);
@@ -131,84 +132,91 @@ public class ScheduleForm {
 
             Date dayFinal = convertToDateViaInstant(dateVerify);
 
-            final DayOfTheWeek weekRecover = identifyDayOfWeek(dayFinal);
+            List<Schedule> listReturn = scheduleRepository.findByEmployeeIdAndDay(employeeId, dayFinal);
 
-            final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
+            System.out.println(">>>>>>>>>>><<<<<<<<<<<<<<<" + listReturn);
 
-            String hourCollectMorning = null;
-            LocalTime dateIniMorning = null;
+            if (listReturn.isEmpty()) {
 
-            String hourCollectAfternoon = null;
-            LocalTime dateIniAfternoon = null;
+                final DayOfTheWeek weekRecover = identifyDayOfWeek(dayFinal);
 
-            int dateSeconds = 0;
-            for (OpeningHours openingHours : openingHoursRecover) {
-                if (openingHours.getDayOfTheWeek() == weekRecover) {
-                    final OpeningHours create = openingHours;
+                final List<OpeningHours> openingHoursRecover = openingHoursRepository.findByEmployeeId(employeeId);
 
-                    if (create.getEarlyMorningJourney() != null && create.getEndMorningJourney() != null) {
-                        int convertedAttendanceTime = attendanceTime.toSecondOfDay();
-                        int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
-                                - create.getEarlyMorningJourney().toSecondOfDay();
+                String hourCollectMorning = null;
+                LocalTime dateIniMorning = null;
 
-                        int serviceQuantityMorning = (morningAttendanceTime / convertedAttendanceTime);
+                String hourCollectAfternoon = null;
+                LocalTime dateIniAfternoon = null;
+                int dateSeconds = 0;
+                for (OpeningHours openingHours : openingHoursRecover) {
+                    if (openingHours.getDayOfTheWeek() == weekRecover) {
+                        final OpeningHours create = openingHours;
 
-                        int answeringTimeSecondsMorning = morningAttendanceTime / serviceQuantityMorning;
+                        if (create.getEarlyMorningJourney() != null && create.getEndMorningJourney() != null) {
+                            int convertedAttendanceTime = attendanceTime.toSecondOfDay();
+                            int morningAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                                    - create.getEarlyMorningJourney().toSecondOfDay();
 
-                        for (int hoursCalculate = create.getEarlyMorningJourney()
-                                .toSecondOfDay(); hoursCalculate <= create.getEndMorningJourney()
-                                .toSecondOfDay(); hoursCalculate = hoursCalculate
-                                + answeringTimeSecondsMorning) {
+                            int serviceQuantityMorning = (morningAttendanceTime / convertedAttendanceTime);
 
-                            hourCollectMorning = extracted(hoursCalculate);
-                            dateIniMorning = LocalTime.parse(hourCollectMorning);
+                            int answeringTimeSecondsMorning = morningAttendanceTime / serviceQuantityMorning;
 
-                            dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
+                            for (int hoursCalculate = create.getEarlyMorningJourney()
+                                    .toSecondOfDay(); hoursCalculate <= create.getEndMorningJourney()
+                                    .toSecondOfDay(); hoursCalculate = hoursCalculate
+                                    + answeringTimeSecondsMorning) {
 
-                            LocalTime dateFimMorning = LocalTime.parse(extracted(dateSeconds));
+                                hourCollectMorning = extracted(hoursCalculate);
+                                dateIniMorning = LocalTime.parse(hourCollectMorning);
 
-                            if (dateFimMorning.isBefore(create.getEndMorningJourney())
-                                    || dateFimMorning.equals(create.getEndMorningJourney())) {
+                                dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
 
-                                Schedule scheduleCreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
-                                        attendanceTime, dateIniMorning, dateFimMorning, available);
+                                LocalTime dateFimMorning = LocalTime.parse(extracted(dateSeconds));
 
-                                listSchedules.add(scheduleCreate);
+                                if (dateFimMorning.isBefore(create.getEndMorningJourney())
+                                        || dateFimMorning.equals(create.getEndMorningJourney())) {
+
+                                    Schedule scheduleCreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
+                                            attendanceTime, dateIniMorning, dateFimMorning, available);
+
+                                    listSchedules.add(scheduleCreate);
+
+                                }
 
                             }
 
                         }
 
-                    }
+                        if (create.getEarlyAfternoonJourney() != null && create.getEndJourneyLate() != null) {
+                            int convertedAttendanceTime = attendanceTime.toSecondOfDay();
+                            int afternoonAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
+                                    - create.getEarlyMorningJourney().toSecondOfDay();
 
-                    if (create.getEarlyAfternoonJourney() != null && create.getEndJourneyLate() != null) {
-                        int convertedAttendanceTime = attendanceTime.toSecondOfDay();
-                        int afternoonAttendanceTime = create.getEndMorningJourney().toSecondOfDay()
-                                - create.getEarlyMorningJourney().toSecondOfDay();
+                            int serviceQuantityAfternoon = (afternoonAttendanceTime / convertedAttendanceTime);
 
-                        int serviceQuantityAfternoon = (afternoonAttendanceTime / convertedAttendanceTime);
+                            int answeringTimeSecondsMorning = afternoonAttendanceTime / serviceQuantityAfternoon;
 
-                        int answeringTimeSecondsMorning = afternoonAttendanceTime / serviceQuantityAfternoon;
+                            for (int hoursCalculate = create.getEarlyAfternoonJourney()
+                                    .toSecondOfDay(); hoursCalculate <= create.getEndJourneyLate()
+                                    .toSecondOfDay(); hoursCalculate = hoursCalculate
+                                    + answeringTimeSecondsMorning) {
 
-                        for (int hoursCalculate = create.getEarlyAfternoonJourney()
-                                .toSecondOfDay(); hoursCalculate <= create.getEndJourneyLate()
-                                .toSecondOfDay(); hoursCalculate = hoursCalculate
-                                + answeringTimeSecondsMorning) {
+                                hourCollectAfternoon = extracted(hoursCalculate);
+                                dateIniAfternoon = LocalTime.parse(hourCollectAfternoon);
 
-                            hourCollectAfternoon = extracted(hoursCalculate);
-                            dateIniAfternoon = LocalTime.parse(hourCollectAfternoon);
+                                dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
 
-                            dateSeconds = hoursCalculate + answeringTimeSecondsMorning;
+                                LocalTime dateFimAfternoon = LocalTime.parse(extracted(dateSeconds));
 
-                            LocalTime dateFimAfternoon = LocalTime.parse(extracted(dateSeconds));
+                                if (dateFimAfternoon.isBefore(create.getEndJourneyLate())
+                                        || dateFimAfternoon.equals(create.getEndJourneyLate())) {
 
-                            if (dateFimAfternoon.isBefore(create.getEndJourneyLate())
-                                    || dateFimAfternoon.equals(create.getEndJourneyLate())) {
+                                    Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
+                                            attendanceTime, dateIniAfternoon, dateFimAfternoon, available);
+                                    listSchedules.add(schedulecreate);
 
-                                Schedule schedulecreate = new Schedule(employee.get(), create, typeEmployee.get(), dayFinal,
-                                        attendanceTime, dateIniAfternoon, dateFimAfternoon, available);
-                                listSchedules.add(schedulecreate);
 
+                                }
 
                             }
 
@@ -232,7 +240,7 @@ public class ScheduleForm {
     private List<LocalDate> CreateListDates(Long quantityDays) {
         List<LocalDate> listDates = new ArrayList<>();
 
-        quantityDays = quantityDays - 1;
+//        quantityDays = quantityDays - 1;
         LocalDate newDate = convertToLocalDateViaInstant(day);
 
         for (int x = 0; x <= quantityDays; x++) {

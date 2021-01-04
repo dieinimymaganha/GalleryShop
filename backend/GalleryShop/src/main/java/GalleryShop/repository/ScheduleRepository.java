@@ -32,6 +32,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     Optional<Schedule> findByClientIdAndDayAndStartAttendance(Long id, Date day, LocalTime startAttendance);
 
+    List<Schedule> findByEmployeeIdAndDay(Long idEmployee, Date day);
+
     List<Schedule> findByClientIdAndDay(Long id, Date day);
 
 }
