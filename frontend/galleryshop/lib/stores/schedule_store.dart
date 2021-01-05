@@ -33,7 +33,7 @@ abstract class _ScheduleStore with Store {
       this.scheduleDtoAppointment,
       this.appointmentConsult}) {
     autorun((_) {
-      print('valueSelectTypeEmployee >>>>> $valueSelectTypeEmployee');
+      print('enableScheduleError >>>>> $enableScheduleError');
     });
   }
 
@@ -144,11 +144,49 @@ abstract class _ScheduleStore with Store {
   }
 
   @computed
-  Function get buttonEnableSchedulePressed =>
-      fieldsValid ? enableSchedule : null;
+  Function get buttonEnableSchedulePressed => fieldsValid ? saveSchedule : null;
+
+  @observable
+  bool enableScheduleSending = false;
+
+  @observable
+  bool enableScheduleOk = false;
+
+  @observable
+  bool enableScheduleError = false;
+
+  @observable
+  bool enableScheduleDuplicate = false;
 
   @action
-  Future<void> enableSchedule() async {
+  Future<void> saveSchedule() async {
+    enableScheduleSending = true;
+    await Future.delayed(Duration(seconds: 2));
+    enableScheduleSending = false;
+    ScheduleEnableScheduleForm form = await createFormEnableSchedule();
+    await sendEnableSchedule(form);
+  }
+
+  @action
+  Future<void> sendEnableSchedule(ScheduleEnableScheduleForm form) async {
+    int response = await scheduleWebClient.scheduleEnableSchedue(form);
+//    int response = 2;
+
+    if (response == 200) {
+      enableScheduleOk = true;
+    } else if (response == 404) {
+      enableScheduleDuplicate = true;
+    } else {
+      enableScheduleError = true;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    enableScheduleOk = false;
+    enableScheduleError = false;
+    enableScheduleDuplicate = false;
+  }
+
+  Future<ScheduleEnableScheduleForm> createFormEnableSchedule() async {
     ScheduleEnableScheduleForm form = ScheduleEnableScheduleForm(
         employeeId: idEmployee,
         day: dayInit,
@@ -156,9 +194,7 @@ abstract class _ScheduleStore with Store {
         typeEmployeeId: idTypeEmployee,
         quantityDays: quantityDays,
         available: false);
-
-    int response = await scheduleWebClient.scheduleEnableSchedue(form);
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $response');
+    return form;
   }
 
   @action
@@ -186,9 +222,11 @@ abstract class _ScheduleStore with Store {
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
-      DateTime date = convertDateFromString(event.day);
-      if (data[date] == null) data[date] = [];
-      data[date].add(event);
+      if (event.available == false) {
+        DateTime date = convertDateFromString(event.day);
+        if (data[date] == null) data[date] = [];
+        data[date].add(event);
+      }
     });
     return data;
   }
@@ -263,6 +301,7 @@ abstract class _ScheduleStore with Store {
   @action
   Future<void> loagingPageInit() async {
     loadingPageScheduleTime = true;
+    await createInfoSchedule();
     await setListMySchedule();
     if (typeEmployeeDto != null) {
       loadingPageScheduleTime = false;
@@ -273,7 +312,6 @@ abstract class _ScheduleStore with Store {
   Future<void> reloadList() async {
     errorList = false;
     loadingPageScheduleTime = false;
-    createInfoSchedule();
     loagingPageInit();
   }
 

@@ -357,6 +357,71 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$enableScheduleSendingAtom =
+      Atom(name: '_ScheduleStore.enableScheduleSending');
+
+  @override
+  bool get enableScheduleSending {
+    _$enableScheduleSendingAtom.reportRead();
+    return super.enableScheduleSending;
+  }
+
+  @override
+  set enableScheduleSending(bool value) {
+    _$enableScheduleSendingAtom.reportWrite(value, super.enableScheduleSending,
+        () {
+      super.enableScheduleSending = value;
+    });
+  }
+
+  final _$enableScheduleOkAtom = Atom(name: '_ScheduleStore.enableScheduleOk');
+
+  @override
+  bool get enableScheduleOk {
+    _$enableScheduleOkAtom.reportRead();
+    return super.enableScheduleOk;
+  }
+
+  @override
+  set enableScheduleOk(bool value) {
+    _$enableScheduleOkAtom.reportWrite(value, super.enableScheduleOk, () {
+      super.enableScheduleOk = value;
+    });
+  }
+
+  final _$enableScheduleErrorAtom =
+      Atom(name: '_ScheduleStore.enableScheduleError');
+
+  @override
+  bool get enableScheduleError {
+    _$enableScheduleErrorAtom.reportRead();
+    return super.enableScheduleError;
+  }
+
+  @override
+  set enableScheduleError(bool value) {
+    _$enableScheduleErrorAtom.reportWrite(value, super.enableScheduleError, () {
+      super.enableScheduleError = value;
+    });
+  }
+
+  final _$enableScheduleDuplicateAtom =
+      Atom(name: '_ScheduleStore.enableScheduleDuplicate');
+
+  @override
+  bool get enableScheduleDuplicate {
+    _$enableScheduleDuplicateAtom.reportRead();
+    return super.enableScheduleDuplicate;
+  }
+
+  @override
+  set enableScheduleDuplicate(bool value) {
+    _$enableScheduleDuplicateAtom
+        .reportWrite(value, super.enableScheduleDuplicate, () {
+      super.enableScheduleDuplicate = value;
+    });
+  }
+
   final _$scheduleSendAtom = Atom(name: '_ScheduleStore.scheduleSend');
 
   @override
@@ -450,12 +515,20 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
-  final _$enableScheduleAsyncAction =
-      AsyncAction('_ScheduleStore.enableSchedule');
+  final _$saveScheduleAsyncAction = AsyncAction('_ScheduleStore.saveSchedule');
 
   @override
-  Future<void> enableSchedule() {
-    return _$enableScheduleAsyncAction.run(() => super.enableSchedule());
+  Future<void> saveSchedule() {
+    return _$saveScheduleAsyncAction.run(() => super.saveSchedule());
+  }
+
+  final _$sendEnableScheduleAsyncAction =
+      AsyncAction('_ScheduleStore.sendEnableSchedule');
+
+  @override
+  Future<void> sendEnableSchedule(ScheduleEnableScheduleForm form) {
+    return _$sendEnableScheduleAsyncAction
+        .run(() => super.sendEnableSchedule(form));
   }
 
   final _$setOptionsMyScheduleAsyncAction =
@@ -662,6 +735,10 @@ attendanceTime: ${attendanceTime},
 quantityDays: ${quantityDays},
 sending: ${sending},
 controllerQuantityDays: ${controllerQuantityDays},
+enableScheduleSending: ${enableScheduleSending},
+enableScheduleOk: ${enableScheduleOk},
+enableScheduleError: ${enableScheduleError},
+enableScheduleDuplicate: ${enableScheduleDuplicate},
 scheduleSend: ${scheduleSend},
 scheduleOk: ${scheduleOk},
 scheduleDuplicate: ${scheduleDuplicate},
