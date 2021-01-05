@@ -25,7 +25,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                     scheduleDtoAppointment.startAttendance,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  lineGen(
+                  LineGen(
                     lines: [40.0, 30.0, 20.0],
                   ),
                   Text(
@@ -48,7 +48,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                   margin: EdgeInsets.only(left: 4.0),
                   color: colorCard,
                   padding: EdgeInsets.only(
-                    left: 16.0,
+                    left: 8.0,
                     top: 8.0,
                   ),
                   child: Column(
@@ -87,7 +87,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -105,8 +105,40 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                       color: Colors.red,
                                     ),
                                     Text(
-                                      'Cancelar horário',
+                                      'Cancelar',
                                       style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+//                                  showDialog(
+//                                      context: context,
+//                                      builder: (context) =>
+//                                          DialogCancelAppointment(
+//                                            scheduleDto: scheduleDto,
+//                                          ));
+                                },
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.white70,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: FlatButton(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.event_available,
+                                      color: Colors.green,
+                                    ),
+                                    Text(
+                                      'Confirmar',
+                                      style: TextStyle(color: Colors.green),
                                     ),
                                   ],
                                 ),
@@ -135,10 +167,10 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
   }
 }
 
-class lineGen extends StatelessWidget {
+class LineGen extends StatelessWidget {
   final lines;
 
-  const lineGen({
+  const LineGen({
     Key key,
     this.lines,
   }) : super(key: key);
