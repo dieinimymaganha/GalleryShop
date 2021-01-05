@@ -64,6 +64,25 @@ class EmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<List<EmployeeDto>> findEmployeeTypeEmployee(int id) async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlEmployee + "/typeEmployeeId=" + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data =
+      decodeJson.map((dynamic json) => EmployeeDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
 
 
 
