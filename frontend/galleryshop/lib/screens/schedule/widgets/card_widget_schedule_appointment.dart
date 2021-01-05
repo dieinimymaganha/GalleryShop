@@ -137,7 +137,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                       color: Colors.green,
                                     ),
                                     Text(
-                                      'Confirmar',
+                                      'Concluir',
                                       style: TextStyle(color: Colors.green),
                                     ),
                                   ],
