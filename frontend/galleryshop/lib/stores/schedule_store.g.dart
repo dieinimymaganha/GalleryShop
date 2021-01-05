@@ -24,6 +24,36 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
               () => super.buttonEnableSchedulePressed,
               name: '_ScheduleStore.buttonEnableSchedulePressed'))
           .value;
+  Computed<bool> _$isValueSelectEmployeeValidComputed;
+
+  @override
+  bool get isValueSelectEmployeeValid =>
+      (_$isValueSelectEmployeeValidComputed ??= Computed<bool>(
+              () => super.isValueSelectEmployeeValid,
+              name: '_ScheduleStore.isValueSelectEmployeeValid'))
+          .value;
+  Computed<Function> _$sendPressedComputed;
+
+  @override
+  Function get sendPressed =>
+      (_$sendPressedComputed ??= Computed<Function>(() => super.sendPressed,
+              name: '_ScheduleStore.sendPressed'))
+          .value;
+  Computed<bool> _$isValidFieldFindScheduleComputed;
+
+  @override
+  bool get isValidFieldFindSchedule => (_$isValidFieldFindScheduleComputed ??=
+          Computed<bool>(() => super.isValidFieldFindSchedule,
+              name: '_ScheduleStore.isValidFieldFindSchedule'))
+      .value;
+  Computed<bool> _$isValueSelectTypeEmployeeValidComputed;
+
+  @override
+  bool get isValueSelectTypeEmployeeValid =>
+      (_$isValueSelectTypeEmployeeValidComputed ??= Computed<bool>(
+              () => super.isValueSelectTypeEmployeeValid,
+              name: '_ScheduleStore.isValueSelectTypeEmployeeValid'))
+          .value;
 
   final _$employeeDtoAtom = Atom(name: '_ScheduleStore.employeeDto');
 
@@ -515,6 +545,98 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$sendEmployeeAtom = Atom(name: '_ScheduleStore.sendEmployee');
+
+  @override
+  bool get sendEmployee {
+    _$sendEmployeeAtom.reportRead();
+    return super.sendEmployee;
+  }
+
+  @override
+  set sendEmployee(bool value) {
+    _$sendEmployeeAtom.reportWrite(value, super.sendEmployee, () {
+      super.sendEmployee = value;
+    });
+  }
+
+  final _$loadingListEmployeeAtom =
+      Atom(name: '_ScheduleStore.loadingListEmployee');
+
+  @override
+  bool get loadingListEmployee {
+    _$loadingListEmployeeAtom.reportRead();
+    return super.loadingListEmployee;
+  }
+
+  @override
+  set loadingListEmployee(bool value) {
+    _$loadingListEmployeeAtom.reportWrite(value, super.loadingListEmployee, () {
+      super.loadingListEmployee = value;
+    });
+  }
+
+  final _$loadingValuesAtom = Atom(name: '_ScheduleStore.loadingValues');
+
+  @override
+  bool get loadingValues {
+    _$loadingValuesAtom.reportRead();
+    return super.loadingValues;
+  }
+
+  @override
+  set loadingValues(bool value) {
+    _$loadingValuesAtom.reportWrite(value, super.loadingValues, () {
+      super.loadingValues = value;
+    });
+  }
+
+  final _$valueSelectEmployeeAtom =
+      Atom(name: '_ScheduleStore.valueSelectEmployee');
+
+  @override
+  int get valueSelectEmployee {
+    _$valueSelectEmployeeAtom.reportRead();
+    return super.valueSelectEmployee;
+  }
+
+  @override
+  set valueSelectEmployee(int value) {
+    _$valueSelectEmployeeAtom.reportWrite(value, super.valueSelectEmployee, () {
+      super.valueSelectEmployee = value;
+    });
+  }
+
+  final _$listEmployeeAtom = Atom(name: '_ScheduleStore.listEmployee');
+
+  @override
+  List<dynamic> get listEmployee {
+    _$listEmployeeAtom.reportRead();
+    return super.listEmployee;
+  }
+
+  @override
+  set listEmployee(List<dynamic> value) {
+    _$listEmployeeAtom.reportWrite(value, super.listEmployee, () {
+      super.listEmployee = value;
+    });
+  }
+
+  final _$dataServicesAtom = Atom(name: '_ScheduleStore.dataServices');
+
+  @override
+  List<dynamic> get dataServices {
+    _$dataServicesAtom.reportRead();
+    return super.dataServices;
+  }
+
+  @override
+  set dataServices(List<dynamic> value) {
+    _$dataServicesAtom.reportWrite(value, super.dataServices, () {
+      super.dataServices = value;
+    });
+  }
+
   final _$saveScheduleAsyncAction = AsyncAction('_ScheduleStore.saveSchedule');
 
   @override
@@ -606,6 +728,32 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   Future<void> sendConfirmScheduleEmployee(int idSchedule) {
     return _$sendConfirmScheduleEmployeeAsyncAction
         .run(() => super.sendConfirmScheduleEmployee(idSchedule));
+  }
+
+  final _$buttonPressedAsyncAction =
+      AsyncAction('_ScheduleStore.buttonPressed');
+
+  @override
+  Future<void> buttonPressed() {
+    return _$buttonPressedAsyncAction.run(() => super.buttonPressed());
+  }
+
+  final _$setIdTypeEmployeeConsultAsyncAction =
+      AsyncAction('_ScheduleStore.setIdTypeEmployeeConsult');
+
+  @override
+  Future<void> setIdTypeEmployeeConsult(String value) {
+    return _$setIdTypeEmployeeConsultAsyncAction
+        .run(() => super.setIdTypeEmployeeConsult(value));
+  }
+
+  final _$getEmployeeTypeEmployeeAsyncAction =
+      AsyncAction('_ScheduleStore.getEmployeeTypeEmployee');
+
+  @override
+  Future<void> getEmployeeTypeEmployee(int id) {
+    return _$getEmployeeTypeEmployeeAsyncAction
+        .run(() => super.getEmployeeTypeEmployee(id));
   }
 
   final _$_ScheduleStoreActionController =
@@ -712,6 +860,39 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
+  void resetEmployee() {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.resetEmployee');
+    try {
+      return super.resetEmployee();
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selectEmployee(int value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.selectEmployee');
+    try {
+      return super.selectEmployee(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setIdEmployee(int value) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setIdEmployee');
+    try {
+      return super.setIdEmployee(value);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 employeeDto: ${employeeDto},
@@ -745,8 +926,18 @@ scheduleDuplicate: ${scheduleDuplicate},
 scheduleNotAvailable: ${scheduleNotAvailable},
 scheduleConflit: ${scheduleConflit},
 scheduleFail: ${scheduleFail},
+sendEmployee: ${sendEmployee},
+loadingListEmployee: ${loadingListEmployee},
+loadingValues: ${loadingValues},
+valueSelectEmployee: ${valueSelectEmployee},
+listEmployee: ${listEmployee},
+dataServices: ${dataServices},
 fieldsValid: ${fieldsValid},
-buttonEnableSchedulePressed: ${buttonEnableSchedulePressed}
+buttonEnableSchedulePressed: ${buttonEnableSchedulePressed},
+isValueSelectEmployeeValid: ${isValueSelectEmployeeValid},
+sendPressed: ${sendPressed},
+isValidFieldFindSchedule: ${isValidFieldFindSchedule},
+isValueSelectTypeEmployeeValid: ${isValueSelectTypeEmployeeValid}
     ''';
   }
 }

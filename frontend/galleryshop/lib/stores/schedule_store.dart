@@ -375,6 +375,79 @@ abstract class _ScheduleStore with Store {
     await Future.delayed(Duration(seconds: 2));
     scheduleOk = false;
   }
+
+
+  // a partir daqui
+  @observable
+  bool sendEmployee = false;
+
+  @observable
+  bool loadingListEmployee = true;
+
+  @observable
+  bool loadingValues = false;
+
+  @computed
+  bool get isValueSelectEmployeeValid => valueSelectEmployee != null;
+
+  @observable
+  int valueSelectEmployee;
+
+  @observable
+  List<dynamic> listEmployee = List();
+
+  @action
+  void resetEmployee() => valueSelectEmployee = null;
+
+  @observable
+  List<dynamic> dataServices = List();
+
+  void getServices() async {
+    final response = await typeEmployeeWebClient.findAll();
+    dataServices = response;
+  }
+
+  @action
+  void selectEmployee(int value) => valueSelectEmployee = value;
+
+  @action
+  void setIdEmployee(int value) => idEmployee = value;
+
+  @computed
+  Function get sendPressed => isValidFieldFindSchedule ? buttonPressed : null;
+
+  @computed
+  bool get isValidFieldFindSchedule =>
+      (isValueSelectEmployeeValid && isValueSelectTypeEmployeeValid);
+
+  @computed
+  bool get isValueSelectTypeEmployeeValid => valueSelectTypeEmployee != null;
+
+  @action
+  Future<void> buttonPressed() async {
+    sendEmployee = true;
+  }
+
+  @action
+  Future<void> setIdTypeEmployeeConsult(String value) async {
+    loadingListEmployee = false;
+    loadingValues = true;
+    await Future.delayed(Duration(seconds: 2));
+    dataServices.forEach((element) {
+      if (value == element.description) {
+        getEmployeeTypeEmployee(element.id);
+        idTypeEmployee = element.id;
+      }
+    });
+    loadingValues = false;
+  }
+
+  @action
+  Future<void> getEmployeeTypeEmployee(int id) async {
+    final response = await employeeWebClient.findEmployeeTypeEmployee(id);
+    listEmployee = response;
+  }
+
 }
 
 DateTime convertDateFromString(String strDate) {
