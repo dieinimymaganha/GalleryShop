@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
+import 'package:mobx/mobx.dart';
 
 class ScheduleEnableScheduleScreen extends StatefulWidget {
   @override
@@ -17,10 +19,65 @@ class _ScheduleEnableScheduleScreenState
     extends State<ScheduleEnableScheduleScreen> {
   ScheduleStore scheduleStore = ScheduleStore();
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
     scheduleStore.loadingInitOptionsSchedule();
+  }
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction((_) => scheduleStore.enableScheduleOk, (created) async {
+      if (created) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Agenda cadastrada com sucesso!',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.blueAccent,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => BaseScreen()));
+      }
+    });
+
+    disposer = reaction((_) => scheduleStore.enableScheduleDuplicate,
+        (duplicate) async {
+      if (duplicate) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Intervalo de agenda já cadastrado',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.yellowAccent,
+          duration: Duration(seconds: 2),
+        ));
+      }
+      await Future.delayed(Duration(seconds: 2));
+    });
+
+    disposer =
+        reaction((_) => scheduleStore.enableScheduleError, (error) async {
+      if (error) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Erro ao cadastrar',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ));
+      }
+      await Future.delayed(Duration(seconds: 2));
+    });
   }
 
   @override
@@ -28,6 +85,7 @@ class _ScheduleEnableScheduleScreenState
     return Observer(
       builder: (_) {
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text('Habilitar agenda'),
             centerTitle: true,
@@ -66,7 +124,7 @@ class _ScheduleEnableScheduleScreenState
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        enabled: !scheduleStore.sending,
+                        enabled: !scheduleStore.enableScheduleSending,
                         controller: scheduleStore.controllerDayInit,
                         tip: 'Data início',
                         label: 'Data início',
@@ -79,7 +137,7 @@ class _ScheduleEnableScheduleScreenState
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        enabled: !scheduleStore.sending,
+                        enabled: !scheduleStore.enableScheduleSending,
                         controller: scheduleStore.controllerAttendanceTime,
                         tip: 'HH:MM',
                         label: 'Tempo atendimento',
@@ -93,7 +151,7 @@ class _ScheduleEnableScheduleScreenState
                       ),
                       SizedBox(height: space),
                       CustomForm(
-                        enabled: !scheduleStore.sending,
+                        enabled: !scheduleStore.enableScheduleSending,
                         controller: scheduleStore.controllerQuantityDays,
                         tip: 'Quantidade de dias',
                         label: 'Quantidade de dias',
@@ -135,13 +193,14 @@ class _ScheduleEnableScheduleScreenState
                                     ),
                                     Container(
                                       child: SizedBox(
-                                        child: scheduleStore.sending
-                                            ? CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation(
-                                                        Colors.blue),
-                                              )
-                                            : Icon(Icons.send),
+                                        child:
+                                            scheduleStore.enableScheduleSending
+                                                ? CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            Colors.blue),
+                                                  )
+                                                : Icon(Icons.send),
                                         height: 28,
                                         width: 28,
                                       ),
@@ -210,5 +269,11 @@ class _ScheduleEnableScheduleScreenState
             style: TextStyle(color: Colors.blueAccent, fontSize: 18),
           ),
         ));
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }
