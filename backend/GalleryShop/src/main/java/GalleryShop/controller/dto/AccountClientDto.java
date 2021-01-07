@@ -12,7 +12,7 @@ public class AccountClientDto {
     private Double amountPaid;
     private Double balance;
     private ClientDto clientDto;
-    private List<ServiceRecordDto> serviceRecordDtos;
+    private List<ServiceRecordDto> serviceRecordDto;
 
     public AccountClientDto(final AccountClient accountClient) {
         this.id = accountClient.getId();
@@ -20,12 +20,12 @@ public class AccountClientDto {
         this.amountPaid = accountClient.getAmountPaid();
         this.balance = accountClient.getBalance();
         this.clientDto = new ClientDto(accountClient.getClient());
-        this.serviceRecordDtos = new ArrayList<>();
-        this.serviceRecordDtos.addAll(accountClient.getServiceRecord().stream().map(ServiceRecordDto::new).collect(Collectors.toList()));
+        this.serviceRecordDto = new ArrayList<>();
+        this.serviceRecordDto.addAll(accountClient.getServiceRecord().stream().map(ServiceRecordDto::new).collect(Collectors.toList()));
     }
 
-    public List<ServiceRecordDto> getServiceRecordDtos() {
-        return serviceRecordDtos;
+    public List<ServiceRecordDto> getServiceRecordDto() {
+        return serviceRecordDto;
     }
 
     public Long getId() {
