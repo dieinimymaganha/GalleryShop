@@ -8,6 +8,8 @@ import GalleryShop.repository.ClientRepository;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.ServiceRepository;
 
+import java.util.Date;
+
 public class ServiceRecordForm {
 
     private Double discount;
@@ -58,7 +60,9 @@ public class ServiceRecordForm {
 
         Client client = clientRepository.getOne(clientId);
 
-        return new ServiceRecord(discount, client, employee, service);
+        Date dateService = new Date();
+
+        return new ServiceRecord(discount, dateService, client, employee, service);
 
     }
 

@@ -1,6 +1,7 @@
 package GalleryShop.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class ServiceRecord {
@@ -10,6 +11,9 @@ public class ServiceRecord {
     private Long id;
 
     private Double discount;
+
+    private @Temporal(TemporalType.DATE)
+    Date dateService;
 
     @OneToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
@@ -24,14 +28,23 @@ public class ServiceRecord {
     private Service service;
 
 
-    public ServiceRecord(Double discount, Client client, Employee employee, Service service) {
+    public ServiceRecord(Double discount, Date dateService, Client client, Employee employee, Service service) {
         this.discount = discount;
+        this.dateService = dateService;
         this.client = client;
         this.employee = employee;
         this.service = service;
     }
 
     public ServiceRecord() {
+    }
+
+    public Date getDateService() {
+        return dateService;
+    }
+
+    public void setDateService(Date dateService) {
+        this.dateService = dateService;
     }
 
     public Long getId() {
