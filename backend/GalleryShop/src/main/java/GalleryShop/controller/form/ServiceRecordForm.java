@@ -65,6 +65,9 @@ public class ServiceRecordForm {
 
         if (accountClient.isPresent()) {
             accountClientReturn = accountClient.get();
+            Double updateAmount = (accountClientReturn.getAmount() + service.getValue()) - discount;
+            accountClientReturn.setAmount(updateAmount);
+
         } else {
             AccountClient createAccount = new AccountClient(client, 0.0, 0.0, 0.0);
             accountClientRepository.save(createAccount);
