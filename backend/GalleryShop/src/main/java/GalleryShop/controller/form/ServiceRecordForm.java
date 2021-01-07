@@ -1,14 +1,13 @@
 package GalleryShop.controller.form;
 
-import GalleryShop.model.Client;
-import GalleryShop.model.Employee;
-import GalleryShop.model.Service;
-import GalleryShop.model.ServiceRecord;
+import GalleryShop.model.*;
+import GalleryShop.repository.AccountClientRepository;
 import GalleryShop.repository.ClientRepository;
 import GalleryShop.repository.EmployeeRepository;
 import GalleryShop.repository.ServiceRepository;
 
 import java.util.Date;
+import java.util.Optional;
 
 public class ServiceRecordForm {
 
@@ -52,7 +51,7 @@ public class ServiceRecordForm {
         this.clientId = clientId;
     }
 
-    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository, ClientRepository clientRepository) {
+    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository, ClientRepository clientRepository, AccountClientRepository accountClientRepository) {
 
         Service service = serviceRepository.getOne(serviceId);
 
@@ -60,9 +59,24 @@ public class ServiceRecordForm {
 
         Client client = clientRepository.getOne(clientId);
 
+        Optional<AccountClient> accountClient = accountClientRepository.findByClientId(clientId);
+
+        AccountClient accountClientReturn = new AccountClient();
+
+        if (accountClient.isPresent()) {
+            accountClientReturn = accountClient.get();
+        } else {
+            AccountClient createAccount = new AccountClient(client, 0.0, 0.0, 0.0);
+            accountClientRepository.save(createAccount);
+            Optional<AccountClient> accountClientNew = accountClientRepository.findByClientId(clientId);
+            if (accountClientNew.isPresent()) {
+                accountClientReturn = accountClientNew.get();
+            }
+        }
+
         Date dateService = new Date();
 
-        return new ServiceRecord(discount, dateService, client, employee, service);
+        return new ServiceRecord(discount, dateService, client, employee, service, accountClientReturn);
 
     }
 
