@@ -4,22 +4,22 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 
-class BilledService extends StatefulWidget {
+class BilledServiceScreen extends StatefulWidget {
   final String typeEmployee;
   final int idEmployee;
   final int idClient;
 
-  BilledService({this.typeEmployee, this.idEmployee, this.idClient});
+  BilledServiceScreen({this.typeEmployee, this.idEmployee, this.idClient});
 
   @override
-  _BilledServiceState createState() => _BilledServiceState(
+  _BilledServiceScreenState createState() => _BilledServiceScreenState(
       typeEmployee: typeEmployee, idEmployee: idEmployee, idClient: idClient);
 }
 
-class _BilledServiceState extends State<BilledService> {
+class _BilledServiceScreenState extends State<BilledServiceScreen> {
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
-  _BilledServiceState(
+  _BilledServiceScreenState(
       {String typeEmployee, int idEmployee, int idService, int idClient})
       : billedServiceStore = BilledServiceStore(
             typeEmployee: typeEmployee,
