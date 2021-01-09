@@ -10,8 +10,6 @@ public class ServiceRecord {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Double discount;
-
     private @Temporal(TemporalType.DATE)
     Date dateService;
 
@@ -32,8 +30,7 @@ public class ServiceRecord {
     private AccountClient accountClient;
 
 
-    public ServiceRecord(Double discount, Date dateService, Client client, Employee employee, BilledService billedService, AccountClient accountClient) {
-        this.discount = discount;
+    public ServiceRecord(Date dateService, Client client, Employee employee, BilledService billedService, AccountClient accountClient) {
         this.dateService = dateService;
         this.client = client;
         this.employee = employee;
@@ -68,13 +65,6 @@ public class ServiceRecord {
         this.id = id;
     }
 
-    public Double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Double discount) {
-        this.discount = discount;
-    }
 
     public Client getClient() {
         return client;
