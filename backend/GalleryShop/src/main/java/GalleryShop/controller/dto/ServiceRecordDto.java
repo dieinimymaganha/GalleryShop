@@ -8,14 +8,12 @@ import java.util.stream.Collectors;
 
 public class ServiceRecordDto {
     private Long id;
-    private Double discount;
     private Date dateService;
     private EmployeeDtoBasic employeeDtoBasic;
     private BilledServiceDto billedServiceDto;
 
     public ServiceRecordDto(final ServiceRecord serviceRecord) {
         this.id = serviceRecord.getId();
-        this.discount = serviceRecord.getDiscount();
         this.dateService = serviceRecord.getDateService();
         this.employeeDtoBasic = new EmployeeDtoBasic(serviceRecord.getEmployee());
         this.billedServiceDto = new BilledServiceDto(serviceRecord.getBilledService());
@@ -34,9 +32,6 @@ public class ServiceRecordDto {
         return id;
     }
 
-    public Double getDiscount() {
-        return discount;
-    }
 
     public EmployeeDtoBasic getEmployeeDtoBasic() {
         return employeeDtoBasic;

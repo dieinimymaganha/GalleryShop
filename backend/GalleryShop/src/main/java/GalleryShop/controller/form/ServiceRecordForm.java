@@ -108,7 +108,7 @@ public class ServiceRecordForm {
 
         Date dateService = new Date();
 
-        return new ServiceRecord(discount, dateService, client, employee, billedService, accountClientReturn);
+        return new ServiceRecord(dateService, client, employee, billedService, accountClientReturn);
 
     }
 
