@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/schedule.dart';
+import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
 
+// ignore: must_be_immutable
 class CardWidgetScheduleAppointment extends StatelessWidget {
   ScheduleDtoAppointment scheduleDtoAppointment;
 
@@ -143,12 +145,18 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                   ],
                                 ),
                                 onPressed: () {
-//                                  showDialog(
-//                                      context: context,
-//                                      builder: (context) =>
-//                                          DialogCancelAppointment(
-//                                            scheduleDto: scheduleDto,
-//                                          ));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => BilledService(
+                                                typeEmployee:
+                                                    scheduleDtoAppointment
+                                                        .typeEmployee,
+                                                idEmployee:
+                                                    scheduleDtoAppointment
+                                                        .employeeId,
+                                            idClient: scheduleDtoAppointment.clientId,
+                                              )));
                                 },
                               ),
                             ),
