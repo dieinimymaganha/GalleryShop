@@ -11,31 +11,24 @@ public class ServiceRecordDto {
     private Double discount;
     private Date dateService;
     private EmployeeDtoBasic employeeDtoBasic;
-    private ClientDto clientDto;
-    private ServiceDto serviceDto;
-
+    private BilledServiceDto billedServiceDto;
 
     public ServiceRecordDto(final ServiceRecord serviceRecord) {
         this.id = serviceRecord.getId();
         this.discount = serviceRecord.getDiscount();
         this.dateService = serviceRecord.getDateService();
         this.employeeDtoBasic = new EmployeeDtoBasic(serviceRecord.getEmployee());
-        this.clientDto = new ClientDto(serviceRecord.getClient());
-        this.serviceDto = new ServiceDto(serviceRecord.getService());
-
+        this.billedServiceDto = new BilledServiceDto(serviceRecord.getBilledService());
     }
 
     public Date getDateService() {
         return dateService;
     }
 
-    public ServiceDto getServiceDto() {
-        return serviceDto;
+    public BilledServiceDto getBilledServiceDto() {
+        return billedServiceDto;
     }
 
-    public ClientDto getClientDto() {
-        return clientDto;
-    }
 
     public Long getId() {
         return id;

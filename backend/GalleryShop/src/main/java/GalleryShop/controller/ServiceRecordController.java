@@ -35,6 +35,8 @@ public class ServiceRecordController {
     @Autowired
     AccountClientRepository accountClientRepository;
 
+    @Autowired
+    BilledServiceRepository billedServiceRepository;
 
     @GetMapping
     public List<ServiceRecordDto> getAll() {
@@ -46,7 +48,7 @@ public class ServiceRecordController {
     @PostMapping
     @Transactional
     public ResponseEntity<ServiceRecordDto> createServiceRecord(@RequestBody @Valid ServiceRecordForm form, UriComponentsBuilder uriBuilder) {
-        ServiceRecord serviceRecord = form.converter(serviceRepository, employeeRepository, clientRepository, accountClientRepository);
+        ServiceRecord serviceRecord = form.converter(serviceRepository, employeeRepository, clientRepository, accountClientRepository, billedServiceRepository);
         serviceRecordRepository.save(serviceRecord);
         URI uri = uriBuilder.path("/serviceRecord/{id}").buildAndExpand(serviceRecord.getId()).toUri();
         return ResponseEntity.created(uri).body(new ServiceRecordDto(serviceRecord));

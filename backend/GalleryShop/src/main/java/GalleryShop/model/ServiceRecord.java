@@ -24,20 +24,20 @@ public class ServiceRecord {
     private Employee employee;
 
     @OneToOne
-    @JoinColumn(name = "service_id", referencedColumnName = "id")
-    private Service service;
+    @JoinColumn(name = "billedService_id", referencedColumnName = "id")
+    private BilledService billedService;
 
     @ManyToOne()
     @JoinColumn(name = "account_id")
     private AccountClient accountClient;
 
 
-    public ServiceRecord(Double discount, Date dateService, Client client, Employee employee, Service service, AccountClient accountClient) {
+    public ServiceRecord(Double discount, Date dateService, Client client, Employee employee, BilledService billedService, AccountClient accountClient) {
         this.discount = discount;
         this.dateService = dateService;
         this.client = client;
         this.employee = employee;
-        this.service = service;
+        this.billedService = billedService;
         this.accountClient = accountClient;
     }
 
@@ -92,12 +92,11 @@ public class ServiceRecord {
         this.employee = employee;
     }
 
-    public Service getService() {
-        return service;
+    public BilledService getBilledService() {
+        return billedService;
     }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setBilledService(BilledService billedService) {
+        this.billedService = billedService;
     }
-
 }

@@ -1,10 +1,7 @@
 package GalleryShop.controller.form;
 
 import GalleryShop.model.*;
-import GalleryShop.repository.AccountClientRepository;
-import GalleryShop.repository.ClientRepository;
-import GalleryShop.repository.EmployeeRepository;
-import GalleryShop.repository.ServiceRepository;
+import GalleryShop.repository.*;
 
 import java.util.Date;
 import java.util.Optional;
@@ -18,6 +15,16 @@ public class ServiceRecordForm {
     private Long employeeId;
 
     private Long clientId;
+
+    private double value;
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
 
     public Double getDiscount() {
         return discount;
@@ -51,9 +58,28 @@ public class ServiceRecordForm {
         this.clientId = clientId;
     }
 
-    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository, ClientRepository clientRepository, AccountClientRepository accountClientRepository) {
+    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository, ClientRepository clientRepository, AccountClientRepository accountClientRepository, BilledServiceRepository billedServiceRepository) {
 
         Service service = serviceRepository.getOne(serviceId);
+
+        BilledService billedService = new BilledService();
+
+
+        if (service != null) {
+            billedService.setDescription(service.getDescription());
+            if (service.getFixedPrice().equals(false)) {
+                billedService.setValue(value);
+            } else {
+                billedService.setValue(service.getValue());
+            }
+            billedService.setDiscount(discount);
+            double valueFinal = billedService.getValue() - billedService.getDiscount();
+            billedService.setValueFinal(valueFinal);
+            billedService.setTypeEmployee(service.getTypeEmployee().getDescription());
+            billedServiceRepository.save(billedService);
+
+        }
+
 
         Employee employee = employeeRepository.getOne(employeeId);
 
@@ -65,7 +91,7 @@ public class ServiceRecordForm {
 
         if (accountClient.isPresent()) {
             accountClientReturn = accountClient.get();
-            Double updateAmount = (accountClientReturn.getAmount() + service.getValue()) - discount;
+            Double updateAmount = (accountClientReturn.getAmount() + billedService.getValue()) - billedService.getDiscount();
             accountClientReturn.setAmount(updateAmount);
 
         } else {
@@ -79,7 +105,7 @@ public class ServiceRecordForm {
 
         Date dateService = new Date();
 
-        return new ServiceRecord(discount, dateService, client, employee, service, accountClientReturn);
+        return new ServiceRecord(discount, dateService, client, employee, billedService, accountClientReturn);
 
     }
 
