@@ -64,6 +64,8 @@ public class ServiceRecordForm {
 
         BilledService billedService = new BilledService();
 
+        Employee employee = employeeRepository.getOne(employeeId);
+
 
         if (service != null) {
             billedService.setDescription(service.getDescription());
@@ -76,12 +78,13 @@ public class ServiceRecordForm {
             double valueFinal = billedService.getValue() - billedService.getDiscount();
             billedService.setValueFinal(valueFinal);
             billedService.setTypeEmployee(service.getTypeEmployee().getDescription());
+            double commissionAmountEmployee = (valueFinal / 100) * employee.getCommissionRate();
+            double commissionAmountCompany = valueFinal - commissionAmountEmployee;
+            billedService.setCommissionAmountEmployee(commissionAmountEmployee);
+            billedService.setCommissionAmountCompany(commissionAmountCompany);
             billedServiceRepository.save(billedService);
-
         }
 
-
-        Employee employee = employeeRepository.getOne(employeeId);
 
         Client client = clientRepository.getOne(clientId);
 

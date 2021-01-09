@@ -14,14 +14,33 @@ public class BilledService {
     private Double value;
     private Double discount;
     private Double valueFinal;
+    private Double commissionAmountEmployee;
+    private Double commissionAmountCompany;
 
-
-    public BilledService(String description, String typeEmployee, Double value, Double discount, Double valueFinal) {
+    public BilledService(String description, String typeEmployee, Double value, Double discount, Double valueFinal, Double commissionAmountEmployee, Double commissionAmountCompany) {
         this.description = description;
         this.typeEmployee = typeEmployee;
         this.value = value;
         this.discount = discount;
         this.valueFinal = valueFinal;
+        this.commissionAmountEmployee = commissionAmountEmployee;
+        this.commissionAmountCompany = commissionAmountCompany;
+    }
+
+    public Double getCommissionAmountEmployee() {
+        return commissionAmountEmployee;
+    }
+
+    public void setCommissionAmountEmployee(Double commissionAmountEmployee) {
+        this.commissionAmountEmployee = commissionAmountEmployee;
+    }
+
+    public Double getCommissionAmountCompany() {
+        return commissionAmountCompany;
+    }
+
+    public void setCommissionAmountCompany(Double commissionAmountCompany) {
+        this.commissionAmountCompany = commissionAmountCompany;
     }
 
     public String getTypeEmployee() {
