@@ -45,7 +45,7 @@ class _AccountListClientScreenState extends State<AccountListClientScreen> {
                 child: InkWell(
                   onLongPress: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => DetailAccountClient()));
+                        builder: (context) => DetailAccountClient(idClient: accountDto.clientDto.id,)));
                   },
                   child: Card(
                     elevation: 3,
