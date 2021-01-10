@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
-import 'package:mobx/mobx.dart';
 
 class AccountListClientScreen extends StatefulWidget {
   @override
@@ -43,7 +43,10 @@ class _AccountListClientScreenState extends State<AccountListClientScreen> {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child: InkWell(
-                  onLongPress: () {},
+                  onLongPress: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DetailAccountClient()));
+                  },
                   child: Card(
                     elevation: 3,
                     shape: RoundedRectangleBorder(
