@@ -62,7 +62,7 @@ class _BaseScreenState extends State<BaseScreen> {
           ClientListScreen(),
           EmployeeBaseScreen(),
           ScheduleBaseScreen(),
-          AccountBasceScreen(),
+          AccountBaseScreen(),
           MyAccountScreen(),
           BillsToPayScreen(),
           Bar(),
