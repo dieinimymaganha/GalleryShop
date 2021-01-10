@@ -30,9 +30,9 @@ class AccountClientWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  String _getMessage(int statuscode) {
-    if (_statusCodeResponses.containsKey(statuscode)) {
-      return _statusCodeResponses[statuscode];
+  String _getMessage(int statusCode) {
+    if (_statusCodeResponses.containsKey(statusCode)) {
+      return _statusCodeResponses[statusCode];
     }
     return 'Unknown error';
   }
