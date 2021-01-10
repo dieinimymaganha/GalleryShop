@@ -1,6 +1,8 @@
 import 'package:galleryshop/http/webclients/webclient_account_client.dart';
 import 'package:galleryshop/models/AccountClient.dart';
+import 'package:galleryshop/stores/schedule_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 part 'account_client_store.g.dart';
 
@@ -117,8 +119,35 @@ abstract class _AccountClientStore with Store {
     await getClient();
     if (accountClientDto.balance < 0) {
       balanceNegative = true;
-    }else if(accountClientDto.balance == 0){
+    } else if (accountClientDto.balance == 0) {
       balanceZero = true;
     }
+  }
+
+  // Calendario
+
+  @observable
+  Map<DateTime, List<dynamic>> events = {};
+
+  @observable
+  List<dynamic> selectedEvents = List();
+
+  @observable
+  CalendarController calendarController = CalendarController();
+
+  @action
+  Future<void> setCalendar() async {
+    events = fromModelToEvent(accountClientDto.serviceRecordDto);
+  }
+
+  @action
+  Map<DateTime, List<dynamic>> fromModelToEvent(List<ServiceRecordDto> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      DateTime date = convertDateFromString(event.dateService);
+      if (data[date] == null) data[date] = [];
+      data[date].add(event);
+    });
+    return data;
   }
 }

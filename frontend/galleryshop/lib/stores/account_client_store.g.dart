@@ -155,6 +155,52 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$eventsAtom = Atom(name: '_AccountClientStore.events');
+
+  @override
+  Map<DateTime, List<dynamic>> get events {
+    _$eventsAtom.reportRead();
+    return super.events;
+  }
+
+  @override
+  set events(Map<DateTime, List<dynamic>> value) {
+    _$eventsAtom.reportWrite(value, super.events, () {
+      super.events = value;
+    });
+  }
+
+  final _$selectedEventsAtom = Atom(name: '_AccountClientStore.selectedEvents');
+
+  @override
+  List<dynamic> get selectedEvents {
+    _$selectedEventsAtom.reportRead();
+    return super.selectedEvents;
+  }
+
+  @override
+  set selectedEvents(List<dynamic> value) {
+    _$selectedEventsAtom.reportWrite(value, super.selectedEvents, () {
+      super.selectedEvents = value;
+    });
+  }
+
+  final _$calendarControllerAtom =
+      Atom(name: '_AccountClientStore.calendarController');
+
+  @override
+  CalendarController get calendarController {
+    _$calendarControllerAtom.reportRead();
+    return super.calendarController;
+  }
+
+  @override
+  set calendarController(CalendarController value) {
+    _$calendarControllerAtom.reportWrite(value, super.calendarController, () {
+      super.calendarController = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -175,6 +221,14 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   @override
   Future<void> iniPageClient() {
     return _$iniPageClientAsyncAction.run(() => super.iniPageClient());
+  }
+
+  final _$setCalendarAsyncAction =
+      AsyncAction('_AccountClientStore.setCalendar');
+
+  @override
+  Future<void> setCalendar() {
+    return _$setCalendarAsyncAction.run(() => super.setCalendar());
   }
 
   final _$_AccountClientStoreActionController =
@@ -203,6 +257,17 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
+  Map<DateTime, List<dynamic>> fromModelToEvent(List<ServiceRecordDto> events) {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.fromModelToEvent');
+    try {
+      return super.fromModelToEvent(events);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listClient: ${listClient},
@@ -214,6 +279,9 @@ listAccountClient: ${listAccountClient},
 accountClientDto: ${accountClientDto},
 balanceNegative: ${balanceNegative},
 balanceZero: ${balanceZero},
+events: ${events},
+selectedEvents: ${selectedEvents},
+calendarController: ${calendarController},
 lisFiltered: ${lisFiltered}
     ''';
   }
