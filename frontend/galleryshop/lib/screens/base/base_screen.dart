@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
-import 'package:galleryshop/screens/accounts/client/accounts_base_screen.dart';
+import 'package:galleryshop/screens/accounts/accounts_base_screen.dart';
 import 'package:galleryshop/screens/bar/bar.dart';
 import 'package:galleryshop/screens/bills_to_pay/bills_to_pay_screen.dart';
 import 'package:galleryshop/screens/client/client_list_screen.dart';
