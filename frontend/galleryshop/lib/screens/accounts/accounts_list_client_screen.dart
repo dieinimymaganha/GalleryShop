@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
@@ -56,93 +57,163 @@ class _AccountListClientScreenState extends State<AccountListClientScreen> {
                               child: Padding(
                                 padding: EdgeInsets.only(
                                     left: 15, right: 15, top: 10, bottom: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      accountDto.clientDto.nickname,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 18),
-                                    ),
-                                    Row(
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          'Nome: ',
+                                          accountDto.clientDto.nickname,
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w700),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18),
                                         ),
-                                        Text(
-                                          accountDto.clientDto.name,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400),
-                                        )
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Nome: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.clientDto.name,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Sobrenome: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.clientDto.lastName,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'CPF: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.clientDto.cpf,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Telefone: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.clientDto.phoneNumber,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Data Nascimento: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              convertData(
+                                                accountDto.clientDto.birthdate
+                                                    .toString(),
+                                              ),
+                                              style: TextStyle(
+                                                  color: Colors.blueAccent),
+                                            )
+                                          ],
+                                        ),
                                       ],
                                     ),
-                                    Row(
+                                    Container(
+                                        height: 100,
+                                        child: VerticalDivider(
+                                          color: Colors.grey[400],
+                                          thickness: 1.5,
+                                        )),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          'Sobrenome: ',
+                                          'Informações contas',
                                           style: TextStyle(
+                                              fontSize: 16.0,
                                               fontWeight: FontWeight.w700),
                                         ),
-                                        Text(
-                                          accountDto.clientDto.lastName,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'CPF: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700),
+                                        SizedBox(
+                                          height: 6.0,
                                         ),
-                                        Text(
-                                          accountDto.clientDto.cpf,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Telefone: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Valor total: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.amount.toString(),
+                                              style:
+                                                  TextStyle(color: Colors.blue),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          accountDto.clientDto.phoneNumber,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Text(
-                                          'Data Nascimento: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700),
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Valor pago: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.amountPaid.toString(),
+                                              style:
+                                                  TextStyle(color: Colors.blue),
+                                            )
+                                          ],
                                         ),
-                                        Text(
-                                          convertData(
-                                            accountDto.clientDto.birthdate.toString(),
-                                          ),
-                                          style: TextStyle(
-                                              color: Colors.blueAccent),
-                                        )
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              'Saldo: ',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                            Text(
+                                              accountDto.balance.toString(),
+                                              style:
+                                                  TextStyle(color: Colors.blue),
+                                            )
+                                          ],
+                                        ),
                                       ],
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
