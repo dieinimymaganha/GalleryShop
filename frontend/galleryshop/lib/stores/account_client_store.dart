@@ -147,7 +147,30 @@ abstract class _AccountClientStore with Store {
       DateTime date = convertDateFromString(event.dateService);
       if (data[date] == null) data[date] = [];
       data[date].add(event);
+
     });
+    calculate();
     return data;
+  }
+
+  @observable
+  double amountDay = 0.0;
+
+  @observable
+  double discountDay = 0.0;
+
+  @observable
+  double amountPayable = 0.0;
+
+  @action
+  Future<void> calculate() {
+    amountDay = 0.0;
+    discountDay = 0.0;
+    amountPayable =  0.0;
+    selectedEvents.forEach((element) {
+      amountDay = amountDay + element.billedServiceDto.value;
+      discountDay = discountDay + element.billedServiceDto.discount;
+      amountPayable = amountPayable + element.billedServiceDto.valueFinal;
+    });
   }
 }

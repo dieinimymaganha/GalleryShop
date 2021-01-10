@@ -201,6 +201,51 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$amountDayAtom = Atom(name: '_AccountClientStore.amountDay');
+
+  @override
+  double get amountDay {
+    _$amountDayAtom.reportRead();
+    return super.amountDay;
+  }
+
+  @override
+  set amountDay(double value) {
+    _$amountDayAtom.reportWrite(value, super.amountDay, () {
+      super.amountDay = value;
+    });
+  }
+
+  final _$discountDayAtom = Atom(name: '_AccountClientStore.discountDay');
+
+  @override
+  double get discountDay {
+    _$discountDayAtom.reportRead();
+    return super.discountDay;
+  }
+
+  @override
+  set discountDay(double value) {
+    _$discountDayAtom.reportWrite(value, super.discountDay, () {
+      super.discountDay = value;
+    });
+  }
+
+  final _$amountPayableAtom = Atom(name: '_AccountClientStore.amountPayable');
+
+  @override
+  double get amountPayable {
+    _$amountPayableAtom.reportRead();
+    return super.amountPayable;
+  }
+
+  @override
+  set amountPayable(double value) {
+    _$amountPayableAtom.reportWrite(value, super.amountPayable, () {
+      super.amountPayable = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -268,6 +313,17 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
+  Future<void> calculate() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.calculate');
+    try {
+      return super.calculate();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listClient: ${listClient},
@@ -282,6 +338,9 @@ balanceZero: ${balanceZero},
 events: ${events},
 selectedEvents: ${selectedEvents},
 calendarController: ${calendarController},
+amountDay: ${amountDay},
+discountDay: ${discountDay},
+amountPayable: ${amountPayable},
 lisFiltered: ${lisFiltered}
     ''';
   }
