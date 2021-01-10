@@ -7,15 +7,15 @@ part 'account_client_store.g.dart';
 class AccountClientStore = _AccountClientStore with _$AccountClientStore;
 
 abstract class _AccountClientStore with Store {
+  final int idClient;
+
   AccountClientWebClient accountClientWebClient = AccountClientWebClient();
 
-  _AccountClientStore() {
+  _AccountClientStore({this.idClient}) {
     autorun((_) {
-      print('Lista >>>>>>>>>>> $listAccountClient');
+      print('accountClientDto >>>>>>>>>>> $accountClientDto');
     });
   }
-
-  // aqui inicia
 
   @observable
   List<dynamic> listClient = List();
@@ -95,6 +95,30 @@ abstract class _AccountClientStore with Store {
             .toLowerCase()
             .contains(filter.toLowerCase());
       }).toList();
+    }
+  }
+
+  @observable
+  AccountClientDto accountClientDto;
+
+  @action
+  Future<void> getClient() async {
+    accountClientDto = await accountClientWebClient.findById(idClient);
+  }
+
+  @observable
+  bool balanceNegative = false;
+
+  @observable
+  bool balanceZero = false;
+
+  @action
+  Future<void> iniPageClient() async {
+    await getClient();
+    if (accountClientDto.balance < 0) {
+      balanceNegative = true;
+    }else if(accountClientDto.balance == 0){
+      balanceZero = true;
     }
   }
 }

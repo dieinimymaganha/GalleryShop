@@ -108,11 +108,73 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$accountClientDtoAtom =
+      Atom(name: '_AccountClientStore.accountClientDto');
+
+  @override
+  AccountClientDto get accountClientDto {
+    _$accountClientDtoAtom.reportRead();
+    return super.accountClientDto;
+  }
+
+  @override
+  set accountClientDto(AccountClientDto value) {
+    _$accountClientDtoAtom.reportWrite(value, super.accountClientDto, () {
+      super.accountClientDto = value;
+    });
+  }
+
+  final _$balanceNegativeAtom =
+      Atom(name: '_AccountClientStore.balanceNegative');
+
+  @override
+  bool get balanceNegative {
+    _$balanceNegativeAtom.reportRead();
+    return super.balanceNegative;
+  }
+
+  @override
+  set balanceNegative(bool value) {
+    _$balanceNegativeAtom.reportWrite(value, super.balanceNegative, () {
+      super.balanceNegative = value;
+    });
+  }
+
+  final _$balanceZeroAtom = Atom(name: '_AccountClientStore.balanceZero');
+
+  @override
+  bool get balanceZero {
+    _$balanceZeroAtom.reportRead();
+    return super.balanceZero;
+  }
+
+  @override
+  set balanceZero(bool value) {
+    _$balanceZeroAtom.reportWrite(value, super.balanceZero, () {
+      super.balanceZero = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
   Future<void> setList() {
     return _$setListAsyncAction.run(() => super.setList());
+  }
+
+  final _$getClientAsyncAction = AsyncAction('_AccountClientStore.getClient');
+
+  @override
+  Future<void> getClient() {
+    return _$getClientAsyncAction.run(() => super.getClient());
+  }
+
+  final _$iniPageClientAsyncAction =
+      AsyncAction('_AccountClientStore.iniPageClient');
+
+  @override
+  Future<void> iniPageClient() {
+    return _$iniPageClientAsyncAction.run(() => super.iniPageClient());
   }
 
   final _$_AccountClientStoreActionController =
@@ -149,6 +211,9 @@ loading: ${loading},
 errorList: ${errorList},
 listEmpty: ${listEmpty},
 listAccountClient: ${listAccountClient},
+accountClientDto: ${accountClientDto},
+balanceNegative: ${balanceNegative},
+balanceZero: ${balanceZero},
 lisFiltered: ${lisFiltered}
     ''';
   }
