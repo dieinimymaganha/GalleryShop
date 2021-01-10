@@ -3,7 +3,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/accounts_list_client_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
-class AccountBasceScreen extends StatelessWidget {
+class AccountBaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
