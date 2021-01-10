@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/client/widget/insert_service.dart';
 import 'package:galleryshop/screens/schedule/widgets/card_widget_schedule_appointment.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -34,194 +36,296 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Conta Cindy'),
+            title: Text(accountClientStore.accountClientDto.clientDto.name),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
-          body: Column(
+          body: ListView(
             children: <Widget>[
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                physics: BouncingScrollPhysics(),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 20.0, left: 8.0, right: 8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Card(
-                            color: Colors.blueAccent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Padding(
-                              padding: EdgeInsets.all(30.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    'Valor total',
-                                    style: TextStyle(fontSize: 20.0),
-                                  ),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    'R\$: ${accountClientStore.accountClientDto.amount.toString()}',
-                                    style: TextStyle(fontSize: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Card(
-                            color: Colors.teal,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Padding(
-                              padding: EdgeInsets.all(30.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text('Valor pago',
-                                      style: TextStyle(fontSize: 20.0)),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    'R\$: ${accountClientStore.accountClientDto.amountPaid.toString()}',
-                                    style: TextStyle(fontSize: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Card(
-                            color: accountClientStore.balanceNegative
-                                ? Colors.red
-                                : accountClientStore.balanceZero
-                                    ? Colors.grey
-                                    : Colors.green,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Padding(
-                              padding: EdgeInsets.all(30.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text('Saldo',
-                                      style: TextStyle(fontSize: 20.0)),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    'R\$: ${accountClientStore.accountClientDto.balance.toString()}',
-                                    style: TextStyle(fontSize: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Divider(
-                thickness: 0.5,
-              ),
               Column(
                 children: <Widget>[
                   Container(
-                    constraints: BoxConstraints(maxHeight: 500.0),
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height / 5.5),
                     child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          TableCalendar(
-                            locale: 'pt_BR',
-                            events: accountClientStore.events,
-                            initialCalendarFormat: CalendarFormat.month,
-                            calendarStyle: CalendarStyle(
-                              outsideDaysVisible: false,
-                              weekendStyle:
-                              TextStyle().copyWith(color: Colors.blue[800]),
-                              holidayStyle:
-                              TextStyle().copyWith(color: Colors.blue[800]),
-                            ),
-                            availableCalendarFormats: const {
-                              CalendarFormat.month: 'Mês',
-                              CalendarFormat.week: 'Semana',
-                            },
-                            headerStyle: HeaderStyle(
-                                centerHeaderTitle: true,
-                                formatButtonDecoration: BoxDecoration(
-                                  color: Colors.blueGrey,
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                formatButtonTextStyle:
-                                TextStyle(color: Colors.white),
-                                formatButtonShowsNext: false),
-                            startingDayOfWeek: StartingDayOfWeek.monday,
-                            daysOfWeekStyle: DaysOfWeekStyle(
-                              weekendStyle:
-                              TextStyle().copyWith(color: Colors.blue[600]),
-                            ),
-                            onDaySelected: (date, events) {
-                              accountClientStore.setCalendar();
-                              setState(() {
-                                accountClientStore.selectedEvents = events;
-                              });
-                            },
-                            builders: CalendarBuilders(
-                              selectedDayBuilder: (context, date, events) =>
-                                  Container(
-                                      margin: EdgeInsets.all(4.0),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          color: colorAppbar,
-                                          shape: BoxShape.circle),
-                                      child: Text(
-                                        date.day.toString(),
-                                        style: TextStyle(color: Colors.white),
-                                      )),
-                              todayDayBuilder: (context, date, events) {
-                                return Container(
-                                    margin: EdgeInsets.all(4),
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                        color: Colors.teal.shade300,
-                                        shape: BoxShape.circle),
-                                    child: Text(
-                                      date.day.toString(),
-                                      style: TextStyle(color: Colors.white),
-                                    ));
-                              },
-                              markersBuilder: (context, date, events, holidays) {
-                                final children = <Widget>[];
-                                if (events.isNotEmpty) {
-                                  children.add(
-                                    Positioned(
-                                      right: 1,
-                                      bottom: 1,
-                                      child: _buildEventsMarker(date, events),
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 20.0, left: 8.0, right: 8.0),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Card(
+                                  color: Colors.blueAccent,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(30.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          'Valor total',
+                                          style: TextStyle(fontSize: 20.0),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          'R\$: ${accountClientStore.accountClientDto.amount.toString()}',
+                                          style: TextStyle(fontSize: 16.0),
+                                        )
+                                      ],
                                     ),
-                                  );
-                                }
-                                return children;
-                              },
+                                  ),
+                                ),
+                                Card(
+                                  color: Colors.teal,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(30.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text('Valor pago',
+                                            style: TextStyle(fontSize: 20.0)),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          'R\$: ${accountClientStore.accountClientDto.amountPaid.toString()}',
+                                          style: TextStyle(fontSize: 16.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  color: accountClientStore.balanceNegative
+                                      ? Colors.red
+                                      : accountClientStore.balanceZero
+                                          ? Colors.grey
+                                          : Colors.green,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0)),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(30.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text('Saldo',
+                                            style: TextStyle(fontSize: 20.0)),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Text(
+                                          'R\$: ${accountClientStore.accountClientDto.balance.toString()}',
+                                          style: TextStyle(fontSize: 16.0),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            calendarController:
-                            accountClientStore.calendarController,
-                          ),
-                          criaTabela(),
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-
+                  Divider(
+                    thickness: 0.5,
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        constraints: BoxConstraints(
+                            maxHeight:
+                                MediaQuery.of(context).size.height / 2.0),
+                        child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              children: <Widget>[
+                                TableCalendar(
+                                  locale: 'pt_BR',
+                                  events: accountClientStore.events,
+                                  initialCalendarFormat: CalendarFormat.week,
+                                  calendarStyle: CalendarStyle(
+                                    outsideDaysVisible: false,
+                                    weekendStyle: TextStyle()
+                                        .copyWith(color: Colors.blue[800]),
+                                    holidayStyle: TextStyle()
+                                        .copyWith(color: Colors.blue[800]),
+                                  ),
+                                  availableCalendarFormats: const {
+                                    CalendarFormat.month: 'Mês',
+                                    CalendarFormat.week: 'Semana',
+                                  },
+                                  headerStyle: HeaderStyle(
+                                      centerHeaderTitle: true,
+                                      formatButtonDecoration: BoxDecoration(
+                                        color: Colors.blueGrey,
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      formatButtonTextStyle:
+                                          TextStyle(color: Colors.white),
+                                      formatButtonShowsNext: false),
+                                  startingDayOfWeek: StartingDayOfWeek.monday,
+                                  daysOfWeekStyle: DaysOfWeekStyle(
+                                    weekendStyle: TextStyle()
+                                        .copyWith(color: Colors.blue[600]),
+                                  ),
+                                  onDaySelected: (date, events) {
+                                    accountClientStore.setCalendar();
+                                    setState(() {
+                                      accountClientStore.selectedEvents =
+                                          events;
+                                    });
+                                  },
+                                  builders: CalendarBuilders(
+                                    selectedDayBuilder:
+                                        (context, date, events) => Container(
+                                            margin: EdgeInsets.all(4.0),
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                                color: colorAppbar,
+                                                shape: BoxShape.circle),
+                                            child: Text(
+                                              date.day.toString(),
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )),
+                                    todayDayBuilder: (context, date, events) {
+                                      return Container(
+                                          margin: EdgeInsets.all(4),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color: Colors.teal.shade300,
+                                              shape: BoxShape.circle),
+                                          child: Text(
+                                            date.day.toString(),
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ));
+                                    },
+                                    markersBuilder:
+                                        (context, date, events, holidays) {
+                                      final children = <Widget>[];
+                                      if (events.isNotEmpty) {
+                                        children.add(
+                                          Positioned(
+                                            right: 1,
+                                            bottom: 1,
+                                            child: _buildEventsMarker(
+                                                date, events),
+                                          ),
+                                        );
+                                      }
+                                      return children;
+                                    },
+                                  ),
+                                  calendarController:
+                                      accountClientStore.calendarController,
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                      columns: const <DataColumn>[
+                                        DataColumn(
+                                          label: Text(
+                                            'Serviço',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 16.0),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            'Funcionário',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 16.0),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            'Valor',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 16.0),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            'Desconto',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 16.0),
+                                          ),
+                                        ),
+                                        DataColumn(
+                                          label: Text(
+                                            'Valor a pagar',
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic,
+                                                fontSize: 16.0),
+                                          ),
+                                        ),
+                                      ],
+                                      rows: accountClientStore.selectedEvents
+                                          .map((e) {
+                                        return DataRow(
+                                          cells: <DataCell>[
+                                            DataCell(Text(e
+                                                .billedServiceDto.description)),
+                                            DataCell(Text(e.billedServiceDto
+                                                .typeEmployee)),
+                                            DataCell(Text(e
+                                                .billedServiceDto.valueFinal
+                                                .toString())),
+                                            DataCell(Text(e
+                                                .billedServiceDto.valueFinal
+                                                .toString())),
+                                            DataCell(Text(e
+                                                .billedServiceDto.valueFinal
+                                                .toString())),
+                                          ],
+                                        );
+                                      }).toList()),
+                                )
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 0.5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: Card(
+                        color: Colors.blueGrey,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('Total: ', style: TextStyle(fontSize: 36.0),),
+                            Text('R\$ ${accountClientStore.amountPayable}', style: TextStyle(fontSize: 36.0, color: Colors.white),)
+                          ],
+                        ),
+                      )
+                    ),
+                  )
                 ],
-              )
+              ),
             ],
           ),
+          floatingActionButton: ButtonInsertService(),
         );
       },
     );
@@ -249,108 +353,6 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
           ),
         ),
       ),
-    );
-  }
-
-  criaTabela() {
-    return Table(
-      border: TableBorder(
-        horizontalInside: BorderSide(
-          color: Colors.black,
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-        verticalInside: BorderSide(
-          color: Colors.black,
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-      ),
-      children: [
-        _criarLinhaTable("Pontos, Time, Gols"),
-        _criarLinhaTable("25, Palmeiras,16 "),
-        _criarLinhaTable("20, Santos, 5"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-        _criarLinhaTable("17, Flamento, 6"),
-      ],
-    );
-  }
-
-  _criarLinhaTable(String listaNomes) {
-    return TableRow(
-      children: listaNomes.split(',').map((name) {
-        return Container(
-          alignment: Alignment.center,
-          child: Text(
-            name,
-            style: TextStyle(fontSize: 20.0),
-          ),
-          padding: EdgeInsets.all(8.0),
-        );
-      }).toList(),
     );
   }
 }
