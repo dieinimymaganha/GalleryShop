@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:http/http.dart';
 import 'package:dio/dio.dart';
 import 'package:galleryshop/models/AccountClient.dart';
@@ -25,6 +26,24 @@ class AccountClientWebClient {
       final List<dynamic> data = decodeJson
           .map((dynamic json) => AccountClientDto.fromJson(json))
           .toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<AccountClientDto> findById(int id) async {
+    String token = await getToken();
+    final response = await webClient.get(
+      urlAccountClient + "/clientId=" + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final AccountClientDto data =
+          AccountClientDto.fromJson(jsonDecode(response.body));
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
