@@ -35,7 +35,9 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(accountClientStore.accountClientDto.clientDto.name),
+            title: Text(accountClientStore.loading
+                ? 'Carregando'
+                : accountClientStore.accountClientDto.clientDto.name),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
@@ -47,24 +49,24 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                           icon: Icons.description,
                         )
                       : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 24.0),
-                          child: Text(
-                            'Falha ao carregar',
-                            style: TextStyle(fontSize: 24),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 24.0),
+                                child: Text(
+                                  'Falha ao carregar',
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ),
+                              FlatButton(
+                                child: Text('Clique para recarregar!'),
+                                onPressed: accountClientStore.reloadList,
+                              )
+                            ],
                           ),
                         ),
-                        FlatButton(
-                          child: Text('Clique para recarregar!'),
-                          onPressed: accountClientStore.reloadList,
-                        )
-                      ],
-                    ),
-                  ),
                 )
               : accountClientStore.loading
                   ? Center(
@@ -228,7 +230,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                               accountClientStore.setCalendar();
                                               setState(() {
                                                 accountClientStore
-                                                    .selectedEvents = events;
+                                                    .calculateTotalAndSetselectEvents(
+                                                        events);
                                               });
                                             },
                                             builders: CalendarBuilders(
