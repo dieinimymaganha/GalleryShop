@@ -276,6 +276,13 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     return _$setCalendarAsyncAction.run(() => super.setCalendar());
   }
 
+  final _$reloadListAsyncAction = AsyncAction('_AccountClientStore.reloadList');
+
+  @override
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
+  }
+
   final _$_AccountClientStoreActionController =
       ActionController(name: '_AccountClientStore');
 
@@ -313,11 +320,11 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
-  Future<void> calculate() {
+  void calculateTotalAndSetselectEvents(List<dynamic> events) {
     final _$actionInfo = _$_AccountClientStoreActionController.startAction(
-        name: '_AccountClientStore.calculate');
+        name: '_AccountClientStore.calculateTotalAndSetselectEvents');
     try {
-      return super.calculate();
+      return super.calculateTotalAndSetselectEvents(events);
     } finally {
       _$_AccountClientStoreActionController.endAction(_$actionInfo);
     }

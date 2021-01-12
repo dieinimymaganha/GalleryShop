@@ -72,8 +72,8 @@ abstract class _AccountClientStore with Store {
     } on Exception catch (_) {
       errorList = true;
     }
-    loading = false;
     setListAccountClient();
+    loading = false;
   }
 
   @computed
@@ -116,12 +116,16 @@ abstract class _AccountClientStore with Store {
 
   @action
   Future<void> iniPageClient() async {
+    loading = true;
     await getClient();
     if (accountClientDto.balance < 0) {
       balanceNegative = true;
     } else if (accountClientDto.balance == 0) {
       balanceZero = true;
     }
+    await setCalendar();
+    loading = false;
+
   }
 
   // Calendario
@@ -147,9 +151,7 @@ abstract class _AccountClientStore with Store {
       DateTime date = convertDateFromString(event.dateService);
       if (data[date] == null) data[date] = [];
       data[date].add(event);
-
     });
-    calculate();
     return data;
   }
 
@@ -163,14 +165,22 @@ abstract class _AccountClientStore with Store {
   double amountPayable = 0.0;
 
   @action
-  Future<void> calculate() {
+  void calculateTotalAndSetselectEvents(List<dynamic> events) {
+    selectedEvents = events;
     amountDay = 0.0;
     discountDay = 0.0;
-    amountPayable =  0.0;
+    amountPayable = 0.0;
     selectedEvents.forEach((element) {
       amountDay = amountDay + element.billedServiceDto.value;
       discountDay = discountDay + element.billedServiceDto.discount;
       amountPayable = amountPayable + element.billedServiceDto.valueFinal;
     });
+  }
+
+  @action
+  Future<void> reloadList() async {
+    errorList = false;
+    loading = false;
+    iniPageClient();
   }
 }
