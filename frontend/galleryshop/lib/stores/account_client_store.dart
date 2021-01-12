@@ -15,7 +15,7 @@ abstract class _AccountClientStore with Store {
 
   _AccountClientStore({this.idClient}) {
     autorun((_) {
-      print('accountClientDto >>>>>>>>>>> $accountClientDto');
+      print('totalPayable >>>>>>>>>>> $totalPayable');
     });
   }
 
@@ -125,8 +125,26 @@ abstract class _AccountClientStore with Store {
       balanceZero = true;
     }
     await setCalendar();
+    calculateTotalPayable();
     loading = false;
+  }
 
+  //Calcula o valor a pagar
+
+  @observable
+  double totalPayable;
+
+  @action
+  Future<void> calculateTotalPayable() async {
+    if (accountClientDto.balance == 0) {
+      totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
+    } else if (accountClientDto.balance > 0) {
+      totalPayable = (accountClientDto.amount - accountClientDto.amountPaid) -
+          accountClientDto.balance;
+    } else {
+      totalPayable = (accountClientDto.amount - accountClientDto.amountPaid) +
+          accountClientDto.balance.abs();
+    }
   }
 
   // Calendario
@@ -169,10 +187,10 @@ abstract class _AccountClientStore with Store {
   bool notService = false;
 
   @action
-  void calculateTotalAndSetselectEvents(List<dynamic> events) {
+  void calculateTotalAndSetSelectEvents(List<dynamic> events) {
     notService = false;
     selectedEvents = events;
-    if(events.isNotEmpty){
+    if (events.isNotEmpty) {
       amountDay = 0.0;
       discountDay = 0.0;
       amountPayable = 0.0;
@@ -181,10 +199,9 @@ abstract class _AccountClientStore with Store {
         discountDay = discountDay + element.billedServiceDto.discount;
         amountPayable = amountPayable + element.billedServiceDto.valueFinal;
       });
-    }else{
+    } else {
       notService = true;
     }
-
   }
 
   @action
@@ -193,4 +210,12 @@ abstract class _AccountClientStore with Store {
     loading = false;
     iniPageClient();
   }
+
+  //fechar conta
+@observable
+bool sending = false;
+
+
+
+
 }

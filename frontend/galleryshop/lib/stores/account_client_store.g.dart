@@ -155,6 +155,21 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$totalPayableAtom = Atom(name: '_AccountClientStore.totalPayable');
+
+  @override
+  double get totalPayable {
+    _$totalPayableAtom.reportRead();
+    return super.totalPayable;
+  }
+
+  @override
+  set totalPayable(double value) {
+    _$totalPayableAtom.reportWrite(value, super.totalPayable, () {
+      super.totalPayable = value;
+    });
+  }
+
   final _$eventsAtom = Atom(name: '_AccountClientStore.events');
 
   @override
@@ -261,6 +276,21 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$sendingAtom = Atom(name: '_AccountClientStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -281,6 +311,15 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   @override
   Future<void> iniPageClient() {
     return _$iniPageClientAsyncAction.run(() => super.iniPageClient());
+  }
+
+  final _$calculateTotalPayableAsyncAction =
+      AsyncAction('_AccountClientStore.calculateTotalPayable');
+
+  @override
+  Future<void> calculateTotalPayable() {
+    return _$calculateTotalPayableAsyncAction
+        .run(() => super.calculateTotalPayable());
   }
 
   final _$setCalendarAsyncAction =
@@ -335,11 +374,11 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
-  void calculateTotalAndSetselectEvents(List<dynamic> events) {
+  void calculateTotalAndSetSelectEvents(List<dynamic> events) {
     final _$actionInfo = _$_AccountClientStoreActionController.startAction(
-        name: '_AccountClientStore.calculateTotalAndSetselectEvents');
+        name: '_AccountClientStore.calculateTotalAndSetSelectEvents');
     try {
-      return super.calculateTotalAndSetselectEvents(events);
+      return super.calculateTotalAndSetSelectEvents(events);
     } finally {
       _$_AccountClientStoreActionController.endAction(_$actionInfo);
     }
@@ -357,6 +396,7 @@ listAccountClient: ${listAccountClient},
 accountClientDto: ${accountClientDto},
 balanceNegative: ${balanceNegative},
 balanceZero: ${balanceZero},
+totalPayable: ${totalPayable},
 events: ${events},
 selectedEvents: ${selectedEvents},
 calendarController: ${calendarController},
@@ -364,6 +404,7 @@ amountDay: ${amountDay},
 discountDay: ${discountDay},
 amountPayable: ${amountPayable},
 notService: ${notService},
+sending: ${sending},
 lisFiltered: ${lisFiltered}
     ''';
   }
