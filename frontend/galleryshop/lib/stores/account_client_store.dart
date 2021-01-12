@@ -117,6 +117,7 @@ abstract class _AccountClientStore with Store {
   @action
   Future<void> iniPageClient() async {
     loading = true;
+    notService = true;
     await getClient();
     if (accountClientDto.balance < 0) {
       balanceNegative = true;
@@ -164,17 +165,26 @@ abstract class _AccountClientStore with Store {
   @observable
   double amountPayable = 0.0;
 
+  @observable
+  bool notService = false;
+
   @action
   void calculateTotalAndSetselectEvents(List<dynamic> events) {
+    notService = false;
     selectedEvents = events;
-    amountDay = 0.0;
-    discountDay = 0.0;
-    amountPayable = 0.0;
-    selectedEvents.forEach((element) {
-      amountDay = amountDay + element.billedServiceDto.value;
-      discountDay = discountDay + element.billedServiceDto.discount;
-      amountPayable = amountPayable + element.billedServiceDto.valueFinal;
-    });
+    if(events.isNotEmpty){
+      amountDay = 0.0;
+      discountDay = 0.0;
+      amountPayable = 0.0;
+      selectedEvents.forEach((element) {
+        amountDay = amountDay + element.billedServiceDto.value;
+        discountDay = discountDay + element.billedServiceDto.discount;
+        amountPayable = amountPayable + element.billedServiceDto.valueFinal;
+      });
+    }else{
+      notService = true;
+    }
+
   }
 
   @action

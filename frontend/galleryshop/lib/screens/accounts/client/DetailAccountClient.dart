@@ -287,6 +287,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                 accountClientStore
                                                     .calendarController,
                                           ),
+                                          accountClientStore.notService ? Container(
+                                          ):
                                           SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: DataTable(
@@ -372,7 +374,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                             Divider(
                               thickness: 0.5,
                             ),
-                            Padding(
+                            accountClientStore.notService ? Container(
+                            ): Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
                                   child: Card(
@@ -381,7 +384,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      'Total: ',
+                                      'Total do dia: ',
                                       style: TextStyle(fontSize: 36.0),
                                     ),
                                     Text(

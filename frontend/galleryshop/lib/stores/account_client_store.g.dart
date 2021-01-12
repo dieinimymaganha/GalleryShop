@@ -246,6 +246,21 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$notServiceAtom = Atom(name: '_AccountClientStore.notService');
+
+  @override
+  bool get notService {
+    _$notServiceAtom.reportRead();
+    return super.notService;
+  }
+
+  @override
+  set notService(bool value) {
+    _$notServiceAtom.reportWrite(value, super.notService, () {
+      super.notService = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -348,6 +363,7 @@ calendarController: ${calendarController},
 amountDay: ${amountDay},
 discountDay: ${discountDay},
 amountPayable: ${amountPayable},
+notService: ${notService},
 lisFiltered: ${lisFiltered}
     ''';
   }
