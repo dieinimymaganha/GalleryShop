@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/widget/insert_service.dart';
-import 'package:galleryshop/screens/schedule/widgets/card_widget_schedule_appointment.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -45,8 +43,6 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
               Column(
                 children: <Widget>[
                   Container(
-                    constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height / 5.5),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       physics: BouncingScrollPhysics(),
@@ -143,9 +139,6 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                   Column(
                     children: <Widget>[
                       Container(
-                        constraints: BoxConstraints(
-                            maxHeight:
-                                MediaQuery.of(context).size.height / 2.0),
                         child: SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: Column(
@@ -153,7 +146,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                 TableCalendar(
                                   locale: 'pt_BR',
                                   events: accountClientStore.events,
-                                  initialCalendarFormat: CalendarFormat.week,
+                                  initialCalendarFormat: CalendarFormat.month,
                                   calendarStyle: CalendarStyle(
                                     outsideDaysVisible: false,
                                     weekendStyle: TextStyle()
