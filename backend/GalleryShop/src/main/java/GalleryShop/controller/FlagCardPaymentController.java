@@ -22,7 +22,7 @@ public class FlagCardPaymentController {
     FlagCardPaymentRepository flagCardPaymentRepository;
 
     @GetMapping
-    public List<FlagCardPaymentDto> getAll(){
+    public List<FlagCardPaymentDto> getAll() {
         List<FlagCardPayment> flagCardPayments = flagCardPaymentRepository.findAll();
         return FlagCardPaymentDto.converter(flagCardPayments);
     }
@@ -42,4 +42,29 @@ public class FlagCardPaymentController {
             return ResponseEntity.ok().build();
         }
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<FlagCardPaymentDto> updateFlagCardPayment(@PathVariable Long id, @RequestBody @Valid FlagCardPayment form) {
+        Optional<FlagCardPayment> optionalFlagCardPayment = flagCardPaymentRepository.findById(id);
+        if (optionalFlagCardPayment.isPresent()) {
+            FlagCardPayment flagCardPayment = form.upload(id, flagCardPaymentRepository);
+            return ResponseEntity.ok(new FlagCardPaymentDto(flagCardPayment));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteFlagCardPayment(@PathVariable Long id) {
+        Optional<FlagCardPayment> optionalFlagCardPayment = flagCardPaymentRepository.findById(id);
+        if (optionalFlagCardPayment.isPresent()) {
+            flagCardPaymentRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+
+    }
+
+
 }
