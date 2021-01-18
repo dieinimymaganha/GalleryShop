@@ -2,9 +2,7 @@ package GalleryShop.controller;
 
 import GalleryShop.controller.dto.FlagCardPaymentDto;
 import GalleryShop.controller.form.FlagCardPaymentForm;
-import GalleryShop.controller.form.TypePaymentForm;
 import GalleryShop.model.FlagCardPayment;
-import GalleryShop.model.TypePayment;
 import GalleryShop.repository.FlagCardPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
