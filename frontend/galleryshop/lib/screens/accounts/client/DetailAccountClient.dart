@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/close_account_screen.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -41,7 +42,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
             backgroundColor: colorAppbar,
             actions: <Widget>[
               IconButton(
-                onPressed: (){},
+                onPressed: () {},
                 icon: Icon(Icons.add_circle),
               )
             ],
@@ -78,8 +79,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                       child: CircularProgressIndicator(),
                     )
                   : Container(
-            padding: EdgeInsets.only(bottom: 10.0),
-                    child: ListView(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      child: ListView(
                         children: <Widget>[
                           Column(
                             children: <Widget>[
@@ -103,13 +104,18 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       BorderRadius.circular(
                                                           20.0)),
                                               child: Padding(
-                                                padding: EdgeInsets.only(top: 35.5, bottom: 35.0, left: 18.0, right: 18.0),
+                                                padding: EdgeInsets.only(
+                                                    top: 35.5,
+                                                    bottom: 35.0,
+                                                    left: 18.0,
+                                                    right: 18.0),
                                                 child: Column(
                                                   children: <Widget>[
                                                     Text('Total a pagar',
                                                         style: TextStyle(
                                                             fontSize: 20.0,
-                                                            color: Colors.white)),
+                                                            color:
+                                                                Colors.white)),
                                                     SizedBox(
                                                       height: 8,
                                                     ),
@@ -130,7 +136,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       BorderRadius.circular(
                                                           20.0)),
                                               child: Padding(
-                                                padding: EdgeInsets.only(top: 30, bottom: 30, left: 18.0, right: 18.0),                                                child: Column(
+                                                padding: EdgeInsets.only(
+                                                    top: 30,
+                                                    bottom: 30,
+                                                    left: 18.0,
+                                                    right: 18.0),
+                                                child: Column(
                                                   children: <Widget>[
                                                     Text(
                                                       'Total gasto',
@@ -161,7 +172,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       BorderRadius.circular(
                                                           20.0)),
                                               child: Padding(
-                                                padding: EdgeInsets.only(top: 30, bottom: 30, left: 18.0, right: 18.0),                                                 child: Column(
+                                                padding: EdgeInsets.only(
+                                                    top: 30,
+                                                    bottom: 30,
+                                                    left: 18.0,
+                                                    right: 18.0),
+                                                child: Column(
                                                   children: <Widget>[
                                                     Text('Total pago',
                                                         style: TextStyle(
@@ -187,7 +203,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                               color: accountClientStore
                                                       .balanceNegative
                                                   ? Colors.red
-                                                  : accountClientStore.balanceZero
+                                                  : accountClientStore
+                                                          .balanceZero
                                                       ? Colors.grey
                                                       : Colors.green,
                                               shape: RoundedRectangleBorder(
@@ -195,7 +212,11 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       BorderRadius.circular(
                                                           20.0)),
                                               child: Padding(
-                                                padding: EdgeInsets.only(top: 35.5, bottom: 35.0, left: 18.0, right: 18.0),
+                                                padding: EdgeInsets.only(
+                                                    top: 35.5,
+                                                    bottom: 35.0,
+                                                    left: 18.0,
+                                                    right: 18.0),
                                                 child: Column(
                                                   children: <Widget>[
                                                     Text('Saldo anterior',
@@ -239,10 +260,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                 outsideDaysVisible: false,
                                                 weekendStyle: TextStyle()
                                                     .copyWith(
-                                                        color: Colors.blue[800]),
+                                                        color:
+                                                            Colors.blue[800]),
                                                 holidayStyle: TextStyle()
                                                     .copyWith(
-                                                        color: Colors.blue[800]),
+                                                        color:
+                                                            Colors.blue[800]),
                                               ),
                                               availableCalendarFormats: const {
                                                 CalendarFormat.month: 'Mês',
@@ -266,10 +289,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                               daysOfWeekStyle: DaysOfWeekStyle(
                                                 weekendStyle: TextStyle()
                                                     .copyWith(
-                                                        color: Colors.blue[600]),
+                                                        color:
+                                                            Colors.blue[600]),
                                               ),
                                               onDaySelected: (date, events) {
-                                                accountClientStore.setCalendar();
+                                                accountClientStore
+                                                    .setCalendar();
                                                 setState(() {
                                                   accountClientStore
                                                       .calculateTotalAndSetSelectEvents(
@@ -284,10 +309,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                             EdgeInsets.all(4.0),
                                                         alignment:
                                                             Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                            color: colorAppbar,
-                                                            shape:
-                                                                BoxShape.circle),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                color:
+                                                                    colorAppbar,
+                                                                shape: BoxShape
+                                                                    .circle),
                                                         child: Text(
                                                           date.day.toString(),
                                                           style: TextStyle(
@@ -298,15 +325,18 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                     (context, date, events) {
                                                   return Container(
                                                       margin: EdgeInsets.all(4),
-                                                      alignment: Alignment.center,
+                                                      alignment:
+                                                          Alignment.center,
                                                       decoration: BoxDecoration(
                                                           color: Colors
                                                               .teal.shade300,
-                                                          shape: BoxShape.circle),
+                                                          shape:
+                                                              BoxShape.circle),
                                                       child: Text(
                                                         date.day.toString(),
                                                         style: TextStyle(
-                                                            color: Colors.white),
+                                                            color:
+                                                                Colors.white),
                                                       ));
                                                 },
                                                 markersBuilder: (context, date,
@@ -317,8 +347,9 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       Positioned(
                                                         right: 1,
                                                         bottom: 1,
-                                                        child: _buildEventsMarker(
-                                                            date, events),
+                                                        child:
+                                                            _buildEventsMarker(
+                                                                date, events),
                                                       ),
                                                     );
                                                   }
@@ -344,7 +375,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic,
-                                                                  fontSize: 16.0),
+                                                                  fontSize:
+                                                                      16.0),
                                                             ),
                                                           ),
                                                           DataColumn(
@@ -354,7 +386,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic,
-                                                                  fontSize: 16.0),
+                                                                  fontSize:
+                                                                      16.0),
                                                             ),
                                                           ),
                                                           DataColumn(
@@ -364,7 +397,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic,
-                                                                  fontSize: 16.0),
+                                                                  fontSize:
+                                                                      16.0),
                                                             ),
                                                           ),
                                                           DataColumn(
@@ -374,7 +408,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic,
-                                                                  fontSize: 16.0),
+                                                                  fontSize:
+                                                                      16.0),
                                                             ),
                                                           ),
                                                           DataColumn(
@@ -384,7 +419,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic,
-                                                                  fontSize: 16.0),
+                                                                  fontSize:
+                                                                      16.0),
                                                             ),
                                                           ),
                                                         ],
@@ -471,10 +507,10 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                       child: FlatButton(
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Text(
-                                                    'Fechar conta',
+                                                'Fechar conta',
                                                 style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.white,
@@ -483,12 +519,13 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                               ),
                                               Container(
                                                 child: SizedBox(
-                                                  child: accountClientStore.sending
+                                                  child: accountClientStore
+                                                          .sending
                                                       ? CircularProgressIndicator(
-                                                    valueColor:
-                                                    AlwaysStoppedAnimation(
-                                                        Colors.blue),
-                                                  )
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation(
+                                                                  Colors.blue),
+                                                        )
                                                       : Icon(Icons.send),
                                                   height: 28,
                                                   width: 28,
@@ -496,14 +533,19 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                               )
                                             ],
                                           ),
-                                          onPressed: (){})),
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CloseAccountScreen(idClient: accountClientStore.idClient,)));
+                                          })),
                                 ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                  ),
+                    ),
         );
       },
     );
