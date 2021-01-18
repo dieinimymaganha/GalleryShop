@@ -51,6 +51,14 @@ public class AccountClient {
         this.balance = balance;
     }
 
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
     public AccountClient() {
     }
 
