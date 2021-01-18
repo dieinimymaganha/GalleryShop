@@ -4,6 +4,7 @@ package GalleryShop.controller;
 import GalleryShop.controller.dto.ServiceRecordDto;
 import GalleryShop.controller.form.ServiceRecordForm;
 import GalleryShop.model.ServiceRecord;
+import GalleryShop.model.TypePayment;
 import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,12 @@ public class ServiceRecordController {
     @Autowired
     BilledServiceRepository billedServiceRepository;
 
+    @Autowired
+    TypePaymentRepository typePaymentRepository;
+
+    @Autowired
+    PaymentRepository paymentRepository;
+
     @GetMapping
     public List<ServiceRecordDto> getAll() {
         List<ServiceRecord> serviceRecords = serviceRecordRepository.findAll();
@@ -47,8 +54,10 @@ public class ServiceRecordController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ServiceRecordDto> createServiceRecord(@RequestBody @Valid ServiceRecordForm form, UriComponentsBuilder uriBuilder) {
-        ServiceRecord serviceRecord = form.converter(serviceRepository, employeeRepository, clientRepository, accountClientRepository, billedServiceRepository);
+    public ResponseEntity<ServiceRecordDto> createServiceRecord(@RequestBody @Valid ServiceRecordForm form,
+                                                                UriComponentsBuilder uriBuilder) {
+        ServiceRecord serviceRecord = form.converter(serviceRepository, employeeRepository, clientRepository,
+                accountClientRepository, billedServiceRepository, typePaymentRepository, paymentRepository);
         serviceRecordRepository.save(serviceRecord);
         URI uri = uriBuilder.path("/serviceRecord/{id}").buildAndExpand(serviceRecord.getId()).toUri();
         return ResponseEntity.created(uri).body(new ServiceRecordDto(serviceRecord));

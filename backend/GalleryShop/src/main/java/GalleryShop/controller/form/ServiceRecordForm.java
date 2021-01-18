@@ -6,6 +6,8 @@ import GalleryShop.repository.*;
 import java.util.Date;
 import java.util.Optional;
 
+import static java.lang.Math.abs;
+
 public class ServiceRecordForm {
 
     private Double discount;
@@ -58,13 +60,18 @@ public class ServiceRecordForm {
         this.clientId = clientId;
     }
 
-    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository, ClientRepository clientRepository, AccountClientRepository accountClientRepository, BilledServiceRepository billedServiceRepository) {
+    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository,
+                                   ClientRepository clientRepository, AccountClientRepository accountClientRepository,
+                                   BilledServiceRepository billedServiceRepository,
+                                   TypePaymentRepository typePaymentRepository, PaymentRepository paymentRepository) {
 
         Service service = serviceRepository.getOne(serviceId);
 
         BilledService billedService = new BilledService();
 
         Employee employee = employeeRepository.getOne(employeeId);
+
+        Date dateService = new Date();
 
 
         if (service != null) {
@@ -94,8 +101,28 @@ public class ServiceRecordForm {
 
         if (accountClient.isPresent()) {
             accountClientReturn = accountClient.get();
-            Double updateAmount = (accountClientReturn.getAmount() + billedService.getValue()) - billedService.getDiscount();
+            Double updateAmount = (accountClientReturn.getAmount() + billedService.getValue()) -
+                    billedService.getDiscount();
             accountClientReturn.setAmount(updateAmount);
+
+            if (accountClientReturn.getBalance() > 0) {
+
+                double newBalance = (accountClientReturn.getBalance() - billedService.getValue() - billedService.getDiscount());
+
+                if (newBalance < 0) {
+                    newBalance = 0.0;
+                }
+                
+                accountClientReturn.setBalance(newBalance);
+
+                TypePayment typePayment = new TypePayment();
+                typePayment.setCard(false);
+                typePayment.setTax(0.0);
+                typePayment.setDescription("SALDO");
+                typePaymentRepository.save(typePayment);
+                Payment payment = new Payment(dateService, typePayment, accountClientReturn, billedService.getValue() - billedService.getDiscount());
+                paymentRepository.save(payment);
+            }
 
         } else {
             AccountClient createAccount = new AccountClient(client, 0.0, 0.0, 0.0);
@@ -106,7 +133,6 @@ public class ServiceRecordForm {
             }
         }
 
-        Date dateService = new Date();
 
         return new ServiceRecord(dateService, client, employee, billedService, accountClientReturn);
 
