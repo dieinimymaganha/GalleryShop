@@ -337,6 +337,15 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
+  final _$iniPageCloseAccountAsyncAction =
+      AsyncAction('_AccountClientStore.iniPageCloseAccount');
+
+  @override
+  Future<void> iniPageCloseAccount() {
+    return _$iniPageCloseAccountAsyncAction
+        .run(() => super.iniPageCloseAccount());
+  }
+
   final _$_AccountClientStoreActionController =
       ActionController(name: '_AccountClientStore');
 

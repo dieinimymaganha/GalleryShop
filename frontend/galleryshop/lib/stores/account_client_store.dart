@@ -212,10 +212,21 @@ abstract class _AccountClientStore with Store {
   }
 
   //fechar conta
-@observable
-bool sending = false;
 
+  @observable
+  bool sending = false;
 
-
-
+  @action
+  Future<void> iniPageCloseAccount() async {
+    loading = true;
+    notService = true;
+    await getClient();
+    if (accountClientDto.balance < 0) {
+      balanceNegative = true;
+    } else if (accountClientDto.balance == 0) {
+      balanceZero = true;
+    }
+    calculateTotalPayable();
+    loading = false;
+  }
 }
