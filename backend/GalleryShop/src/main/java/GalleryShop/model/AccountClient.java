@@ -24,6 +24,17 @@ public class AccountClient {
 
     private Double balance;
 
+    @OneToMany(mappedBy = "accountClient")
+    private List<Payment> payments = new ArrayList<>();
+
+    public AccountClient(Client client, List<ServiceRecord> serviceRecord, Double amount, Double amountPaid, Double balance, List<Payment> payments) {
+        this.client = client;
+        this.serviceRecord = serviceRecord;
+        this.amount = amount;
+        this.amountPaid = amountPaid;
+        this.balance = balance;
+        this.payments = payments;
+    }
 
     public AccountClient(Client client, List<ServiceRecord> serviceRecord, Double amount, Double amountPaid, Double balance) {
         this.client = client;
