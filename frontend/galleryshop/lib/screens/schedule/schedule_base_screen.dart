@@ -6,8 +6,6 @@ import 'package:galleryshop/screens/schedule/schedule_enable_schedule_screen.dar
 import 'package:galleryshop/screens/schedule/schedule_my_schedule_options.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
-import 'schedule_appointment_screen.dart';
-
 class ScheduleBaseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
