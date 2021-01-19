@@ -53,6 +53,9 @@ class _FlagCardPaymentListScreenState extends State<FlagCardPaymentListScreen> {
                       ),
                       title: Column(
                         children: <Widget>[
+                          SizedBox(
+                            height: 10.0,
+                          ),
                           Text(
                             flagCardPaymentDto.description,
                             style: TextStyle(
