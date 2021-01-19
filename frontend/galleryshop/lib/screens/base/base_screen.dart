@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
 import 'package:galleryshop/screens/accounts/accounts_base_screen.dart';
-import 'package:galleryshop/screens/bar/bar.dart';
+
 import 'package:galleryshop/screens/bills_to_pay/bills_to_pay_screen.dart';
 import 'package:galleryshop/screens/client/client_list_screen.dart';
 import 'package:galleryshop/screens/employees/employees_base_screen.dart';
+import 'package:galleryshop/screens/financial/financial_base_screen.dart';
 import 'package:galleryshop/screens/home/home_screen.dart';
 import 'package:galleryshop/screens/my_account/my_account_screen.dart';
 import 'package:galleryshop/screens/reports/reports_screen.dart';
@@ -65,7 +66,7 @@ class _BaseScreenState extends State<BaseScreen> {
           AccountBaseScreen(),
           MyAccountScreen(),
           BillsToPayScreen(),
-          Bar(),
+          FinancialBaseScreen(),
           StoreScreen(),
           ServicesListScreen(),
           StockScreen(),

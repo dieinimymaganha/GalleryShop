@@ -98,8 +98,8 @@ class IconSection extends StatelessWidget {
                 height: 0,
               ),
               IconTile(
-                label: 'Bar',
-                iconData: Icons.local_bar,
+                label: 'Financeiro',
+                iconData: Icons.monetization_on,
                 onTap: () {
                   _setPage(7);
                 },
