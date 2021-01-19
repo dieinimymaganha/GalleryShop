@@ -215,11 +215,11 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                 padding: EdgeInsets.only(
                                                     top: 35.5,
                                                     bottom: 35.0,
-                                                    left: 18.0,
-                                                    right: 18.0),
+                                                    left: 38.0,
+                                                    right: 38.0),
                                                 child: Column(
                                                   children: <Widget>[
-                                                    Text('Saldo anterior',
+                                                    Text('Saldo',
                                                         style: TextStyle(
                                                             fontSize: 20.0)),
                                                     SizedBox(

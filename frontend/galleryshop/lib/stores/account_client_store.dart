@@ -136,19 +136,15 @@ abstract class _AccountClientStore with Store {
 
   @action
   Future<void> calculateTotalPayable() async {
-    if (accountClientDto.balance == 0) {
-      totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
-    } else if (accountClientDto.balance > 0) {
-      totalPayable = (accountClientDto.amount - accountClientDto.amountPaid) -
+    if (accountClientDto.balance > 0) {
+      totalPayable = (accountClientDto.amount - accountClientDto.amountPaid) +
           accountClientDto.balance;
     } else {
-      totalPayable = (accountClientDto.amount - accountClientDto.amountPaid) +
-          accountClientDto.balance.abs();
+      totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
     }
   }
 
   // Calendario
-
   @observable
   Map<DateTime, List<dynamic>> events = {};
 
