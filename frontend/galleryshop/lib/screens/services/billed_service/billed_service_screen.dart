@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:mobx/mobx.dart';
 
 class BilledServiceScreen extends StatefulWidget {
   final String typeEmployee;
@@ -26,8 +29,6 @@ class BilledServiceScreen extends StatefulWidget {
 }
 
 class _BilledServiceScreenState extends State<BilledServiceScreen> {
-  BilledServiceStore billedServiceStore = BilledServiceStore();
-
   _BilledServiceScreenState(
       {String typeEmployee,
       int idEmployee,
@@ -40,10 +41,52 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
             idClient: idClient,
             descTypeEmployee: descTypeEmployee);
 
+  BilledServiceStore billedServiceStore = BilledServiceStore();
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
     billedServiceStore.initPageBilled();
+  }
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    disposer = reaction((_) => billedServiceStore.created, (created) async {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+          'Serviço registrado com sucesso!',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.blueAccent,
+        duration: Duration(seconds: 2),
+      ));
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => DetailAccountClient(
+                idClient: billedServiceStore.idClient,
+              )));
+    });
+
+    disposer =
+        reaction((_) => billedServiceStore.errorSending, (errorSending) async {
+      if (errorSending) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Error ao registrar serviço!',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+      }
+    });
   }
 
   @override
@@ -51,6 +94,7 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
     return Observer(
       builder: (_) {
         return Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
             title: Text('Registrar serviço'),
             centerTitle: true,
@@ -77,7 +121,7 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                               child: DropdownButton(
                                 isExpanded: true,
                                 hint: Text(
-                                  'Selecione o tipo de funcionário',
+                                  'Selecione o funcionário',
                                 ),
                                 value: billedServiceStore.valueSelecIdtEmployee,
                                 items: billedServiceStore.listEmployees
@@ -93,6 +137,7 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                                   billedServiceStore
                                       .resetValueSelectTypeEmployee();
                                   billedServiceStore.resetValueSelectService();
+                                  billedServiceStore.resetControllerValue();
                                 },
                               ),
                             ),
@@ -123,6 +168,7 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                                   billedServiceStore
                                       .setValueSelectTypeEmployee(value);
                                   billedServiceStore.resetValueSelectService();
+                                  billedServiceStore.resetControllerValue();
                                 },
                               ),
                             ),
@@ -156,6 +202,7 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                                       onChanged: (value) {
                                         billedServiceStore
                                             .setValueSelectService(value);
+                                        billedServiceStore.setControllerValue();
                                       },
                                     ),
                                   ),
@@ -163,21 +210,29 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                               height: space,
                             ),
                             CustomForm(
-                              enabled: true,
+                              controller:
+                                  billedServiceStore.controllerFieldValue,
+                              enabled: !billedServiceStore.sending
+                                  ? billedServiceStore.enableValue
+                                  : false,
                               mandatory: false,
                               obscure: false,
                               label: 'Valor',
-                              tip: 'Teste',
+                              tip: 'Valor',
+                              onChanged: billedServiceStore.setValue,
                             ),
                             SizedBox(
                               height: space,
                             ),
                             CustomForm(
-                              enabled: true,
+                              controller:
+                                  billedServiceStore.controllerFieldDiscount,
+                              enabled: !billedServiceStore.sending,
                               mandatory: false,
                               obscure: false,
                               label: 'Desconto',
-                              tip: 'Teste',
+                              tip: 'Desconto',
+                              onChanged: billedServiceStore.setDiscount,
                             ),
                             SizedBox(height: space),
                             Container(
@@ -213,14 +268,21 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                                           ),
                                           Container(
                                             child: SizedBox(
-                                              child: Icon(Icons.send),
+                                              child: billedServiceStore.sending
+                                                  ? CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation(
+                                                              Colors.blue),
+                                                    )
+                                                  : Icon(Icons.send),
                                               height: 28,
                                               width: 28,
                                             ),
                                           )
                                         ],
                                       ),
-                                      onPressed: () {})),
+                                      onPressed:
+                                          billedServiceStore.buttonPressed)),
                             ),
                           ],
                         ),
@@ -231,5 +293,11 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }

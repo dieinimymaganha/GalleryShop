@@ -176,3 +176,39 @@ class BilledServiceDto {
     return data;
   }
 }
+
+
+class ServiceRecordForm {
+  double discount;
+  int serviceId;
+  int employeeId;
+  int clientId;
+  double value;
+
+  ServiceRecordForm(
+      {this.discount,
+        this.serviceId,
+        this.employeeId,
+        this.clientId,
+        this.value});
+
+  ServiceRecordForm.fromJson(Map<String, dynamic> json) {
+    discount = json['discount'];
+    serviceId = json['serviceId'];
+    employeeId = json['employeeId'];
+    clientId = json['clientId'];
+    value = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['discount'] = this.discount;
+    data['serviceId'] = this.serviceId;
+    data['employeeId'] = this.employeeId;
+    data['clientId'] = this.clientId;
+    data['value'] = this.value;
+    return data;
+  }
+}
+
+

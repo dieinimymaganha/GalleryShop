@@ -1,5 +1,9 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:galleryshop/http/webclients/webClient_service_record.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
+import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
 
@@ -26,6 +30,8 @@ abstract class _BilledServiceStore with Store {
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
 
   ServicesWebClient servicesWebClient = ServicesWebClient();
+
+  ServiceRecordWebClient serviceRecordWebClient = ServiceRecordWebClient();
 
   @observable
   EmployeeDto employeeDto;
@@ -91,6 +97,7 @@ abstract class _BilledServiceStore with Store {
     await getListEmployees();
     setValueSelectEmployee(idEmployee);
     await getInitialTypeEmployee();
+    setControllerFieldDiscount();
   }
 
   @action
@@ -101,6 +108,11 @@ abstract class _BilledServiceStore with Store {
   @action
   void resetValueSelectService() {
     valueSelectService = null;
+  }
+
+  @action
+  void resetControllerValue() {
+    controllerFieldValue.text = '';
   }
 
   @action
@@ -119,4 +131,119 @@ abstract class _BilledServiceStore with Store {
   void setValueSelectService(int value) {
     valueSelectService = value;
   }
+
+  @observable
+  TextEditingController controllerFieldValue = TextEditingController();
+
+  @observable
+  double value;
+
+  @observable
+  bool enableValue = false;
+
+  @observable
+  double discount = 0.0;
+
+  @observable
+  TextEditingController controllerFieldDiscount = TextEditingController();
+
+  @action
+  void setControllerFieldDiscount() =>
+      controllerFieldDiscount.text = discount.toString();
+
+  @action
+  void setDiscount(String value) {
+    if (value.isEmpty) {
+      discount = 0.0;
+    } else {
+      discount = double.parse(value);
+    }
+  }
+
+  @action
+  void setValue(String price) {
+    if (price.isEmpty) {
+      value = null;
+    } else {
+      value = double.parse(price);
+    }
+  }
+
+  @action
+  void setControllerValue() {
+    controllerFieldValue.text = '';
+    listServices.forEach((element) {
+      if (element.id == valueSelectService) {
+        if (element.value == null) {
+          controllerFieldValue.text = '';
+          value = null;
+          enableValue = true;
+        } else {
+          controllerFieldValue.text = element.value.toString();
+          value = element.value;
+          enableValue = false;
+        }
+      }
+    });
+  }
+
+  @observable
+  bool created = false;
+
+  @observable
+  bool sending = false;
+
+  @observable
+  bool errorSending = false;
+
+  @action
+  Future<void> save() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+
+    ServiceRecordForm serviceRecordForm = ServiceRecordForm(
+      employeeId: valueSelecIdtEmployee,
+      clientId: idClient,
+      serviceId: valueSelectService,
+      value: value,
+      discount: discount,
+    );
+
+    int response = await serviceRecordWebClient.save(serviceRecordForm);
+
+    if (response == 201) {
+      created = true;
+    } else {
+      errorSending = true;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    errorSending = false;
+    created = false;
+
+    print(serviceRecordForm.toJson());
+  }
+
+  @computed
+  bool get valueSelecIdtEmployeeIsValid => valueSelecIdtEmployee != null;
+
+  @computed
+  bool get idClientIsValid => idClient != null;
+
+  @computed
+  bool get valueSelectServiceIdIsValid => valueSelectService != null;
+
+  @computed
+  bool get valueIsValid => value != null;
+
+  @computed
+  bool get fieldsValid =>
+      valueSelecIdtEmployeeIsValid &&
+      idClientIsValid &&
+      valueSelectServiceIdIsValid &&
+      valueIsValid;
+
+  @computed
+  Function get buttonPressed => fieldsValid ? save : null;
 }

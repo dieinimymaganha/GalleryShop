@@ -9,6 +9,51 @@ part of 'billed_service_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$BilledServiceStore on _BilledServiceStore, Store {
+  Computed<bool> _$valueSelecIdtEmployeeIsValidComputed;
+
+  @override
+  bool get valueSelecIdtEmployeeIsValid =>
+      (_$valueSelecIdtEmployeeIsValidComputed ??= Computed<bool>(
+              () => super.valueSelecIdtEmployeeIsValid,
+              name: '_BilledServiceStore.valueSelecIdtEmployeeIsValid'))
+          .value;
+  Computed<bool> _$idClientIsValidComputed;
+
+  @override
+  bool get idClientIsValid =>
+      (_$idClientIsValidComputed ??= Computed<bool>(() => super.idClientIsValid,
+              name: '_BilledServiceStore.idClientIsValid'))
+          .value;
+  Computed<bool> _$valueSelectServiceIdIsValidComputed;
+
+  @override
+  bool get valueSelectServiceIdIsValid =>
+      (_$valueSelectServiceIdIsValidComputed ??= Computed<bool>(
+              () => super.valueSelectServiceIdIsValid,
+              name: '_BilledServiceStore.valueSelectServiceIdIsValid'))
+          .value;
+  Computed<bool> _$valueIsValidComputed;
+
+  @override
+  bool get valueIsValid =>
+      (_$valueIsValidComputed ??= Computed<bool>(() => super.valueIsValid,
+              name: '_BilledServiceStore.valueIsValid'))
+          .value;
+  Computed<bool> _$fieldsValidComputed;
+
+  @override
+  bool get fieldsValid =>
+      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
+              name: '_BilledServiceStore.fieldsValid'))
+          .value;
+  Computed<Function> _$buttonPressedComputed;
+
+  @override
+  Function get buttonPressed =>
+      (_$buttonPressedComputed ??= Computed<Function>(() => super.buttonPressed,
+              name: '_BilledServiceStore.buttonPressed'))
+          .value;
+
   final _$employeeDtoAtom = Atom(name: '_BilledServiceStore.employeeDto');
 
   @override
@@ -151,6 +196,130 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     });
   }
 
+  final _$controllerFieldValueAtom =
+      Atom(name: '_BilledServiceStore.controllerFieldValue');
+
+  @override
+  TextEditingController get controllerFieldValue {
+    _$controllerFieldValueAtom.reportRead();
+    return super.controllerFieldValue;
+  }
+
+  @override
+  set controllerFieldValue(TextEditingController value) {
+    _$controllerFieldValueAtom.reportWrite(value, super.controllerFieldValue,
+        () {
+      super.controllerFieldValue = value;
+    });
+  }
+
+  final _$valueAtom = Atom(name: '_BilledServiceStore.value');
+
+  @override
+  double get value {
+    _$valueAtom.reportRead();
+    return super.value;
+  }
+
+  @override
+  set value(double value) {
+    _$valueAtom.reportWrite(value, super.value, () {
+      super.value = value;
+    });
+  }
+
+  final _$enableValueAtom = Atom(name: '_BilledServiceStore.enableValue');
+
+  @override
+  bool get enableValue {
+    _$enableValueAtom.reportRead();
+    return super.enableValue;
+  }
+
+  @override
+  set enableValue(bool value) {
+    _$enableValueAtom.reportWrite(value, super.enableValue, () {
+      super.enableValue = value;
+    });
+  }
+
+  final _$discountAtom = Atom(name: '_BilledServiceStore.discount');
+
+  @override
+  double get discount {
+    _$discountAtom.reportRead();
+    return super.discount;
+  }
+
+  @override
+  set discount(double value) {
+    _$discountAtom.reportWrite(value, super.discount, () {
+      super.discount = value;
+    });
+  }
+
+  final _$controllerFieldDiscountAtom =
+      Atom(name: '_BilledServiceStore.controllerFieldDiscount');
+
+  @override
+  TextEditingController get controllerFieldDiscount {
+    _$controllerFieldDiscountAtom.reportRead();
+    return super.controllerFieldDiscount;
+  }
+
+  @override
+  set controllerFieldDiscount(TextEditingController value) {
+    _$controllerFieldDiscountAtom
+        .reportWrite(value, super.controllerFieldDiscount, () {
+      super.controllerFieldDiscount = value;
+    });
+  }
+
+  final _$createdAtom = Atom(name: '_BilledServiceStore.created');
+
+  @override
+  bool get created {
+    _$createdAtom.reportRead();
+    return super.created;
+  }
+
+  @override
+  set created(bool value) {
+    _$createdAtom.reportWrite(value, super.created, () {
+      super.created = value;
+    });
+  }
+
+  final _$sendingAtom = Atom(name: '_BilledServiceStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$errorSendingAtom = Atom(name: '_BilledServiceStore.errorSending');
+
+  @override
+  bool get errorSending {
+    _$errorSendingAtom.reportRead();
+    return super.errorSending;
+  }
+
+  @override
+  set errorSending(bool value) {
+    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
+      super.errorSending = value;
+    });
+  }
+
   final _$getListEmployeesAsyncAction =
       AsyncAction('_BilledServiceStore.getListEmployees');
 
@@ -193,6 +362,13 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
         .run(() => super.setValueSelectTypeEmployee(value));
   }
 
+  final _$saveAsyncAction = AsyncAction('_BilledServiceStore.save');
+
+  @override
+  Future<void> save() {
+    return _$saveAsyncAction.run(() => super.save());
+  }
+
   final _$_BilledServiceStoreActionController =
       ActionController(name: '_BilledServiceStore');
 
@@ -213,6 +389,17 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
         name: '_BilledServiceStore.resetValueSelectService');
     try {
       return super.resetValueSelectService();
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetControllerValue() {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.resetControllerValue');
+    try {
+      return super.resetControllerValue();
     } finally {
       _$_BilledServiceStoreActionController.endAction(_$actionInfo);
     }
@@ -241,6 +428,50 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
   }
 
   @override
+  void setControllerFieldDiscount() {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.setControllerFieldDiscount');
+    try {
+      return super.setControllerFieldDiscount();
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setDiscount(String value) {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.setDiscount');
+    try {
+      return super.setDiscount(value);
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValue(String price) {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.setValue');
+    try {
+      return super.setValue(price);
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setControllerValue() {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.setControllerValue');
+    try {
+      return super.setControllerValue();
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 employeeDto: ${employeeDto},
@@ -251,7 +482,21 @@ valueSelectTypeEmployee: ${valueSelectTypeEmployee},
 listTypeEmployee: ${listTypeEmployee},
 valueSelectService: ${valueSelectService},
 loading: ${loading},
-loadingServices: ${loadingServices}
+loadingServices: ${loadingServices},
+controllerFieldValue: ${controllerFieldValue},
+value: ${value},
+enableValue: ${enableValue},
+discount: ${discount},
+controllerFieldDiscount: ${controllerFieldDiscount},
+created: ${created},
+sending: ${sending},
+errorSending: ${errorSending},
+valueSelecIdtEmployeeIsValid: ${valueSelecIdtEmployeeIsValid},
+idClientIsValid: ${idClientIsValid},
+valueSelectServiceIdIsValid: ${valueSelectServiceIdIsValid},
+valueIsValid: ${valueIsValid},
+fieldsValid: ${fieldsValid},
+buttonPressed: ${buttonPressed}
     ''';
   }
 }
