@@ -144,10 +144,21 @@ abstract class _FinancialStore with Store {
   bool errorSending = false;
 
   @action
+  void setCredit() => !credit;
+
+  @action
   Future<void> createNewFlag() async {
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     sending = false;
+
+    if (!credit) {
+      taxCredit = null;
+    }
+
+    if (!debit) {
+      taxDebit = null;
+    }
 
     FlagCardPaymentForm form = FlagCardPaymentForm(
         description: description,
@@ -183,12 +194,22 @@ abstract class _FinancialStore with Store {
       change = true;
       description =
           controllerFieldDescription.text = flagCardPaymentDto.description;
+
       debit = flagCardPaymentDto.debit;
       taxDebit = flagCardPaymentDto.taxDebit;
-      controllerFieldDebitTax.text = flagCardPaymentDto.taxDebit.toString();
+      if (flagCardPaymentDto.taxDebit == null) {
+        controllerFieldDebitTax.text = '';
+      } else {
+        controllerFieldDebitTax.text = flagCardPaymentDto.taxDebit.toString();
+      }
+
       credit = flagCardPaymentDto.credit;
       taxCredit = flagCardPaymentDto.taxCredit;
-      controllerFieldCreditTax.text = flagCardPaymentDto.taxCredit.toString();
+      if (flagCardPaymentDto.taxCredit == null) {
+        controllerFieldCreditTax.text = '';
+      } else {
+        controllerFieldCreditTax.text = flagCardPaymentDto.taxCredit.toString();
+      }
     }
   }
 
@@ -197,6 +218,14 @@ abstract class _FinancialStore with Store {
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     sending = false;
+
+    if (!credit) {
+      taxCredit = null;
+    }
+
+    if (!debit) {
+      taxDebit = null;
+    }
 
     FlagCardPaymentForm flagCardPaymentForm = FlagCardPaymentForm(
         description: description,
@@ -223,7 +252,7 @@ abstract class _FinancialStore with Store {
   bool excludedFail = false;
 
   @computed
-  Function get buttonChangePressed => updateFlag;
+  Function get buttonChangePressed => fieldsValid ? updateFlag : null;
 
   @computed
   Function get buttonExcludePressed => excludeFlag;

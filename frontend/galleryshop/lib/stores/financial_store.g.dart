@@ -409,6 +409,17 @@ mixin _$FinancialStore on _FinancialStore, Store {
   }
 
   @override
+  void setCredit() {
+    final _$actionInfo = _$_FinancialStoreActionController.startAction(
+        name: '_FinancialStore.setCredit');
+    try {
+      return super.setCredit();
+    } finally {
+      _$_FinancialStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setDataInitial() {
     final _$actionInfo = _$_FinancialStoreActionController.startAction(
         name: '_FinancialStore.setDataInitial');
