@@ -224,6 +224,81 @@ mixin _$FinancialStore on _FinancialStore, Store {
     });
   }
 
+  final _$sendingAtom = Atom(name: '_FinancialStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$createdAtom = Atom(name: '_FinancialStore.created');
+
+  @override
+  bool get created {
+    _$createdAtom.reportRead();
+    return super.created;
+  }
+
+  @override
+  set created(bool value) {
+    _$createdAtom.reportWrite(value, super.created, () {
+      super.created = value;
+    });
+  }
+
+  final _$duplicateAtom = Atom(name: '_FinancialStore.duplicate');
+
+  @override
+  bool get duplicate {
+    _$duplicateAtom.reportRead();
+    return super.duplicate;
+  }
+
+  @override
+  set duplicate(bool value) {
+    _$duplicateAtom.reportWrite(value, super.duplicate, () {
+      super.duplicate = value;
+    });
+  }
+
+  final _$changeAtom = Atom(name: '_FinancialStore.change');
+
+  @override
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
+  final _$errorSendingAtom = Atom(name: '_FinancialStore.errorSending');
+
+  @override
+  bool get errorSending {
+    _$errorSendingAtom.reportRead();
+    return super.errorSending;
+  }
+
+  @override
+  set errorSending(bool value) {
+    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
+      super.errorSending = value;
+    });
+  }
+
   final _$initListAsyncAction = AsyncAction('_FinancialStore.initList');
 
   @override
@@ -289,6 +364,11 @@ credit: ${credit},
 taxCredit: ${taxCredit},
 debit: ${debit},
 taxDebit: ${taxDebit},
+sending: ${sending},
+created: ${created},
+duplicate: ${duplicate},
+change: ${change},
+errorSending: ${errorSending},
 taxCreditValid: ${taxCreditValid},
 taxDebitValid: ${taxDebitValid},
 descriptionIsValid: ${descriptionIsValid},

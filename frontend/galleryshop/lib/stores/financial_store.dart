@@ -126,8 +126,27 @@ abstract class _FinancialStore with Store {
   @computed
   bool get fieldsValid => descriptionIsValid && creditDebitIsValid;
 
+  @observable
+  bool sending = false;
+
+  @observable
+  bool created = false;
+
+  @observable
+  bool duplicate = false;
+
+  @observable
+  bool change = false;
+
+  @observable
+  bool errorSending = false;
+
   @action
   Future<void> createNewFlag() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+
     FlagCardPaymentForm form = FlagCardPaymentForm(
         description: description,
         credit: credit,
@@ -135,7 +154,22 @@ abstract class _FinancialStore with Store {
         debit: debit,
         taxDebit: taxDebit);
 
-    print(form.toJson());
+    int response = await financialWebClient.save(form);
+
+//    int response = 40;
+
+    if (response == 201) {
+      created = true;
+    } else if (response == 409) {
+      duplicate = true;
+    } else {
+      errorSending = true;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+    created = false;
+    duplicate = false;
+    errorSending = false;
   }
 
   @computed
