@@ -216,6 +216,32 @@ abstract class _FinancialStore with Store {
     errorSending = false;
   }
 
+  @observable
+  bool excluded = false;
+
+  @observable
+  bool excludedFail = false;
+
   @computed
   Function get buttonChangePressed => updateFlag;
+
+  @computed
+  Function get buttonExcludePressed => excludeFlag;
+
+  @action
+  Future<void> excludeFlag() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    int response = await financialWebClient.exclude(flagCardPaymentDto);
+//    int response = 2100;
+    if (response == 200) {
+      excluded = true;
+      await Future.delayed(Duration(seconds: 2));
+    } else {
+      excludedFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      excludedFail = false;
+      sending = false;
+    }
+  }
 }

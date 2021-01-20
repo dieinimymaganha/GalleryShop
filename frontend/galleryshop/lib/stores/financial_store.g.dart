@@ -58,6 +58,13 @@ mixin _$FinancialStore on _FinancialStore, Store {
           Computed<Function>(() => super.buttonChangePressed,
               name: '_FinancialStore.buttonChangePressed'))
       .value;
+  Computed<Function> _$buttonExcludePressedComputed;
+
+  @override
+  Function get buttonExcludePressed => (_$buttonExcludePressedComputed ??=
+          Computed<Function>(() => super.buttonExcludePressed,
+              name: '_FinancialStore.buttonExcludePressed'))
+      .value;
 
   final _$controllerFieldCreditTaxAtom =
       Atom(name: '_FinancialStore.controllerFieldCreditTax');
@@ -306,6 +313,36 @@ mixin _$FinancialStore on _FinancialStore, Store {
     });
   }
 
+  final _$excludedAtom = Atom(name: '_FinancialStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
+  final _$excludedFailAtom = Atom(name: '_FinancialStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
   final _$initListAsyncAction = AsyncAction('_FinancialStore.initList');
 
   @override
@@ -326,6 +363,13 @@ mixin _$FinancialStore on _FinancialStore, Store {
   @override
   Future<void> updateFlag() {
     return _$updateFlagAsyncAction.run(() => super.updateFlag());
+  }
+
+  final _$excludeFlagAsyncAction = AsyncAction('_FinancialStore.excludeFlag');
+
+  @override
+  Future<void> excludeFlag() {
+    return _$excludeFlagAsyncAction.run(() => super.excludeFlag());
   }
 
   final _$_FinancialStoreActionController =
@@ -394,13 +438,16 @@ created: ${created},
 duplicate: ${duplicate},
 change: ${change},
 errorSending: ${errorSending},
+excluded: ${excluded},
+excludedFail: ${excludedFail},
 taxCreditValid: ${taxCreditValid},
 taxDebitValid: ${taxDebitValid},
 descriptionIsValid: ${descriptionIsValid},
 creditDebitIsValid: ${creditDebitIsValid},
 fieldsValid: ${fieldsValid},
 buttonPressed: ${buttonPressed},
-buttonChangePressed: ${buttonChangePressed}
+buttonChangePressed: ${buttonChangePressed},
+buttonExcludePressed: ${buttonExcludePressed}
     ''';
   }
 }
