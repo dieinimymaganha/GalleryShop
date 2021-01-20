@@ -52,18 +52,15 @@ public class ServiceController {
     }
 
     @GetMapping("/typeEmployee={id}")
-    public ResponseEntity<ServiceDto> getServiceTypeEmployee(@PathVariable Long id) {
-        Optional<Service> service = serviceRepository.findByTypeEmployeeId(id);
-        if (service.isPresent()) {
-            return ResponseEntity.ok(new ServiceDto(service.get()));
-        }
-        return ResponseEntity.notFound().build();
+    public List<ServiceDto> getServiceTypeEmployee(@PathVariable Long id) {
+        List<Service> services = serviceRepository.findByTypeEmployeeId(id);
+        return ServiceDto.converter(services);
     }
 
     @PostMapping
     @Transactional
     public ResponseEntity<ServiceDto> createNewService(@RequestBody @Valid ServiceForm form,
-            UriComponentsBuilder uriBuilder) {
+                                                       UriComponentsBuilder uriBuilder) {
 
         Service service = form.converter(typeEmployeeRepository);
 
