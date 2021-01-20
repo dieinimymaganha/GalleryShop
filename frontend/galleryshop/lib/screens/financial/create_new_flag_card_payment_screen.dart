@@ -2,24 +2,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/FlagCardPayment.dart';
 import 'package:galleryshop/screens/financial/flag_card_payment_list_screen.dart';
 import 'package:galleryshop/stores/financial_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:mobx/mobx.dart';
 
 class CreateNewFlagCardPaymentScreen extends StatefulWidget {
+  final FlagCardPaymentDto flagCardPaymentDto;
+
+  CreateNewFlagCardPaymentScreen({this.flagCardPaymentDto});
+
   @override
   _CreateNewFlagCardPaymentScreenState createState() =>
-      _CreateNewFlagCardPaymentScreenState();
+      _CreateNewFlagCardPaymentScreenState(
+          flagCardPaymentDto: flagCardPaymentDto);
 }
 
 class _CreateNewFlagCardPaymentScreenState
     extends State<CreateNewFlagCardPaymentScreen> {
   FinancialStore financialStore = FinancialStore();
 
+  _CreateNewFlagCardPaymentScreenState({FlagCardPaymentDto flagCardPaymentDto})
+      : financialStore = FinancialStore(flagCardPaymentDto: flagCardPaymentDto);
+
   ReactionDisposer disposer;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    financialStore.setDataInitial();
+  }
 
   @override
   void didChangeDependencies() {
@@ -78,7 +93,9 @@ class _CreateNewFlagCardPaymentScreenState
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text('Cadastrar novo cartão'),
+            title: Text(financialStore.change
+                ? 'Editar cartão'
+                : 'Cadastrar novo cartão'),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
@@ -216,7 +233,7 @@ class _CreateNewFlagCardPaymentScreenState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Cadastrar',
+                                financialStore.change ? 'Editar' : 'Cadastrar',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -237,7 +254,9 @@ class _CreateNewFlagCardPaymentScreenState
                               )
                             ],
                           ),
-                          onPressed: financialStore.buttonPressed)),
+                          onPressed: financialStore.change
+                              ? financialStore.buttonChangePressed
+                              : financialStore.buttonPressed)),
                 ),
               ],
             ),
