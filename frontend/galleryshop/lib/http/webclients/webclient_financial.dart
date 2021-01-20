@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/models/FlagCardPayment.dart';
 import 'package:http/http.dart';
@@ -9,8 +10,8 @@ const urlFlagCardPayment = baseUrl + 'flagCardPayment';
 
 class FinancialWebClient {
   Future<List<FlagCardPaymentDto>> findAll() async {
-    var prefs = await SharedPreferences.getInstance();
-    String token = (prefs.getString("tokenjwt") ?? "");
+    String token = await getToken();
+
     final Response response = await webClient.get(
       urlFlagCardPayment,
       headers: {
@@ -27,6 +28,19 @@ class FinancialWebClient {
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<int> save(FlagCardPaymentForm flagCardPaymentForm) async {
+    String token = await getToken();
+    final String employeeJson = jsonEncode(flagCardPaymentForm.toJson());
+    final Response response = await webClient.post(urlFlagCardPayment,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: employeeJson);
+
+    return response.statusCode;
   }
 
   String _getMessage(int statuscode) {
