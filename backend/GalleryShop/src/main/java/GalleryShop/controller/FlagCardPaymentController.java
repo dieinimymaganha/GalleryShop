@@ -5,12 +5,15 @@ import GalleryShop.controller.form.FlagCardPaymentForm;
 import GalleryShop.model.FlagCardPayment;
 import GalleryShop.repository.FlagCardPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +26,13 @@ public class FlagCardPaymentController {
 
     @GetMapping
     public List<FlagCardPaymentDto> getAll() {
-        List<FlagCardPayment> flagCardPayments = flagCardPaymentRepository.findAll();
+        List<FlagCardPayment> flagCardPayments = flagCardPaymentRepository.findAll(Sort.by("description").ascending().ascending());
         return FlagCardPaymentDto.converter(flagCardPayments);
     }
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> createNewFlagCardPayment(@RequestBody @Valid FlagCardPaymentForm form) {
+    public ResponseEntity<?> createNewFlagCardPayment(@RequestBody @Valid FlagCardPaymentForm form, UriComponentsBuilder uriBuilder) {
 
         FlagCardPayment flagCardPayment = form.converter();
 
@@ -39,7 +42,8 @@ public class FlagCardPaymentController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } else {
             flagCardPaymentRepository.save(flagCardPayment);
-            return ResponseEntity.ok().build();
+            URI uri = uriBuilder.path("flagCardPayment/{id}").buildAndExpand(flagCardPayment.getId()).toUri();
+            return ResponseEntity.created(uri).body(new FlagCardPaymentDto(flagCardPayment));
         }
     }
 
