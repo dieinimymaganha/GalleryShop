@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
+import 'package:galleryshop/screens/financial/create_new_flag_card_payment_screen.dart';
 import 'package:galleryshop/screens/financial/widget/button_create_flag_card_payment.dart';
 import 'package:galleryshop/stores/financial_store.dart';
 
@@ -27,6 +29,18 @@ class _FlagCardPaymentListScreenState extends State<FlagCardPaymentListScreen> {
         title: Text('Lista de cartões'),
         centerTitle: true,
         backgroundColor: colorAppbar,
+        leading: IconButton(
+          icon: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => BaseScreen()));
+            },
+          ),
+        ),
       ),
       body: Observer(
         builder: (_) {
@@ -34,7 +48,12 @@ class _FlagCardPaymentListScreenState extends State<FlagCardPaymentListScreen> {
             children:
                 financialStore.dataFlagCardPayment.map((flagCardPaymentDto) {
               return GestureDetector(
-                onDoubleTap: () {},
+                onDoubleTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CreateNewFlagCardPaymentScreen(
+                            flagCardPaymentDto: flagCardPaymentDto,
+                          )));
+                },
                 onLongPress: () {},
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
