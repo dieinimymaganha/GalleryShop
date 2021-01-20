@@ -10,7 +10,16 @@ class FinancialStore = _FinancialStore with _$FinancialStore;
 abstract class _FinancialStore with Store {
   _FinancialStore() {
     autorun((_) {
-      print('');
+      print('creditDebitIsValid >>>> $creditDebitIsValid');
+      print('fields >>>> $fieldsValid');
+      print('description >>>> $description');
+      print('credit >>>> $credit');
+      print('taxCredit >>>> $taxCredit');
+      print('taxCreditValid >>>> $taxCreditValid');
+      print('debit >>>> $debit');
+      print('taxDebit >>>> $taxDebit');
+      print('taxDebitValid >>>> $taxDebitValid');
+      print('**************************************');
     });
   }
 
@@ -34,26 +43,23 @@ abstract class _FinancialStore with Store {
   @action
   void setTaxCredit(String value) {
     if (value.isEmpty) {
-      flagCardPaymentForm.taxCredit = null;
+      taxCredit = null;
     } else {
-      flagCardPaymentForm.taxCredit = double.parse(value);
+      taxCredit = double.parse(value);
     }
   }
 
   @action
   void setTaxDebit(String value) {
     if (value.isEmpty) {
-      flagCardPaymentForm.taxDebit = null;
+      taxDebit = null;
     } else {
-      flagCardPaymentForm.taxDebit = double.parse(value);
+      taxDebit = double.parse(value);
     }
   }
 
   @action
-  void setDescription(String value) => flagCardPaymentForm.description = value;
-
-  @observable
-  FlagCardPaymentForm flagCardPaymentForm;
+  void setDescription(String value) => description = value;
 
   @observable
   List<dynamic> dataFlagCardPayment = List();
@@ -78,23 +84,60 @@ abstract class _FinancialStore with Store {
   @observable
   double taxDebit;
 
+  @computed
+  bool get taxCreditValid {
+    if (credit) {
+      if (taxCredit != null) {
+        return true;
+      }
+    } else {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
+  bool get taxDebitValid {
+    if (debit) {
+      if (taxDebit != null) {
+        return true;
+      }
+    } else {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
+  bool get descriptionIsValid {
+    if (description.isNotEmpty) {
+      if (credit || debit) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  @computed
+  bool get creditDebitIsValid => taxCreditValid && taxDebitValid;
+
+  @computed
+  bool get fieldsValid => descriptionIsValid && creditDebitIsValid;
+
   @action
-  Future<void> initCreateNew() async {
-    flagCardPaymentForm = FlagCardPaymentForm(
+  Future<void> createNewFlag() async {
+    FlagCardPaymentForm form = FlagCardPaymentForm(
         description: description,
         credit: credit,
         taxCredit: taxCredit,
         debit: debit,
         taxDebit: taxDebit);
+
+    print(form.toJson());
   }
 
   @computed
-  bool get taxCreditValid {
-    if (flagCardPaymentForm.credit) {
-      if (flagCardPaymentForm.taxDebit != null) {
-        return true;
-      }
-    }
-    return false;
-  }
+  Function get buttonPressed => fieldsValid ? createNewFlag : null;
 }

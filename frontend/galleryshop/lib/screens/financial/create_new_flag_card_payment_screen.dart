@@ -16,15 +16,9 @@ class _CreateNewFlagCardPaymentScreenState
   FinancialStore financialStore = FinancialStore();
 
   @override
-  void initState() {
-    super.initState();
-    financialStore.initCreateNew();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (_) {
+      builder: (_){
         return Scaffold(
           appBar: AppBar(
             title: Text('Cadastrar novo cartão'),
@@ -33,11 +27,11 @@ class _CreateNewFlagCardPaymentScreenState
           ),
           body: Container(
             padding:
-                EdgeInsets.only(top: 20.0, left: 8.0, right: 8.0, bottom: 10.0),
+            EdgeInsets.only(top: 20.0, left: 8.0, right: 8.0, bottom: 10.0),
             child: ListView(
               children: <Widget>[
                 Form(
-                  autovalidate: !financialStore.taxCreditValid,
+                  autovalidate: true,
                   key: financialStore.formState,
                   child: Column(
                     children: <Widget>[
@@ -66,7 +60,7 @@ class _CreateNewFlagCardPaymentScreenState
                       ),
                       Container(
                         padding:
-                            EdgeInsets.only(right: 50.0, left: 50.0, top: 10.0),
+                        EdgeInsets.only(right: 50.0, left: 50.0, top: 10.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
                           color: colorCard,
@@ -74,36 +68,30 @@ class _CreateNewFlagCardPaymentScreenState
                         child: Column(
                           children: <Widget>[
                             SwitchListTile(
-                              value: financialStore.flagCardPaymentForm.credit,
+                              value: financialStore.credit,
                               onChanged: (_) {
                                 setState(() {
-                                  financialStore.flagCardPaymentForm.credit =
-                                      !financialStore
-                                          .flagCardPaymentForm.credit;
+                                  financialStore.credit = !financialStore.credit;
                                 });
                               },
-                              title: Text(
-                                  financialStore.flagCardPaymentForm.credit
-                                      ? ''
-                                      : 'Crédito'),
-                              subtitle: financialStore
-                                      .flagCardPaymentForm.credit
+                              title: Text(financialStore.credit ? '' : 'Crédito'),
+                              subtitle: financialStore.credit
                                   ? CustomForm(
-                                      controller: financialStore
-                                          .controllerFieldCreditTax,
-                                      onChanged: financialStore.setTaxCredit,
-                                      validator: (value) {
-                                        return validatorTax(value);
-                                      },
-                                      obscure: false,
-                                      mandatory: false,
-                                      enabled: true,
-                                      tip: 'Taxa %',
-                                      label: 'Crédito',
-                                    )
+                                controller:
+                                financialStore.controllerFieldCreditTax,
+                                onChanged: financialStore.setTaxCredit,
+                                validator: (value) {
+                                  return validatorTax(value);
+                                },
+                                obscure: false,
+                                mandatory: false,
+                                enabled: true,
+                                tip: 'Taxa %',
+                                label: 'Crédito',
+                                textInputType: TextInputType.number,
+                              )
                                   : Container(),
-                              selected:
-                                  financialStore.flagCardPaymentForm.credit,
+                              selected: financialStore.credit,
                             ),
                             Divider(
                               thickness: 1.0,
@@ -112,21 +100,17 @@ class _CreateNewFlagCardPaymentScreenState
                               height: space,
                             ),
                             SwitchListTile(
-                              value: financialStore.flagCardPaymentForm.debit,
+                              value: financialStore.debit,
                               onChanged: (_) {
                                 setState(() {
-                                  financialStore.flagCardPaymentForm.debit =
-                                      !financialStore.flagCardPaymentForm.debit;
+                                  financialStore.debit = !financialStore.debit;
                                 });
                               },
-                              title: Text(
-                                  financialStore.flagCardPaymentForm.debit
-                                      ? ''
-                                      : 'Débito'),
-                              subtitle: financialStore.flagCardPaymentForm.debit
+                              title: Text(financialStore.debit ? '' : 'Débito'),
+                              subtitle: financialStore.debit
                                   ? CustomForm(
-                                controller: financialStore
-                                    .controllerFieldDebitTax,
+                                controller:
+                                financialStore.controllerFieldDebitTax,
                                 onChanged: financialStore.setTaxDebit,
                                 validator: (value) {
                                   return validatorTax(value);
@@ -136,10 +120,10 @@ class _CreateNewFlagCardPaymentScreenState
                                 enabled: true,
                                 tip: 'Taxa %',
                                 label: 'Débito',
+                                textInputType: TextInputType.number,
                               )
                                   : Container(),
-                              selected:
-                                  financialStore.flagCardPaymentForm.debit,
+                              selected: financialStore.debit,
                             ),
                           ],
                         ),
@@ -189,7 +173,7 @@ class _CreateNewFlagCardPaymentScreenState
                               )
                             ],
                           ),
-                          onPressed: () {})),
+                          onPressed: financialStore.buttonPressed)),
                 ),
               ],
             ),
@@ -205,6 +189,7 @@ String validatorTax(String value) {
     return 'Preenchimento obrigatório';
   } else if (value == null) {
     return 'Preenchimento obrigatório';
+  } else {
+    return null;
   }
-  return null;
 }

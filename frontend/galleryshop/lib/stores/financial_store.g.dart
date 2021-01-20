@@ -16,6 +16,41 @@ mixin _$FinancialStore on _FinancialStore, Store {
       (_$taxCreditValidComputed ??= Computed<bool>(() => super.taxCreditValid,
               name: '_FinancialStore.taxCreditValid'))
           .value;
+  Computed<bool> _$taxDebitValidComputed;
+
+  @override
+  bool get taxDebitValid =>
+      (_$taxDebitValidComputed ??= Computed<bool>(() => super.taxDebitValid,
+              name: '_FinancialStore.taxDebitValid'))
+          .value;
+  Computed<bool> _$descriptionIsValidComputed;
+
+  @override
+  bool get descriptionIsValid => (_$descriptionIsValidComputed ??=
+          Computed<bool>(() => super.descriptionIsValid,
+              name: '_FinancialStore.descriptionIsValid'))
+      .value;
+  Computed<bool> _$creditDebitIsValidComputed;
+
+  @override
+  bool get creditDebitIsValid => (_$creditDebitIsValidComputed ??=
+          Computed<bool>(() => super.creditDebitIsValid,
+              name: '_FinancialStore.creditDebitIsValid'))
+      .value;
+  Computed<bool> _$fieldsValidComputed;
+
+  @override
+  bool get fieldsValid =>
+      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
+              name: '_FinancialStore.fieldsValid'))
+          .value;
+  Computed<Function> _$buttonPressedComputed;
+
+  @override
+  Function get buttonPressed =>
+      (_$buttonPressedComputed ??= Computed<Function>(() => super.buttonPressed,
+              name: '_FinancialStore.buttonPressed'))
+          .value;
 
   final _$controllerFieldCreditTaxAtom =
       Atom(name: '_FinancialStore.controllerFieldCreditTax');
@@ -95,22 +130,6 @@ mixin _$FinancialStore on _FinancialStore, Store {
   set autoValidateForm(bool value) {
     _$autoValidateFormAtom.reportWrite(value, super.autoValidateForm, () {
       super.autoValidateForm = value;
-    });
-  }
-
-  final _$flagCardPaymentFormAtom =
-      Atom(name: '_FinancialStore.flagCardPaymentForm');
-
-  @override
-  FlagCardPaymentForm get flagCardPaymentForm {
-    _$flagCardPaymentFormAtom.reportRead();
-    return super.flagCardPaymentForm;
-  }
-
-  @override
-  set flagCardPaymentForm(FlagCardPaymentForm value) {
-    _$flagCardPaymentFormAtom.reportWrite(value, super.flagCardPaymentForm, () {
-      super.flagCardPaymentForm = value;
     });
   }
 
@@ -212,12 +231,12 @@ mixin _$FinancialStore on _FinancialStore, Store {
     return _$initListAsyncAction.run(() => super.initList());
   }
 
-  final _$initCreateNewAsyncAction =
-      AsyncAction('_FinancialStore.initCreateNew');
+  final _$createNewFlagAsyncAction =
+      AsyncAction('_FinancialStore.createNewFlag');
 
   @override
-  Future<void> initCreateNew() {
-    return _$initCreateNewAsyncAction.run(() => super.initCreateNew());
+  Future<void> createNewFlag() {
+    return _$createNewFlagAsyncAction.run(() => super.createNewFlag());
   }
 
   final _$_FinancialStoreActionController =
@@ -264,14 +283,18 @@ controllerFieldDebitTax: ${controllerFieldDebitTax},
 controllerFieldDescription: ${controllerFieldDescription},
 formState: ${formState},
 autoValidateForm: ${autoValidateForm},
-flagCardPaymentForm: ${flagCardPaymentForm},
 dataFlagCardPayment: ${dataFlagCardPayment},
 description: ${description},
 credit: ${credit},
 taxCredit: ${taxCredit},
 debit: ${debit},
 taxDebit: ${taxDebit},
-taxCreditValid: ${taxCreditValid}
+taxCreditValid: ${taxCreditValid},
+taxDebitValid: ${taxDebitValid},
+descriptionIsValid: ${descriptionIsValid},
+creditDebitIsValid: ${creditDebitIsValid},
+fieldsValid: ${fieldsValid},
+buttonPressed: ${buttonPressed}
     ''';
   }
 }
