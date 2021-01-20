@@ -60,6 +60,21 @@ class FinancialWebClient {
     return response.statusCode;
   }
 
+  Future<int> exclude(FlagCardPaymentDto flagCardPaymentDto) async {
+    String token = await getToken();
+    String id = flagCardPaymentDto.id.toString();
+    String urlExclude = urlFlagCardPayment + '/' + id;
+
+    final Response response = await webClient.delete(
+      urlExclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+    return response.statusCode;
+  }
+
 
 
 
