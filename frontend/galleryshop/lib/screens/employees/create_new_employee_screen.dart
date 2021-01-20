@@ -27,8 +27,6 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
 
   EmployeeStore employeeStore = EmployeeStore();
 
-  List<dynamic> dataTypeEmployee = List();
-
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -47,8 +45,10 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         reaction((_) => employeeStore.errorSending, (errorSending) async {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(employeeStore.change ? 'Error ao atualizar':
-            'Error ao cadastrar! Verifique os campos',
+          content: Text(
+            employeeStore.change
+                ? 'Error ao atualizar'
+                : 'Error ao cadastrar! Verifique os campos',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
@@ -60,8 +60,10 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
 
     disposer = reaction((_) => employeeStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(employeeStore.change ? 'Funcionário alterado com sucesso!':
-          'Funcionário cadastrado  com sucesso!',
+        content: Text(
+          employeeStore.change
+              ? 'Funcionário alterado com sucesso!'
+              : 'Funcionário cadastrado  com sucesso!',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.blueAccent,
