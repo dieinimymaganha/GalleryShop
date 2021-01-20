@@ -1,8 +1,7 @@
 package GalleryShop.controller.form;
 
 import GalleryShop.model.FlagCardPayment;
-
-import javax.persistence.Entity;
+import GalleryShop.repository.FlagCardPaymentRepository;
 
 
 public class FlagCardPaymentForm {
@@ -59,6 +58,20 @@ public class FlagCardPaymentForm {
     }
 
     public FlagCardPayment converter() {
-           return new FlagCardPayment(description.toUpperCase(), debit, taxDebit, credit, taxCredit);
+        return new FlagCardPayment(description.toUpperCase(), debit, taxDebit, credit, taxCredit);
     }
+
+    public FlagCardPayment upload(Long id, FlagCardPaymentRepository flagCardPaymentRepository) {
+
+        FlagCardPayment flagCardPayment = flagCardPaymentRepository.getOne(id);
+
+        flagCardPayment.setDescription(this.description.toUpperCase());
+        flagCardPayment.setDebit(this.debit);
+        flagCardPayment.setTaxDebit(this.taxDebit);
+        flagCardPayment.setCredit(this.credit);
+        flagCardPayment.setTaxCredit(this.taxCredit);
+
+        return flagCardPayment;
+    }
+
 }

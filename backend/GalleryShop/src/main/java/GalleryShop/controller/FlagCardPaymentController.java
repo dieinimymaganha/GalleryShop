@@ -49,7 +49,7 @@ public class FlagCardPaymentController {
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<FlagCardPaymentDto> updateFlagCardPayment(@PathVariable Long id, @RequestBody @Valid FlagCardPayment form) {
+    public ResponseEntity<FlagCardPaymentDto> updateFlagCardPayment(@PathVariable Long id, @RequestBody @Valid FlagCardPaymentForm form) {
         Optional<FlagCardPayment> optionalFlagCardPayment = flagCardPaymentRepository.findById(id);
         if (optionalFlagCardPayment.isPresent()) {
             FlagCardPayment flagCardPayment = form.upload(id, flagCardPaymentRepository);

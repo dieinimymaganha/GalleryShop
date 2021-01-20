@@ -81,17 +81,7 @@ public class FlagCardPayment {
         this.taxCredit = taxCredit;
     }
 
-    public FlagCardPayment upload(Long id, FlagCardPaymentRepository flagCardPaymentRepository) {
-        FlagCardPayment flagCardPayment = flagCardPaymentRepository.getOne(id);
 
-        flagCardPayment.setDescription(this.description.toUpperCase());
-        flagCardPayment.setDebit(this.debit);
-        flagCardPayment.setTaxDebit(this.taxDebit);
-        flagCardPayment.setCredit(this.credit);
-        flagCardPayment.setTaxDebit(this.taxCredit);
-
-        return flagCardPayment;
-    }
 
 
 }
