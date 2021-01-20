@@ -51,6 +51,15 @@ public class ServiceController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/typeEmployee={id}")
+    public ResponseEntity<ServiceDto> getServiceTypeEmployee(@PathVariable Long id) {
+        Optional<Service> service = serviceRepository.findByTypeEmployeeId(id);
+        if (service.isPresent()) {
+            return ResponseEntity.ok(new ServiceDto(service.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PostMapping
     @Transactional
     public ResponseEntity<ServiceDto> createNewService(@RequestBody @Valid ServiceForm form,

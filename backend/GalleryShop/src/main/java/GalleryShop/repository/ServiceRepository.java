@@ -10,5 +10,7 @@ public interface ServiceRepository extends JpaRepository<Service, Long> {
     
     Optional<Service> findByDescription(String description);
 
+    Optional<Service> findByTypeEmployeeId(Long id);
+
 
 }
