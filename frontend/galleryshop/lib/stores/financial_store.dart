@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:galleryshop/http/webclients/webclient_financial.dart';
 import 'package:galleryshop/models/FlagCardPayment.dart';
@@ -66,9 +68,36 @@ abstract class _FinancialStore with Store {
   @observable
   List<dynamic> dataFlagCardPayment = List();
 
+  @observable
+  bool loading = false;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
   @action
   Future<void> initList() async {
-    dataFlagCardPayment = await financialWebClient.findAll();
+    loading = true;
+    await Future.delayed(Duration(seconds: 2));
+    try {
+      dataFlagCardPayment = await financialWebClient.findAll();
+      if (dataFlagCardPayment.isEmpty) {
+        errorList = true;
+        listEmpty = true;
+        loading = false;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    loading = false;
+  }
+
+  @action
+  Future<void> reloadList() async {
+    errorList = false;
+    initList();
   }
 
   @observable

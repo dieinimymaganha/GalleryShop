@@ -163,6 +163,51 @@ mixin _$FinancialStore on _FinancialStore, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_FinancialStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$errorListAtom = Atom(name: '_FinancialStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_FinancialStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
   final _$descriptionAtom = Atom(name: '_FinancialStore.description');
 
   @override
@@ -350,6 +395,13 @@ mixin _$FinancialStore on _FinancialStore, Store {
     return _$initListAsyncAction.run(() => super.initList());
   }
 
+  final _$reloadListAsyncAction = AsyncAction('_FinancialStore.reloadList');
+
+  @override
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
+  }
+
   final _$createNewFlagAsyncAction =
       AsyncAction('_FinancialStore.createNewFlag');
 
@@ -439,6 +491,9 @@ controllerFieldDescription: ${controllerFieldDescription},
 formState: ${formState},
 autoValidateForm: ${autoValidateForm},
 dataFlagCardPayment: ${dataFlagCardPayment},
+loading: ${loading},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
 description: ${description},
 credit: ${credit},
 taxCredit: ${taxCredit},
