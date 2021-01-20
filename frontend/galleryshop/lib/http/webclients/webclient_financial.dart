@@ -43,6 +43,28 @@ class FinancialWebClient {
     return response.statusCode;
   }
 
+
+  Future<int> update(FlagCardPaymentForm flagCardPaymentForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlFlagCardPayment + '/' + id.toString();
+
+    final String serviceJson = json.encode(flagCardPaymentForm.toJson());
+
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
+
+
+
+
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];
