@@ -39,6 +39,21 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     });
   }
 
+  final _$listServicesAtom = Atom(name: '_BilledServiceStore.listServices');
+
+  @override
+  List<dynamic> get listServices {
+    _$listServicesAtom.reportRead();
+    return super.listServices;
+  }
+
+  @override
+  set listServices(List<dynamic> value) {
+    _$listServicesAtom.reportWrite(value, super.listServices, () {
+      super.listServices = value;
+    });
+  }
+
   final _$valueSelecIdtEmployeeAtom =
       Atom(name: '_BilledServiceStore.valueSelecIdtEmployee');
 
@@ -89,26 +104,115 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     });
   }
 
+  final _$valueSelectServiceAtom =
+      Atom(name: '_BilledServiceStore.valueSelectService');
+
+  @override
+  int get valueSelectService {
+    _$valueSelectServiceAtom.reportRead();
+    return super.valueSelectService;
+  }
+
+  @override
+  set valueSelectService(int value) {
+    _$valueSelectServiceAtom.reportWrite(value, super.valueSelectService, () {
+      super.valueSelectService = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_BilledServiceStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$loadingServicesAtom =
+      Atom(name: '_BilledServiceStore.loadingServices');
+
+  @override
+  bool get loadingServices {
+    _$loadingServicesAtom.reportRead();
+    return super.loadingServices;
+  }
+
+  @override
+  set loadingServices(bool value) {
+    _$loadingServicesAtom.reportWrite(value, super.loadingServices, () {
+      super.loadingServices = value;
+    });
+  }
+
+  final _$getListEmployeesAsyncAction =
+      AsyncAction('_BilledServiceStore.getListEmployees');
+
+  @override
+  Future<void> getListEmployees() {
+    return _$getListEmployeesAsyncAction.run(() => super.getListEmployees());
+  }
+
+  final _$getListServicesAsyncAction =
+      AsyncAction('_BilledServiceStore.getListServices');
+
+  @override
+  Future<void> getListServices() {
+    return _$getListServicesAsyncAction.run(() => super.getListServices());
+  }
+
+  final _$getInitialTypeEmployeeAsyncAction =
+      AsyncAction('_BilledServiceStore.getInitialTypeEmployee');
+
+  @override
+  Future<void> getInitialTypeEmployee() {
+    return _$getInitialTypeEmployeeAsyncAction
+        .run(() => super.getInitialTypeEmployee());
+  }
+
+  final _$initPageBilledAsyncAction =
+      AsyncAction('_BilledServiceStore.initPageBilled');
+
+  @override
+  Future<void> initPageBilled() {
+    return _$initPageBilledAsyncAction.run(() => super.initPageBilled());
+  }
+
+  final _$setValueSelectTypeEmployeeAsyncAction =
+      AsyncAction('_BilledServiceStore.setValueSelectTypeEmployee');
+
+  @override
+  Future<void> setValueSelectTypeEmployee(int value) {
+    return _$setValueSelectTypeEmployeeAsyncAction
+        .run(() => super.setValueSelectTypeEmployee(value));
+  }
+
   final _$_BilledServiceStoreActionController =
       ActionController(name: '_BilledServiceStore');
 
   @override
-  void getInitialTypeEmployee() {
+  void resetValueSelectTypeEmployee() {
     final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
-        name: '_BilledServiceStore.getInitialTypeEmployee');
+        name: '_BilledServiceStore.resetValueSelectTypeEmployee');
     try {
-      return super.getInitialTypeEmployee();
+      return super.resetValueSelectTypeEmployee();
     } finally {
       _$_BilledServiceStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void initPageBilled() {
+  void resetValueSelectService() {
     final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
-        name: '_BilledServiceStore.initPageBilled');
+        name: '_BilledServiceStore.resetValueSelectService');
     try {
-      return super.initPageBilled();
+      return super.resetValueSelectService();
     } finally {
       _$_BilledServiceStoreActionController.endAction(_$actionInfo);
     }
@@ -126,11 +230,11 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
   }
 
   @override
-  void setValueSelectTypeEmployee(int value) {
+  void setValueSelectService(int value) {
     final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
-        name: '_BilledServiceStore.setValueSelectTypeEmployee');
+        name: '_BilledServiceStore.setValueSelectService');
     try {
-      return super.setValueSelectTypeEmployee(value);
+      return super.setValueSelectService(value);
     } finally {
       _$_BilledServiceStoreActionController.endAction(_$actionInfo);
     }
@@ -141,9 +245,13 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     return '''
 employeeDto: ${employeeDto},
 listEmployees: ${listEmployees},
+listServices: ${listServices},
 valueSelecIdtEmployee: ${valueSelecIdtEmployee},
 valueSelectTypeEmployee: ${valueSelectTypeEmployee},
-listTypeEmployee: ${listTypeEmployee}
+listTypeEmployee: ${listTypeEmployee},
+valueSelectService: ${valueSelectService},
+loading: ${loading},
+loadingServices: ${loadingServices}
     ''';
   }
 }

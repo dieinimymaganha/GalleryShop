@@ -75,6 +75,26 @@ class ServicesWebClient {
     return response.statusCode;
   }
 
+  Future<List<ServiceDto>> findByTypeEmployeeId(int id) async {
+    String token = await getToken();
+    String url = urlService + "/typeEmployee=" + id.toString();
+    final Response response = await webClient.get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      return decodeJson
+          .map((dynamic json) => ServiceDto.fromJson(json))
+          .toList();
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];

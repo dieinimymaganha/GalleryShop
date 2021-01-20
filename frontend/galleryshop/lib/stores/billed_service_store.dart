@@ -1,4 +1,5 @@
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
+import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
 
@@ -24,11 +25,16 @@ abstract class _BilledServiceStore with Store {
 
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
 
+  ServicesWebClient servicesWebClient = ServicesWebClient();
+
   @observable
   EmployeeDto employeeDto;
 
   @observable
   List<dynamic> listEmployees = List();
+
+  @observable
+  List<dynamic> listServices = List();
 
   @observable
   int valueSelecIdtEmployee;
@@ -39,9 +45,21 @@ abstract class _BilledServiceStore with Store {
   @observable
   List<dynamic> listTypeEmployee = List();
 
+  @observable
+  int valueSelectService;
+
   @action
   Future<void> getListEmployees() async {
     listEmployees = await employeeWebClient.findAll();
+  }
+
+  @action
+  Future<void> getListServices() async {
+    loadingServices = true;
+    await Future.delayed(Duration(seconds: 1));
+    listServices =
+        await servicesWebClient.findByTypeEmployeeId(valueSelectTypeEmployee);
+    loadingServices = false;
   }
 
   void getListTypeEmployee() {
@@ -53,26 +71,36 @@ abstract class _BilledServiceStore with Store {
   }
 
   @action
-  void getInitialTypeEmployee() {
-    print('LANGO>>>');
+  Future<void> getInitialTypeEmployee() async {
     listTypeEmployee.forEach((element) {
-      print('ELEMENTO >>> $element');
       if (element.description == descTypeEmployee) {
         valueSelectTypeEmployee = element.id;
       }
     });
+    await getListServices();
   }
 
+  @observable
+  bool loading = false;
+
+  @observable
+  bool loadingServices = false;
+
   @action
-  void initPageBilled() async {
+  Future<void> initPageBilled() async {
     await getListEmployees();
     setValueSelectEmployee(idEmployee);
-    getInitialTypeEmployee();
+    await getInitialTypeEmployee();
   }
 
   @action
   void resetValueSelectTypeEmployee() {
     valueSelectTypeEmployee = null;
+  }
+
+  @action
+  void resetValueSelectService() {
+    valueSelectService = null;
   }
 
   @action
@@ -82,5 +110,13 @@ abstract class _BilledServiceStore with Store {
   }
 
   @action
-  void setValueSelectTypeEmployee(int value) => valueSelectTypeEmployee = value;
+  Future<void> setValueSelectTypeEmployee(int value) async {
+    valueSelectTypeEmployee = value;
+    await getListServices();
+  }
+
+  @action
+  void setValueSelectService(int value) {
+    valueSelectService = value;
+  }
 }
