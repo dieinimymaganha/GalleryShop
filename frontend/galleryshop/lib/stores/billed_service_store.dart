@@ -10,12 +10,15 @@ abstract class _BilledServiceStore with Store {
   final String typeEmployee;
   final int idEmployee;
   final int idClient;
+  final String descTypeEmployee;
 
-  _BilledServiceStore({this.typeEmployee, this.idEmployee, this.idClient}) {
+  _BilledServiceStore(
+      {this.typeEmployee,
+      this.idEmployee,
+      this.idClient,
+      this.descTypeEmployee}) {
     autorun((_) {
-      print('idTypeEmployee >>> $typeEmployee');
-      print('idEmployee >>> $idEmployee');
-      print('idClient >>> $idClient');
+      print('listEmployees >>> $listEmployees');
     });
   }
 
@@ -30,16 +33,54 @@ abstract class _BilledServiceStore with Store {
   @observable
   int valueSelecIdtEmployee;
 
-  void getListEmployees() async {
+  @observable
+  int valueSelectTypeEmployee;
+
+  @observable
+  List<dynamic> listTypeEmployee = List();
+
+  @action
+  Future<void> getListEmployees() async {
     listEmployees = await employeeWebClient.findAll();
   }
 
-  @action
-  Future<void> initPageBilled() async {
-    getListEmployees();
-    setValueSelectEmployee(idEmployee);
+  void getListTypeEmployee() {
+    listEmployees.forEach((element) {
+      if (element.id == valueSelecIdtEmployee) {
+        listTypeEmployee = element.typeEmployees;
+      }
+    });
   }
 
   @action
-  void setValueSelectEmployee(int value) => valueSelecIdtEmployee = value;
+  void getInitialTypeEmployee() {
+    print('LANGO>>>');
+    listTypeEmployee.forEach((element) {
+      print('ELEMENTO >>> $element');
+      if (element.description == descTypeEmployee) {
+        valueSelectTypeEmployee = element.id;
+      }
+    });
+  }
+
+  @action
+  void initPageBilled() async {
+    await getListEmployees();
+    setValueSelectEmployee(idEmployee);
+    getInitialTypeEmployee();
+  }
+
+  @action
+  void resetValueSelectTypeEmployee() {
+    valueSelectTypeEmployee = null;
+  }
+
+  @action
+  void setValueSelectEmployee(int value) {
+    valueSelecIdtEmployee = value;
+    getListTypeEmployee();
+  }
+
+  @action
+  void setValueSelectTypeEmployee(int value) => valueSelectTypeEmployee = value;
 }

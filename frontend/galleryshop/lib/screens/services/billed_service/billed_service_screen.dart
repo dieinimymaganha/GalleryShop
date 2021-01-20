@@ -8,23 +8,36 @@ class BilledServiceScreen extends StatefulWidget {
   final String typeEmployee;
   final int idEmployee;
   final int idClient;
+  final String descTypeEmployee;
 
-  BilledServiceScreen({this.typeEmployee, this.idEmployee, this.idClient});
+  BilledServiceScreen(
+      {this.typeEmployee,
+      this.idEmployee,
+      this.idClient,
+      this.descTypeEmployee});
 
   @override
   _BilledServiceScreenState createState() => _BilledServiceScreenState(
-      typeEmployee: typeEmployee, idEmployee: idEmployee, idClient: idClient);
+      typeEmployee: typeEmployee,
+      idEmployee: idEmployee,
+      idClient: idClient,
+      descTypeEmployee: descTypeEmployee);
 }
 
 class _BilledServiceScreenState extends State<BilledServiceScreen> {
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
   _BilledServiceScreenState(
-      {String typeEmployee, int idEmployee, int idService, int idClient})
+      {String typeEmployee,
+      int idEmployee,
+      int idService,
+      int idClient,
+      String descTypeEmployee})
       : billedServiceStore = BilledServiceStore(
             typeEmployee: typeEmployee,
             idEmployee: idEmployee,
-            idClient: idClient);
+            idClient: idClient,
+            descTypeEmployee: descTypeEmployee);
 
   @override
   void initState() {
@@ -68,18 +81,36 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                           }).toList(),
                           onChanged: (value) {
                             billedServiceStore.setValueSelectEmployee(value);
+                            billedServiceStore.resetValueSelectTypeEmployee();
                           },
                         ),
                       ),
                       SizedBox(
                         height: space,
                       ),
-                      CustomForm(
-                        enabled: true,
-                        mandatory: false,
-                        obscure: false,
-                        label: 'Tipo funcionário',
-                        tip: 'Teste',
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 70, vertical: 6),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                            color: colorCard),
+                        child: DropdownButton(
+                          hint: Text(
+                            'Selecione o tipo de funcionário',
+                          ),
+                          value: billedServiceStore.valueSelectTypeEmployee,
+                          items:
+                              billedServiceStore.listTypeEmployee.map((item) {
+                            return DropdownMenuItem(
+                              child: Text(item.description),
+                              value: item.id,
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            billedServiceStore
+                                .setValueSelectTypeEmployee(value);
+                          },
+                        ),
                       ),
                       SizedBox(
                         height: space,

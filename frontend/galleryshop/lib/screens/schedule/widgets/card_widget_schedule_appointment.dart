@@ -148,14 +148,19 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => BilledServiceScreen(
+                                          builder: (context) =>
+                                              BilledServiceScreen(
                                                 typeEmployee:
                                                     scheduleDtoAppointment
                                                         .typeEmployee,
                                                 idEmployee:
                                                     scheduleDtoAppointment
                                                         .employeeId,
-                                            idClient: scheduleDtoAppointment.clientId,
+                                                idClient: scheduleDtoAppointment
+                                                    .clientId,
+                                                descTypeEmployee:
+                                                    scheduleDtoAppointment
+                                                        .typeEmployee,
                                               )));
                                 },
                               ),
