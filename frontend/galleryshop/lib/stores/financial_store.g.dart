@@ -51,6 +51,13 @@ mixin _$FinancialStore on _FinancialStore, Store {
       (_$buttonPressedComputed ??= Computed<Function>(() => super.buttonPressed,
               name: '_FinancialStore.buttonPressed'))
           .value;
+  Computed<Function> _$buttonChangePressedComputed;
+
+  @override
+  Function get buttonChangePressed => (_$buttonChangePressedComputed ??=
+          Computed<Function>(() => super.buttonChangePressed,
+              name: '_FinancialStore.buttonChangePressed'))
+      .value;
 
   final _$controllerFieldCreditTaxAtom =
       Atom(name: '_FinancialStore.controllerFieldCreditTax');
@@ -314,6 +321,13 @@ mixin _$FinancialStore on _FinancialStore, Store {
     return _$createNewFlagAsyncAction.run(() => super.createNewFlag());
   }
 
+  final _$updateFlagAsyncAction = AsyncAction('_FinancialStore.updateFlag');
+
+  @override
+  Future<void> updateFlag() {
+    return _$updateFlagAsyncAction.run(() => super.updateFlag());
+  }
+
   final _$_FinancialStoreActionController =
       ActionController(name: '_FinancialStore');
 
@@ -351,6 +365,17 @@ mixin _$FinancialStore on _FinancialStore, Store {
   }
 
   @override
+  void setDataInitial() {
+    final _$actionInfo = _$_FinancialStoreActionController.startAction(
+        name: '_FinancialStore.setDataInitial');
+    try {
+      return super.setDataInitial();
+    } finally {
+      _$_FinancialStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 controllerFieldCreditTax: ${controllerFieldCreditTax},
@@ -374,7 +399,8 @@ taxDebitValid: ${taxDebitValid},
 descriptionIsValid: ${descriptionIsValid},
 creditDebitIsValid: ${creditDebitIsValid},
 fieldsValid: ${fieldsValid},
-buttonPressed: ${buttonPressed}
+buttonPressed: ${buttonPressed},
+buttonChangePressed: ${buttonChangePressed}
     ''';
   }
 }

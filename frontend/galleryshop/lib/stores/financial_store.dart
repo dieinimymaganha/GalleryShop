@@ -8,7 +8,9 @@ part 'financial_store.g.dart';
 class FinancialStore = _FinancialStore with _$FinancialStore;
 
 abstract class _FinancialStore with Store {
-  _FinancialStore() {
+  final FlagCardPaymentDto flagCardPaymentDto;
+
+  _FinancialStore({this.flagCardPaymentDto}) {
     autorun((_) {
       print('creditDebitIsValid >>>> $creditDebitIsValid');
       print('fields >>>> $fieldsValid');
@@ -174,4 +176,46 @@ abstract class _FinancialStore with Store {
 
   @computed
   Function get buttonPressed => fieldsValid ? createNewFlag : null;
+
+  @action
+  void setDataInitial() {
+    if (flagCardPaymentDto != null) {
+      change = true;
+      description =
+          controllerFieldDescription.text = flagCardPaymentDto.description;
+      debit = flagCardPaymentDto.debit;
+      taxDebit = flagCardPaymentDto.taxDebit;
+      controllerFieldDebitTax.text = flagCardPaymentDto.taxDebit.toString();
+      credit = flagCardPaymentDto.credit;
+      taxCredit = flagCardPaymentDto.taxCredit;
+      controllerFieldCreditTax.text = flagCardPaymentDto.taxCredit.toString();
+    }
+  }
+
+  @action
+  Future<void> updateFlag() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+
+    FlagCardPaymentForm flagCardPaymentForm = FlagCardPaymentForm(
+        description: description,
+        credit: credit,
+        taxCredit: taxCredit,
+        debit: debit,
+        taxDebit: taxDebit);
+    int response = await financialWebClient.update(
+        flagCardPaymentForm, flagCardPaymentDto.id);
+    if (response == 200) {
+      created = true;
+    } else {
+      errorSending = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    created = false;
+    errorSending = false;
+  }
+
+  @computed
+  Function get buttonChangePressed => updateFlag;
 }
