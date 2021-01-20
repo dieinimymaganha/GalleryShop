@@ -7,6 +7,8 @@ import 'package:galleryshop/screens/financial/create_new_flag_card_payment_scree
 import 'package:galleryshop/screens/financial/widget/button_create_flag_card_payment.dart';
 import 'package:galleryshop/stores/financial_store.dart';
 
+import 'widget/dialog_flag_card_payment.dart';
+
 class FlagCardPaymentListScreen extends StatefulWidget {
   @override
   _FlagCardPaymentListScreenState createState() =>
@@ -54,7 +56,11 @@ class _FlagCardPaymentListScreenState extends State<FlagCardPaymentListScreen> {
                             flagCardPaymentDto: flagCardPaymentDto,
                           )));
                 },
-                onLongPress: () {},
+                onLongPress: () {
+                  showDialog(context: context, builder: (context) => DialogFlagCardPayment(
+                    flagCardPaymentDto: flagCardPaymentDto
+                  ));
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child: Card(
