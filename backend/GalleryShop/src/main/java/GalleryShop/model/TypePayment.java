@@ -19,9 +19,9 @@ public class TypePayment {
 
     private Double tax;
 
-    @OneToMany
-    @JoinColumn(name = "typePayment")
-    private List<Payment> payments = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private Payment payment;
 
     public Long getId() {
         return id;
@@ -63,13 +63,6 @@ public class TypePayment {
         this.tax = tax;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
 
     public TypePayment(String description, Boolean card, String flag, Double tax) {
         this.description = description;
@@ -80,5 +73,6 @@ public class TypePayment {
 
     public TypePayment() {
     }
+
 }
 
