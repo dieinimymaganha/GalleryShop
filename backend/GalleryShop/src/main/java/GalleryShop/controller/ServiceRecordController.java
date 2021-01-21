@@ -3,10 +3,10 @@ package GalleryShop.controller;
 
 import GalleryShop.controller.dto.ServiceRecordDto;
 import GalleryShop.controller.form.ServiceRecordForm;
-import GalleryShop.model.ServiceRecord;
-import GalleryShop.model.TypePayment;
+import GalleryShop.model.*;
 import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -14,7 +14,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/serviceRecord")
@@ -63,5 +66,44 @@ public class ServiceRecordController {
         return ResponseEntity.created(uri).body(new ServiceRecordDto(serviceRecord));
 
     }
+
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<?> deleteServiceRecord(@PathVariable Long id) {
+        Optional<ServiceRecord> optional = serviceRecordRepository.findById(id);
+
+        if (optional.isPresent()) {
+
+            ServiceRecord serviceRecord = optional.get();
+            Date dateService = new Date();
+            SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (serviceRecord.getDateService().toString().equals(fd.format(dateService))) {
+                AccountClient accountClient = accountClientRepository.getOne(serviceRecord.getAccountClient().getId());
+
+                List<Payment> paymentList =
+                        paymentRepository.findByAccountClientIDAndDatePayment(serviceRecord.getAccountClient().getId(),
+                                serviceRecord.getDateService());
+
+                if (paymentList.isEmpty()) {
+
+                    accountClient.setAmount(accountClient.getAmount() -
+                            serviceRecord.getBilledService().getValueFinal());
+                    serviceRecordRepository.deleteById(id);
+
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+            }
+
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+
+        return ResponseEntity.ok().build();
+    }
+
 
 }
