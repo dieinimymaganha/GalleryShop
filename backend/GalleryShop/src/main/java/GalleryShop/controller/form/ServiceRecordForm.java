@@ -105,18 +105,6 @@ public class ServiceRecordForm {
                     billedService.getDiscount();
             accountClientReturn.setAmount(updateAmount);
 
-            if (accountClientReturn.getBalance() > 0) {
-
-                double newBalance = (accountClientReturn.getBalance() - billedService.getValue() - billedService.getDiscount());
-
-                if (newBalance < 0) {
-                    newBalance = 0.0;
-                }
-
-                accountClientReturn.setBalance(newBalance);
-
-            }
-
         } else {
             AccountClient createAccount = new AccountClient(client, billedService.getValueFinal(), 0.0, 0.0);
             accountClientRepository.save(createAccount);

@@ -74,7 +74,6 @@ public class ServiceRecordController {
         Optional<ServiceRecord> optional = serviceRecordRepository.findById(id);
 
         if (optional.isPresent()) {
-
             ServiceRecord serviceRecord = optional.get();
             Date dateService = new Date();
             SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,7 +86,6 @@ public class ServiceRecordController {
                                 serviceRecord.getDateService());
 
                 if (paymentList.isEmpty()) {
-
                     accountClient.setAmount(accountClient.getAmount() -
                             serviceRecord.getBilledService().getValueFinal());
                     serviceRecordRepository.deleteById(id);

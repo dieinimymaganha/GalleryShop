@@ -22,9 +22,31 @@ public class CloseAccountClientForm {
 
     private Double value;
 
+    private Boolean useBalance;
+
     private Boolean card;
 
     private Long idFlagCardPayment;
+
+    private Boolean creditCard;
+
+    private Boolean debitCard;
+
+    public Boolean getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(Boolean creditCard) {
+        this.creditCard = creditCard;
+    }
+
+    public Boolean getDebitCard() {
+        return debitCard;
+    }
+
+    public void setDebitCard(Boolean debitCard) {
+        this.debitCard = debitCard;
+    }
 
     public Long getIdAccountClient() {
         return idAccountClient;
@@ -58,6 +80,14 @@ public class CloseAccountClientForm {
         this.idFlagCardPayment = idFlagCardPayment;
     }
 
+    public Boolean getUseBalance() {
+        return useBalance;
+    }
+
+    public void setUseBalance(Boolean useBalance) {
+        this.useBalance = useBalance;
+    }
+
     public AccountClient convertClose(AccountClientRepository accountClientRepository,
                                       FlagCardPaymentRepository flagCardPaymentRepository,
                                       TypePaymentRepository typePaymentRepository,
@@ -67,48 +97,69 @@ public class CloseAccountClientForm {
         Optional<AccountClient> accountClientOptional = accountClientRepository.findById(idAccountClient);
         String descriptionTypePayment = "DINHEIRO";
         TypePayment typePayment = new TypePayment();
-        Double tax = 0.0;
+
+        double tax = 0.0;
+        double totalPayable = 0;
+        double amountPaid = 0.0;
+        double balance = 0.0;
+
+        accountClientUpdate = accountClientOptional.get();
 
         if (accountClientOptional.isPresent()) {
-            FlagCardPayment flagCardPayment = flagCardPaymentRepository.getOne(idFlagCardPayment);
+
             String flag = null;
-            if (flagCardPayment != null) {
-                accountClientUpdate = accountClientOptional.get();
 
-                double totalPayable = 0;
+            // Verifica se pagamento é com cartão de crédito
+            if (card) {
+                // Verifica a bandeira do cartão e se é crédito ou débito
+                FlagCardPayment flagCardPayment = flagCardPaymentRepository.getOne(idFlagCardPayment);
+                flag = flagCardPayment.getDescription();
 
-                if (accountClientUpdate.getBalance() <= 0) {
-                    totalPayable = (accountClientUpdate.getAmount() - accountClientUpdate.getAmountPaid());
-                    System.out.println(">>> 1 ");
-                } else {
-                    totalPayable = (accountClientUpdate.getAmount() - accountClientUpdate.getAmountPaid()) - accountClientUpdate.getBalance();
-                    System.out.println(">>> 3 ");
-                }
-
-                double amountPaid = accountClientUpdate.getAmountPaid() + value;
-
-                double balance = value - abs(totalPayable);
-
-                System.out.println("totalPayable: " + totalPayable);
-                System.out.println("Valor pago: " + amountPaid);
-                System.out.println("Saldo: " + balance);
-                System.out.println("Valor total: " + accountClientUpdate.getAmount());
-
-
-                accountClientUpdate.setAmountPaid(amountPaid);
-                accountClientUpdate.setBalance(balance);
-
-                if (card) {
-                    flag = flagCardPayment.getDescription();
-                    if (flagCardPayment.getCredit()) {
-                        descriptionTypePayment = "CRÉDITO";
-                        tax = flagCardPayment.getTaxCredit();
-                    } else if (flagCardPayment.getDebit()) {
-                        descriptionTypePayment = "DÉBITO";
-                        tax = flagCardPayment.getTaxDebit();
+                if (flagCardPayment.getCredit() && creditCard) {
+                    descriptionTypePayment = "CRÉDITO";
+                    if (useBalance && accountClientUpdate.getBalance() > 0) {
+                        descriptionTypePayment = "CRÉDITO + SALDO";
                     }
+                    tax = flagCardPayment.getTaxCredit();
+
+                } else if (flagCardPayment.getDebit() && debitCard) {
+                    descriptionTypePayment = "DÉBITO";
+                    if (useBalance && accountClientUpdate.getBalance() > 0) {
+                        descriptionTypePayment = "DÉBITO + SALDO";
+                    }
+                    tax = flagCardPayment.getTaxDebit();
                 }
             }
+
+            totalPayable = (accountClientUpdate.getAmount() - accountClientUpdate.getAmountPaid());
+
+            balance = value - totalPayable;
+//
+//            if (value > totalPayable) {
+//                balance = value - totalPayable;
+//            } else if (value < totalPayable && accountClientUpdate.getBalance() > 0) {
+//                balance = (value - totalPayable) + accountClientUpdate.getBalance();
+//            } else if (value < totalPayable && accountClientUpdate.getBalance() <= 0) {
+//                balance = (value - totalPayable) - accountClientUpdate.getBalance();
+//            } else {
+//                balance = 0.0;
+//            }
+
+            amountPaid = accountClientUpdate.getAmountPaid() + value;
+
+
+            if (useBalance && !card && accountClientUpdate.getBalance() > 0) {
+                descriptionTypePayment = "DINHEIRO + SALDO";
+            }
+
+            if (useBalance.equals(true) && value == null) {
+                descriptionTypePayment = "SALDO";
+
+            }
+
+            accountClientUpdate.setAmountPaid(amountPaid);
+            accountClientUpdate.setBalance(balance);
+
             typePayment.setDescription(descriptionTypePayment);
             typePayment.setFlag(flag);
             typePayment.setTax(tax);
