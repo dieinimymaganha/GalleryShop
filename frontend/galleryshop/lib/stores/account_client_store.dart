@@ -137,14 +137,11 @@ abstract class _AccountClientStore with Store {
 
   @action
   Future<void> calculateTotalPayable() async {
-    if (accountClientDto.balance > 0) {
-      totalPayable = (accountClientDto.amount - accountClientDto.amountPaid) +
-          accountClientDto.balance;
-    } else {
-      totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
-    }
+    totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
 
-    totalPayable = totalPayable.abs();
+    if(totalPayable < 0.0){
+      totalPayable = 0.0;
+    }
   }
 
   // Calendario

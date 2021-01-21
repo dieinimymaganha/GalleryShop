@@ -219,7 +219,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                     right: 38.0),
                                                 child: Column(
                                                   children: <Widget>[
-                                                    Text('Saldo',
+                                                    Text('Saldo anterior',
                                                         style: TextStyle(
                                                             fontSize: 20.0)),
                                                     SizedBox(

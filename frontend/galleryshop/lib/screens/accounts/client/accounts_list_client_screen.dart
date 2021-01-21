@@ -43,7 +43,7 @@ class _AccountListClientScreenState extends State<AccountListClientScreen> {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child: InkWell(
-                  onLongPress: () {
+                  onDoubleTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => DetailAccountClient(idClient: accountDto.clientDto.id,)));
                   },
