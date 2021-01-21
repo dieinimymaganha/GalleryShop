@@ -112,4 +112,19 @@ public class AccountClient {
     public void setServiceRecord(List<ServiceRecord> serviceRecord) {
         this.serviceRecord = serviceRecord;
     }
+
+    @Override
+    public String toString() {
+        return "AccountClient{" +
+                "id=" + id +
+                ", client=" + client +
+                ", serviceRecord=" + serviceRecord +
+                ", amount=" + amount +
+                ", amountPaid=" + amountPaid +
+                ", balance=" + balance +
+                ", payments=" + payments +
+                '}';
+    }
 }
+
+
