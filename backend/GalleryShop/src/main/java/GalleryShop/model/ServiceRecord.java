@@ -1,5 +1,7 @@
 package GalleryShop.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -23,6 +25,7 @@ public class ServiceRecord {
 
     @OneToOne
     @JoinColumn(name = "billedService_id", referencedColumnName = "id")
+    @Cascade({org.hibernate.annotations.CascadeType.REMOVE})
     private BilledService billedService;
 
     @ManyToOne()
