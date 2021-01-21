@@ -134,16 +134,6 @@ public class CloseAccountClientForm {
             totalPayable = (accountClientUpdate.getAmount() - accountClientUpdate.getAmountPaid());
 
             balance = value - totalPayable;
-//
-//            if (value > totalPayable) {
-//                balance = value - totalPayable;
-//            } else if (value < totalPayable && accountClientUpdate.getBalance() > 0) {
-//                balance = (value - totalPayable) + accountClientUpdate.getBalance();
-//            } else if (value < totalPayable && accountClientUpdate.getBalance() <= 0) {
-//                balance = (value - totalPayable) - accountClientUpdate.getBalance();
-//            } else {
-//                balance = 0.0;
-//            }
 
             amountPaid = accountClientUpdate.getAmountPaid() + value;
 
