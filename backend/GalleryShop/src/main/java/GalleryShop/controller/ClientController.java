@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import GalleryShop.model.AccountClient;
+import GalleryShop.repository.AccountClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,6 +39,9 @@ public class ClientController {
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private AccountClientRepository accountClientRepository;
 
     @GetMapping
     @Cacheable(value = "customersList")
@@ -90,6 +95,14 @@ public class ClientController {
         }
 
         clientRepository.save(client);
+
+        Long idClient = client.getId();
+
+
+        AccountClient createAccount = new AccountClient(client, 0.0, 0.0, 0.0);
+        accountClientRepository.save(createAccount);
+
+
         URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(client.getId()).toUri();
         return ResponseEntity.created(uri).body(new ClientDto(client));
     }
