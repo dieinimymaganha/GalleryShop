@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/close_account_screen.dart';
+import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -29,6 +30,15 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
     accountClientStore.iniPageClient();
   }
 
+  void choiceAction(String choice) {
+    if (choice == OptionsMenuDetailClient.editServices) {
+      print('Editar');
+    } else {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => BilledServiceScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -41,9 +51,16 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
             centerTitle: true,
             backgroundColor: colorAppbar,
             actions: <Widget>[
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.add_circle),
+              PopupMenuButton<String>(
+                onSelected: choiceAction,
+                itemBuilder: (BuildContext context) {
+                  return OptionsMenuDetailClient.choices.map((String choice) {
+                    return PopupMenuItem<String>(
+                      value: choice,
+                      child: Text(choice),
+                    );
+                  }).toList();
+                },
               )
             ],
           ),
@@ -579,4 +596,14 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
       ),
     );
   }
+}
+
+class OptionsMenuDetailClient {
+  static const String editServices = 'Editar serviços';
+  static const String insertServices = 'Inserir serviços';
+
+  static const List<String> choices = <String>[
+    editServices,
+    insertServices,
+  ];
 }
