@@ -21,7 +21,6 @@ public class Payment {
 
     private Double value;
 
-
     public Payment(Date datePayment, TypePayment typePayment, AccountClient accountClient, Double value) {
         this.datePayment = datePayment;
         this.typePayment = typePayment;
@@ -70,5 +69,16 @@ public class Payment {
 
     public void setValue(Double value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", datePayment=" + datePayment +
+                ", typePayment=" + typePayment +
+                ", accountClient=" + accountClient +
+                ", value=" + value +
+                '}';
     }
 }
