@@ -437,11 +437,11 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   .typeEmployee)),
                                                               DataCell(Text(e
                                                                   .billedServiceDto
-                                                                  .valueFinal
+                                                                  .value
                                                                   .toString())),
                                                               DataCell(Text(e
                                                                   .billedServiceDto
-                                                                  .valueFinal
+                                                                  .discount
                                                                   .toString())),
                                                               DataCell(Text(e
                                                                   .billedServiceDto
@@ -537,7 +537,11 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        CloseAccountScreen(idClient: accountClientStore.idClient,)));
+                                                        CloseAccountScreen(
+                                                          idClient:
+                                                              accountClientStore
+                                                                  .idClient,
+                                                        )));
                                           })),
                                 ),
                               ),

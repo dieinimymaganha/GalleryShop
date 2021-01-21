@@ -2,6 +2,7 @@ import 'package:galleryshop/http/webclients/webclient_account_client.dart';
 import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:path/path.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 part 'account_client_store.g.dart';
@@ -142,6 +143,8 @@ abstract class _AccountClientStore with Store {
     } else {
       totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
     }
+
+    totalPayable = totalPayable.abs();
   }
 
   // Calendario
