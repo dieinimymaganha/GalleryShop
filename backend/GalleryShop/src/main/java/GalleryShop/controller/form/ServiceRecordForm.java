@@ -118,7 +118,7 @@ public class ServiceRecordForm {
             }
 
         } else {
-            AccountClient createAccount = new AccountClient(client, 0.0, 0.0, 0.0);
+            AccountClient createAccount = new AccountClient(client, billedService.getValueFinal(), 0.0, 0.0);
             accountClientRepository.save(createAccount);
             Optional<AccountClient> accountClientNew = accountClientRepository.findByClientId(clientId);
             if (accountClientNew.isPresent()) {
