@@ -112,16 +112,9 @@ public class ServiceRecordForm {
                 if (newBalance < 0) {
                     newBalance = 0.0;
                 }
-                
+
                 accountClientReturn.setBalance(newBalance);
 
-                TypePayment typePayment = new TypePayment();
-                typePayment.setCard(false);
-                typePayment.setTax(0.0);
-                typePayment.setDescription("SALDO");
-                typePaymentRepository.save(typePayment);
-                Payment payment = new Payment(dateService, typePayment, accountClientReturn, billedService.getValue() - billedService.getDiscount());
-                paymentRepository.save(payment);
             }
 
         } else {
