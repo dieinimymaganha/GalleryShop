@@ -16,15 +16,15 @@ abstract class _BilledServiceStore with Store {
   final int idEmployee;
   final int idClient;
   final String descTypeEmployee;
+  final int idService;
 
   _BilledServiceStore(
       {this.typeEmployee,
       this.idEmployee,
       this.idClient,
-      this.descTypeEmployee}) {
-    autorun((_) {
-      print('listEmployees >>> $listEmployees');
-    });
+      this.descTypeEmployee,
+      this.idService}) {
+    autorun((_) {});
   }
 
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
@@ -249,4 +249,44 @@ abstract class _BilledServiceStore with Store {
 
   @computed
   Function get buttonPressed => fieldsValid ? save : null;
+
+  // Editar serviços
+
+  @action
+  Future<void> initPageEditServices() async {
+    listServices = await serviceRecordWebClient.findByClientId(idClient);
+  }
+
+  @observable
+  bool excluded = false;
+
+  @observable
+  bool excludedUnauthorized = false;
+
+  @observable
+  bool excludedFail = false;
+
+  @action
+  Future<void> excludeServiceRecord() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    int response = await serviceRecordWebClient.exclude(idService);
+//    int response = 401;
+    if (response == 200) {
+      excluded = true;
+      await Future.delayed(Duration(seconds: 2));
+    } else if (response == 401) {
+      excludedUnauthorized = true;
+      await Future.delayed(Duration(seconds: 2));
+      sending = false;
+    } else {
+      excludedFail = true;
+      await Future.delayed(Duration(seconds: 2));
+      excludedFail = false;
+      sending = false;
+    }
+  }
+
+  @computed
+  Function get buttonExcludeServicePressed => excludeServiceRecord;
 }

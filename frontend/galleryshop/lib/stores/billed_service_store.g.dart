@@ -53,6 +53,14 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
       (_$buttonPressedComputed ??= Computed<Function>(() => super.buttonPressed,
               name: '_BilledServiceStore.buttonPressed'))
           .value;
+  Computed<Function> _$buttonExcludeServicePressedComputed;
+
+  @override
+  Function get buttonExcludeServicePressed =>
+      (_$buttonExcludeServicePressedComputed ??= Computed<Function>(
+              () => super.buttonExcludeServicePressed,
+              name: '_BilledServiceStore.buttonExcludeServicePressed'))
+          .value;
 
   final _$employeeDtoAtom = Atom(name: '_BilledServiceStore.employeeDto');
 
@@ -320,6 +328,53 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     });
   }
 
+  final _$excludedAtom = Atom(name: '_BilledServiceStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
+  final _$excludedUnauthorizedAtom =
+      Atom(name: '_BilledServiceStore.excludedUnauthorized');
+
+  @override
+  bool get excludedUnauthorized {
+    _$excludedUnauthorizedAtom.reportRead();
+    return super.excludedUnauthorized;
+  }
+
+  @override
+  set excludedUnauthorized(bool value) {
+    _$excludedUnauthorizedAtom.reportWrite(value, super.excludedUnauthorized,
+        () {
+      super.excludedUnauthorized = value;
+    });
+  }
+
+  final _$excludedFailAtom = Atom(name: '_BilledServiceStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
   final _$getListEmployeesAsyncAction =
       AsyncAction('_BilledServiceStore.getListEmployees');
 
@@ -367,6 +422,24 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
   @override
   Future<void> save() {
     return _$saveAsyncAction.run(() => super.save());
+  }
+
+  final _$initPageEditServicesAsyncAction =
+      AsyncAction('_BilledServiceStore.initPageEditServices');
+
+  @override
+  Future<void> initPageEditServices() {
+    return _$initPageEditServicesAsyncAction
+        .run(() => super.initPageEditServices());
+  }
+
+  final _$excludeServiceRecordAsyncAction =
+      AsyncAction('_BilledServiceStore.excludeServiceRecord');
+
+  @override
+  Future<void> excludeServiceRecord() {
+    return _$excludeServiceRecordAsyncAction
+        .run(() => super.excludeServiceRecord());
   }
 
   final _$_BilledServiceStoreActionController =
@@ -491,12 +564,16 @@ controllerFieldDiscount: ${controllerFieldDiscount},
 created: ${created},
 sending: ${sending},
 errorSending: ${errorSending},
+excluded: ${excluded},
+excludedUnauthorized: ${excludedUnauthorized},
+excludedFail: ${excludedFail},
 valueSelecIdtEmployeeIsValid: ${valueSelecIdtEmployeeIsValid},
 idClientIsValid: ${idClientIsValid},
 valueSelectServiceIdIsValid: ${valueSelectServiceIdIsValid},
 valueIsValid: ${valueIsValid},
 fieldsValid: ${fieldsValid},
-buttonPressed: ${buttonPressed}
+buttonPressed: ${buttonPressed},
+buttonExcludeServicePressed: ${buttonExcludeServicePressed}
     ''';
   }
 }
