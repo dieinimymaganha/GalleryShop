@@ -1,6 +1,7 @@
 package GalleryShop.controller;
 
 
+import GalleryShop.controller.dto.ServiceDto;
 import GalleryShop.controller.dto.ServiceRecordDto;
 import GalleryShop.controller.form.ServiceRecordForm;
 import GalleryShop.model.*;
@@ -54,6 +55,14 @@ public class ServiceRecordController {
 
         return ServiceRecordDto.convertDto(serviceRecords);
     }
+
+
+    @GetMapping("/clientId={id}")
+    public List<ServiceRecordDto> getServiceRecordClientId(@PathVariable Long id) {
+        List<ServiceRecord> serviceRecordList = serviceRecordRepository.findByClientId(id);
+        return ServiceRecordDto.convertDto(serviceRecordList);
+    }
+
 
     @PostMapping
     @Transactional
