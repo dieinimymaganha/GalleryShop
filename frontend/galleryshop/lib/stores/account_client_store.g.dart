@@ -16,6 +16,49 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
           Computed<List<AccountClientDto>>(() => super.lisFiltered,
               name: '_AccountClientStore.lisFiltered'))
       .value;
+  Computed<bool> _$valueCreditIsValidComputed;
+
+  @override
+  bool get valueCreditIsValid => (_$valueCreditIsValidComputed ??=
+          Computed<bool>(() => super.valueCreditIsValid,
+              name: '_AccountClientStore.valueCreditIsValid'))
+      .value;
+  Computed<bool> _$valueDebitIsValidComputed;
+
+  @override
+  bool get valueDebitIsValid => (_$valueDebitIsValidComputed ??= Computed<bool>(
+          () => super.valueDebitIsValid,
+          name: '_AccountClientStore.valueDebitIsValid'))
+      .value;
+  Computed<bool> _$valuePaidIsValidComputed;
+
+  @override
+  bool get valuePaidIsValid => (_$valuePaidIsValidComputed ??= Computed<bool>(
+          () => super.valuePaidIsValid,
+          name: '_AccountClientStore.valuePaidIsValid'))
+      .value;
+  Computed<bool> _$valueMoneyIsValidComputed;
+
+  @override
+  bool get valueMoneyIsValid => (_$valueMoneyIsValidComputed ??= Computed<bool>(
+          () => super.valueMoneyIsValid,
+          name: '_AccountClientStore.valueMoneyIsValid'))
+      .value;
+  Computed<bool> _$fieldsCloseAccountIsValidComputed;
+
+  @override
+  bool get fieldsCloseAccountIsValid => (_$fieldsCloseAccountIsValidComputed ??=
+          Computed<bool>(() => super.fieldsCloseAccountIsValid,
+              name: '_AccountClientStore.fieldsCloseAccountIsValid'))
+      .value;
+  Computed<Function> _$buttonCloseAccountPressedComputed;
+
+  @override
+  Function get buttonCloseAccountPressed =>
+      (_$buttonCloseAccountPressedComputed ??= Computed<Function>(
+              () => super.buttonCloseAccountPressed,
+              name: '_AccountClientStore.buttonCloseAccountPressed'))
+          .value;
 
   final _$listClientAtom = Atom(name: '_AccountClientStore.listClient');
 
@@ -276,6 +319,81 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$cardAtom = Atom(name: '_AccountClientStore.card');
+
+  @override
+  bool get card {
+    _$cardAtom.reportRead();
+    return super.card;
+  }
+
+  @override
+  set card(bool value) {
+    _$cardAtom.reportWrite(value, super.card, () {
+      super.card = value;
+    });
+  }
+
+  final _$moneyAtom = Atom(name: '_AccountClientStore.money');
+
+  @override
+  bool get money {
+    _$moneyAtom.reportRead();
+    return super.money;
+  }
+
+  @override
+  set money(bool value) {
+    _$moneyAtom.reportWrite(value, super.money, () {
+      super.money = value;
+    });
+  }
+
+  final _$debitAtom = Atom(name: '_AccountClientStore.debit');
+
+  @override
+  bool get debit {
+    _$debitAtom.reportRead();
+    return super.debit;
+  }
+
+  @override
+  set debit(bool value) {
+    _$debitAtom.reportWrite(value, super.debit, () {
+      super.debit = value;
+    });
+  }
+
+  final _$creditAtom = Atom(name: '_AccountClientStore.credit');
+
+  @override
+  bool get credit {
+    _$creditAtom.reportRead();
+    return super.credit;
+  }
+
+  @override
+  set credit(bool value) {
+    _$creditAtom.reportWrite(value, super.credit, () {
+      super.credit = value;
+    });
+  }
+
+  final _$habilitPaidAtom = Atom(name: '_AccountClientStore.habilitPaid');
+
+  @override
+  bool get habilitPaid {
+    _$habilitPaidAtom.reportRead();
+    return super.habilitPaid;
+  }
+
+  @override
+  set habilitPaid(bool value) {
+    _$habilitPaidAtom.reportWrite(value, super.habilitPaid, () {
+      super.habilitPaid = value;
+    });
+  }
+
   final _$sendingAtom = Atom(name: '_AccountClientStore.sending');
 
   @override
@@ -288,6 +406,133 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   set sending(bool value) {
     _$sendingAtom.reportWrite(value, super.sending, () {
       super.sending = value;
+    });
+  }
+
+  final _$listFlagCardsAtom = Atom(name: '_AccountClientStore.listFlagCards');
+
+  @override
+  List<dynamic> get listFlagCards {
+    _$listFlagCardsAtom.reportRead();
+    return super.listFlagCards;
+  }
+
+  @override
+  set listFlagCards(List<dynamic> value) {
+    _$listFlagCardsAtom.reportWrite(value, super.listFlagCards, () {
+      super.listFlagCards = value;
+    });
+  }
+
+  final _$flagCardPaymentDtoAtom =
+      Atom(name: '_AccountClientStore.flagCardPaymentDto');
+
+  @override
+  FlagCardPaymentDto get flagCardPaymentDto {
+    _$flagCardPaymentDtoAtom.reportRead();
+    return super.flagCardPaymentDto;
+  }
+
+  @override
+  set flagCardPaymentDto(FlagCardPaymentDto value) {
+    _$flagCardPaymentDtoAtom.reportWrite(value, super.flagCardPaymentDto, () {
+      super.flagCardPaymentDto = value;
+    });
+  }
+
+  final _$valueSelectFlagAtom =
+      Atom(name: '_AccountClientStore.valueSelectFlag');
+
+  @override
+  int get valueSelectFlag {
+    _$valueSelectFlagAtom.reportRead();
+    return super.valueSelectFlag;
+  }
+
+  @override
+  set valueSelectFlag(int value) {
+    _$valueSelectFlagAtom.reportWrite(value, super.valueSelectFlag, () {
+      super.valueSelectFlag = value;
+    });
+  }
+
+  final _$flagCardPaymentDtoOKAtom =
+      Atom(name: '_AccountClientStore.flagCardPaymentDtoOK');
+
+  @override
+  bool get flagCardPaymentDtoOK {
+    _$flagCardPaymentDtoOKAtom.reportRead();
+    return super.flagCardPaymentDtoOK;
+  }
+
+  @override
+  set flagCardPaymentDtoOK(bool value) {
+    _$flagCardPaymentDtoOKAtom.reportWrite(value, super.flagCardPaymentDtoOK,
+        () {
+      super.flagCardPaymentDtoOK = value;
+    });
+  }
+
+  final _$controllerFieldValuePaidOutAtom =
+      Atom(name: '_AccountClientStore.controllerFieldValuePaidOut');
+
+  @override
+  TextEditingController get controllerFieldValuePaidOut {
+    _$controllerFieldValuePaidOutAtom.reportRead();
+    return super.controllerFieldValuePaidOut;
+  }
+
+  @override
+  set controllerFieldValuePaidOut(TextEditingController value) {
+    _$controllerFieldValuePaidOutAtom
+        .reportWrite(value, super.controllerFieldValuePaidOut, () {
+      super.controllerFieldValuePaidOut = value;
+    });
+  }
+
+  final _$paidOutAtom = Atom(name: '_AccountClientStore.paidOut');
+
+  @override
+  double get paidOut {
+    _$paidOutAtom.reportRead();
+    return super.paidOut;
+  }
+
+  @override
+  set paidOut(double value) {
+    _$paidOutAtom.reportWrite(value, super.paidOut, () {
+      super.paidOut = value;
+    });
+  }
+
+  final _$closeAccountOKAtom = Atom(name: '_AccountClientStore.closeAccountOK');
+
+  @override
+  bool get closeAccountOK {
+    _$closeAccountOKAtom.reportRead();
+    return super.closeAccountOK;
+  }
+
+  @override
+  set closeAccountOK(bool value) {
+    _$closeAccountOKAtom.reportWrite(value, super.closeAccountOK, () {
+      super.closeAccountOK = value;
+    });
+  }
+
+  final _$closeAccountErrorAtom =
+      Atom(name: '_AccountClientStore.closeAccountError');
+
+  @override
+  bool get closeAccountError {
+    _$closeAccountErrorAtom.reportRead();
+    return super.closeAccountError;
+  }
+
+  @override
+  set closeAccountError(bool value) {
+    _$closeAccountErrorAtom.reportWrite(value, super.closeAccountError, () {
+      super.closeAccountError = value;
     });
   }
 
@@ -337,6 +582,14 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     return _$reloadListAsyncAction.run(() => super.reloadList());
   }
 
+  final _$getListFlagsCardsAsyncAction =
+      AsyncAction('_AccountClientStore.getListFlagsCards');
+
+  @override
+  Future<void> getListFlagsCards() {
+    return _$getListFlagsCardsAsyncAction.run(() => super.getListFlagsCards());
+  }
+
   final _$iniPageCloseAccountAsyncAction =
       AsyncAction('_AccountClientStore.iniPageCloseAccount');
 
@@ -344,6 +597,14 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   Future<void> iniPageCloseAccount() {
     return _$iniPageCloseAccountAsyncAction
         .run(() => super.iniPageCloseAccount());
+  }
+
+  final _$closeAccountAsyncAction =
+      AsyncAction('_AccountClientStore.closeAccount');
+
+  @override
+  Future<void> closeAccount() {
+    return _$closeAccountAsyncAction.run(() => super.closeAccount());
   }
 
   final _$_AccountClientStoreActionController =
@@ -394,6 +655,83 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
+  void alterCard() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.alterCard');
+    try {
+      return super.alterCard();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void alterMoney() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.alterMoney');
+    try {
+      return super.alterMoney();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void alterCredit() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.alterCredit');
+    try {
+      return super.alterCredit();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void alterDebit() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.alterDebit');
+    try {
+      return super.alterDebit();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setPaidOut(String value) {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.setPaidOut');
+    try {
+      return super.setPaidOut(value);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValueSelectFlag(int value) {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.setValueSelectFlag');
+    try {
+      return super.setValueSelectFlag(value);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setValuesCards() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.setValuesCards');
+    try {
+      return super.setValuesCards();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listClient: ${listClient},
@@ -413,8 +751,27 @@ amountDay: ${amountDay},
 discountDay: ${discountDay},
 amountPayable: ${amountPayable},
 notService: ${notService},
+card: ${card},
+money: ${money},
+debit: ${debit},
+credit: ${credit},
+habilitPaid: ${habilitPaid},
 sending: ${sending},
-lisFiltered: ${lisFiltered}
+listFlagCards: ${listFlagCards},
+flagCardPaymentDto: ${flagCardPaymentDto},
+valueSelectFlag: ${valueSelectFlag},
+flagCardPaymentDtoOK: ${flagCardPaymentDtoOK},
+controllerFieldValuePaidOut: ${controllerFieldValuePaidOut},
+paidOut: ${paidOut},
+closeAccountOK: ${closeAccountOK},
+closeAccountError: ${closeAccountError},
+lisFiltered: ${lisFiltered},
+valueCreditIsValid: ${valueCreditIsValid},
+valueDebitIsValid: ${valueDebitIsValid},
+valuePaidIsValid: ${valuePaidIsValid},
+valueMoneyIsValid: ${valueMoneyIsValid},
+fieldsCloseAccountIsValid: ${fieldsCloseAccountIsValid},
+buttonCloseAccountPressed: ${buttonCloseAccountPressed}
     ''';
   }
 }
