@@ -34,8 +34,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
     if (choice == OptionsMenuDetailClient.editServices) {
       print('Editar');
     } else {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => BilledServiceScreen()));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => BilledServiceScreen(
+                    idClient: accountClientStore.accountClientDto.clientDto.id,
+                  )));
     }
   }
 

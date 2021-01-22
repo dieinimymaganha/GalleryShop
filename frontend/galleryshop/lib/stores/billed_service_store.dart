@@ -96,7 +96,10 @@ abstract class _BilledServiceStore with Store {
   Future<void> initPageBilled() async {
     await getListEmployees();
     setValueSelectEmployee(idEmployee);
-    await getInitialTypeEmployee();
+
+    if (descTypeEmployee != null) {
+      await getInitialTypeEmployee();
+    }
     setControllerFieldDiscount();
   }
 
