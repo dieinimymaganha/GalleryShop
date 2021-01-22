@@ -2,11 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/client/edit_service_account_client.dart';
 import 'package:galleryshop/screens/accounts/close_account_screen.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import 'widget/option_menu_detail_account_client.dart';
 
 class DetailAccountClient extends StatefulWidget {
   final int idClient;
@@ -31,15 +35,22 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
   }
 
   void choiceAction(String choice) {
-    if (choice == OptionsMenuDetailClient.editServices) {
-      print('Editar');
-    } else {
+    if (choice == OptionsMenuDetailClient.insertServices) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
                     idClient: accountClientStore.accountClientDto.clientDto.id,
                   )));
+    } else if (choice == OptionsMenuDetailClient.excludeServices) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => EditServiceAccountClientScreen(
+                    idClient: accountClientStore.accountClientDto.clientDto.id,
+                  )));
+    } else if (choice == OptionsMenuDetailClient.updatePage) {
+      accountClientStore.iniPageClient();
     }
   }
 
@@ -54,6 +65,18 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                 : accountClientStore.accountClientDto.clientDto.name),
             centerTitle: true,
             backgroundColor: colorAppbar,
+            leading: IconButton(
+              icon: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => BaseScreen()));
+                },
+              ),
+            ),
             actions: <Widget>[
               PopupMenuButton<String>(
                 onSelected: choiceAction,
@@ -600,14 +623,4 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
       ),
     );
   }
-}
-
-class OptionsMenuDetailClient {
-  static const String editServices = 'Editar serviços';
-  static const String insertServices = 'Inserir serviços';
-
-  static const List<String> choices = <String>[
-    editServices,
-    insertServices,
-  ];
 }
