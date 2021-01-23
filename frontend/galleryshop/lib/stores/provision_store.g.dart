@@ -44,19 +44,19 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
           Computed<bool>(() => super.priceFixedChangeIsValid,
               name: '_ProvisionStore.priceFixedChangeIsValid'))
       .value;
-  Computed<bool> _$valueChangeIsValidComputed;
-
-  @override
-  bool get valueChangeIsValid => (_$valueChangeIsValidComputed ??=
-          Computed<bool>(() => super.valueChangeIsValid,
-              name: '_ProvisionStore.valueChangeIsValid'))
-      .value;
   Computed<bool> _$prixeFixedIsValidComputed;
 
   @override
   bool get prixeFixedIsValid => (_$prixeFixedIsValidComputed ??= Computed<bool>(
           () => super.prixeFixedIsValid,
           name: '_ProvisionStore.prixeFixedIsValid'))
+      .value;
+  Computed<bool> _$valueChangeIsValidComputed;
+
+  @override
+  bool get valueChangeIsValid => (_$valueChangeIsValidComputed ??=
+          Computed<bool>(() => super.valueChangeIsValid,
+              name: '_ProvisionStore.valueChangeIsValid'))
       .value;
   Computed<Function> _$buttomSavePressedComputed;
 
@@ -428,6 +428,13 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
     return _$updateAsyncAction.run(() => super.update(serviceForm));
   }
 
+  final _$getServicesAsyncAction = AsyncAction('_ProvisionStore.getServices');
+
+  @override
+  Future<void> getServices() {
+    return _$getServicesAsyncAction.run(() => super.getServices());
+  }
+
   final _$createServiceModelAsyncAction =
       AsyncAction('_ProvisionStore.createServiceModel');
 
@@ -550,8 +557,8 @@ descriptionChangeIsValid: ${descriptionChangeIsValid},
 valueSelectIsValid: ${valueSelectIsValid},
 valueSelectChangeIsValid: ${valueSelectChangeIsValid},
 priceFixedChangeIsValid: ${priceFixedChangeIsValid},
-valueChangeIsValid: ${valueChangeIsValid},
 prixeFixedIsValid: ${prixeFixedIsValid},
+valueChangeIsValid: ${valueChangeIsValid},
 buttomSavePressed: ${buttomSavePressed},
 buttonChangePressed: ${buttonChangePressed},
 excludePressed: ${excludePressed}

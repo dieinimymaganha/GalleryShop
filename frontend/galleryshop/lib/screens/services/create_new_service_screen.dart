@@ -94,7 +94,6 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Observer(
@@ -138,7 +137,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                       SizedBox(height: _space),
                       CustomFormCoin(
                         mandatory: true,
-                        enabled: serviceStore.sending ? !serviceStore.sending : serviceStore.priceFixed,
+                        enabled: !serviceStore.sending ? serviceStore.priceFixed : false,
                         controller: serviceStore.controllerFieldValue,
                         tip: _tipFieldValue,
                         label: _labelFieldValue,
@@ -177,6 +176,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
                                   value: serviceStore.priceFixed,
                                   onChanged: (_) {
                                     serviceStore.alterPriceFixed();
+
                                   },
                                 )
                               ],
