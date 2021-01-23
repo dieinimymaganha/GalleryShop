@@ -536,6 +536,21 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$listPaymentsAtom = Atom(name: '_AccountClientStore.listPayments');
+
+  @override
+  List<dynamic> get listPayments {
+    _$listPaymentsAtom.reportRead();
+    return super.listPayments;
+  }
+
+  @override
+  set listPayments(List<dynamic> value) {
+    _$listPaymentsAtom.reportWrite(value, super.listPayments, () {
+      super.listPayments = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -605,6 +620,32 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   @override
   Future<void> closeAccount() {
     return _$closeAccountAsyncAction.run(() => super.closeAccount());
+  }
+
+  final _$setListCalendarPaymentsAsyncAction =
+      AsyncAction('_AccountClientStore.setListCalendarPayments');
+
+  @override
+  Future<void> setListCalendarPayments() {
+    return _$setListCalendarPaymentsAsyncAction
+        .run(() => super.setListCalendarPayments());
+  }
+
+  final _$validServicesAsyncAction =
+      AsyncAction('_AccountClientStore.validServices');
+
+  @override
+  Future<void> validServices() {
+    return _$validServicesAsyncAction.run(() => super.validServices());
+  }
+
+  final _$reloadPagePaymentsAsyncAction =
+      AsyncAction('_AccountClientStore.reloadPagePayments');
+
+  @override
+  Future<void> reloadPagePayments() {
+    return _$reloadPagePaymentsAsyncAction
+        .run(() => super.reloadPagePayments());
   }
 
   final _$_AccountClientStoreActionController =
@@ -732,6 +773,18 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
+  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+      List<PaymentDto> events) {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.fromModelToEventAppointment');
+    try {
+      return super.fromModelToEventAppointment(events);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listClient: ${listClient},
@@ -765,6 +818,7 @@ controllerFieldValuePaidOut: ${controllerFieldValuePaidOut},
 paidOut: ${paidOut},
 closeAccountOK: ${closeAccountOK},
 closeAccountError: ${closeAccountError},
+listPayments: ${listPayments},
 lisFiltered: ${lisFiltered},
 valueCreditIsValid: ${valueCreditIsValid},
 valueDebitIsValid: ${valueDebitIsValid},

@@ -3,6 +3,7 @@ import 'package:galleryshop/http/webclients/webclient_account_client.dart';
 import 'package:galleryshop/http/webclients/webclient_financial.dart';
 import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/models/FlagCardPayment.dart';
+import 'package:galleryshop/models/payment.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -13,14 +14,16 @@ class AccountClientStore = _AccountClientStore with _$AccountClientStore;
 
 abstract class _AccountClientStore with Store {
   final int idClient;
+  final int idAccount;
 
   AccountClientWebClient accountClientWebClient = AccountClientWebClient();
 
   FinancialWebClient financialWebClient = FinancialWebClient();
 
-  _AccountClientStore({this.idClient}) {
+  _AccountClientStore({this.idClient, this.idAccount}) {
     autorun((_) {
-      print('credit >>>>>>>>>>> $credit');
+      print('notService >>>>>>>>>>> $notService');
+      print('events >>>>>>>>>>> $events');
     });
   }
 
@@ -381,4 +384,53 @@ abstract class _AccountClientStore with Store {
   @computed
   Function get buttonCloseAccountPressed =>
       fieldsCloseAccountIsValid ? closeAccount : null;
+
+  // Consultar pagamentos
+  @observable
+  List<dynamic> listPayments = List();
+
+  @action
+  Future<void> setListCalendarPayments() async {
+    notService = true;
+    try {
+      listPayments =
+          await accountClientWebClient.findPaymentsAccountId(idAccount);
+      if (listPayments.isNotEmpty) {
+        events = fromModelToEventAppointment(listPayments);
+      } else {
+        errorList = true;
+        listEmpty = true;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    await validServices();
+  }
+
+  @action
+  Future<void> validServices() async {
+    if (selectedEvents.isEmpty) {
+      notService = true;
+    } else
+      notService = false;
+  }
+
+  @action
+  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+      List<PaymentDto> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      DateTime date = convertDateFromString(event.datePayment);
+      if (data[date] == null) data[date] = [];
+      data[date].add(event);
+    });
+
+    return data;
+  }
+
+  @action
+  Future<void> reloadPagePayments() async {
+    errorList = false;
+    setListCalendarPayments();
+  }
 }

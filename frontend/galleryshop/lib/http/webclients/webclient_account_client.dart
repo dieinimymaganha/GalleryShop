@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/models/AccountClient.dart';
+import 'package:galleryshop/models/payment.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +11,7 @@ import '../WebClient.dart';
 
 const urlAccountClient = baseUrl + 'accountClient';
 
-const urlCloseAccount =  baseUrl + 'closeAccountClient';
+const urlCloseAccount = baseUrl + 'closeAccountClient';
 
 class AccountClientWebClient {
   Future<List<AccountClientDto>> findAll() async {
@@ -53,7 +54,8 @@ class AccountClientWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<int> closeAccount(CloseAccountClientForm closeAccountClientForm) async {
+  Future<int> closeAccount(
+      CloseAccountClientForm closeAccountClientForm) async {
     String token = await getToken();
     final String employeeJson = jsonEncode(closeAccountClientForm.toJson());
     final response = await webClient.post(urlCloseAccount,
@@ -66,6 +68,27 @@ class AccountClientWebClient {
     return response.statusCode;
   }
 
+  Future<List<PaymentDto>> findPaymentsAccountId(int id) async {
+    String token = await getToken();
+
+    String url = urlAccountClient + '/payments/' + id.toString();
+
+    final response = await webClient.get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data =
+          decodeJson.map((dynamic json) => PaymentDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
 
   String _getMessage(int statusCode) {
     if (_statusCodeResponses.containsKey(statusCode)) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
 import 'package:galleryshop/screens/accounts/client/edit_service_account_client.dart';
 import 'package:galleryshop/screens/accounts/close_account_screen.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
@@ -52,6 +53,13 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                   )));
     } else if (choice == OptionsMenuDetailClient.updatePage) {
       accountClientStore.iniPageClient();
+    } else if (choice == OptionsMenuDetailClient.consultPayment) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConsultPaymentClient(
+                    idAccount: accountClientStore.accountClientDto.id,
+                  )));
     }
   }
 
