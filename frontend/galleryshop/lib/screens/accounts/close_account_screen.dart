@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
@@ -89,24 +90,27 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                       const EdgeInsets.only(top: 20.0, left: 8.0, right: 8.0),
                   child: Column(
                     children: <Widget>[
-                      Container(
-                          child: Card(
-                        color: Colors.blueGrey,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Total a pagar: ',
-                              style: TextStyle(fontSize: 36.0),
-                            ),
-                            Text(
-                              'R\$ ${accountClientStore.totalPayable.toString()}',
-                              style: TextStyle(
-                                  fontSize: 36.0, color: Colors.white),
-                            )
-                          ],
-                        ),
-                      )),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Container(
+                            child: Card(
+                          color: Colors.blueGrey,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Total a pagar: ',
+                                style: TextStyle(fontSize: 36.0),
+                              ),
+                              Text(
+                                'R\$ ${convertMonetary(accountClientStore.totalPayable)}',
+                                style: TextStyle(
+                                    fontSize: 36.0, color: Colors.white),
+                              )
+                            ],
+                          ),
+                        )),
+                      ),
                       SizedBox(
                         height: space,
                       ),

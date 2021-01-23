@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/edit_service_account_client.dart';
 import 'package:galleryshop/screens/accounts/close_account_screen.dart';
@@ -164,7 +165,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       height: 8,
                                                     ),
                                                     Text(
-                                                      'R\$: ${accountClientStore.totalPayable.toString()}',
+                                                      'R\$: ${convertMonetary(accountClientStore.totalPayable)}',
                                                       style: TextStyle(
                                                           fontSize: 16.0,
                                                           color: Colors.white),
@@ -196,7 +197,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       height: 8,
                                                     ),
                                                     Text(
-                                                      'R\$: ${accountClientStore.accountClientDto.amount.toString()}',
+                                                      'R\$: ${convertMonetary(accountClientStore.accountClientDto.amount)}',
                                                       style: TextStyle(
                                                           fontSize: 16.0),
                                                     ),
@@ -230,7 +231,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       height: 8,
                                                     ),
                                                     Text(
-                                                      'R\$: ${accountClientStore.accountClientDto.amountPaid.toString()}',
+                                                      'R\$: ${convertMonetary(accountClientStore.accountClientDto.amountPaid)}',
                                                       style: TextStyle(
                                                           fontSize: 16.0),
                                                     ),
@@ -259,8 +260,8 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                 padding: EdgeInsets.only(
                                                     top: 35.5,
                                                     bottom: 35.0,
-                                                    left: 38.0,
-                                                    right: 38.0),
+                                                    left: 11.0,
+                                                    right: 11.0),
                                                 child: Column(
                                                   children: <Widget>[
                                                     Text('Saldo anterior',
@@ -270,7 +271,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       height: 8,
                                                     ),
                                                     Text(
-                                                      'R\$: ${accountClientStore.accountClientDto.balance.toString()}',
+                                                      'R\$: ${convertMonetary(accountClientStore.accountClientDto.balance)}',
                                                       style: TextStyle(
                                                           fontSize: 16.0),
                                                     )
@@ -479,18 +480,18 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                               DataCell(Text(e
                                                                   .billedServiceDto
                                                                   .typeEmployee)),
-                                                              DataCell(Text(e
-                                                                  .billedServiceDto
-                                                                  .value
-                                                                  .toString())),
-                                                              DataCell(Text(e
-                                                                  .billedServiceDto
-                                                                  .discount
-                                                                  .toString())),
-                                                              DataCell(Text(e
+                                                              DataCell(Text(
+                                                                  convertMonetary(e
+                                                                      .billedServiceDto
+                                                                      .value))),
+                                                              DataCell(Text(
+                                                                  convertMonetary(e
+                                                                      .billedServiceDto
+                                                                      .discount))),
+                                                              DataCell(Text(convertMonetary(e
                                                                   .billedServiceDto
                                                                   .valueFinal
-                                                                  .toString())),
+                                                                  ))),
                                                             ],
                                                           );
                                                         }).toList()),
@@ -519,7 +520,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                               style: TextStyle(fontSize: 36.0),
                                             ),
                                             Text(
-                                              'R\$ ${accountClientStore.amountPayable}',
+                                              'R\$ ${convertMonetary(accountClientStore.amountPayable)}',
                                               style: TextStyle(
                                                   fontSize: 36.0,
                                                   color: Colors.white),
