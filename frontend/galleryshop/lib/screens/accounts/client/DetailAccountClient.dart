@@ -488,10 +488,10 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                                   convertMonetary(e
                                                                       .billedServiceDto
                                                                       .discount))),
-                                                              DataCell(Text(convertMonetary(e
-                                                                  .billedServiceDto
-                                                                  .valueFinal
-                                                                  ))),
+                                                              DataCell(Text(
+                                                                  convertMonetary(e
+                                                                      .billedServiceDto
+                                                                      .valueFinal))),
                                                             ],
                                                           );
                                                         }).toList()),
@@ -506,28 +506,32 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                               ),
                               accountClientStore.notService
                                   ? Container()
-                                  : Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                          child: Card(
-                                        color: Colors.blueGrey,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              'Total do dia: ',
-                                              style: TextStyle(fontSize: 36.0),
-                                            ),
-                                            Text(
-                                              'R\$ ${convertMonetary(accountClientStore.amountPayable)}',
-                                              style: TextStyle(
-                                                  fontSize: 36.0,
-                                                  color: Colors.white),
-                                            )
-                                          ],
-                                        ),
-                                      )),
+                                  : SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                            child: Card(
+                                          color: Colors.blueGrey,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                'Total do dia: ',
+                                                style:
+                                                    TextStyle(fontSize: 36.0),
+                                              ),
+                                              Text(
+                                                'R\$ ${convertMonetary(accountClientStore.amountPayable)}',
+                                                style: TextStyle(
+                                                    fontSize: 36.0,
+                                                    color: Colors.white),
+                                              )
+                                            ],
+                                          ),
+                                        )),
+                                      ),
                                     ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
