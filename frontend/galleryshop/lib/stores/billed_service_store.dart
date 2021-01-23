@@ -228,7 +228,12 @@ abstract class _BilledServiceStore with Store {
       discount: discount,
     );
 
-    int response = await serviceRecordWebClient.save(serviceRecordForm);
+    int response ;
+    try {
+      response = await serviceRecordWebClient.save(serviceRecordForm);
+    } on Exception catch (_) {
+      response = 0;
+    }
 
     if (response == 201) {
       created = true;
