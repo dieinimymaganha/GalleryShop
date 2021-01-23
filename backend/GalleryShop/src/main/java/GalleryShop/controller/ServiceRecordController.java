@@ -98,6 +98,7 @@ public class ServiceRecordController {
                     accountClient.setAmount(accountClient.getAmount() -
                             serviceRecord.getBilledService().getValueFinal());
                     serviceRecordRepository.deleteById(id);
+                    return ResponseEntity.ok().build();
 
                 } else {
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -108,8 +109,8 @@ public class ServiceRecordController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-        return ResponseEntity.ok().build();
     }
 
 
