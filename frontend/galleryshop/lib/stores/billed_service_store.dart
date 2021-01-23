@@ -316,16 +316,16 @@ abstract class _BilledServiceStore with Store {
 
 // Editar serviços
 
-//  @action
-//  Future<void> initPageEditServices() async {
-//    try {
-//      listServices = await serviceRecordWebClient.findByClientId(idClient);
-//    } on Exception catch (_) {
-//      errorList = true;
-//    }
-//
-//    setListCalendar();
-//  }
+  @action
+  Future<void> initPageEditServices() async {
+    try {
+      listServices = await serviceRecordWebClient.findByClientId(idClient);
+    } on Exception catch (_) {
+      errorList = true;
+    }
+
+    setListCalendar();
+  }
 
   @observable
   bool excluded = false;
