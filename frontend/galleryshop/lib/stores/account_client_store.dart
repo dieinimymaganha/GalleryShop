@@ -142,7 +142,6 @@ abstract class _AccountClientStore with Store {
   @action
   Future<void> calculateTotalPayable() async {
     totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
-
     if (totalPayable < 0.0) {
       totalPayable = 0.0;
     }
@@ -160,7 +159,9 @@ abstract class _AccountClientStore with Store {
 
   @action
   Future<void> setCalendar() async {
+    getClient();
     events = fromModelToEvent(accountClientDto.serviceRecordDto);
+    calculateTotalPayable();
   }
 
   @action
