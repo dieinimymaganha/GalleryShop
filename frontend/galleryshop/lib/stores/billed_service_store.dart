@@ -6,6 +6,7 @@ import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 part 'billed_service_store.g.dart';
 
@@ -24,7 +25,9 @@ abstract class _BilledServiceStore with Store {
       this.idClient,
       this.descTypeEmployee,
       this.idService}) {
-    autorun((_) {});
+    autorun((_) {
+      print('SELECT >>>> $selectedEvents');
+    });
   }
 
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
@@ -250,12 +253,67 @@ abstract class _BilledServiceStore with Store {
   @computed
   Function get buttonPressed => fieldsValid ? save : null;
 
-  // Editar serviços
+  //calendario de serviços - excluir
+
+  @observable
+  Map<DateTime, List<dynamic>> events = {};
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @observable
+  CalendarController calendarController = CalendarController();
+
+  @observable
+  List<dynamic> selectedEvents = List();
 
   @action
-  Future<void> initPageEditServices() async {
-    listServices = await serviceRecordWebClient.findByClientId(idClient);
+  Future<void> setListCalendar() async {
+    try {
+      listServices = await serviceRecordWebClient.findByClientId(idClient);
+      if (listServices.isNotEmpty) {
+        events = fromModelToEventAppointment(listServices);
+      } else {
+        errorList = true;
+        listEmpty = true;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
   }
+
+  @action
+  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+      List<ServiceRecordDto> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      DateTime date = convertDateFromString(event.dateService);
+      if (data[date] == null) data[date] = [];
+      data[date].add(event);
+    });
+    return data;
+  }
+
+  DateTime convertDateFromString(String strDate) {
+    DateTime todayDate = DateTime.parse(strDate);
+    return todayDate;
+  }
+
+// Editar serviços
+
+//  @action
+//  Future<void> initPageEditServices() async {
+//    try {
+//      listServices = await serviceRecordWebClient.findByClientId(idClient);
+//    } on Exception catch (_) {
+//      errorList = true;
+//    }
+//
+//    setListCalendar();
+//  }
 
   @observable
   bool excluded = false;
@@ -285,6 +343,12 @@ abstract class _BilledServiceStore with Store {
       excludedFail = false;
       sending = false;
     }
+  }
+
+  @action
+  Future<void> reloadPageExcludeService() {
+    errorList = false;
+    setListCalendar();
   }
 
   @computed

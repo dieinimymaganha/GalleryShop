@@ -328,6 +328,82 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     });
   }
 
+  final _$eventsAtom = Atom(name: '_BilledServiceStore.events');
+
+  @override
+  Map<DateTime, List<dynamic>> get events {
+    _$eventsAtom.reportRead();
+    return super.events;
+  }
+
+  @override
+  set events(Map<DateTime, List<dynamic>> value) {
+    _$eventsAtom.reportWrite(value, super.events, () {
+      super.events = value;
+    });
+  }
+
+  final _$errorListAtom = Atom(name: '_BilledServiceStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_BilledServiceStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
+  final _$calendarControllerAtom =
+      Atom(name: '_BilledServiceStore.calendarController');
+
+  @override
+  CalendarController get calendarController {
+    _$calendarControllerAtom.reportRead();
+    return super.calendarController;
+  }
+
+  @override
+  set calendarController(CalendarController value) {
+    _$calendarControllerAtom.reportWrite(value, super.calendarController, () {
+      super.calendarController = value;
+    });
+  }
+
+  final _$selectedEventsAtom = Atom(name: '_BilledServiceStore.selectedEvents');
+
+  @override
+  List<dynamic> get selectedEvents {
+    _$selectedEventsAtom.reportRead();
+    return super.selectedEvents;
+  }
+
+  @override
+  set selectedEvents(List<dynamic> value) {
+    _$selectedEventsAtom.reportWrite(value, super.selectedEvents, () {
+      super.selectedEvents = value;
+    });
+  }
+
   final _$excludedAtom = Atom(name: '_BilledServiceStore.excluded');
 
   @override
@@ -424,13 +500,12 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     return _$saveAsyncAction.run(() => super.save());
   }
 
-  final _$initPageEditServicesAsyncAction =
-      AsyncAction('_BilledServiceStore.initPageEditServices');
+  final _$setListCalendarAsyncAction =
+      AsyncAction('_BilledServiceStore.setListCalendar');
 
   @override
-  Future<void> initPageEditServices() {
-    return _$initPageEditServicesAsyncAction
-        .run(() => super.initPageEditServices());
+  Future<void> setListCalendar() {
+    return _$setListCalendarAsyncAction.run(() => super.setListCalendar());
   }
 
   final _$excludeServiceRecordAsyncAction =
@@ -545,6 +620,29 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
   }
 
   @override
+  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+      List<ServiceRecordDto> events) {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.fromModelToEventAppointment');
+    try {
+      return super.fromModelToEventAppointment(events);
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> reloadPageExcludeService() {
+    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
+        name: '_BilledServiceStore.reloadPageExcludeService');
+    try {
+      return super.reloadPageExcludeService();
+    } finally {
+      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 employeeDto: ${employeeDto},
@@ -564,6 +662,11 @@ controllerFieldDiscount: ${controllerFieldDiscount},
 created: ${created},
 sending: ${sending},
 errorSending: ${errorSending},
+events: ${events},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
+calendarController: ${calendarController},
+selectedEvents: ${selectedEvents},
 excluded: ${excluded},
 excludedUnauthorized: ${excludedUnauthorized},
 excludedFail: ${excludedFail},
