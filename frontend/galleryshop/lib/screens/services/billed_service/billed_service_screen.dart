@@ -6,6 +6,7 @@ import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
+import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
 
 class BilledServiceScreen extends StatefulWidget {
@@ -209,14 +210,15 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                             SizedBox(
                               height: space,
                             ),
-                            CustomForm(
+                            CustomFormCoin(
                               controller:
                                   billedServiceStore.controllerFieldValue,
                               enabled: !billedServiceStore.sending
                                   ? billedServiceStore.enableValue
                                   : false,
                               mandatory: false,
-                              obscure: false,
+                              textInputType: TextInputType.numberWithOptions(
+                                  decimal: true),
                               label: 'Valor',
                               tip: 'Valor',
                               onChanged: billedServiceStore.setValue,
@@ -224,12 +226,13 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
                             SizedBox(
                               height: space,
                             ),
-                            CustomForm(
+                            CustomFormCoin(
                               controller:
                                   billedServiceStore.controllerFieldDiscount,
                               enabled: !billedServiceStore.sending,
                               mandatory: false,
-                              obscure: false,
+                              textInputType: TextInputType.numberWithOptions(
+                                  decimal: true),
                               label: 'Desconto',
                               tip: 'Desconto',
                               onChanged: billedServiceStore.setDiscount,

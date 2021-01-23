@@ -22,8 +22,10 @@ abstract class _ProvisionStore with Store {
   final TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
   final ServicesWebClient _webClientService = ServicesWebClient();
 
+  @observable
   TextEditingController controllerFieldValue = TextEditingController();
 
+  @observable
   TextEditingController controllerDescription = TextEditingController();
 
   @observable

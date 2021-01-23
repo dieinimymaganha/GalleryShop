@@ -80,6 +80,40 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
               name: '_ProvisionStore.excludePressed'))
       .value;
 
+  final _$controllerFieldValueAtom =
+      Atom(name: '_ProvisionStore.controllerFieldValue');
+
+  @override
+  TextEditingController get controllerFieldValue {
+    _$controllerFieldValueAtom.reportRead();
+    return super.controllerFieldValue;
+  }
+
+  @override
+  set controllerFieldValue(TextEditingController value) {
+    _$controllerFieldValueAtom.reportWrite(value, super.controllerFieldValue,
+        () {
+      super.controllerFieldValue = value;
+    });
+  }
+
+  final _$controllerDescriptionAtom =
+      Atom(name: '_ProvisionStore.controllerDescription');
+
+  @override
+  TextEditingController get controllerDescription {
+    _$controllerDescriptionAtom.reportRead();
+    return super.controllerDescription;
+  }
+
+  @override
+  set controllerDescription(TextEditingController value) {
+    _$controllerDescriptionAtom.reportWrite(value, super.controllerDescription,
+        () {
+      super.controllerDescription = value;
+    });
+  }
+
   final _$loadingAtom = Atom(name: '_ProvisionStore.loading');
 
   @override
@@ -490,6 +524,8 @@ mixin _$ProvisionStore on _ProvisionStore, Store {
   @override
   String toString() {
     return '''
+controllerFieldValue: ${controllerFieldValue},
+controllerDescription: ${controllerDescription},
 loading: ${loading},
 errorList: ${errorList},
 listEmpty: ${listEmpty},

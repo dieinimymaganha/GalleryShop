@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/webclients/webClient_service_record.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
@@ -154,14 +155,23 @@ abstract class _BilledServiceStore with Store {
   TextEditingController controllerFieldDiscount = TextEditingController();
 
   @action
-  void setControllerFieldDiscount() =>
-      controllerFieldDiscount.text = discount.toString();
+  void setControllerFieldDiscount() {
+    if (discount == 0.0) {
+      controllerFieldDiscount.text = '';
+    } else {
+      controllerFieldDiscount.text = convertMonetary(discount);
+    }
+  }
 
   @action
   void setDiscount(String value) {
     if (value.isEmpty) {
       discount = 0.0;
+    } else if (value == null) {
+      discount = 0.0;
     } else {
+      value = value.replaceAll('.', '');
+      value = value.replaceAll(',', '.');
       discount = double.parse(value);
     }
   }
@@ -171,6 +181,8 @@ abstract class _BilledServiceStore with Store {
     if (price.isEmpty) {
       value = null;
     } else {
+      price = price.replaceAll('.', '');
+      price = price.replaceAll(',', '.');
       value = double.parse(price);
     }
   }
@@ -185,7 +197,7 @@ abstract class _BilledServiceStore with Store {
           value = null;
           enableValue = true;
         } else {
-          controllerFieldValue.text = element.value.toString();
+          controllerFieldValue.text = convertMonetary(element.value);
           value = element.value;
           enableValue = false;
         }
