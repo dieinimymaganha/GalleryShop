@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:galleryshop/http/webclients/webclient_product.dart';
 import 'package:galleryshop/models/product.dart';
 import 'package:mobx/mobx.dart';
@@ -13,8 +12,7 @@ abstract class _BarShopStore with Store {
 
   _BarShopStore({this.productDto}) {
     autorun((_) {
-      print('$description');
-      print('$value');
+      print('EXCLUDE >>>>>>>>> $excluded');
     });
   }
 
@@ -96,4 +94,71 @@ abstract class _BarShopStore with Store {
 
   @computed
   Function get buttonSavePressed => fieldsIsValid ? save : null;
+
+  @observable
+  List<dynamic> listProducts = List();
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool errorList = false;
+
+  @observable
+  bool listEmpty = false;
+
+  @action
+  Future<void> setListProducts() async {
+    loading = true;
+    try {
+      listProducts = await productWebClient.findAll();
+      if (listProducts.isEmpty) {
+        errorList = true;
+        listEmpty = true;
+      }
+    } on Exception catch (_) {
+      errorList = true;
+    }
+    loading = false;
+  }
+
+  @action
+  Future<void> reloadList() async {
+    errorList = false;
+    setListProducts();
+  }
+
+  @observable
+  bool excluded = false;
+
+  @observable
+  bool excludedFail = false;
+
+  @action
+  Future<void> excludeProduct() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    int response;
+
+    try {
+      response = await productWebClient.exclude(productDto.id);
+    } on Exception catch (_) {
+      response = 0;
+    }
+
+    print('>>>>>> $response}');
+//    int response = 401;
+    if (response == 200) {
+      excluded = true;
+    } else {
+      excludedFail = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    excluded = false;
+    excludedFail = false;
+    sending = false;
+  }
+
+  @computed
+  Function get excludedPressed => excludeProduct;
 }

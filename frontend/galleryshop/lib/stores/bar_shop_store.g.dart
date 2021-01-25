@@ -37,6 +37,13 @@ mixin _$BarShopStore on _BarShopStore, Store {
           Computed<Function>(() => super.buttonSavePressed,
               name: '_BarShopStore.buttonSavePressed'))
       .value;
+  Computed<Function> _$excludedPressedComputed;
+
+  @override
+  Function get excludedPressed => (_$excludedPressedComputed ??=
+          Computed<Function>(() => super.excludedPressed,
+              name: '_BarShopStore.excludedPressed'))
+      .value;
 
   final _$controllerFieldDescriptionAtom =
       Atom(name: '_BarShopStore.controllerFieldDescription');
@@ -162,11 +169,124 @@ mixin _$BarShopStore on _BarShopStore, Store {
     });
   }
 
+  final _$listProductsAtom = Atom(name: '_BarShopStore.listProducts');
+
+  @override
+  List<dynamic> get listProducts {
+    _$listProductsAtom.reportRead();
+    return super.listProducts;
+  }
+
+  @override
+  set listProducts(List<dynamic> value) {
+    _$listProductsAtom.reportWrite(value, super.listProducts, () {
+      super.listProducts = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_BarShopStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$errorListAtom = Atom(name: '_BarShopStore.errorList');
+
+  @override
+  bool get errorList {
+    _$errorListAtom.reportRead();
+    return super.errorList;
+  }
+
+  @override
+  set errorList(bool value) {
+    _$errorListAtom.reportWrite(value, super.errorList, () {
+      super.errorList = value;
+    });
+  }
+
+  final _$listEmptyAtom = Atom(name: '_BarShopStore.listEmpty');
+
+  @override
+  bool get listEmpty {
+    _$listEmptyAtom.reportRead();
+    return super.listEmpty;
+  }
+
+  @override
+  set listEmpty(bool value) {
+    _$listEmptyAtom.reportWrite(value, super.listEmpty, () {
+      super.listEmpty = value;
+    });
+  }
+
+  final _$excludedAtom = Atom(name: '_BarShopStore.excluded');
+
+  @override
+  bool get excluded {
+    _$excludedAtom.reportRead();
+    return super.excluded;
+  }
+
+  @override
+  set excluded(bool value) {
+    _$excludedAtom.reportWrite(value, super.excluded, () {
+      super.excluded = value;
+    });
+  }
+
+  final _$excludedFailAtom = Atom(name: '_BarShopStore.excludedFail');
+
+  @override
+  bool get excludedFail {
+    _$excludedFailAtom.reportRead();
+    return super.excludedFail;
+  }
+
+  @override
+  set excludedFail(bool value) {
+    _$excludedFailAtom.reportWrite(value, super.excludedFail, () {
+      super.excludedFail = value;
+    });
+  }
+
   final _$saveAsyncAction = AsyncAction('_BarShopStore.save');
 
   @override
   Future<void> save() {
     return _$saveAsyncAction.run(() => super.save());
+  }
+
+  final _$setListProductsAsyncAction =
+      AsyncAction('_BarShopStore.setListProducts');
+
+  @override
+  Future<void> setListProducts() {
+    return _$setListProductsAsyncAction.run(() => super.setListProducts());
+  }
+
+  final _$reloadListAsyncAction = AsyncAction('_BarShopStore.reloadList');
+
+  @override
+  Future<void> reloadList() {
+    return _$reloadListAsyncAction.run(() => super.reloadList());
+  }
+
+  final _$excludeProductAsyncAction =
+      AsyncAction('_BarShopStore.excludeProduct');
+
+  @override
+  Future<void> excludeProduct() {
+    return _$excludeProductAsyncAction.run(() => super.excludeProduct());
   }
 
   final _$_BarShopStoreActionController =
@@ -205,10 +325,17 @@ sending: ${sending},
 created: ${created},
 duplicate: ${duplicate},
 errorSending: ${errorSending},
+listProducts: ${listProducts},
+loading: ${loading},
+errorList: ${errorList},
+listEmpty: ${listEmpty},
+excluded: ${excluded},
+excludedFail: ${excludedFail},
 descriptionIsValid: ${descriptionIsValid},
 valueIsValid: ${valueIsValid},
 fieldsIsValid: ${fieldsIsValid},
-buttonSavePressed: ${buttonSavePressed}
+buttonSavePressed: ${buttonSavePressed},
+excludedPressed: ${excludedPressed}
     ''';
   }
 }

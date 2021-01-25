@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/bar_shop/bar_shop_list_screen.dart';
 import 'package:galleryshop/screens/bar_shop/create_new_product_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
@@ -22,7 +23,10 @@ class BarShopBaseScreen extends StatelessWidget {
                   title: Text('Listar produtos'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BarShopListScreen()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],

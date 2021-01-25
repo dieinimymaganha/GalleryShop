@@ -8,6 +8,24 @@ import 'package:http/http.dart';
 const urlProduct = baseUrl + "products";
 
 class ProductWebClient {
+  Future<List<ProductDto>> findAll() async {
+    String token = await getToken();
+    final Response response = await webClient.get(
+      urlProduct,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data =
+          decodeJson.map((dynamic json) => ProductDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
   Future<int> save(ProductForm productForm) async {
     String token = await getToken();
     final String employeeJson = jsonEncode(productForm.toJson());
@@ -18,6 +36,20 @@ class ProductWebClient {
         },
         body: employeeJson);
 
+    return response.statusCode;
+  }
+
+  Future<int> exclude(int id) async {
+    String token = await getToken();
+    String urlExclude = urlProduct + '/' + id.toString();
+
+    final Response response = await webClient.delete(
+      urlExclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
     return response.statusCode;
   }
 
