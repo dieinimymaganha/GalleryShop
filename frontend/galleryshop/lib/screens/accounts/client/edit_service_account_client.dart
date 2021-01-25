@@ -38,7 +38,7 @@ class _EditServiceAccountClientScreenState
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Excluir Serviços'),
+            title: Text('Serviços registrados'),
             centerTitle: true,
             backgroundColor: colorAppbar,
             leading: IconButton(
