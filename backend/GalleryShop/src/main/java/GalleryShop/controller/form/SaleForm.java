@@ -1,5 +1,6 @@
 package GalleryShop.controller.form;
 
+
 import GalleryShop.model.*;
 import GalleryShop.repository.*;
 
@@ -91,6 +92,48 @@ public class SaleForm {
             }
         }
         return new Sale(dateSale, client, productSold, accountClient);
-//        return null;
     }
+
+
+    public ProductSold upload(Long id, SaleRepository saleRepository,
+                              ProductRepository productRepository, ProductSoldRepository productSoldRepository) {
+
+        Optional<Sale> saleOptional = saleRepository.findById(id);
+
+        if (saleOptional.isPresent()) {
+            Sale sale = saleOptional.get();
+            AccountClient accountClient = sale.getAccountClient();
+
+            ProductSold productSold = new ProductSold();
+
+            Product product = productRepository.getOne(productId);
+
+            Optional<ProductSold> productSoldOptional = productSoldRepository.findById(sale.getProductSold().getId());
+
+            if (productSoldOptional.isPresent() &&
+                    productSoldOptional.get().getDescription().equals(product.getDescription())) {
+
+                productSold = productSoldOptional.get();
+
+                double valueFinal = quantity * productSold.getValue();
+
+                if (productSold.getQuantity() > quantity) {
+                    accountClient.setAmount(accountClient.getAmount() + valueFinal);
+                } else if (productSold.getQuantity() == quantity) {
+                    accountClient.setAmount(accountClient.getAmount());
+                } else {
+                    accountClient.setAmount((accountClient.getAmount() - productSold.getValueTotal()) + valueFinal);
+                }
+                productSold = productSoldOptional.get();
+                productSold.setQuantity(quantity);
+                productSold.setValueTotal(valueFinal);
+                return productSold;
+            }
+        }
+
+
+        return null;
+    }
+
+
 }
