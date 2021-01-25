@@ -44,6 +44,34 @@ mixin _$BarShopStore on _BarShopStore, Store {
           Computed<Function>(() => super.excludedPressed,
               name: '_BarShopStore.excludedPressed'))
       .value;
+  Computed<bool> _$changeDescriptionIsValidComputed;
+
+  @override
+  bool get changeDescriptionIsValid => (_$changeDescriptionIsValidComputed ??=
+          Computed<bool>(() => super.changeDescriptionIsValid,
+              name: '_BarShopStore.changeDescriptionIsValid'))
+      .value;
+  Computed<bool> _$changeValueIsValidComputed;
+
+  @override
+  bool get changeValueIsValid => (_$changeValueIsValidComputed ??=
+          Computed<bool>(() => super.changeValueIsValid,
+              name: '_BarShopStore.changeValueIsValid'))
+      .value;
+  Computed<bool> _$changeIsValidComputed;
+
+  @override
+  bool get changeIsValid =>
+      (_$changeIsValidComputed ??= Computed<bool>(() => super.changeIsValid,
+              name: '_BarShopStore.changeIsValid'))
+          .value;
+  Computed<Function> _$buttonChangePressedComputed;
+
+  @override
+  Function get buttonChangePressed => (_$buttonChangePressedComputed ??=
+          Computed<Function>(() => super.buttonChangePressed,
+              name: '_BarShopStore.buttonChangePressed'))
+      .value;
 
   final _$controllerFieldDescriptionAtom =
       Atom(name: '_BarShopStore.controllerFieldDescription');
@@ -259,6 +287,21 @@ mixin _$BarShopStore on _BarShopStore, Store {
     });
   }
 
+  final _$changeAtom = Atom(name: '_BarShopStore.change');
+
+  @override
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
   final _$saveAsyncAction = AsyncAction('_BarShopStore.save');
 
   @override
@@ -287,6 +330,21 @@ mixin _$BarShopStore on _BarShopStore, Store {
   @override
   Future<void> excludeProduct() {
     return _$excludeProductAsyncAction.run(() => super.excludeProduct());
+  }
+
+  final _$setDataInitialAsyncAction =
+      AsyncAction('_BarShopStore.setDataInitial');
+
+  @override
+  Future<void> setDataInitial() {
+    return _$setDataInitialAsyncAction.run(() => super.setDataInitial());
+  }
+
+  final _$updateProductAsyncAction = AsyncAction('_BarShopStore.updateProduct');
+
+  @override
+  Future<void> updateProduct() {
+    return _$updateProductAsyncAction.run(() => super.updateProduct());
   }
 
   final _$_BarShopStoreActionController =
@@ -331,11 +389,16 @@ errorList: ${errorList},
 listEmpty: ${listEmpty},
 excluded: ${excluded},
 excludedFail: ${excludedFail},
+change: ${change},
 descriptionIsValid: ${descriptionIsValid},
 valueIsValid: ${valueIsValid},
 fieldsIsValid: ${fieldsIsValid},
 buttonSavePressed: ${buttonSavePressed},
-excludedPressed: ${excludedPressed}
+excludedPressed: ${excludedPressed},
+changeDescriptionIsValid: ${changeDescriptionIsValid},
+changeValueIsValid: ${changeValueIsValid},
+changeIsValid: ${changeIsValid},
+buttonChangePressed: ${buttonChangePressed}
     ''';
   }
 }

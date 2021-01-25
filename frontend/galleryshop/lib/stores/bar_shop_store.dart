@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/webclients/webclient_product.dart';
 import 'package:galleryshop/models/product.dart';
 import 'package:mobx/mobx.dart';
@@ -84,7 +85,7 @@ abstract class _BarShopStore with Store {
   }
 
   @computed
-  bool get descriptionIsValid => description != null;
+  bool get descriptionIsValid => description != null && description != '';
 
   @computed
   bool get valueIsValid => value != 0.0 && value != null;
@@ -146,8 +147,6 @@ abstract class _BarShopStore with Store {
       response = 0;
     }
 
-    print('>>>>>> $response}');
-//    int response = 401;
     if (response == 200) {
       excluded = true;
     } else {
@@ -161,4 +160,60 @@ abstract class _BarShopStore with Store {
 
   @computed
   Function get excludedPressed => excludeProduct;
+
+  @observable
+  bool change = false;
+
+  @action
+  Future<void> setDataInitial() async {
+    if (productDto != null) {
+      change = true;
+      description = controllerFieldDescription.text = productDto.description;
+      controllerFieldValue.text = convertMonetary(productDto.value);
+      value = productDto.value;
+    }
+  }
+
+  @action
+  Future<void> updateProduct() async {
+    ProductForm form = ProductForm(description: description, value: value);
+    int response;
+    try {
+      response = await productWebClient.update(form, productDto.id);
+    } on Exception catch (_) {
+      response = 0;
+    }
+
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+    if (response == 200) {
+      created = true;
+    } else {
+      errorSending = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    errorSending = false;
+    created = false;
+  }
+
+  @computed
+  bool get changeDescriptionIsValid =>
+      description != productDto.description &&
+      description != null &&
+      description != '' &&
+      valueIsValid;
+
+  @computed
+  bool get changeValueIsValid =>
+      value != 0.0 &&
+      value != null &&
+      value != productDto.value &&
+      descriptionIsValid;
+
+  @computed
+  bool get changeIsValid => changeDescriptionIsValid || changeValueIsValid;
+
+  @computed
+  Function get buttonChangePressed => changeIsValid ? updateProduct : null;
 }

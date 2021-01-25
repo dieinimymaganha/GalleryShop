@@ -53,6 +53,22 @@ class ProductWebClient {
     return response.statusCode;
   }
 
+  Future<int> update(ProductForm productForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlProduct + '/' + id.toString();
+
+    final String serviceJson = json.encode(productForm.toJson());
+
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
+    return response.statusCode;
+  }
+
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {
       return _statusCodeResponses[statuscode];

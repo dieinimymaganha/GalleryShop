@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/product.dart';
+import 'package:galleryshop/screens/bar_shop/bar_shop_list_screen.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/bar_shop_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
@@ -8,16 +10,30 @@ import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
 
 class CreateNewProductScreen extends StatefulWidget {
+  final ProductDto productDto;
+
+  CreateNewProductScreen({this.productDto});
+
   @override
-  _CreateNewProductScreenState createState() => _CreateNewProductScreenState();
+  _CreateNewProductScreenState createState() =>
+      _CreateNewProductScreenState(productDto: productDto);
 }
 
 class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
   BarShopStore barShopStore = BarShopStore();
 
+  _CreateNewProductScreenState({ProductDto productDto})
+      : barShopStore = BarShopStore(productDto: productDto);
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ReactionDisposer disposer;
+
+  @override
+  void initState() {
+    super.initState();
+    barShopStore.setDataInitial();
+  }
 
   @override
   void didChangeDependencies() {
@@ -25,7 +41,9 @@ class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
     disposer = reaction((_) => barShopStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          'Produto cadastrado com sucesso!',
+          barShopStore.change
+              ? 'Produto alterado com sucesso!'
+              : 'Produto cadastrado com sucesso!',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.blueAccent,
@@ -33,7 +51,7 @@ class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
       ));
       await Future.delayed(Duration(seconds: 2));
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => BaseScreen()));
+          MaterialPageRoute(builder: (context) => BarShopListScreen()));
     });
 
     disposer = reaction((_) => barShopStore.duplicate, (created) async {
@@ -54,7 +72,9 @@ class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
-            'Erro ao cadastrar! Tente novamente',
+            barShopStore.change
+                ? 'Erro ao alterar! Tente novamente'
+                : 'Erro ao cadastrar! Tente novamente',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
@@ -72,7 +92,8 @@ class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text('Cadastrar produto'),
+            title: Text(
+                barShopStore.change ? 'Alterar produto' : 'Cadastrar produto'),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),
@@ -131,7 +152,9 @@ class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Cadastrar',
+                                      barShopStore.change
+                                          ? 'Alterar'
+                                          : 'Cadastrar',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
@@ -153,7 +176,9 @@ class _CreateNewProductScreenState extends State<CreateNewProductScreen> {
                                     )
                                   ],
                                 ),
-                                onPressed: barShopStore.buttonSavePressed)),
+                                onPressed: barShopStore.change
+                                    ? barShopStore.buttonChangePressed
+                                    : barShopStore.buttonSavePressed)),
                       ),
                     ],
                   ),

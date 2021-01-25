@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/bar_shop/create_new_product_screen.dart';
 import 'package:galleryshop/screens/bar_shop/widget/button_create_new_product.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/bar_shop_store.dart';
@@ -81,6 +82,14 @@ class _BarShopListScreenState extends State<BarShopListScreen> {
                               context: context,
                               builder: (context) =>
                                   DialogProduct(productDto: productDto));
+                        },
+                        onDoubleTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreateNewProductScreen(
+                                        productDto: productDto,
+                                      )));
                         },
                         child: Card(
                           elevation: 3,
