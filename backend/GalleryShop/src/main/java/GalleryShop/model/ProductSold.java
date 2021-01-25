@@ -17,10 +17,23 @@ public class ProductSold {
 
     private Integer quantity;
 
-    public ProductSold(String description, Double value, Integer quantity) {
+    private Double valueTotal;
+
+    public ProductSold(String description, Double value, Integer quantity, Double valueTotal) {
         this.description = description;
         this.value = value;
         this.quantity = quantity;
+        this.valueTotal = valueTotal;
+    }
+
+
+
+    public Double getValueTotal() {
+        return valueTotal;
+    }
+
+    public void setValueTotal(Double valueTotal) {
+        this.valueTotal = valueTotal;
     }
 
     public ProductSold() {
@@ -56,5 +69,16 @@ public class ProductSold {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductSold{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", value=" + value +
+                ", quantity=" + quantity +
+                ", valueTotal=" + valueTotal +
+                '}';
     }
 }

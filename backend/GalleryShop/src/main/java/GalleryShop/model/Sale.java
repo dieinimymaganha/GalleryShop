@@ -78,4 +78,15 @@ public class Sale {
     public void setAccountClient(AccountClient accountClient) {
         this.accountClient = accountClient;
     }
+
+    @Override
+    public String toString() {
+        return "Sale{" +
+                "id=" + id +
+                ", dateSale=" + dateSale +
+                ", client=" + client +
+                ", productSold=" + productSold +
+                ", accountClient=" + accountClient +
+                '}';
+    }
 }
