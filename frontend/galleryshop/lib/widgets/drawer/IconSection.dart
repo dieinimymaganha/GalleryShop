@@ -109,8 +109,8 @@ class IconSection extends StatelessWidget {
                 height: 0,
               ),
               IconTile(
-                label: 'Loja',
-                iconData: Icons.store,
+                label: 'Bar',
+                iconData: Icons.local_bar,
                 onTap: () {
                   _setPage(8);
                 },

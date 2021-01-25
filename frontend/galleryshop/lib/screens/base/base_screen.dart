@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/blocs/drawer_bloc.dart';
 import 'package:galleryshop/screens/accounts/accounts_base_screen.dart';
-
+import 'package:galleryshop/screens/bar_shop/bar_shop_base_screen.dart';
 import 'package:galleryshop/screens/bills_to_pay/bills_to_pay_screen.dart';
 import 'package:galleryshop/screens/client/client_list_screen.dart';
 import 'package:galleryshop/screens/employees/employees_base_screen.dart';
@@ -15,7 +15,6 @@ import 'package:galleryshop/screens/reports/reports_screen.dart';
 import 'package:galleryshop/screens/schedule/schedule_base_screen.dart';
 import 'package:galleryshop/screens/services/services_list_screen.dart';
 import 'package:galleryshop/screens/stock/stock_screen.dart';
-import 'package:galleryshop/screens/store/store_screen.dart';
 import 'package:provider/provider.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -67,7 +66,7 @@ class _BaseScreenState extends State<BaseScreen> {
           MyAccountScreen(),
           BillsToPayScreen(),
           FinancialBaseScreen(),
-          StoreScreen(),
+          BarShopBaseScreen(),
           ServicesListScreen(),
           StockScreen(),
           ReportsScreen(),
