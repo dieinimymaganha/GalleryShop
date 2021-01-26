@@ -46,4 +46,9 @@ class SaleDto {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'SaleDto{id: $id, dateSale: $dateSale, productSoldDto: $productSoldDto}';
+  }
 }
