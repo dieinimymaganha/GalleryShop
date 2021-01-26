@@ -42,6 +42,22 @@ class SaleProductWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<int> exclude(int id) async {
+    String token = await getToken();
+    String urlExclude = urlSaleProduct + '/' + id.toString();
+    final Response response = await webClient.delete(
+      urlExclude,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token",
+      },
+    );
+    return response.statusCode;
+  }
+
+
+
+
 
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {

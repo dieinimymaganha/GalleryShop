@@ -85,7 +85,7 @@ class _DialogExcludeServiceRecordState
 
   AlertDialog buildAlertDialog(BuildContext context) {
     return AlertDialog(
-      title: Text('Confirmar'),
+      title: Text('Excluir'),
       actions: <Widget>[
         FlatButton(
             onPressed: billedServiceStore.buttonExcludeServicePressed,

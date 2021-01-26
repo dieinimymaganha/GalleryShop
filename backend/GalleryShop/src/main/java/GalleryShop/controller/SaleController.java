@@ -110,7 +110,6 @@ public class SaleController {
             Sale sale = optional.get();
             Date dateSale = new Date();
             SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
-
             if (sale.getDateSale().toString().equals(fd.format(dateSale))) {
                 AccountClient accountClient = accountClientRepository.getOne(sale.getAccountClient().getId());
 
@@ -123,6 +122,7 @@ public class SaleController {
                 }
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.notFound().build();
     }

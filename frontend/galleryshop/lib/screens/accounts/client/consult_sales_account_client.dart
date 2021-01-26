@@ -8,6 +8,7 @@ import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'DetailAccountClient.dart';
+import 'widget/dialog_exclude_sale.dart';
 
 class ConsultSalesAccountClient extends StatefulWidget {
   final int idClient;
@@ -37,7 +38,9 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(saleProductStore.idClient.toString()),
+            title: Text('Consultar vendas'),
+            centerTitle: true,
+            backgroundColor: colorAppbar,
             leading: IconButton(
               icon: IconButton(
                 icon: Icon(
@@ -174,6 +177,17 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                                   child: Card(
                                     color: colorCard,
                                     child: ListTile(
+                                      onLongPress: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                DialogExcludeSale(
+                                                  saleDto:
+                                                      saleDto,
+                                                  idClient:
+                                                      saleProductStore.idClient,
+                                                ));
+                                      },
                                       title: Text(
                                           saleDto.productSoldDto.description),
                                       subtitle: Column(
