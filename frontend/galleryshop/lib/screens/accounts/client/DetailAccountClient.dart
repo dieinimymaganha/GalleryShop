@@ -314,11 +314,13 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                           children: <Widget>[
                                             TableCalendar(
                                               locale: 'pt_BR',
+                                              holidays:
+                                                  accountClientStore.events2,
                                               events: accountClientStore.events,
                                               initialCalendarFormat:
                                                   CalendarFormat.month,
                                               calendarStyle: CalendarStyle(
-                                                outsideDaysVisible: false,
+                                                outsideDaysVisible: true,
                                                 weekendStyle: TextStyle()
                                                     .copyWith(
                                                         color:
@@ -353,13 +355,16 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                         color:
                                                             Colors.blue[600]),
                                               ),
-                                              onDaySelected: (date, events) {
+                                              onDaySelected: (date, holidays) {
                                                 accountClientStore
                                                     .setCalendar();
                                                 setState(() {
                                                   accountClientStore
                                                       .calculateTotalAndSetSelectEvents(
-                                                          events);
+                                                          holidays);
+                                                  accountClientStore
+                                                      .setSelectedEventsSales(
+                                                          date);
                                                 });
                                               },
                                               builders: CalendarBuilders(
@@ -414,6 +419,18 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                       ),
                                                     );
                                                   }
+
+                                                  if (holidays.isNotEmpty) {
+                                                    children.add(
+                                                      Positioned(
+                                                        bottom: 1,
+                                                        child:
+                                                            _buildHolidaysMarker(
+                                                                date, holidays),
+                                                      ),
+                                                    );
+                                                  }
+
                                                   return children;
                                                 },
                                               ),
@@ -426,101 +443,241 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                 : SingleChildScrollView(
                                                     scrollDirection:
                                                         Axis.horizontal,
-                                                    child: DataTable(
-                                                        columns: const <
-                                                            DataColumn>[
-                                                          DataColumn(
-                                                            label: Text(
-                                                              'Serviço',
-                                                              style: TextStyle(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                  fontSize:
-                                                                      16.0),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        SizedBox(
+                                                          height: space,
+                                                        ),
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 10.0,
+                                                                  right: 10.0),
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors
+                                                                  .grey[400],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .all(
+                                                                Radius.circular(
+                                                                    10),
+                                                              ),
+                                                            ),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    10.0),
+                                                            child: Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: <
+                                                                  Widget>[
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      'Serviços realizados',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              20.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    ),
+                                                                    DataTable(
+                                                                        columns: const <
+                                                                            DataColumn>[
+                                                                          DataColumn(
+                                                                            label:
+                                                                                Text(
+                                                                              'Serviço',
+                                                                              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16.0),
+                                                                            ),
+                                                                          ),
+                                                                          DataColumn(
+                                                                            label:
+                                                                                Text(
+                                                                              'Funcionário',
+                                                                              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16.0),
+                                                                            ),
+                                                                          ),
+                                                                          DataColumn(
+                                                                            label:
+                                                                                Text(
+                                                                              'Valor',
+                                                                              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16.0),
+                                                                            ),
+                                                                          ),
+                                                                          DataColumn(
+                                                                            label:
+                                                                                Text(
+                                                                              'Desconto',
+                                                                              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16.0),
+                                                                            ),
+                                                                          ),
+                                                                          DataColumn(
+                                                                            label:
+                                                                                Text(
+                                                                              'Valor a pagar',
+                                                                              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16.0),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                        rows: accountClientStore
+                                                                            .selectedEvents
+                                                                            .map((e) {
+                                                                          return DataRow(
+                                                                            cells: <DataCell>[
+                                                                              DataCell(Text(e.billedServiceDto.description)),
+                                                                              DataCell(Text(e.billedServiceDto.typeEmployee)),
+                                                                              DataCell(Text(convertMonetary(e.billedServiceDto.value))),
+                                                                              DataCell(Text(convertMonetary(e.billedServiceDto.discount))),
+                                                                              DataCell(Text(convertMonetary(e.billedServiceDto.valueFinal))),
+                                                                            ],
+                                                                          );
+                                                                        }).toList()),
+                                                                  ],
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
-                                                          DataColumn(
-                                                            label: Text(
-                                                              'Funcionário',
-                                                              style: TextStyle(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                  fontSize:
-                                                                      16.0),
-                                                            ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                            SizedBox(
+                                              height: space,
+                                            ),
+                                            accountClientStore.notSale
+                                                ? Container()
+                                                : SingleChildScrollView(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    child: Container(
+                                                      padding: EdgeInsets.only(
+                                                          left: 10.0,
+                                                          right: 10.0),
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Colors.grey[400],
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(10),
                                                           ),
-                                                          DataColumn(
-                                                            label: Text(
-                                                              'Valor',
-                                                              style: TextStyle(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                  fontSize:
-                                                                      16.0),
+                                                        ),
+                                                        padding: EdgeInsets.all(
+                                                            10.0),
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: <
+                                                                  Widget>[
+                                                                Text(
+                                                                  'Produtos comprados no Bar',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          20.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: space,
+                                                                ),
+                                                                DataTable(
+                                                                    columns: const <
+                                                                        DataColumn>[
+                                                                      DataColumn(
+                                                                        label:
+                                                                            Text(
+                                                                          'Produto',
+                                                                          style: TextStyle(
+                                                                              fontStyle: FontStyle.italic,
+                                                                              fontSize: 16.0),
+                                                                        ),
+                                                                      ),
+                                                                      DataColumn(
+                                                                        label:
+                                                                            Text(
+                                                                          'Valor unidade',
+                                                                          style: TextStyle(
+                                                                              fontStyle: FontStyle.italic,
+                                                                              fontSize: 16.0),
+                                                                        ),
+                                                                      ),
+                                                                      DataColumn(
+                                                                        label:
+                                                                            Text(
+                                                                          'Quantidade',
+                                                                          style: TextStyle(
+                                                                              fontStyle: FontStyle.italic,
+                                                                              fontSize: 16.0),
+                                                                        ),
+                                                                      ),
+                                                                      DataColumn(
+                                                                        label:
+                                                                            Text(
+                                                                          'Valor total',
+                                                                          style: TextStyle(
+                                                                              fontStyle: FontStyle.italic,
+                                                                              fontSize: 16.0),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                    rows: accountClientStore
+                                                                        .selectedEventsSales
+                                                                        .map(
+                                                                            (e) {
+                                                                      return DataRow(
+                                                                        cells: <
+                                                                            DataCell>[
+                                                                          DataCell(Text(e
+                                                                              .productSoldDto
+                                                                              .description)),
+                                                                          DataCell(Text(convertMonetary(e
+                                                                              .productSoldDto
+                                                                              .value))),
+                                                                          DataCell(Text(e
+                                                                              .productSoldDto
+                                                                              .quantity
+                                                                              .toString())),
+                                                                          DataCell(Text(convertMonetary(e
+                                                                              .productSoldDto
+                                                                              .valueTotal))),
+                                                                        ],
+                                                                      );
+                                                                    }).toList()),
+                                                              ],
                                                             ),
-                                                          ),
-                                                          DataColumn(
-                                                            label: Text(
-                                                              'Desconto',
-                                                              style: TextStyle(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                  fontSize:
-                                                                      16.0),
-                                                            ),
-                                                          ),
-                                                          DataColumn(
-                                                            label: Text(
-                                                              'Valor a pagar',
-                                                              style: TextStyle(
-                                                                  fontStyle:
-                                                                      FontStyle
-                                                                          .italic,
-                                                                  fontSize:
-                                                                      16.0),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                        rows: accountClientStore
-                                                            .selectedEvents
-                                                            .map((e) {
-                                                          return DataRow(
-                                                            cells: <DataCell>[
-                                                              DataCell(Text(e
-                                                                  .billedServiceDto
-                                                                  .description)),
-                                                              DataCell(Text(e
-                                                                  .billedServiceDto
-                                                                  .typeEmployee)),
-                                                              DataCell(Text(
-                                                                  convertMonetary(e
-                                                                      .billedServiceDto
-                                                                      .value))),
-                                                              DataCell(Text(
-                                                                  convertMonetary(e
-                                                                      .billedServiceDto
-                                                                      .discount))),
-                                                              DataCell(Text(
-                                                                  convertMonetary(e
-                                                                      .billedServiceDto
-                                                                      .valueFinal))),
-                                                            ],
-                                                          );
-                                                        }).toList()),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
                                                   )
                                           ],
                                         )),
                                   ),
                                 ],
                               ),
-                              Divider(
-                                thickness: 0.5,
-                              ),
-                              accountClientStore.notService
+                              accountClientStore.valueToday
                                   ? Container()
                                   : SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
@@ -539,7 +696,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                                                     TextStyle(fontSize: 36.0),
                                               ),
                                               Text(
-                                                'R\$ ${convertMonetary(accountClientStore.amountPayable)}',
+                                                'R\$ ${convertMonetary(accountClientStore.totalDay)}',
                                                 style: TextStyle(
                                                     fontSize: 36.0,
                                                     color: Colors.white),
@@ -626,10 +783,35 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: accountClientStore.calendarController.isSelected(date)
-            ? Colors.green
+            ? Colors.teal
             : accountClientStore.calendarController.isToday(date)
                 ? Colors.brown[300]
                 : Colors.blue[400],
+      ),
+      width: 16.0,
+      height: 16.0,
+      child: Center(
+        child: Text(
+          '${events.length}',
+          style: TextStyle().copyWith(
+            color: Colors.white,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHolidaysMarker(DateTime date, List events) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: accountClientStore.calendarController.isSelected(date)
+            ? Colors.green
+            : accountClientStore.calendarController.isToday(date)
+                ? Colors.blueGrey
+                : Colors.blueGrey[400],
       ),
       width: 16.0,
       height: 16.0,
