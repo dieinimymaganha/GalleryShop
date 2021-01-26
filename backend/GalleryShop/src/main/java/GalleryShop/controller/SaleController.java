@@ -4,11 +4,9 @@ package GalleryShop.controller;
 import GalleryShop.controller.dto.ProductDto;
 import GalleryShop.controller.dto.ProductSoldDto;
 import GalleryShop.controller.dto.SaleDto;
+import GalleryShop.controller.dto.ServiceDto;
 import GalleryShop.controller.form.SaleForm;
-import GalleryShop.model.AccountClient;
-import GalleryShop.model.Payment;
-import GalleryShop.model.ProductSold;
-import GalleryShop.model.Sale;
+import GalleryShop.model.*;
 import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,6 +49,16 @@ public class SaleController {
     public List<SaleDto> getAll() {
         List<Sale> sales = saleRepository.findAll();
         return SaleDto.convertDto(sales);
+    }
+
+    @GetMapping("/clientId={id}")
+    public List<SaleDto> getSalesClientId(@PathVariable Long id) {
+        List<Sale> sales = saleRepository.findByClientId(id);
+
+        return SaleDto.convertDto(sales);
+
+
+
     }
 
 

@@ -526,6 +526,15 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
         .run(() => super.excludeServiceRecord());
   }
 
+  final _$reloadPageExcludeServiceAsyncAction =
+      AsyncAction('_BilledServiceStore.reloadPageExcludeService');
+
+  @override
+  Future<void> reloadPageExcludeService() {
+    return _$reloadPageExcludeServiceAsyncAction
+        .run(() => super.reloadPageExcludeService());
+  }
+
   final _$_BilledServiceStoreActionController =
       ActionController(name: '_BilledServiceStore');
 
@@ -635,17 +644,6 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
         name: '_BilledServiceStore.fromModelToEventAppointment');
     try {
       return super.fromModelToEventAppointment(events);
-    } finally {
-      _$_BilledServiceStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  Future<void> reloadPageExcludeService() {
-    final _$actionInfo = _$_BilledServiceStoreActionController.startAction(
-        name: '_BilledServiceStore.reloadPageExcludeService');
-    try {
-      return super.reloadPageExcludeService();
     } finally {
       _$_BilledServiceStoreActionController.endAction(_$actionInfo);
     }

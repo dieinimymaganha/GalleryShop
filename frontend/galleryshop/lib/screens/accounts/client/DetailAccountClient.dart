@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
+import 'package:galleryshop/screens/accounts/client/consult_sales_account_client.dart';
 import 'package:galleryshop/screens/accounts/client/edit_service_account_client.dart';
 import 'package:galleryshop/screens/accounts/close_account_screen.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
@@ -68,6 +69,9 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
               builder: (context) => SaleProduct(
                     idClient: accountClientStore.idClient,
                   )));
+    } else if (choice == OptionsMenuDetailClient.consultSales) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ConsultSalesAccountClient(idClient: accountClientStore.idClient,)));
     }
   }
 

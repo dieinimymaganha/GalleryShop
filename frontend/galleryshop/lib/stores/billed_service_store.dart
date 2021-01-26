@@ -363,7 +363,7 @@ abstract class _BilledServiceStore with Store {
   }
 
   @action
-  Future<void> reloadPageExcludeService() {
+  Future<void> reloadPageExcludeService() async{
     errorList = false;
     setListCalendar();
   }
