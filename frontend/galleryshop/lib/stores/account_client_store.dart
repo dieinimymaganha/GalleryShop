@@ -20,15 +20,15 @@ class AccountClientStore = _AccountClientStore with _$AccountClientStore;
 abstract class _AccountClientStore with Store {
   final int idClient;
   final int idAccount;
+  final SaleDto saleDto;
 
   AccountClientWebClient accountClientWebClient = AccountClientWebClient();
 
   FinancialWebClient financialWebClient = FinancialWebClient();
 
-  _AccountClientStore({this.idClient, this.idAccount}) {
+  _AccountClientStore({this.idClient, this.idAccount, this.saleDto}) {
     autorun((_) {
-      print('notService >>>>>>>>>>> $notService');
-      print('notSale>>> $notSale');
+      print('productSoldDto >>>>>>>>>>> $saleDto');
     });
   }
 
@@ -630,4 +630,63 @@ abstract class _AccountClientStore with Store {
   @computed
   Function get buttonRegisterSalePressed =>
       fieldsSaleIsValid ? registerSale : null;
+
+//Atualizar venda
+
+  @observable
+  bool change = false;
+
+  @action
+  Future<void> initEditSale() async {
+    change = true;
+    await setDataInitialRegisterSale();
+    if (saleDto != null) {
+      setDescriptionProductSold();
+    }
+  }
+
+  @action
+  void setDescriptionProductSold() {
+    listProducts.forEach((element) {
+      if (element.description == saleDto.productSoldDto.description) {
+        valueSelectProduct = element.id;
+        controllerFieldValueProduct.text =
+            convertMonetary(saleDto.productSoldDto.value);
+        controllerFieldQtdProduct.text =
+            saleDto.productSoldDto.quantity.toString();
+      }
+    });
+  }
+
+  @observable
+  bool productDif = false;
+
+  @action
+  Future<void> updateSale() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+    SaleForm saleForm = SaleForm(
+        clientId: idClient, productId: valueSelectProduct, quantity: quantity);
+    print(saleForm.toJson());
+
+    int response = await saleProductWebClient.update(saleForm, saleDto.id);
+//    int response = 200;
+
+    if (response == 200) {
+      updateProduct = true;
+    } else if (response == 401) {
+      productDif = true;
+    } else {
+      errorSending = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    errorSending = false;
+    created = false;
+    updateProduct = false;
+    productDif = false;
+  }
+
+  @computed
+  Function get buttonUpdateSalePressed => fieldsSaleIsValid ? updateSale : null;
 }

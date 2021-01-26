@@ -21,7 +21,6 @@ class SaleProductWebClient {
     return response.statusCode;
   }
 
-
   Future<List<SaleDto>> findByClientId(int id) async {
     String token = await getToken();
     final response = await webClient.get(
@@ -34,9 +33,8 @@ class SaleProductWebClient {
 
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
-      final List<dynamic> data = decodeJson
-          .map((dynamic json) => SaleDto.fromJson(json))
-          .toList();
+      final List<dynamic> data =
+          decodeJson.map((dynamic json) => SaleDto.fromJson(json)).toList();
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
@@ -55,9 +53,21 @@ class SaleProductWebClient {
     return response.statusCode;
   }
 
+  Future<int> update(SaleForm saleForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlSaleProduct + '/productSold/' + id.toString();
 
+    final String serviceJson = json.encode(saleForm.toJson());
 
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
 
+    return response.statusCode;
+  }
 
   String _getMessage(int statuscode) {
     if (_statusCodeResponses.containsKey(statuscode)) {

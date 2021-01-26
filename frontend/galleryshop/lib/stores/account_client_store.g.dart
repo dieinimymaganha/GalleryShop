@@ -88,6 +88,13 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
               () => super.buttonRegisterSalePressed,
               name: '_AccountClientStore.buttonRegisterSalePressed'))
           .value;
+  Computed<Function> _$buttonUpdateSalePressedComputed;
+
+  @override
+  Function get buttonUpdateSalePressed => (_$buttonUpdateSalePressedComputed ??=
+          Computed<Function>(() => super.buttonUpdateSalePressed,
+              name: '_AccountClientStore.buttonUpdateSalePressed'))
+      .value;
 
   final _$listClientAtom = Atom(name: '_AccountClientStore.listClient');
 
@@ -814,6 +821,36 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$changeAtom = Atom(name: '_AccountClientStore.change');
+
+  @override
+  bool get change {
+    _$changeAtom.reportRead();
+    return super.change;
+  }
+
+  @override
+  set change(bool value) {
+    _$changeAtom.reportWrite(value, super.change, () {
+      super.change = value;
+    });
+  }
+
+  final _$productDifAtom = Atom(name: '_AccountClientStore.productDif');
+
+  @override
+  bool get productDif {
+    _$productDifAtom.reportRead();
+    return super.productDif;
+  }
+
+  @override
+  set productDif(bool value) {
+    _$productDifAtom.reportWrite(value, super.productDif, () {
+      super.productDif = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -934,6 +971,21 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   @override
   Future<void> registerSale() {
     return _$registerSaleAsyncAction.run(() => super.registerSale());
+  }
+
+  final _$initEditSaleAsyncAction =
+      AsyncAction('_AccountClientStore.initEditSale');
+
+  @override
+  Future<void> initEditSale() {
+    return _$initEditSaleAsyncAction.run(() => super.initEditSale());
+  }
+
+  final _$updateSaleAsyncAction = AsyncAction('_AccountClientStore.updateSale');
+
+  @override
+  Future<void> updateSale() {
+    return _$updateSaleAsyncAction.run(() => super.updateSale());
   }
 
   final _$_AccountClientStoreActionController =
@@ -1150,6 +1202,17 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
+  void setDescriptionProductSold() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.setDescriptionProductSold');
+    try {
+      return super.setDescriptionProductSold();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 listClient: ${listClient},
@@ -1199,6 +1262,8 @@ valueProduct: ${valueProduct},
 created: ${created},
 updateProduct: ${updateProduct},
 errorSending: ${errorSending},
+change: ${change},
+productDif: ${productDif},
 lisFiltered: ${lisFiltered},
 valueCreditIsValid: ${valueCreditIsValid},
 valueDebitIsValid: ${valueDebitIsValid},
@@ -1209,7 +1274,8 @@ buttonCloseAccountPressed: ${buttonCloseAccountPressed},
 quantityIsValid: ${quantityIsValid},
 fieldsSaleIsValid: ${fieldsSaleIsValid},
 productIsValid: ${productIsValid},
-buttonRegisterSalePressed: ${buttonRegisterSalePressed}
+buttonRegisterSalePressed: ${buttonRegisterSalePressed},
+buttonUpdateSalePressed: ${buttonUpdateSalePressed}
     ''';
   }
 }

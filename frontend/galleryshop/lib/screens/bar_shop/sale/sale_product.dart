@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/models/product_sold.dart';
+import 'package:galleryshop/models/sale.dart';
 import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
@@ -9,25 +11,28 @@ import 'package:mobx/mobx.dart';
 
 class SaleProduct extends StatefulWidget {
   final int idClient;
+  final SaleDto saleDto;
 
-  SaleProduct({this.idClient});
+  SaleProduct({this.idClient, this.saleDto});
 
   @override
-  _SaleProductState createState() => _SaleProductState(idClient: idClient);
+  _SaleProductState createState() =>
+      _SaleProductState(idClient: idClient, saleDto: saleDto);
 }
 
 class _SaleProductState extends State<SaleProduct> {
   AccountClientStore accountClientStore = AccountClientStore();
 
-  _SaleProductState({int idClient})
-      : accountClientStore = AccountClientStore(idClient: idClient);
+  _SaleProductState({int idClient, SaleDto saleDto})
+      : accountClientStore =
+            AccountClientStore(idClient: idClient, saleDto: saleDto);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    accountClientStore.setDataInitialRegisterSale();
+    accountClientStore.initEditSale();
   }
 
   ReactionDisposer disposer;
@@ -55,7 +60,9 @@ class _SaleProductState extends State<SaleProduct> {
         reaction((_) => accountClientStore.updateProduct, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          'Venda registrada com sucesso! Valores Atualizados',
+          accountClientStore.change
+              ? 'Valores atualizado com sucesso!'
+              : 'Venda registrada com sucesso! Valores Atualizados',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.blueAccent,
@@ -74,6 +81,19 @@ class _SaleProductState extends State<SaleProduct> {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
             'Error ao registrar venda! Tente novamente',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.redAccent,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+      }
+    });    disposer =
+        reaction((_) => accountClientStore.productDif, (productDif) async {
+      if (productDif) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Não é possivel alterar o produto! somente quantidade',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
@@ -172,7 +192,9 @@ class _SaleProductState extends State<SaleProduct> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Registrar',
+                                accountClientStore.change
+                                    ? 'Alterar'
+                                    : 'Registrar',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -193,8 +215,9 @@ class _SaleProductState extends State<SaleProduct> {
                               )
                             ],
                           ),
-                          onPressed:
-                              accountClientStore.buttonRegisterSalePressed)),
+                          onPressed: accountClientStore.change
+                              ? accountClientStore.buttonUpdateSalePressed
+                              : accountClientStore.buttonRegisterSalePressed)),
                 ),
               ],
             ),

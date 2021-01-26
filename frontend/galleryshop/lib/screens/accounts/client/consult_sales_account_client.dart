@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
 import 'package:galleryshop/stores/sale_product_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -184,6 +185,15 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                                                 idClient:
                                                     saleProductStore.idClient,
                                               ));
+                                    },
+                                    onDoubleTap: (){
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => SaleProduct(
+                                                idClient: saleProductStore.idClient,
+                                                saleDto: saleDto,
+                                              )));
                                     },
                                     child: Card(
                                       color: colorCard,
