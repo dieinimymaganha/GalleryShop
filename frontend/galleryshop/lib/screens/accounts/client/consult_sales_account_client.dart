@@ -174,57 +174,60 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                             child: Row(
                               children: <Widget>[
                                 Expanded(
-                                  child: Card(
-                                    color: colorCard,
-                                    child: ListTile(
-                                      onLongPress: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                DialogExcludeSale(
-                                                  saleDto:
-                                                      saleDto,
-                                                  idClient:
-                                                      saleProductStore.idClient,
-                                                ));
-                                      },
-                                      title: Text(
-                                          saleDto.productSoldDto.description),
-                                      subtitle: Column(
-                                        children: <Widget>[
-                                          Row(
-                                            children: <Widget>[
-                                              Text('Quantidade: ',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 16.0)),
-                                              Text(
-                                                saleDto.productSoldDto.quantity
-                                                    .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 16.0),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Text('Total: ',
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 16.0)),
-                                              Text(
-                                                convertMonetary(saleDto
-                                                    .productSoldDto.valueTotal),
-                                                style:
-                                                    TextStyle(fontSize: 16.0),
-                                              )
-                                            ],
-                                          ),
-                                        ],
+                                  child: GestureDetector(
+                                    onLongPress: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              DialogExcludeSale(
+                                                saleDto: saleDto,
+                                                idClient:
+                                                    saleProductStore.idClient,
+                                              ));
+                                    },
+                                    child: Card(
+                                      color: colorCard,
+                                      child: ListTile(
+                                        title: Text(
+                                            saleDto.productSoldDto.description),
+                                        subtitle: Column(
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                Text('Quantidade: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 16.0)),
+                                                Text(
+                                                  saleDto
+                                                      .productSoldDto.quantity
+                                                      .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 16.0),
+                                                )
+                                              ],
+                                            ),
+                                            Row(
+                                              children: <Widget>[
+                                                Text('Total: ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 16.0)),
+                                                Text(
+                                                  convertMonetary(saleDto
+                                                      .productSoldDto
+                                                      .valueTotal),
+                                                  style:
+                                                      TextStyle(fontSize: 16.0),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        isThreeLine: true,
                                       ),
-                                      isThreeLine: true,
                                     ),
                                   ),
                                 )

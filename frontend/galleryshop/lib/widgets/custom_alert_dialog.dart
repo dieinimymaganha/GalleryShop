@@ -11,23 +11,26 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Container(
-          padding: EdgeInsets.all(10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              icon,
-              Text(
-                message,
-                style:
-                TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          )),
-      backgroundColor: color,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60.0)),
+    return AbsorbPointer(
+      absorbing: true,
+      child: AlertDialog(
+        content: Container(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                icon,
+                Text(
+                  message,
+                  style:
+                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            )),
+        backgroundColor: color,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(60.0)),
+      ),
     );
   }
 }
