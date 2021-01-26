@@ -1,4 +1,4 @@
-import 'client.dart';
+import 'package:galleryshop/models/sale.dart';
 
 class AccountClientDto {
   int id;
@@ -7,6 +7,7 @@ class AccountClientDto {
   double balance;
   ClientDto clientDto;
   List<ServiceRecordDto> serviceRecordDto;
+  List<SaleDto> saleDto;
 
   AccountClientDto(
       {this.id,
@@ -14,7 +15,8 @@ class AccountClientDto {
       this.amountPaid,
       this.balance,
       this.clientDto,
-      this.serviceRecordDto});
+      this.serviceRecordDto,
+      this.saleDto});
 
   AccountClientDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -28,6 +30,12 @@ class AccountClientDto {
       serviceRecordDto = new List<ServiceRecordDto>();
       json['serviceRecordDto'].forEach((v) {
         serviceRecordDto.add(new ServiceRecordDto.fromJson(v));
+      });
+    }
+    if (json['saleDto'] != null) {
+      saleDto = new List<SaleDto>();
+      json['saleDto'].forEach((v) {
+        saleDto.add(new SaleDto.fromJson(v));
       });
     }
   }
@@ -45,12 +53,55 @@ class AccountClientDto {
       data['serviceRecordDto'] =
           this.serviceRecordDto.map((v) => v.toJson()).toList();
     }
+    if (this.saleDto != null) {
+      data['saleDto'] = this.saleDto.map((v) => v.toJson()).toList();
+    }
     return data;
   }
+}
 
-  @override
-  String toString() {
-    return 'AccountClientDto{id: $id, amount: $amount, amountPaid: $amountPaid, balance: $balance, clientDto: $clientDto, serviceRecordDto: $serviceRecordDto}';
+class ClientDto {
+  int id;
+  String name;
+  String lastName;
+  String nickname;
+  String cpf;
+  String birthdate;
+  String phoneNumber;
+  String email;
+
+  ClientDto(
+      {this.id,
+      this.name,
+      this.lastName,
+      this.nickname,
+      this.cpf,
+      this.birthdate,
+      this.phoneNumber,
+      this.email});
+
+  ClientDto.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    lastName = json['lastName'];
+    nickname = json['nickname'];
+    cpf = json['cpf'];
+    birthdate = json['birthdate'];
+    phoneNumber = json['phoneNumber'];
+    email = json['email'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['lastName'] = this.lastName;
+    data['nickname'] = this.nickname;
+    data['cpf'] = this.cpf;
+    data['birthdate'] = this.birthdate;
+    data['phoneNumber'] = this.phoneNumber;
+    data['email'] = this.email;
+    return data;
   }
 }
 
@@ -177,7 +228,6 @@ class BilledServiceDto {
   }
 }
 
-
 class ServiceRecordForm {
   double discount;
   int serviceId;
@@ -187,10 +237,10 @@ class ServiceRecordForm {
 
   ServiceRecordForm(
       {this.discount,
-        this.serviceId,
-        this.employeeId,
-        this.clientId,
-        this.value});
+      this.serviceId,
+      this.employeeId,
+      this.clientId,
+      this.value});
 
   ServiceRecordForm.fromJson(Map<String, dynamic> json) {
     discount = json['discount'];
@@ -211,7 +261,6 @@ class ServiceRecordForm {
   }
 }
 
-
 class CloseAccountClientForm {
   int idAccountClient;
   double value;
@@ -223,12 +272,12 @@ class CloseAccountClientForm {
 
   CloseAccountClientForm(
       {this.idAccountClient,
-        this.value,
-        this.idFlagCardPayment,
-        this.card,
-        this.creditCard,
-        this.debitCard,
-        this.useBalance});
+      this.value,
+      this.idFlagCardPayment,
+      this.card,
+      this.creditCard,
+      this.debitCard,
+      this.useBalance});
 
   CloseAccountClientForm.fromJson(Map<String, dynamic> json) {
     idAccountClient = json['idAccountClient'];
@@ -252,6 +301,3 @@ class CloseAccountClientForm {
     return data;
   }
 }
-
-
-
