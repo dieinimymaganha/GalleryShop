@@ -9,6 +9,7 @@ import 'package:galleryshop/models/FlagCardPayment.dart';
 import 'package:galleryshop/models/payment.dart';
 import 'package:galleryshop/models/sale.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -27,7 +28,7 @@ abstract class _AccountClientStore with Store {
   _AccountClientStore({this.idClient, this.idAccount}) {
     autorun((_) {
       print('notService >>>>>>>>>>> $notService');
-      print('events >>>>>>>>>>> $events');
+      print('notSale>>> $notSale');
     });
   }
 
@@ -162,20 +163,38 @@ abstract class _AccountClientStore with Store {
   List<dynamic> selectedEvents = List();
 
   @observable
+  List<dynamic> selectedEventsSales = List();
+
+  @observable
   CalendarController calendarController = CalendarController();
 
   @action
   Future<void> setCalendar() async {
     getClient();
     events = fromModelToEvent(accountClientDto.serviceRecordDto);
+    events2 = fromModelToEventProduct(accountClientDto.saleDto);
     calculateTotalPayable();
   }
+
+  @observable
+  Map<DateTime, List<dynamic>> events2 = {};
 
   @action
   Map<DateTime, List<dynamic>> fromModelToEvent(List<ServiceRecordDto> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       DateTime date = convertDateFromString(event.dateService);
+      if (data[date] == null) data[date] = [];
+      data[date].add(event);
+    });
+    return data;
+  }
+
+  @action
+  Map<DateTime, List<dynamic>> fromModelToEventProduct(List<SaleDto> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      DateTime date = convertDateFromString(event.dateSale);
       if (data[date] == null) data[date] = [];
       data[date].add(event);
     });
@@ -189,10 +208,16 @@ abstract class _AccountClientStore with Store {
   double discountDay = 0.0;
 
   @observable
-  double amountPayable = 0.0;
+  double amountPayableServices = 0.0;
 
   @observable
-  bool notService = false;
+  double amountPayableSales = 0.0;
+
+  @observable
+  bool notService = true;
+
+  @observable
+  bool notSale = true;
 
   @action
   void calculateTotalAndSetSelectEvents(List<dynamic> events) {
@@ -201,14 +226,61 @@ abstract class _AccountClientStore with Store {
     if (events.isNotEmpty) {
       amountDay = 0.0;
       discountDay = 0.0;
-      amountPayable = 0.0;
+      amountPayableServices = 0.0;
       selectedEvents.forEach((element) {
         amountDay = amountDay + element.billedServiceDto.value;
         discountDay = discountDay + element.billedServiceDto.discount;
-        amountPayable = amountPayable + element.billedServiceDto.valueFinal;
+        amountPayableServices =
+            amountPayableServices + element.billedServiceDto.valueFinal;
+        calculateTotalDay();
       });
     } else {
       notService = true;
+    }
+  }
+
+  @action
+  void setSelectedEventsSales(DateTime date) {
+    notSale = true;
+    selectedEventsSales = [];
+    events2.forEach((key, value) {
+      final f = new DateFormat('yyyy-MM-dd');
+      if (f.format(date) == f.format(key)) {
+        selectedEventsSales = value;
+        notSale = false;
+      }
+    });
+    calculateTotalSales();
+  }
+
+  @action
+  void calculateTotalSales() {
+    amountPayableSales = 0.0;
+    selectedEventsSales.forEach((element) {
+      amountPayableSales =
+          amountPayableSales + element.productSoldDto.valueTotal;
+    });
+    calculateTotalDay();
+  }
+
+  @observable
+  bool valueToday = true;
+
+  @observable
+  double totalDay = 0.0;
+
+  @action
+  void calculateTotalDay() {
+    valueToday = true;
+    if (notService == false && notSale == false) {
+      totalDay = amountPayableSales + amountPayableServices;
+      valueToday = false;
+    } else if (notService && notSale == false) {
+      totalDay = amountPayableSales;
+      valueToday = false;
+    } else if (notSale && notService == false) {
+      totalDay = amountPayableServices;
+      valueToday = false;
     }
   }
 

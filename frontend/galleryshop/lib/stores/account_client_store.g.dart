@@ -272,6 +272,22 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$selectedEventsSalesAtom =
+      Atom(name: '_AccountClientStore.selectedEventsSales');
+
+  @override
+  List<dynamic> get selectedEventsSales {
+    _$selectedEventsSalesAtom.reportRead();
+    return super.selectedEventsSales;
+  }
+
+  @override
+  set selectedEventsSales(List<dynamic> value) {
+    _$selectedEventsSalesAtom.reportWrite(value, super.selectedEventsSales, () {
+      super.selectedEventsSales = value;
+    });
+  }
+
   final _$calendarControllerAtom =
       Atom(name: '_AccountClientStore.calendarController');
 
@@ -285,6 +301,21 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   set calendarController(CalendarController value) {
     _$calendarControllerAtom.reportWrite(value, super.calendarController, () {
       super.calendarController = value;
+    });
+  }
+
+  final _$events2Atom = Atom(name: '_AccountClientStore.events2');
+
+  @override
+  Map<DateTime, List<dynamic>> get events2 {
+    _$events2Atom.reportRead();
+    return super.events2;
+  }
+
+  @override
+  set events2(Map<DateTime, List<dynamic>> value) {
+    _$events2Atom.reportWrite(value, super.events2, () {
+      super.events2 = value;
     });
   }
 
@@ -318,18 +349,36 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
-  final _$amountPayableAtom = Atom(name: '_AccountClientStore.amountPayable');
+  final _$amountPayableServicesAtom =
+      Atom(name: '_AccountClientStore.amountPayableServices');
 
   @override
-  double get amountPayable {
-    _$amountPayableAtom.reportRead();
-    return super.amountPayable;
+  double get amountPayableServices {
+    _$amountPayableServicesAtom.reportRead();
+    return super.amountPayableServices;
   }
 
   @override
-  set amountPayable(double value) {
-    _$amountPayableAtom.reportWrite(value, super.amountPayable, () {
-      super.amountPayable = value;
+  set amountPayableServices(double value) {
+    _$amountPayableServicesAtom.reportWrite(value, super.amountPayableServices,
+        () {
+      super.amountPayableServices = value;
+    });
+  }
+
+  final _$amountPayableSalesAtom =
+      Atom(name: '_AccountClientStore.amountPayableSales');
+
+  @override
+  double get amountPayableSales {
+    _$amountPayableSalesAtom.reportRead();
+    return super.amountPayableSales;
+  }
+
+  @override
+  set amountPayableSales(double value) {
+    _$amountPayableSalesAtom.reportWrite(value, super.amountPayableSales, () {
+      super.amountPayableSales = value;
     });
   }
 
@@ -345,6 +394,51 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   set notService(bool value) {
     _$notServiceAtom.reportWrite(value, super.notService, () {
       super.notService = value;
+    });
+  }
+
+  final _$notSaleAtom = Atom(name: '_AccountClientStore.notSale');
+
+  @override
+  bool get notSale {
+    _$notSaleAtom.reportRead();
+    return super.notSale;
+  }
+
+  @override
+  set notSale(bool value) {
+    _$notSaleAtom.reportWrite(value, super.notSale, () {
+      super.notSale = value;
+    });
+  }
+
+  final _$valueTodayAtom = Atom(name: '_AccountClientStore.valueToday');
+
+  @override
+  bool get valueToday {
+    _$valueTodayAtom.reportRead();
+    return super.valueToday;
+  }
+
+  @override
+  set valueToday(bool value) {
+    _$valueTodayAtom.reportWrite(value, super.valueToday, () {
+      super.valueToday = value;
+    });
+  }
+
+  final _$totalDayAtom = Atom(name: '_AccountClientStore.totalDay');
+
+  @override
+  double get totalDay {
+    _$totalDayAtom.reportRead();
+    return super.totalDay;
+  }
+
+  @override
+  set totalDay(double value) {
+    _$totalDayAtom.reportWrite(value, super.totalDay, () {
+      super.totalDay = value;
     });
   }
 
@@ -879,11 +973,55 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
+  Map<DateTime, List<dynamic>> fromModelToEventProduct(List<SaleDto> events) {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.fromModelToEventProduct');
+    try {
+      return super.fromModelToEventProduct(events);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void calculateTotalAndSetSelectEvents(List<dynamic> events) {
     final _$actionInfo = _$_AccountClientStoreActionController.startAction(
         name: '_AccountClientStore.calculateTotalAndSetSelectEvents');
     try {
       return super.calculateTotalAndSetSelectEvents(events);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSelectedEventsSales(DateTime date) {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.setSelectedEventsSales');
+    try {
+      return super.setSelectedEventsSales(date);
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void calculateTotalSales() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.calculateTotalSales');
+    try {
+      return super.calculateTotalSales();
+    } finally {
+      _$_AccountClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void calculateTotalDay() {
+    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
+        name: '_AccountClientStore.calculateTotalDay');
+    try {
+      return super.calculateTotalDay();
     } finally {
       _$_AccountClientStoreActionController.endAction(_$actionInfo);
     }
@@ -1026,11 +1164,17 @@ balanceZero: ${balanceZero},
 totalPayable: ${totalPayable},
 events: ${events},
 selectedEvents: ${selectedEvents},
+selectedEventsSales: ${selectedEventsSales},
 calendarController: ${calendarController},
+events2: ${events2},
 amountDay: ${amountDay},
 discountDay: ${discountDay},
-amountPayable: ${amountPayable},
+amountPayableServices: ${amountPayableServices},
+amountPayableSales: ${amountPayableSales},
 notService: ${notService},
+notSale: ${notSale},
+valueToday: ${valueToday},
+totalDay: ${totalDay},
 card: ${card},
 money: ${money},
 debit: ${debit},
