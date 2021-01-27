@@ -14,15 +14,15 @@ class ScheduleDto {
 
   ScheduleDto(
       {this.id,
-        this.employeeId,
-        this.nicknameEmployee,
-        this.openingHours,
-        this.day,
-        this.typeEmployee,
-        this.attendanceTime,
-        this.startAttendance,
-        this.endAttendance,
-        this.available});
+      this.employeeId,
+      this.nicknameEmployee,
+      this.openingHours,
+      this.day,
+      this.typeEmployee,
+      this.attendanceTime,
+      this.startAttendance,
+      this.endAttendance,
+      this.available});
 
   ScheduleDto.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -69,7 +69,6 @@ class ScheduleAppointmentForm {
     data['clientId'] = this.clientId;
     data['avaliable'] = this.avaliable;
     return data;
-
   }
 
   @override
@@ -77,7 +76,6 @@ class ScheduleAppointmentForm {
     return 'ScheduleAppointmentForm{clientId: $clientId, avaliable: $avaliable}';
   }
 }
-
 
 class ScheduleDtoAppointment {
   int id;
@@ -92,22 +90,26 @@ class ScheduleDtoAppointment {
   bool available;
   int clientId;
   String clientName;
+  bool concluded;
+  String completionTime;
   ClientDto clientDto;
 
   ScheduleDtoAppointment(
       {this.id,
-        this.employeeId,
-        this.nicknameEmployee,
-        this.openingHours,
-        this.day,
-        this.typeEmployee,
-        this.attendanceTime,
-        this.startAttendance,
-        this.endAttendance,
-        this.available,
-        this.clientId,
-        this.clientName,
-        this.clientDto});
+      this.employeeId,
+      this.nicknameEmployee,
+      this.openingHours,
+      this.day,
+      this.typeEmployee,
+      this.attendanceTime,
+      this.startAttendance,
+      this.endAttendance,
+      this.available,
+      this.clientId,
+      this.clientName,
+      this.concluded,
+      this.completionTime,
+      this.clientDto});
 
   ScheduleDtoAppointment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -122,6 +124,8 @@ class ScheduleDtoAppointment {
     available = json['available'];
     clientId = json['clientId'];
     clientName = json['clientName'];
+    concluded = json['concluded'];
+    completionTime = json['completionTime'];
     clientDto = json['clientDto'] != null
         ? new ClientDto.fromJson(json['clientDto'])
         : null;
@@ -141,6 +145,8 @@ class ScheduleDtoAppointment {
     data['available'] = this.available;
     data['clientId'] = this.clientId;
     data['clientName'] = this.clientName;
+    data['concluded'] = this.concluded;
+    data['completionTime'] = this.completionTime;
     if (this.clientDto != null) {
       data['clientDto'] = this.clientDto.toJson();
     }
@@ -158,11 +164,11 @@ class ScheduleEnableScheduleForm {
 
   ScheduleEnableScheduleForm(
       {this.attendanceTime,
-        this.available,
-        this.day,
-        this.employeeId,
-        this.typeEmployeeId,
-        this.quantityDays});
+      this.available,
+      this.day,
+      this.employeeId,
+      this.typeEmployeeId,
+      this.quantityDays});
 
   ScheduleEnableScheduleForm.fromJson(Map<String, dynamic> json) {
     attendanceTime = json['attendanceTime'];
