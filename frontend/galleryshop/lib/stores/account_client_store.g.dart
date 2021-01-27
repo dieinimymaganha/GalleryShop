@@ -851,6 +851,22 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
+  final _$updatedUnauthorizedAtom =
+      Atom(name: '_AccountClientStore.updatedUnauthorized');
+
+  @override
+  bool get updatedUnauthorized {
+    _$updatedUnauthorizedAtom.reportRead();
+    return super.updatedUnauthorized;
+  }
+
+  @override
+  set updatedUnauthorized(bool value) {
+    _$updatedUnauthorizedAtom.reportWrite(value, super.updatedUnauthorized, () {
+      super.updatedUnauthorized = value;
+    });
+  }
+
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -1264,6 +1280,7 @@ updateProduct: ${updateProduct},
 errorSending: ${errorSending},
 change: ${change},
 productDif: ${productDif},
+updatedUnauthorized: ${updatedUnauthorized},
 lisFiltered: ${lisFiltered},
 valueCreditIsValid: ${valueCreditIsValid},
 valueDebitIsValid: ${valueDebitIsValid},

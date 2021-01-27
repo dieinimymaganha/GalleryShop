@@ -638,9 +638,9 @@ abstract class _AccountClientStore with Store {
 
   @action
   Future<void> initEditSale() async {
-    change = true;
     await setDataInitialRegisterSale();
     if (saleDto != null) {
+      change = true;
       setDescriptionProductSold();
     }
   }
@@ -661,6 +661,9 @@ abstract class _AccountClientStore with Store {
   @observable
   bool productDif = false;
 
+  @observable
+  bool updatedUnauthorized = false;
+
   @action
   Future<void> updateSale() async {
     sending = true;
@@ -675,8 +678,10 @@ abstract class _AccountClientStore with Store {
 
     if (response == 200) {
       updateProduct = true;
-    } else if (response == 401) {
+    } else if (response == 423) {
       productDif = true;
+    } else if (response == 401) {
+      updatedUnauthorized = true;
     } else {
       errorSending = true;
     }
@@ -685,6 +690,7 @@ abstract class _AccountClientStore with Store {
     created = false;
     updateProduct = false;
     productDif = false;
+    updatedUnauthorized = false;
   }
 
   @computed

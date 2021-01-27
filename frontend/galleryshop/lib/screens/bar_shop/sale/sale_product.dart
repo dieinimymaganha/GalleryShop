@@ -61,7 +61,7 @@ class _SaleProductState extends State<SaleProduct> {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
           accountClientStore.change
-              ? 'Valores atualizado com sucesso!'
+              ? 'Quantidade atualizada com sucesso!'
               : 'Venda registrada com sucesso! Valores Atualizados',
           style: TextStyle(color: Colors.black),
         ),
@@ -88,12 +88,27 @@ class _SaleProductState extends State<SaleProduct> {
         ));
         await Future.delayed(Duration(seconds: 2));
       }
-    });    disposer =
+    });
+    disposer =
         reaction((_) => accountClientStore.productDif, (productDif) async {
       if (productDif) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
             'Não é possivel alterar o produto! somente quantidade',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.deepOrange,
+          duration: Duration(seconds: 2),
+        ));
+        await Future.delayed(Duration(seconds: 2));
+      }
+    });
+    disposer =
+        reaction((_) => accountClientStore.updatedUnauthorized, (updatedUnauthorized) async {
+      if (updatedUnauthorized) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text(
+            'Não é possivel alterar produtos do dia anterior!',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
