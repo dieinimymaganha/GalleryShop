@@ -19,15 +19,17 @@ abstract class _BilledServiceStore with Store {
   final int idClient;
   final String descTypeEmployee;
   final int idService;
+  final int idSchedule;
 
   _BilledServiceStore(
       {this.typeEmployee,
       this.idEmployee,
       this.idClient,
       this.descTypeEmployee,
-      this.idService}) {
+      this.idService,
+      this.idSchedule}) {
     autorun((_) {
-      print('SELECT >>>> $selectedEvents');
+      print('idSchedule >>>> $idSchedule');
     });
   }
 
@@ -226,6 +228,7 @@ abstract class _BilledServiceStore with Store {
       serviceId: valueSelectService,
       value: value,
       discount: discount,
+      idSchedule: idSchedule
     );
 
     int response ;

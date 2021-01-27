@@ -272,7 +272,7 @@ abstract class _ScheduleStore with Store {
   }
 
   @observable
-  bool showConcluded = false;
+  bool showConcluded = true;
 
   @action
   void setSelectEventsConcluded(DateTime date) {

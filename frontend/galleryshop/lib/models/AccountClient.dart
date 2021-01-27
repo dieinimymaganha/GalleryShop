@@ -234,13 +234,15 @@ class ServiceRecordForm {
   int employeeId;
   int clientId;
   double value;
+  int idSchedule;
 
   ServiceRecordForm(
       {this.discount,
-      this.serviceId,
-      this.employeeId,
-      this.clientId,
-      this.value});
+        this.serviceId,
+        this.employeeId,
+        this.clientId,
+        this.value,
+        this.idSchedule});
 
   ServiceRecordForm.fromJson(Map<String, dynamic> json) {
     discount = json['discount'];
@@ -248,6 +250,7 @@ class ServiceRecordForm {
     employeeId = json['employeeId'];
     clientId = json['clientId'];
     value = json['value'];
+    idSchedule = json['idSchedule'];
   }
 
   Map<String, dynamic> toJson() {
@@ -257,9 +260,11 @@ class ServiceRecordForm {
     data['employeeId'] = this.employeeId;
     data['clientId'] = this.clientId;
     data['value'] = this.value;
+    data['idSchedule'] = this.idSchedule;
     return data;
   }
 }
+
 
 class CloseAccountClientForm {
   int idAccountClient;

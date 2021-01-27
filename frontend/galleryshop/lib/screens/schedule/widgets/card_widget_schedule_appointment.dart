@@ -150,6 +150,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               BilledServiceScreen(
+                                                idSchedule: scheduleDtoAppointment.id,
                                                 typeEmployee:
                                                     scheduleDtoAppointment
                                                         .typeEmployee,
