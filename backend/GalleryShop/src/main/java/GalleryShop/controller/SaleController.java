@@ -58,7 +58,6 @@ public class SaleController {
         return SaleDto.convertDto(sales);
 
 
-
     }
 
 
@@ -91,12 +90,27 @@ public class SaleController {
         Optional<Sale> saleOptional = saleRepository.findById(id);
 
         if (saleOptional.isPresent()) {
-            ProductSold productSold = form.upload(id, saleRepository, productRepository, productSoldRepository);
 
-            if (productSold != null) {
-                return ResponseEntity.ok(new ProductSoldDto(productSold));
+            Sale sale = saleOptional.get();
+
+            Date dateSale = new Date();
+
+            SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (sale.getDateSale().toString().equals(fd.format(dateSale))) {
+
+                List<Payment> paymentList = paymentRepository.findByAccountClientIDAndDatePayment(sale.getAccountClient().getId(), sale.getDateSale());
+
+                if (paymentList.isEmpty()) {
+                    ProductSold productSold = form.upload(id, saleRepository, productRepository, productSoldRepository);
+                    if (productSold != null) {
+                        return ResponseEntity.ok(new ProductSoldDto(productSold));
+                    }
+                    return ResponseEntity.status(HttpStatus.LOCKED).build();
+
+                }
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.notFound().build();
