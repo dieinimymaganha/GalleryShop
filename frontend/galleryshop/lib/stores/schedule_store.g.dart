@@ -101,6 +101,37 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     });
   }
 
+  final _$eventsNotConcludedAtom =
+      Atom(name: '_ScheduleStore.eventsNotConcluded');
+
+  @override
+  Map<DateTime, List<dynamic>> get eventsNotConcluded {
+    _$eventsNotConcludedAtom.reportRead();
+    return super.eventsNotConcluded;
+  }
+
+  @override
+  set eventsNotConcluded(Map<DateTime, List<dynamic>> value) {
+    _$eventsNotConcludedAtom.reportWrite(value, super.eventsNotConcluded, () {
+      super.eventsNotConcluded = value;
+    });
+  }
+
+  final _$eventsConcludedAtom = Atom(name: '_ScheduleStore.eventsConcluded');
+
+  @override
+  Map<DateTime, List<dynamic>> get eventsConcluded {
+    _$eventsConcludedAtom.reportRead();
+    return super.eventsConcluded;
+  }
+
+  @override
+  set eventsConcluded(Map<DateTime, List<dynamic>> value) {
+    _$eventsConcludedAtom.reportWrite(value, super.eventsConcluded, () {
+      super.eventsConcluded = value;
+    });
+  }
+
   final _$eventsAtom = Atom(name: '_ScheduleStore.events');
 
   @override
@@ -128,6 +159,40 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   set selectedEvents(List<dynamic> value) {
     _$selectedEventsAtom.reportWrite(value, super.selectedEvents, () {
       super.selectedEvents = value;
+    });
+  }
+
+  final _$selectedEventsNotConcludedAtom =
+      Atom(name: '_ScheduleStore.selectedEventsNotConcluded');
+
+  @override
+  List<dynamic> get selectedEventsNotConcluded {
+    _$selectedEventsNotConcludedAtom.reportRead();
+    return super.selectedEventsNotConcluded;
+  }
+
+  @override
+  set selectedEventsNotConcluded(List<dynamic> value) {
+    _$selectedEventsNotConcludedAtom
+        .reportWrite(value, super.selectedEventsNotConcluded, () {
+      super.selectedEventsNotConcluded = value;
+    });
+  }
+
+  final _$selectedEventsConcludedAtom =
+      Atom(name: '_ScheduleStore.selectedEventsConcluded');
+
+  @override
+  List<dynamic> get selectedEventsConcluded {
+    _$selectedEventsConcludedAtom.reportRead();
+    return super.selectedEventsConcluded;
+  }
+
+  @override
+  set selectedEventsConcluded(List<dynamic> value) {
+    _$selectedEventsConcludedAtom
+        .reportWrite(value, super.selectedEventsConcluded, () {
+      super.selectedEventsConcluded = value;
     });
   }
 
@@ -449,6 +514,21 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
     _$enableScheduleDuplicateAtom
         .reportWrite(value, super.enableScheduleDuplicate, () {
       super.enableScheduleDuplicate = value;
+    });
+  }
+
+  final _$showConcludedAtom = Atom(name: '_ScheduleStore.showConcluded');
+
+  @override
+  bool get showConcluded {
+    _$showConcludedAtom.reportRead();
+    return super.showConcluded;
+  }
+
+  @override
+  set showConcluded(bool value) {
+    _$showConcludedAtom.reportWrite(value, super.showConcluded, () {
+      super.showConcluded = value;
     });
   }
 
@@ -837,12 +917,35 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
   }
 
   @override
-  Map<DateTime, List<dynamic>> fromModelToEventAppointment(
+  Map<DateTime, List<dynamic>> fromModelToEventAppointmentConcluded(
       List<ScheduleDtoAppointment> events) {
     final _$actionInfo = _$_ScheduleStoreActionController.startAction(
-        name: '_ScheduleStore.fromModelToEventAppointment');
+        name: '_ScheduleStore.fromModelToEventAppointmentConcluded');
     try {
-      return super.fromModelToEventAppointment(events);
+      return super.fromModelToEventAppointmentConcluded(events);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Map<DateTime, List<dynamic>> fromModelToEventAppointmentNotConcluded(
+      List<ScheduleDtoAppointment> events) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.fromModelToEventAppointmentNotConcluded');
+    try {
+      return super.fromModelToEventAppointmentNotConcluded(events);
+    } finally {
+      _$_ScheduleStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSelectEventsConcluded(DateTime date) {
+    final _$actionInfo = _$_ScheduleStoreActionController.startAction(
+        name: '_ScheduleStore.setSelectEventsConcluded');
+    try {
+      return super.setSelectEventsConcluded(date);
     } finally {
       _$_ScheduleStoreActionController.endAction(_$actionInfo);
     }
@@ -898,8 +1001,12 @@ mixin _$ScheduleStore on _ScheduleStore, Store {
 employeeDto: ${employeeDto},
 calendarController: ${calendarController},
 dataSchedule: ${dataSchedule},
+eventsNotConcluded: ${eventsNotConcluded},
+eventsConcluded: ${eventsConcluded},
 events: ${events},
 selectedEvents: ${selectedEvents},
+selectedEventsNotConcluded: ${selectedEventsNotConcluded},
+selectedEventsConcluded: ${selectedEventsConcluded},
 optionsMySchedule: ${optionsMySchedule},
 loadingPageScheduleTime: ${loadingPageScheduleTime},
 typeEmployeeDto: ${typeEmployeeDto},
@@ -920,6 +1027,7 @@ enableScheduleSending: ${enableScheduleSending},
 enableScheduleOk: ${enableScheduleOk},
 enableScheduleError: ${enableScheduleError},
 enableScheduleDuplicate: ${enableScheduleDuplicate},
+showConcluded: ${showConcluded},
 scheduleSend: ${scheduleSend},
 scheduleOk: ${scheduleOk},
 scheduleDuplicate: ${scheduleDuplicate},
