@@ -35,7 +35,7 @@ public class ScheduleAppointmentForm {
     }
 
     public Schedule appointment(Schedule schedule, Client client) {
-
+        schedule.setConcluded(false);
         schedule.setAvailable(avaliable);
         schedule.setClient(client);
 
