@@ -24,7 +24,7 @@ public class Schedule {
     private TypeEmployee typeEmployee;
 
     @OneToOne()
-    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
     private @Temporal(TemporalType.DATE)
@@ -37,6 +37,48 @@ public class Schedule {
     private LocalTime endAttendance;
 
     private Boolean available;
+
+    private Boolean concluded;
+
+    private LocalTime completionTime;
+
+    public Schedule(Employee employee, OpeningHours openingHours,
+                    TypeEmployee typeEmployee,
+                    Client client, Date day,
+                    LocalTime attendanceTime,
+                    LocalTime startAttendance,
+                    LocalTime endAttendance,
+                    Boolean available,
+                    Boolean concluded,
+                    LocalTime completionTime) {
+        this.employee = employee;
+        this.openingHours = openingHours;
+        this.typeEmployee = typeEmployee;
+        this.client = client;
+        this.day = day;
+        this.attendanceTime = attendanceTime;
+        this.startAttendance = startAttendance;
+        this.endAttendance = endAttendance;
+        this.available = available;
+        this.concluded = concluded;
+        this.completionTime = completionTime;
+    }
+
+    public Boolean getConcluded() {
+        return concluded;
+    }
+
+    public void setConcluded(Boolean concluded) {
+        this.concluded = concluded;
+    }
+
+    public LocalTime getCompletionTime() {
+        return completionTime;
+    }
+
+    public void setCompletionTime(LocalTime completionTime) {
+        this.completionTime = completionTime;
+    }
 
     public Schedule(Employee employee, OpeningHours openingHours, TypeEmployee typeEmployee, Client client, Date day, LocalTime attendanceTime, LocalTime startAttendance, LocalTime endAttendance, Boolean available) {
         this.employee = employee;
