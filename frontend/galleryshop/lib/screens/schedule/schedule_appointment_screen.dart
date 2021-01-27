@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/schedule/widgets/card_widget_schedule_appointment.dart';
+import 'package:galleryshop/screens/schedule/widgets/card_wiget_schedule_appointment_concluded.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -62,6 +63,24 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                 },
               ),
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: scheduleStore.showConcluded
+                    ? Icon(
+                        Icons.event_available,
+                        color: Colors.white,
+                      )
+                    : Icon(
+                        Icons.event_note,
+                        color: Colors.white,
+                      ),
+                onPressed: () {
+                  setState(() {
+                    scheduleStore.showConcluded = !scheduleStore.showConcluded;
+                  });
+                },
+              )
+            ],
           ),
           body: scheduleStore.errorList
               ? Container(
@@ -105,7 +124,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: TableCalendar(
                               locale: 'pt_BR',
-                              events: scheduleStore.events,
+                              events: scheduleStore.eventsNotConcluded,
+                              holidays: scheduleStore.eventsConcluded,
                               initialCalendarFormat: CalendarFormat.month,
                               calendarStyle: CalendarStyle(
                                 outsideDaysVisible: false,
@@ -135,7 +155,9 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                               onDaySelected: (date, events) {
                                 scheduleStore.setListMySchedule();
                                 setState(() {
-                                  scheduleStore.selectedEvents = events;
+                                  scheduleStore.selectedEventsNotConcluded =
+                                      events;
+                                  scheduleStore.setSelectEventsConcluded(date);
                                 });
                               },
                               builders: CalendarBuilders(
@@ -175,6 +197,16 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                                       ),
                                     );
                                   }
+                                  if (holidays.isNotEmpty) {
+                                    children.add(
+                                      Positioned(
+                                        bottom: 1,
+                                        child: _buildHolidaysMarker(
+                                            date, holidays),
+                                      ),
+                                    );
+                                  }
+
                                   return children;
                                 },
                               ),
@@ -182,10 +214,17 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                                   scheduleStore.calendarController,
                             ),
                           ),
-                          Column(
-                              children: scheduleStore.selectedEvents
+                          scheduleStore.showConcluded ? Column(
+                              children: scheduleStore.selectedEventsNotConcluded
                                   .map<Widget>((schedule) {
                             return CardWidgetScheduleAppointment(
+                              scheduleDtoAppointment: schedule,
+                            );
+                          }).toList()) :
+                          Column(
+                              children: scheduleStore.selectedEventsConcluded
+                                  .map<Widget>((schedule) {
+                            return CardWidgetScheduleAppointmentConcluded(
                               scheduleDtoAppointment: schedule,
                             );
                           }).toList()),
@@ -206,6 +245,31 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
             : scheduleStore.calendarController.isToday(date)
                 ? Colors.brown[300]
                 : Colors.blue[400],
+      ),
+      width: 16.0,
+      height: 16.0,
+      child: Center(
+        child: Text(
+          '${events.length}',
+          style: TextStyle().copyWith(
+            color: Colors.white,
+            fontSize: 12.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHolidaysMarker(DateTime date, List events) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: scheduleStore.calendarController.isSelected(date)
+            ? Colors.blueAccent
+            : scheduleStore.calendarController.isToday(date)
+                ? Colors.blueGrey
+                : Colors.blueGrey[400],
       ),
       width: 16.0,
       height: 16.0,
