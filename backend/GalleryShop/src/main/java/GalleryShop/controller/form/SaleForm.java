@@ -117,9 +117,7 @@ public class SaleForm {
 
                 double valueFinal = quantity * productSold.getValue();
 
-                if (productSold.getQuantity() > quantity) {
-                    accountClient.setAmount(accountClient.getAmount() + valueFinal);
-                } else if (productSold.getQuantity() == quantity) {
+                if (productSold.getQuantity() == quantity) {
                     accountClient.setAmount(accountClient.getAmount());
                 } else {
                     accountClient.setAmount((accountClient.getAmount() - productSold.getValueTotal()) + valueFinal);
@@ -127,6 +125,7 @@ public class SaleForm {
                 productSold = productSoldOptional.get();
                 productSold.setQuantity(quantity);
                 productSold.setValueTotal(valueFinal);
+
                 return productSold;
             }
         }
