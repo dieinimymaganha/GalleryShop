@@ -3,6 +3,7 @@ package GalleryShop.controller.form;
 import GalleryShop.model.*;
 import GalleryShop.repository.*;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -19,6 +20,16 @@ public class ServiceRecordForm {
     private Long clientId;
 
     private double value;
+
+    private Long idSchedule;
+
+    public Long getIdSchedule() {
+        return idSchedule;
+    }
+
+    public void setIdSchedule(Long idSchedule) {
+        this.idSchedule = idSchedule;
+    }
 
     public double getValue() {
         return value;
@@ -63,7 +74,7 @@ public class ServiceRecordForm {
     public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository,
                                    ClientRepository clientRepository, AccountClientRepository accountClientRepository,
                                    BilledServiceRepository billedServiceRepository,
-                                   TypePaymentRepository typePaymentRepository, PaymentRepository paymentRepository) {
+                                   TypePaymentRepository typePaymentRepository, PaymentRepository paymentRepository, ScheduleRepository scheduleRepository) {
 
         Service service = serviceRepository.getOne(serviceId);
 
@@ -72,7 +83,6 @@ public class ServiceRecordForm {
         Employee employee = employeeRepository.getOne(employeeId);
 
         Date dateService = new Date();
-
 
         if (service != null) {
             billedService.setDescription(service.getDescription());
@@ -112,6 +122,12 @@ public class ServiceRecordForm {
             if (accountClientNew.isPresent()) {
                 accountClientReturn = accountClientNew.get();
             }
+        }
+
+        if (idSchedule != null) {
+            Schedule schedule = scheduleRepository.getOne(idSchedule);
+            schedule.setConcluded(true);
+            schedule.setCompletionTime(LocalTime.now());
         }
 
 
