@@ -104,4 +104,15 @@ public class AccountEmployee {
     public void setSales(List<Sale> sales) {
         this.sales = sales;
     }
+
+    @Override
+    public String toString() {
+        return "AccountEmployee{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", amountPaid=" + amountPaid +
+                ", balance=" + balance +
+                ", employee=" + employee +
+                '}';
+    }
 }
