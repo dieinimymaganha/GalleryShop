@@ -12,13 +12,8 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     private @Temporal(TemporalType.DATE)
     Date dateSale;
-
-    @OneToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
 
     @OneToOne
     @JoinColumn(name = "productSold_id", referencedColumnName = "id")
@@ -26,18 +21,11 @@ public class Sale {
     private ProductSold productSold;
 
     @ManyToOne()
-    @JoinColumn(name = "account_id")
     private AccountClient accountClient;
 
     @ManyToOne()
     private AccountEmployee accountEmployee;
 
-    public Sale(Date dateSale, Client client, ProductSold productSold, AccountClient accountClient) {
-        this.dateSale = dateSale;
-        this.client = client;
-        this.productSold = productSold;
-        this.accountClient = accountClient;
-    }
 
     public Sale(Date dateSale, ProductSold productSold, AccountEmployee accountEmployee) {
         this.dateSale = dateSale;
@@ -63,7 +51,6 @@ public class Sale {
     }
 
 
-
     public Long getId() {
         return id;
     }
@@ -80,13 +67,6 @@ public class Sale {
         this.dateSale = dateSale;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public ProductSold getProductSold() {
         return productSold;
@@ -109,7 +89,6 @@ public class Sale {
         return "Sale{" +
                 "id=" + id +
                 ", dateSale=" + dateSale +
-                ", client=" + client +
                 ", productSold=" + productSold +
                 ", accountClient=" + accountClient +
                 '}';

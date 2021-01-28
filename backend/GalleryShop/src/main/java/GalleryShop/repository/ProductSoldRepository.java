@@ -11,7 +11,7 @@ public interface ProductSoldRepository extends JpaRepository<ProductSold, Long> 
 
     @Query(value = "select * from product_sold p " +
             "inner join sale s ON s.product_sold_id = p.id " +
-            "inner join account_client c ON c.id = s.account_id " +
+            "inner join account_client c ON c.id = s.account_client_id " +
             "where s.date_sale = CURRENT_DATE and c.client_id = ? and p.description = ?", nativeQuery = true)
     Optional<ProductSold> findByProductSoldIdClientDescription(Long id, String description);
 
