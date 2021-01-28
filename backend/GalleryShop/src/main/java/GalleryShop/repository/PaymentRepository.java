@@ -17,6 +17,11 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             "and date_payment = ? order by date_payment", nativeQuery = true)
     List<Payment> findByAccountClientIDAndDatePayment(Long id, Date date);
 
+
+    @Query(value = "select * from payment where account_employee_id = ? " +
+            "and date_payment = ? order by date_payment", nativeQuery = true)
+    List<Payment> findByAccountEmployeeIDAndDatePayment(Long id, Date date);
+
     List<Payment> findByAccountEmployeeIsNotNull();
 
     List<Payment> findByAccountClientIsNotNull();
