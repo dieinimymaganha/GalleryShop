@@ -39,11 +39,16 @@ public class Sale {
         this.accountClient = accountClient;
     }
 
-    public Sale(Long id, Date dateSale, ProductSold productSold, AccountEmployee accountEmployee) {
-        this.id = id;
+    public Sale(Date dateSale, ProductSold productSold, AccountEmployee accountEmployee) {
         this.dateSale = dateSale;
         this.productSold = productSold;
         this.accountEmployee = accountEmployee;
+    }
+
+    public Sale(Date dateSale, ProductSold productSold, AccountClient accountClient) {
+        this.dateSale = dateSale;
+        this.productSold = productSold;
+        this.accountClient = accountClient;
     }
 
     public AccountEmployee getAccountEmployee() {
