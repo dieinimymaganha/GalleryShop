@@ -29,6 +29,9 @@ public class Sale {
     @JoinColumn(name = "account_id")
     private AccountClient accountClient;
 
+    @ManyToOne()
+    private AccountEmployee accountEmployee;
+
     public Sale(Date dateSale, Client client, ProductSold productSold, AccountClient accountClient) {
         this.dateSale = dateSale;
         this.client = client;
@@ -36,8 +39,25 @@ public class Sale {
         this.accountClient = accountClient;
     }
 
+    public Sale(Long id, Date dateSale, ProductSold productSold, AccountEmployee accountEmployee) {
+        this.id = id;
+        this.dateSale = dateSale;
+        this.productSold = productSold;
+        this.accountEmployee = accountEmployee;
+    }
+
+    public AccountEmployee getAccountEmployee() {
+        return accountEmployee;
+    }
+
+    public void setAccountEmployee(AccountEmployee accountEmployee) {
+        this.accountEmployee = accountEmployee;
+    }
+
     public Sale() {
     }
+
+
 
     public Long getId() {
         return id;
