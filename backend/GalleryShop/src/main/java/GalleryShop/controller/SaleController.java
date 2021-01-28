@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,9 @@ public class SaleController {
     @Autowired
     PaymentRepository paymentRepository;
 
+    @Autowired
+    AccountEmployeeRepository accountEmployeeRepository;
+
 
     @GetMapping
     public List<SaleDto> getAll() {
@@ -68,7 +72,7 @@ public class SaleController {
                 accountClientRepository,
                 productSoldRepository,
                 clientRepository,
-                saleRepository);
+                saleRepository, accountEmployeeRepository);
 
         if (sale != null) {
             Optional<Sale> saleOptional = saleRepository.findByProductSoldId(sale.getProductSold().getId());
@@ -98,8 +102,14 @@ public class SaleController {
             SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
 
             if (sale.getDateSale().toString().equals(fd.format(dateSale))) {
+                List<Payment> paymentList = new ArrayList<>();
 
-                List<Payment> paymentList = paymentRepository.findByAccountClientIDAndDatePayment(sale.getAccountClient().getId(), sale.getDateSale());
+                if (sale.getAccountEmployee() != null) {
+                    paymentList = paymentRepository.findByAccountEmployeeIDAndDatePayment(sale.getAccountEmployee().getId(), sale.getDateSale());
+
+                } else if (sale.getAccountClient() != null) {
+                    paymentList = paymentRepository.findByAccountClientIDAndDatePayment(sale.getAccountClient().getId(), sale.getDateSale());
+                }
 
                 if (paymentList.isEmpty()) {
                     ProductSold productSold = form.upload(id, saleRepository, productRepository, productSoldRepository);
