@@ -19,6 +19,9 @@ public class Payment {
     @ManyToOne()
     private AccountClient accountClient;
 
+    @ManyToOne()
+    private AccountEmployee accountEmployee;
+
     private Double value;
 
     public Payment(Date datePayment, TypePayment typePayment, AccountClient accountClient, Double value) {
@@ -26,6 +29,21 @@ public class Payment {
         this.typePayment = typePayment;
         this.accountClient = accountClient;
         this.value = value;
+    }
+
+    public Payment(Date datePayment, TypePayment typePayment, AccountEmployee accountEmployee, Double value) {
+        this.datePayment = datePayment;
+        this.typePayment = typePayment;
+        this.accountEmployee = accountEmployee;
+        this.value = value;
+    }
+
+    public AccountEmployee getAccountEmployee() {
+        return accountEmployee;
+    }
+
+    public void setAccountEmployee(AccountEmployee accountEmployee) {
+        this.accountEmployee = accountEmployee;
     }
 
     public Payment() {
