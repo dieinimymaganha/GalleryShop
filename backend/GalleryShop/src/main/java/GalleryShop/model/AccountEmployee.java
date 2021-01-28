@@ -39,6 +39,12 @@ public class AccountEmployee {
         this.sales = sales;
     }
 
+    public AccountEmployee(Double amount, Double amountPaid, Double balance, Employee employee) {
+        this.amount = amount;
+        this.amountPaid = amountPaid;
+        this.balance = balance;
+        this.employee = employee;
+    }
 
     public AccountEmployee() {
     }

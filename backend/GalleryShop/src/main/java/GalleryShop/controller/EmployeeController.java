@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import GalleryShop.model.AccountEmployee;
+import GalleryShop.repository.AccountEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,9 @@ public class EmployeeController {
 
     @Autowired
     ProfileRepository profileRepository;
+
+    @Autowired
+    AccountEmployeeRepository accountEmployeeRepository;
 
     @GetMapping
     public List<EmployeeDto> getAll() {
@@ -85,6 +90,9 @@ public class EmployeeController {
         } else {
             employeeRepository.save(employee);
             URI uri = uriBuilder.path("/employees/{id}").buildAndExpand(employee.getId()).toUri();
+            AccountEmployee createAccount = new AccountEmployee(0.0, 0.0, 0.0, employee);
+            accountEmployeeRepository.save(createAccount);
+
             return ResponseEntity.created(uri).body(new EmployeeDto(employee));
         }
 
