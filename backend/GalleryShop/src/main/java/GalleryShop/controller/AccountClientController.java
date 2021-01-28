@@ -34,7 +34,7 @@ public class AccountClientController {
 
     @GetMapping("/payments")
     public List<PaymentClientDto> getAllPayments() {
-        List<Payment> payments = paymentRepository.findAll();
+        List<Payment> payments = paymentRepository.findByAccountClientIsNotNull();
         return PaymentClientDto.convertDto(payments);
     }
 
