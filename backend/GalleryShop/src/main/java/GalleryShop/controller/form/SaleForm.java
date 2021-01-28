@@ -15,6 +15,16 @@ public class SaleForm {
 
     private Integer quantity;
 
+    private Long employeeId;
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
     public Long getProductId() {
         return productId;
     }
@@ -43,55 +53,81 @@ public class SaleForm {
                           AccountClientRepository accountClientRepository,
                           ProductSoldRepository productSoldRepository,
                           ClientRepository clientRepository,
-                          SaleRepository saleRepository) {
+                          SaleRepository saleRepository,
+                          AccountEmployeeRepository accountEmployeeRepository) {
 
         Product product = productRepository.getOne(productId);
 
-        Client client = clientRepository.getOne(clientId);
-
-
         AccountClient accountClient = new AccountClient();
+
+        AccountEmployee accountEmployee = new AccountEmployee();
+
 
         Date dateSale = new Date();
 
         ProductSold productSold = new ProductSold();
 
-        double valueTotal = 0.0;
+        double valueTotal = quantity * product.getValue();
 
-        if (product != null) {
+        if (product != null && quantity != null) {
             Optional<AccountClient> accountClientOptional = accountClientRepository.findByClientId(clientId);
+            Optional<AccountEmployee> accountEmployeeOptional = accountEmployeeRepository.findByEmployeeId(employeeId);
 
-            if (accountClientOptional.isPresent()) {
-                accountClient = accountClientOptional.get();
-
-                Optional<ProductSold> productSoldOptional = productSoldRepository.findByProductSoldDescription(product.getDescription());
-                valueTotal = quantity * product.getValue();
-
+            if (accountClientOptional.isPresent() && accountEmployeeOptional.isPresent()) {
+                return null;
+            } else if (accountClientOptional.isPresent() && employeeId == null) {
+                Optional<ProductSold> productSoldOptional = productSoldRepository.findByProductSoldIdClientDescription(accountClientOptional.get().getClient().getId(), product.getDescription());
+                System.out.println("AQUI >>>>> 0 <<<<<");
                 if (productSoldOptional.isPresent()) {
-
                     productSold = productSoldOptional.get();
-                    Optional<Sale> saleOptional = saleRepository.findByProductSoldId(productSold.getId());
-
-                    Sale sale = saleOptional.get();
-                    int newQuantity = quantity + productSold.getQuantity();
-                    productSold.setValueTotal(productSold.getValueTotal() + valueTotal);
-                    productSold.setQuantity(newQuantity);
-
-                    return sale;
-
-
-                } else {
-                    productSold.setDescription(product.getDescription());
-                    productSold.setValue(product.getValue());
-                    productSold.setQuantity(quantity);
-                    productSold.setValueTotal(valueTotal);
-                    productSoldRepository.save(productSold);
+                    System.out.println("AQUI >>>>> 1 <<<<<");
                 }
-                accountClient.setAmount(accountClient.getAmount() + valueTotal);
+            } else if (accountEmployeeOptional.isPresent() && clientId == null) {
+                Optional<ProductSold> productSoldOptional = productSoldRepository.findByProductSoldIdEmployeeDescription(
+                        accountEmployeeOptional.get().getEmployee().getId(), product.getDescription());
+                if (productSoldOptional.isPresent()) {
+                    productSold = productSoldOptional.get();
+                }
+            }
 
+            if (productSold.getId() == null) {
+                productSold.setDescription(product.getDescription());
+                productSold.setValue(product.getValue());
+                productSold.setQuantity(quantity);
+                productSold.setValueTotal(valueTotal);
+                productSoldRepository.save(productSold);
+
+            } else {
+                Optional<Sale> saleOptional = saleRepository.findByProductSoldId(productSold.getId());
+                Sale sale = saleOptional.get();
+                if (sale.getAccountClient() != null) {
+                    accountClient = sale.getAccountClient();
+                    accountClient.setAmount(accountClient.getAmount() + valueTotal);
+                } else if (sale.getAccountEmployee() != null) {
+                    accountEmployee = sale.getAccountEmployee();
+                    accountEmployee.setAmount(accountEmployee.getAmount() + valueTotal);
+                }
+                int newQuantity = quantity + productSold.getQuantity();
+                productSold.setValueTotal(productSold.getValueTotal() + valueTotal);
+                productSold.setQuantity(newQuantity);
+                return sale;
+            }
+
+            if (accountClientOptional.isPresent() && accountEmployeeOptional.isPresent()) {
+                return null;
+            } else if (accountClientOptional.isPresent() && employeeId == null) {
+                accountClient = accountClientOptional.get();
+                accountClient.setAmount(accountClient.getAmount() + valueTotal);
+                return new Sale(dateSale, productSold, accountClient);
+            } else if (accountEmployeeOptional.isPresent() && clientId == null) {
+                accountEmployee = accountEmployeeOptional.get();
+                accountEmployee.setAmount(accountEmployee.getAmount() + valueTotal);
+                return new Sale(dateSale, productSold, accountEmployee);
+            } else {
+                return null;
             }
         }
-        return new Sale(dateSale, client, productSold, accountClient);
+        return null;
     }
 
 
@@ -102,7 +138,6 @@ public class SaleForm {
 
         if (saleOptional.isPresent()) {
             Sale sale = saleOptional.get();
-            AccountClient accountClient = sale.getAccountClient();
 
             ProductSold productSold = new ProductSold();
 
@@ -118,9 +153,23 @@ public class SaleForm {
                 double valueFinal = quantity * productSold.getValue();
 
                 if (productSold.getQuantity() == quantity) {
-                    accountClient.setAmount(accountClient.getAmount());
+                    if (sale.getAccountClient() != null) {
+                        AccountClient accountClient = sale.getAccountClient();
+                        accountClient.setAmount(accountClient.getAmount());
+                    } else if (sale.getAccountEmployee() != null) {
+                        AccountEmployee accountEmployee = sale.getAccountEmployee();
+                        accountEmployee.setAmount(accountEmployee.getAmount());
+                    }
+
                 } else {
-                    accountClient.setAmount((accountClient.getAmount() - productSold.getValueTotal()) + valueFinal);
+                    if (sale.getAccountClient() != null) {
+                        AccountClient accountClient = sale.getAccountClient();
+                        accountClient.setAmount((accountClient.getAmount() - productSold.getValueTotal()) + valueFinal);
+                    } else if (sale.getAccountEmployee() != null) {
+                        AccountEmployee accountEmployee = sale.getAccountEmployee();
+                        accountEmployee.setAmount((accountEmployee.getAmount() - productSold.getValueTotal()) + valueFinal);
+                    }
+
                 }
                 productSold = productSoldOptional.get();
                 productSold.setQuantity(quantity);
