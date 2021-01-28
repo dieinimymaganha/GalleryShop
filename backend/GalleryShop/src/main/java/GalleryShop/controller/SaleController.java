@@ -135,14 +135,29 @@ public class SaleController {
             Date dateSale = new Date();
             SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
             if (sale.getDateSale().toString().equals(fd.format(dateSale))) {
-                AccountClient accountClient = accountClientRepository.getOne(sale.getAccountClient().getId());
+                List<Payment> paymentList = new ArrayList<>();
+                AccountClient accountClient = new AccountClient();
+                AccountEmployee accountEmployee = new AccountEmployee();
 
-                List<Payment> paymentList = paymentRepository.findByAccountClientIDAndDatePayment(sale.getAccountClient().getId(), sale.getDateSale());
+                if (sale.getAccountEmployee() != null) {
+                    paymentList = paymentRepository.findByAccountEmployeeIDAndDatePayment(sale.getAccountEmployee().getId(), sale.getDateSale());
+
+                } else if (sale.getAccountClient() != null) {
+                    paymentList = paymentRepository.findByAccountClientIDAndDatePayment(sale.getAccountClient().getId(), sale.getDateSale());
+                }
 
                 if (paymentList.isEmpty()) {
-                    accountClient.setAmount(accountClient.getAmount() - sale.getProductSold().getValueTotal());
-                    saleRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
+                    if (sale.getAccountEmployee() != null) {
+                        accountEmployee = sale.getAccountEmployee();
+                        accountEmployee.setAmount(accountEmployee.getAmount() - sale.getProductSold().getValueTotal());
+                        saleRepository.deleteById(id);
+                        return ResponseEntity.ok().build();
+                    } else if (sale.getAccountClient() != null) {
+                        accountClient = sale.getAccountClient();
+                        accountClient.setAmount(accountClient.getAmount() - sale.getProductSold().getValueTotal());
+                        saleRepository.deleteById(id);
+                        return ResponseEntity.ok().build();
+                    }
                 }
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
