@@ -32,6 +32,9 @@ public class ServiceRecord {
     @JoinColumn(name = "account_id")
     private AccountClient accountClient;
 
+    @ManyToOne()
+    private AccountEmployee accountEmployee;
+
 
     public ServiceRecord(Date dateService, Client client, Employee employee, BilledService billedService, AccountClient accountClient) {
         this.dateService = dateService;
@@ -50,6 +53,14 @@ public class ServiceRecord {
     }
 
     public ServiceRecord() {
+    }
+
+    public AccountEmployee getAccountEmployee() {
+        return accountEmployee;
+    }
+
+    public void setAccountEmployee(AccountEmployee accountEmployee) {
+        this.accountEmployee = accountEmployee;
     }
 
     public Date getDateService() {
