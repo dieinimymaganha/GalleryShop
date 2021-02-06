@@ -11,6 +11,7 @@ class BilledServiceScreen extends StatefulWidget {
   final String typeEmployee;
   final int idEmployee;
   final int idClient;
+  final int accountClientId;
   final String descTypeEmployee;
   final int idSchedule;
 
@@ -18,6 +19,7 @@ class BilledServiceScreen extends StatefulWidget {
       {this.typeEmployee,
       this.idEmployee,
       this.idClient,
+      this.accountClientId,
       this.descTypeEmployee,
       this.idSchedule});
 
@@ -26,6 +28,7 @@ class BilledServiceScreen extends StatefulWidget {
       typeEmployee: typeEmployee,
       idEmployee: idEmployee,
       idClient: idClient,
+      accountClientId: accountClientId,
       descTypeEmployee: descTypeEmployee,
       idSchedule: idSchedule);
 }
@@ -36,12 +39,14 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
       int idEmployee,
       int idService,
       int idClient,
+      int accountClientId,
       String descTypeEmployee,
       int idSchedule})
       : billedServiceStore = BilledServiceStore(
             typeEmployee: typeEmployee,
             idEmployee: idEmployee,
             idClient: idClient,
+            accountClientId: accountClientId,
             descTypeEmployee: descTypeEmployee,
             idSchedule: idSchedule);
 
