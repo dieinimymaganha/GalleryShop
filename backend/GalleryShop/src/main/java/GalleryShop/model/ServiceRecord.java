@@ -16,10 +16,6 @@ public class ServiceRecord {
     Date dateService;
 
     @OneToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
-
-    @OneToOne
     @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
 
@@ -29,20 +25,11 @@ public class ServiceRecord {
     private BilledService billedService;
 
     @ManyToOne()
-    @JoinColumn(name = "account_id")
     private AccountClient accountClient;
 
     @ManyToOne()
     private AccountEmployee accountEmployee;
 
-
-    public ServiceRecord(Date dateService, Client client, Employee employee, BilledService billedService, AccountClient accountClient) {
-        this.dateService = dateService;
-        this.client = client;
-        this.employee = employee;
-        this.billedService = billedService;
-        this.accountClient = accountClient;
-    }
 
     public ServiceRecord(Date dateService, Employee employee, BilledService billedService, AccountClient accountClient) {
         this.dateService = dateService;
@@ -93,14 +80,6 @@ public class ServiceRecord {
         this.id = id;
     }
 
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public Employee getEmployee() {
         return employee;
