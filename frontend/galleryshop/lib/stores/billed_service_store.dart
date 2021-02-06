@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/webclients/webClient_service_record.dart';
@@ -17,6 +16,7 @@ abstract class _BilledServiceStore with Store {
   final String typeEmployee;
   final int idEmployee;
   final int idClient;
+  final int accountClientId;
   final String descTypeEmployee;
   final int idService;
   final int idSchedule;
@@ -25,6 +25,7 @@ abstract class _BilledServiceStore with Store {
       {this.typeEmployee,
       this.idEmployee,
       this.idClient,
+      this.accountClientId,
       this.descTypeEmployee,
       this.idService,
       this.idSchedule}) {
@@ -223,15 +224,14 @@ abstract class _BilledServiceStore with Store {
     sending = false;
 
     ServiceRecordForm serviceRecordForm = ServiceRecordForm(
-      employeeId: valueSelecIdtEmployee,
-      clientId: idClient,
-      serviceId: valueSelectService,
-      value: value,
-      discount: discount,
-      idSchedule: idSchedule
-    );
+        employeeId: valueSelecIdtEmployee,
+        serviceId: valueSelectService,
+        accountClientId: accountClientId,
+        value: value,
+        discount: discount,
+        idSchedule: idSchedule);
 
-    int response ;
+    int response;
     try {
       response = await serviceRecordWebClient.save(serviceRecordForm);
     } on Exception catch (_) {
@@ -366,7 +366,7 @@ abstract class _BilledServiceStore with Store {
   }
 
   @action
-  Future<void> reloadPageExcludeService() async{
+  Future<void> reloadPageExcludeService() async {
     errorList = false;
     setListCalendar();
   }
