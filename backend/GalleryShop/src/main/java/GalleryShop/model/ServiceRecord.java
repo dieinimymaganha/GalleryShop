@@ -44,6 +44,20 @@ public class ServiceRecord {
         this.accountClient = accountClient;
     }
 
+    public ServiceRecord(Date dateService, Employee employee, BilledService billedService, AccountClient accountClient) {
+        this.dateService = dateService;
+        this.employee = employee;
+        this.billedService = billedService;
+        this.accountClient = accountClient;
+    }
+
+    public ServiceRecord(Date dateService, Employee employee, BilledService billedService, AccountEmployee accountEmployee) {
+        this.dateService = dateService;
+        this.employee = employee;
+        this.billedService = billedService;
+        this.accountEmployee = accountEmployee;
+    }
+
     public AccountClient getAccountClient() {
         return accountClient;
     }

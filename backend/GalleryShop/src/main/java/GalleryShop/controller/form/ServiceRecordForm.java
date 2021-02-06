@@ -7,8 +7,6 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.Optional;
 
-import static java.lang.Math.abs;
-
 public class ServiceRecordForm {
 
     private Double discount;
@@ -17,7 +15,9 @@ public class ServiceRecordForm {
 
     private Long employeeId;
 
-    private Long clientId;
+    private Long accountClientId;
+
+    private Long accountEmployeeId;
 
     private double value;
 
@@ -63,18 +63,28 @@ public class ServiceRecordForm {
         this.employeeId = employeeId;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Long getAccountClientId() {
+        return accountClientId;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setAccountClientId(Long accountClientId) {
+        this.accountClientId = accountClientId;
     }
 
-    public ServiceRecord converter(ServiceRepository serviceRepository, EmployeeRepository employeeRepository,
-                                   ClientRepository clientRepository, AccountClientRepository accountClientRepository,
+    public Long getAccountEmployeeId() {
+        return accountEmployeeId;
+    }
+
+    public void setAccountEmployeeId(Long accountEmployeeId) {
+        this.accountEmployeeId = accountEmployeeId;
+    }
+
+    public ServiceRecord converter(ServiceRepository serviceRepository,
+                                   EmployeeRepository employeeRepository,
+                                   AccountClientRepository accountClientRepository,
+                                   AccountEmployeeRepository accountEmployeeRepository,
                                    BilledServiceRepository billedServiceRepository,
-                                   TypePaymentRepository typePaymentRepository, PaymentRepository paymentRepository, ScheduleRepository scheduleRepository) {
+                                   ScheduleRepository scheduleRepository) {
 
         Service service = serviceRepository.getOne(serviceId);
 
@@ -84,6 +94,7 @@ public class ServiceRecordForm {
 
         Date dateService = new Date();
 
+
         if (service != null) {
             billedService.setDescription(service.getDescription());
             if (service.getFixedPrice().equals(false)) {
@@ -91,6 +102,7 @@ public class ServiceRecordForm {
             } else {
                 billedService.setValue(service.getValue());
             }
+
             billedService.setDiscount(discount);
             double valueFinal = billedService.getValue() - billedService.getDiscount();
             billedService.setValueFinal(valueFinal);
@@ -100,40 +112,58 @@ public class ServiceRecordForm {
             billedService.setCommissionAmountEmployee(commissionAmountEmployee);
             billedService.setCommissionAmountCompany(commissionAmountCompany);
             billedServiceRepository.save(billedService);
-        }
 
 
-        Client client = clientRepository.getOne(clientId);
+            if ((accountClientId == null && accountEmployeeId == null) ||
+                    (accountClientId != null && accountEmployeeId != null)) {
+                return null;
+            } else if (accountClientId != null && accountEmployeeId == null) {
+                Optional<AccountClient> accountClientOptional = accountClientRepository.findById(accountClientId);
 
-        Optional<AccountClient> accountClient = accountClientRepository.findByClientId(clientId);
+                if (accountClientOptional.isPresent()) {
+                    AccountClient accountClient = accountClientOptional.get();
+                    accountClient = accountClientOptional.get();
+                    Double updateAmount = (accountClient.getAmount() + billedService.getValue()) -
+                            billedService.getDiscount();
+                    accountClient.setAmount(updateAmount);
+                    if (idSchedule != null) {
+                        Schedule schedule = scheduleRepository.getOne(idSchedule);
+                        schedule.setConcluded(true);
+                        schedule.setCompletionTime(LocalTime.now());
+                    }
 
-        AccountClient accountClientReturn = new AccountClient();
+                    return new ServiceRecord(dateService, employee, billedService, accountClient);
 
-        if (accountClient.isPresent()) {
-            accountClientReturn = accountClient.get();
-            Double updateAmount = (accountClientReturn.getAmount() + billedService.getValue()) -
-                    billedService.getDiscount();
-            accountClientReturn.setAmount(updateAmount);
+                } else {
+                    return null;
+                }
 
-        } else {
-            AccountClient createAccount = new AccountClient(client, billedService.getValueFinal(), 0.0, 0.0);
-            accountClientRepository.save(createAccount);
-            Optional<AccountClient> accountClientNew = accountClientRepository.findByClientId(clientId);
-            if (accountClientNew.isPresent()) {
-                accountClientReturn = accountClientNew.get();
+            } else if (accountClientId == null && accountEmployeeId != null) {
+                Optional<AccountEmployee> accountEmployeeOptional = accountEmployeeRepository.findById(accountEmployeeId);
+
+                if (accountEmployeeOptional.isPresent()) {
+
+                    AccountEmployee accountEmployee = accountEmployeeOptional.get();
+                    Double updateAmount = (accountEmployee.getAmount() + billedService.getValue()) -
+                            billedService.getDiscount();
+                    accountEmployee.setAmount(updateAmount);
+
+                    if (idSchedule != null) {
+                        Schedule schedule = scheduleRepository.getOne(idSchedule);
+                        schedule.setConcluded(true);
+                        schedule.setCompletionTime(LocalTime.now());
+                    }
+
+                    return new ServiceRecord(dateService, employee, billedService, accountEmployee);
+
+                } else {
+                    return null;
+                }
+
+
             }
+
         }
-
-        if (idSchedule != null) {
-            Schedule schedule = scheduleRepository.getOne(idSchedule);
-            schedule.setConcluded(true);
-            schedule.setCompletionTime(LocalTime.now());
-        }
-
-
-        return new ServiceRecord(dateService, client, employee, billedService, accountClientReturn);
-
+        return null;
     }
-
-
 }

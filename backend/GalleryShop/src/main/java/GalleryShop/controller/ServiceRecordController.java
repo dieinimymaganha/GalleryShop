@@ -52,6 +52,9 @@ public class ServiceRecordController {
     @Autowired
     ScheduleRepository scheduleRepository;
 
+    @Autowired
+    AccountEmployeeRepository accountEmployeeRepository;
+
     @GetMapping
     public List<ServiceRecordDto> getAll() {
         List<ServiceRecord> serviceRecords = serviceRecordRepository.findAll();
@@ -71,11 +74,23 @@ public class ServiceRecordController {
     @Transactional
     public ResponseEntity<ServiceRecordDto> createServiceRecord(@RequestBody @Valid ServiceRecordForm form,
                                                                 UriComponentsBuilder uriBuilder) {
-        ServiceRecord serviceRecord = form.converter(serviceRepository, employeeRepository, clientRepository,
-                accountClientRepository, billedServiceRepository, typePaymentRepository, paymentRepository,scheduleRepository);
-        serviceRecordRepository.save(serviceRecord);
-        URI uri = uriBuilder.path("/serviceRecord/{id}").buildAndExpand(serviceRecord.getId()).toUri();
-        return ResponseEntity.created(uri).body(new ServiceRecordDto(serviceRecord));
+        ServiceRecord serviceRecord = form.converter(serviceRepository,
+                employeeRepository,
+                accountClientRepository,
+                accountEmployeeRepository,
+                billedServiceRepository,
+                scheduleRepository);
+
+        if (serviceRecord != null) {
+
+            serviceRecordRepository.save(serviceRecord);
+            URI uri = uriBuilder.path("/serviceRecord/{id}").buildAndExpand(serviceRecord.getId()).toUri();
+            return ResponseEntity.created(uri).body(new ServiceRecordDto(serviceRecord));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+
+        }
+
 
     }
 
