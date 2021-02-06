@@ -44,6 +44,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
           context,
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
+                    accountClientId: accountClientStore.accountClientDto.id,
                     idClient: accountClientStore.accountClientDto.clientDto.id,
                   )));
     } else if (choice == OptionsMenuDetailClient.excludeServices) {
@@ -70,8 +71,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                     idClient: accountClientStore.idClient,
                   )));
     } else if (choice == OptionsMenuDetailClient.consultSales) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ConsultSalesAccountClient(idClient: accountClientStore.idClient,)));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConsultSalesAccountClient(
+                    idClient: accountClientStore.idClient,
+                  )));
     }
   }
 
