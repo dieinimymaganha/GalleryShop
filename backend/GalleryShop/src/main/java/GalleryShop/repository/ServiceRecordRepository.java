@@ -18,7 +18,7 @@ public interface ServiceRecordRepository extends JpaRepository<ServiceRecord, Lo
 //    List<ServiceRecord> findByClientId(Long id);
 
     @Query(value = "select * from service_record s \n" +
-            "inner join account_client ac on s.account_id = ac.id \n" +
+            "inner join account_client ac on s.account_client_id = ac.id \n" +
             "inner join billed_service b ON b.id = s.billed_service_id \n" +
             "where ac.client_id = ?", nativeQuery = true)
     List<ServiceRecord> findByClientId(Long id);
