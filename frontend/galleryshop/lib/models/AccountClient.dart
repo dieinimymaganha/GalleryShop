@@ -232,7 +232,8 @@ class ServiceRecordForm {
   double discount;
   int serviceId;
   int employeeId;
-  int clientId;
+  int accountClientId;
+  int accountEmployeeId;
   double value;
   int idSchedule;
 
@@ -240,7 +241,8 @@ class ServiceRecordForm {
       {this.discount,
         this.serviceId,
         this.employeeId,
-        this.clientId,
+        this.accountClientId,
+        this.accountEmployeeId,
         this.value,
         this.idSchedule});
 
@@ -248,7 +250,8 @@ class ServiceRecordForm {
     discount = json['discount'];
     serviceId = json['serviceId'];
     employeeId = json['employeeId'];
-    clientId = json['clientId'];
+    accountClientId = json['accountClientId'];
+    accountEmployeeId = json['accountEmployeeId'];
     value = json['value'];
     idSchedule = json['idSchedule'];
   }
@@ -258,7 +261,8 @@ class ServiceRecordForm {
     data['discount'] = this.discount;
     data['serviceId'] = this.serviceId;
     data['employeeId'] = this.employeeId;
-    data['clientId'] = this.clientId;
+    data['accountClientId'] = this.accountClientId;
+    data['accountEmployeeId'] = this.accountEmployeeId;
     data['value'] = this.value;
     data['idSchedule'] = this.idSchedule;
     return data;
