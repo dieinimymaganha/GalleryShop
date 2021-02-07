@@ -45,7 +45,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
                     accountClientId: accountClientStore.accountClientDto.id,
-                    idClient: accountClientStore.accountClientDto.clientDto.id,
+
                   )));
     } else if (choice == OptionsMenuDetailClient.excludeServices) {
       Navigator.push(
