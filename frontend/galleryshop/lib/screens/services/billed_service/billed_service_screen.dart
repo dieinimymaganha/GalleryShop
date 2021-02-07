@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
+import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
 import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
@@ -10,16 +11,16 @@ import 'package:mobx/mobx.dart';
 class BilledServiceScreen extends StatefulWidget {
   final String typeEmployee;
   final int idEmployee;
-  final int idClient;
   final int accountClientId;
+  final int accountEmployeeId;
   final String descTypeEmployee;
   final int idSchedule;
 
   BilledServiceScreen(
       {this.typeEmployee,
       this.idEmployee,
-      this.idClient,
       this.accountClientId,
+      this.accountEmployeeId,
       this.descTypeEmployee,
       this.idSchedule});
 
@@ -27,8 +28,8 @@ class BilledServiceScreen extends StatefulWidget {
   _BilledServiceScreenState createState() => _BilledServiceScreenState(
       typeEmployee: typeEmployee,
       idEmployee: idEmployee,
-      idClient: idClient,
       accountClientId: accountClientId,
+      accountEmployeeId: accountEmployeeId,
       descTypeEmployee: descTypeEmployee,
       idSchedule: idSchedule);
 }
@@ -38,15 +39,15 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
       {String typeEmployee,
       int idEmployee,
       int idService,
-      int idClient,
       int accountClientId,
+      int accountEmployeeId,
       String descTypeEmployee,
       int idSchedule})
       : billedServiceStore = BilledServiceStore(
             typeEmployee: typeEmployee,
             idEmployee: idEmployee,
-            idClient: idClient,
             accountClientId: accountClientId,
+            accountEmployeeId: accountEmployeeId,
             descTypeEmployee: descTypeEmployee,
             idSchedule: idSchedule);
 
@@ -76,10 +77,17 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => DetailAccountClient(
-                idClient: billedServiceStore.idClient,
-              )));
+
+      billedServiceStore.accountClientProcess
+          ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountClient(
+                    idClient: billedServiceStore.accountClientDto.clientDto.id,
+                  )))
+          : Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountEmployee(
+                    idEmployee: billedServiceStore
+                        .accontEmployeeDto.employeeDtoBasic.id,
+                  )));
     });
 
     disposer =
