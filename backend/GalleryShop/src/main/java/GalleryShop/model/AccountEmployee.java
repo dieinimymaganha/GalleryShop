@@ -27,7 +27,7 @@ public class AccountEmployee {
     private List<Sale> sales = new ArrayList<>();
 
     @OneToMany(mappedBy = "accountEmployee")
-    private List<ServiceRecord> serviceRecords = new ArrayList<>();
+    private List<ServiceRecord> serviceRecord = new ArrayList<>();
 
 
     public AccountEmployee(Double amount, Double amountPaid, Double balance, Employee employee, List<Payment> payments, List<Sale> sales) {
@@ -44,6 +44,14 @@ public class AccountEmployee {
         this.amountPaid = amountPaid;
         this.balance = balance;
         this.employee = employee;
+    }
+
+    public List<ServiceRecord> getServiceRecord() {
+        return serviceRecord;
+    }
+
+    public void setServiceRecord(List<ServiceRecord> serviceRecord) {
+        this.serviceRecord = serviceRecord;
     }
 
     public AccountEmployee() {
