@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -106,11 +107,19 @@ public class ServiceRecordController {
             SimpleDateFormat fd = new SimpleDateFormat("yyyy-MM-dd");
 
             if (serviceRecord.getDateService().toString().equals(fd.format(dateService))) {
+
+                List<Payment> paymentList = new ArrayList<>();
+
+
                 AccountClient accountClient = accountClientRepository.getOne(serviceRecord.getAccountClient().getId());
 
-                List<Payment> paymentList =
-                        paymentRepository.findByAccountClientIDAndDatePayment(serviceRecord.getAccountClient().getId(),
-                                serviceRecord.getDateService());
+                if (serviceRecord.getAccountEmployee() != null) {
+                    paymentList = paymentRepository.findByAccountEmployeeIDAndDatePayment(serviceRecord.getAccountEmployee().getId(), serviceRecord.getDateService());
+
+                } else if (serviceRecord.getAccountClient() != null) {
+                    paymentList = paymentRepository.findByAccountClientIDAndDatePayment(serviceRecord.getAccountClient().getId(), serviceRecord.getDateService());
+                }
+
 
                 if (paymentList.isEmpty()) {
                     accountClient.setAmount(accountClient.getAmount() -
