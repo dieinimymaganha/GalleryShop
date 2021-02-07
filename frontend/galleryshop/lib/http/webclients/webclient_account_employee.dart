@@ -51,6 +51,24 @@ class AccountEmployeeWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<AccountEmployeeDto> findByAccountId(int id) async {
+    String token = await getToken();
+    final response = await webClient.get(
+      urlAccountEmployee + "/"  + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final AccountEmployeeDto data =
+      AccountEmployeeDto.fromJson(jsonDecode(response.body));
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
   String _getMessage(int statusCode) {
     if (_statusCodeResponses.containsKey(statusCode)) {
       return _statusCodeResponses[statusCode];

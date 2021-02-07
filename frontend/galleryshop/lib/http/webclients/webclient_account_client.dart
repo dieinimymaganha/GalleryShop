@@ -52,6 +52,24 @@ class AccountClientWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<AccountClientDto> findByAccountId(int id) async {
+    String token = await getToken();
+    final response = await webClient.get(
+      urlAccountClient + "/"  + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final AccountClientDto data =
+      AccountClientDto.fromJson(jsonDecode(response.body));
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
   Future<int> closeAccount(
       CloseAccountClientForm closeAccountClientForm) async {
     String token = await getToken();
