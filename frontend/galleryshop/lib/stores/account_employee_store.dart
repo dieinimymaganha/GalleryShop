@@ -21,6 +21,7 @@ class AccountEmployeeStore = _AccountEmployeeStore with _$AccountEmployeeStore;
 
 abstract class _AccountEmployeeStore with Store {
   final int idClient;
+  final int idEmployee;
   final int idAccount;
   final SaleDto saleDto;
 
@@ -31,7 +32,7 @@ abstract class _AccountEmployeeStore with Store {
 
   FinancialWebClient financialWebClient = FinancialWebClient();
 
-  _AccountEmployeeStore({this.idClient, this.idAccount, this.saleDto}) {
+  _AccountEmployeeStore({this.idClient, this.idAccount, this.saleDto, this.idEmployee}) {
     autorun((_) {
       print('productSoldDto >>>>>>>>>>> $saleDto');
     });
@@ -122,9 +123,13 @@ abstract class _AccountEmployeeStore with Store {
   @observable
   AccountClientDto accountClientDto;
 
+  @observable
+  AccountEmployeeDto accountEmployeeDto;
+
+
   @action
-  Future<void> getClient() async {
-    accountClientDto = await accountClientWebClient.findById(idClient);
+  Future<void> getEmployee() async {
+    accountEmployeeDto = await accountEmployeeWebClient.findById(idEmployee);
   }
 
   @observable
@@ -134,13 +139,13 @@ abstract class _AccountEmployeeStore with Store {
   bool balanceZero = false;
 
   @action
-  Future<void> iniPageClient() async {
+  Future<void> iniPageEmployee() async {
     loading = true;
     notService = true;
-    await getClient();
-    if (accountClientDto.balance < 0) {
+    await getEmployee();
+    if (accountEmployeeDto.balance < 0) {
       balanceNegative = true;
-    } else if (accountClientDto.balance == 0) {
+    } else if (accountEmployeeDto.balance == 0) {
       balanceZero = true;
     }
     await setCalendar();
@@ -155,7 +160,7 @@ abstract class _AccountEmployeeStore with Store {
 
   @action
   Future<void> calculateTotalPayable() async {
-    totalPayable = accountClientDto.amount - accountClientDto.amountPaid;
+    totalPayable = accountEmployeeDto.amount - accountEmployeeDto.amountPaid;
     if (totalPayable < 0.0) {
       totalPayable = 0.0;
     }
@@ -176,9 +181,9 @@ abstract class _AccountEmployeeStore with Store {
 
   @action
   Future<void> setCalendar() async {
-    getClient();
-    events = fromModelToEvent(accountClientDto.serviceRecordDto);
-    events2 = fromModelToEventProduct(accountClientDto.saleDto);
+    getEmployee();
+    events = fromModelToEvent(accountEmployeeDto.serviceRecordDto);
+    events2 = fromModelToEventProduct(accountEmployeeDto.saleDto);
     calculateTotalPayable();
   }
 
@@ -294,7 +299,7 @@ abstract class _AccountEmployeeStore with Store {
   Future<void> reloadList() async {
     errorList = false;
     loading = false;
-    iniPageClient();
+    iniPageEmployee();
   }
 
   //fechar conta
@@ -401,7 +406,7 @@ abstract class _AccountEmployeeStore with Store {
   Future<void> iniPageCloseAccount() async {
     loading = true;
     notService = true;
-    await getClient();
+    await getEmployee();
     if (accountClientDto.balance < 0) {
       balanceNegative = true;
     } else if (accountClientDto.balance == 0) {

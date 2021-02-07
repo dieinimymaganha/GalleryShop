@@ -203,6 +203,22 @@ mixin _$AccountEmployeeStore on _AccountEmployeeStore, Store {
     });
   }
 
+  final _$accountEmployeeDtoAtom =
+      Atom(name: '_AccountEmployeeStore.accountEmployeeDto');
+
+  @override
+  AccountEmployeeDto get accountEmployeeDto {
+    _$accountEmployeeDtoAtom.reportRead();
+    return super.accountEmployeeDto;
+  }
+
+  @override
+  set accountEmployeeDto(AccountEmployeeDto value) {
+    _$accountEmployeeDtoAtom.reportWrite(value, super.accountEmployeeDto, () {
+      super.accountEmployeeDto = value;
+    });
+  }
+
   final _$balanceNegativeAtom =
       Atom(name: '_AccountEmployeeStore.balanceNegative');
 
@@ -876,19 +892,20 @@ mixin _$AccountEmployeeStore on _AccountEmployeeStore, Store {
     return _$setListAsyncAction.run(() => super.setList());
   }
 
-  final _$getClientAsyncAction = AsyncAction('_AccountEmployeeStore.getClient');
+  final _$getEmployeeAsyncAction =
+      AsyncAction('_AccountEmployeeStore.getEmployee');
 
   @override
-  Future<void> getClient() {
-    return _$getClientAsyncAction.run(() => super.getClient());
+  Future<void> getEmployee() {
+    return _$getEmployeeAsyncAction.run(() => super.getEmployee());
   }
 
-  final _$iniPageClientAsyncAction =
-      AsyncAction('_AccountEmployeeStore.iniPageClient');
+  final _$iniPageEmployeeAsyncAction =
+      AsyncAction('_AccountEmployeeStore.iniPageEmployee');
 
   @override
-  Future<void> iniPageClient() {
-    return _$iniPageClientAsyncAction.run(() => super.iniPageClient());
+  Future<void> iniPageEmployee() {
+    return _$iniPageEmployeeAsyncAction.run(() => super.iniPageEmployee());
   }
 
   final _$calculateTotalPayableAsyncAction =
@@ -1242,6 +1259,7 @@ errorList: ${errorList},
 listEmpty: ${listEmpty},
 listAccountClient: ${listAccountClient},
 accountClientDto: ${accountClientDto},
+accountEmployeeDto: ${accountEmployeeDto},
 balanceNegative: ${balanceNegative},
 balanceZero: ${balanceZero},
 totalPayable: ${totalPayable},
