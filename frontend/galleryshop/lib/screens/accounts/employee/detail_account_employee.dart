@@ -43,9 +43,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
           context,
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
-                    accountClientId: accountEmployeeStore.accountClientDto.id,
-                    idClient:
-                        accountEmployeeStore.accountClientDto.clientDto.id,
+                    accountEmployeeId:
+                        accountEmployeeStore.accountEmployeeDto.id,
                   )));
     } else if (choice == OptionsMenuDetailClient.excludeServices) {
       Navigator.push(
@@ -89,7 +88,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
           appBar: AppBar(
             title: Text(accountEmployeeStore.loading
                 ? 'Carregando'
-                : accountEmployeeStore.accountEmployeeDto.employeeDtoBasic.name),
+                : accountEmployeeStore
+                    .accountEmployeeDto.employeeDtoBasic.name),
             centerTitle: true,
             backgroundColor: colorAppbar,
             leading: IconButton(
@@ -325,8 +325,9 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                                             TableCalendar(
                                               locale: 'pt_BR',
                                               holidays:
-                                              accountEmployeeStore.events2,
-                                              events: accountEmployeeStore.events,
+                                                  accountEmployeeStore.events2,
+                                              events:
+                                                  accountEmployeeStore.events,
                                               initialCalendarFormat:
                                                   CalendarFormat.month,
                                               calendarStyle: CalendarStyle(
@@ -445,7 +446,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                                                 },
                                               ),
                                               calendarController:
-                                              accountEmployeeStore
+                                                  accountEmployeeStore
                                                       .calendarController,
                                             ),
                                             accountEmployeeStore.notService
@@ -771,7 +772,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                                                     builder: (context) =>
                                                         CloseAccountScreen(
                                                           idClient:
-                                                          accountEmployeeStore
+                                                              accountEmployeeStore
                                                                   .idClient,
                                                         )));
                                           })),
