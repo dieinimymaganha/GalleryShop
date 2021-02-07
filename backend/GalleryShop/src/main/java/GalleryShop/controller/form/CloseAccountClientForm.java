@@ -1,13 +1,7 @@
 package GalleryShop.controller.form;
 
-import GalleryShop.model.AccountClient;
-import GalleryShop.model.FlagCardPayment;
-import GalleryShop.model.Payment;
-import GalleryShop.model.TypePayment;
-import GalleryShop.repository.AccountClientRepository;
-import GalleryShop.repository.FlagCardPaymentRepository;
-import GalleryShop.repository.PaymentRepository;
-import GalleryShop.repository.TypePaymentRepository;
+import GalleryShop.model.*;
+import GalleryShop.repository.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +13,7 @@ import static java.lang.Math.abs;
 public class CloseAccountClientForm {
 
     private Long idAccountClient;
+    private Long idAccountEmployee;
 
     private Double value;
 
@@ -31,6 +26,15 @@ public class CloseAccountClientForm {
     private Boolean creditCard;
 
     private Boolean debitCard;
+
+
+    public Long getIdAccountEmployee() {
+        return idAccountEmployee;
+    }
+
+    public void setIdAccountEmployee(Long idAccountEmployee) {
+        this.idAccountEmployee = idAccountEmployee;
+    }
 
     public Boolean getCreditCard() {
         return creditCard;
@@ -88,10 +92,12 @@ public class CloseAccountClientForm {
         this.useBalance = useBalance;
     }
 
-    public AccountClient convertClose(AccountClientRepository accountClientRepository,
-                                      FlagCardPaymentRepository flagCardPaymentRepository,
-                                      TypePaymentRepository typePaymentRepository,
-                                      PaymentRepository paymentRepository) {
+    public AccountClient convertCloseAccountClient(AccountClientRepository accountClientRepository,
+                                                   FlagCardPaymentRepository flagCardPaymentRepository,
+                                                   TypePaymentRepository typePaymentRepository,
+                                                   PaymentRepository paymentRepository) {
+
+
         AccountClient accountClientUpdate = new AccountClient();
 
         Optional<AccountClient> accountClientOptional = accountClientRepository.findById(idAccountClient);
@@ -167,5 +173,86 @@ public class CloseAccountClientForm {
 
     }
 
+
+    public AccountEmployee convertCloseAccountEmployee(FlagCardPaymentRepository flagCardPaymentRepository,
+                                                       TypePaymentRepository typePaymentRepository,
+                                                       PaymentRepository paymentRepository,
+                                                       AccountEmployeeRepository accountEmployeeRepository) {
+
+
+        AccountEmployee accountEmployeeUpdate = new AccountEmployee();
+
+        Optional<AccountEmployee> accountEmployeeOptional = accountEmployeeRepository.findById(idAccountEmployee);
+        String descriptionTypePayment = "DINHEIRO";
+        TypePayment typePayment = new TypePayment();
+
+        double tax = 0.0;
+        double totalPayable = 0;
+        double amountPaid = 0.0;
+        double balance = 0.0;
+
+        accountEmployeeUpdate = accountEmployeeOptional.get();
+
+        if (accountEmployeeOptional.isPresent()) {
+
+            String flag = null;
+
+            // Verifica se pagamento é com cartão de crédito
+            if (card) {
+                // Verifica a bandeira do cartão e se é crédito ou débito
+                FlagCardPayment flagCardPayment = flagCardPaymentRepository.getOne(idFlagCardPayment);
+                flag = flagCardPayment.getDescription();
+
+                if (flagCardPayment.getCredit() && creditCard) {
+                    descriptionTypePayment = "CRÉDITO";
+                    if (useBalance && accountEmployeeUpdate.getBalance() > 0) {
+                        descriptionTypePayment = "CRÉDITO + SALDO";
+                    }
+                    tax = flagCardPayment.getTaxCredit();
+
+                } else if (flagCardPayment.getDebit() && debitCard) {
+                    descriptionTypePayment = "DÉBITO";
+                    if (useBalance && accountEmployeeUpdate.getBalance() > 0) {
+                        descriptionTypePayment = "DÉBITO + SALDO";
+                    }
+                    tax = flagCardPayment.getTaxDebit();
+                }
+            }
+
+            totalPayable = (accountEmployeeUpdate.getAmount() - accountEmployeeUpdate.getAmountPaid());
+
+            balance = value - totalPayable;
+
+            amountPaid = accountEmployeeUpdate.getAmountPaid() + value;
+
+
+            if (useBalance && !card && accountEmployeeUpdate.getBalance() > 0) {
+                descriptionTypePayment = "DINHEIRO + SALDO";
+            }
+
+            if (useBalance.equals(true) && value == null) {
+                descriptionTypePayment = "SALDO";
+
+            }
+
+            accountEmployeeUpdate.setAmountPaid(amountPaid);
+            accountEmployeeUpdate.setBalance(balance);
+
+            typePayment.setDescription(descriptionTypePayment);
+            typePayment.setFlag(flag);
+            typePayment.setTax(tax);
+            typePayment.setCard(card);
+            typePaymentRepository.save(typePayment);
+
+            Date datePayment = new Date();
+
+            Payment payment = new Payment(datePayment, typePayment, accountEmployeeUpdate, value);
+            paymentRepository.save(payment);
+
+        }
+
+        return accountEmployeeUpdate;
+
+    }
 
 }

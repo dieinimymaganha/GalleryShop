@@ -2,12 +2,10 @@ package GalleryShop.controller;
 
 import GalleryShop.controller.form.CloseAccountClientForm;
 import GalleryShop.model.AccountClient;
-import GalleryShop.model.Payment;
-import GalleryShop.repository.AccountClientRepository;
-import GalleryShop.repository.FlagCardPaymentRepository;
-import GalleryShop.repository.PaymentRepository;
-import GalleryShop.repository.TypePaymentRepository;
+import GalleryShop.model.AccountEmployee;
+import GalleryShop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,12 +31,37 @@ public class CloseAccountClientController {
     @Autowired
     PaymentRepository paymentRepository;
 
+    @Autowired
+    AccountEmployeeRepository accountEmployeeRepository;
+
     @PostMapping
     @Transactional
     public ResponseEntity<?> closeAccount(@RequestBody @Valid CloseAccountClientForm form) {
-        AccountClient accountClient = form.convertClose(accountClientRepository, flagCardPaymentRepository,
-                typePaymentRepository, paymentRepository);
-        return ResponseEntity.ok().build();
+
+        if (form.getIdAccountClient() != null && form.getIdAccountEmployee() == null) {
+            AccountClient accountClient = form.convertCloseAccountClient(accountClientRepository, flagCardPaymentRepository,
+                    typePaymentRepository, paymentRepository);
+
+            if (accountClient != null) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } else if (form.getIdAccountClient() == null && form.getIdAccountEmployee() != null) {
+            AccountEmployee accountEmployee = form.convertCloseAccountEmployee(flagCardPaymentRepository,
+                    typePaymentRepository, paymentRepository, accountEmployeeRepository);
+
+            if (accountEmployee != null) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        }
+
+
     }
 
 
