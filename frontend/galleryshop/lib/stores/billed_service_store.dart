@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/webclients/webClient_service_record.dart';
+import 'package:galleryshop/http/webclients/webclient_account_client.dart';
+import 'package:galleryshop/http/webclients/webclient_account_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_services.dart';
 import 'package:galleryshop/models/AccountClient.dart';
+import 'package:galleryshop/models/account_employee.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:mobx/mobx.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,6 +19,7 @@ abstract class _BilledServiceStore with Store {
   final String typeEmployee;
   final int idEmployee;
   final int idClient;
+  final int accountEmployeeId;
   final int accountClientId;
   final String descTypeEmployee;
   final int idService;
@@ -26,11 +30,12 @@ abstract class _BilledServiceStore with Store {
       this.idEmployee,
       this.idClient,
       this.accountClientId,
+      this.accountEmployeeId,
       this.descTypeEmployee,
       this.idService,
       this.idSchedule}) {
     autorun((_) {
-      print('idSchedule >>>> $idSchedule');
+      print('accountEmployeeId >>>> $accountEmployeeId');
     });
   }
 
@@ -39,6 +44,17 @@ abstract class _BilledServiceStore with Store {
   ServicesWebClient servicesWebClient = ServicesWebClient();
 
   ServiceRecordWebClient serviceRecordWebClient = ServiceRecordWebClient();
+
+  AccountClientWebClient accountClientWebClient = AccountClientWebClient();
+
+  AccountEmployeeWebClient accountEmployeeWebClient =
+      AccountEmployeeWebClient();
+
+  @observable
+  AccountClientDto accountClientDto;
+
+  @observable
+  AccountEmployeeDto accontEmployeeDto;
 
   @observable
   EmployeeDto employeeDto;
@@ -99,15 +115,37 @@ abstract class _BilledServiceStore with Store {
   @observable
   bool loadingServices = false;
 
+  @observable
+  bool accountClientProcess = true;
+
   @action
   Future<void> initPageBilled() async {
     await getListEmployees();
+    if (accountClientId != null) {
+      await getInfoAccountClient();
+    } else if (accountEmployeeId != null) {
+      await getInfoAccountEmployee();
+      accountClientProcess = false;
+    }
+
     setValueSelectEmployee(idEmployee);
 
     if (descTypeEmployee != null) {
       await getInitialTypeEmployee();
     }
     setControllerFieldDiscount();
+  }
+
+  @action
+  Future<void> getInfoAccountClient() async {
+    accountClientDto =
+        await accountClientWebClient.findByAccountId(accountClientId);
+  }
+
+  @action
+  Future<void> getInfoAccountEmployee() async {
+    accontEmployeeDto =
+        await accountEmployeeWebClient.findByAccountId(accountEmployeeId);
   }
 
   @action
@@ -222,15 +260,25 @@ abstract class _BilledServiceStore with Store {
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     sending = false;
+    ServiceRecordForm serviceRecordForm = ServiceRecordForm();
 
-    ServiceRecordForm serviceRecordForm = ServiceRecordForm(
-        employeeId: valueSelecIdtEmployee,
-        serviceId: valueSelectService,
-        accountClientId: accountClientId,
-        value: value,
-        discount: discount,
-        idSchedule: idSchedule);
-
+    if (accountClientProcess) {
+      serviceRecordForm = ServiceRecordForm(
+          employeeId: valueSelecIdtEmployee,
+          serviceId: valueSelectService,
+          accountClientId: accountClientId,
+          value: value,
+          discount: discount,
+          idSchedule: idSchedule);
+    } else {
+      serviceRecordForm = ServiceRecordForm(
+          employeeId: valueSelecIdtEmployee,
+          serviceId: valueSelectService,
+          accountEmployeeId: accountEmployeeId,
+          value: value,
+          discount: discount,
+          idSchedule: idSchedule);
+    }
     int response;
     try {
       response = await serviceRecordWebClient.save(serviceRecordForm);
@@ -266,7 +314,6 @@ abstract class _BilledServiceStore with Store {
   @computed
   bool get fieldsValid =>
       valueSelecIdtEmployeeIsValid &&
-      idClientIsValid &&
       valueSelectServiceIdIsValid &&
       valueIsValid;
 

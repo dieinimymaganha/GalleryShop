@@ -62,6 +62,38 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
               name: '_BilledServiceStore.buttonExcludeServicePressed'))
           .value;
 
+  final _$accountClientDtoAtom =
+      Atom(name: '_BilledServiceStore.accountClientDto');
+
+  @override
+  AccountClientDto get accountClientDto {
+    _$accountClientDtoAtom.reportRead();
+    return super.accountClientDto;
+  }
+
+  @override
+  set accountClientDto(AccountClientDto value) {
+    _$accountClientDtoAtom.reportWrite(value, super.accountClientDto, () {
+      super.accountClientDto = value;
+    });
+  }
+
+  final _$accontEmployeeDtoAtom =
+      Atom(name: '_BilledServiceStore.accontEmployeeDto');
+
+  @override
+  AccountEmployeeDto get accontEmployeeDto {
+    _$accontEmployeeDtoAtom.reportRead();
+    return super.accontEmployeeDto;
+  }
+
+  @override
+  set accontEmployeeDto(AccountEmployeeDto value) {
+    _$accontEmployeeDtoAtom.reportWrite(value, super.accontEmployeeDto, () {
+      super.accontEmployeeDto = value;
+    });
+  }
+
   final _$employeeDtoAtom = Atom(name: '_BilledServiceStore.employeeDto');
 
   @override
@@ -201,6 +233,23 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
   set loadingServices(bool value) {
     _$loadingServicesAtom.reportWrite(value, super.loadingServices, () {
       super.loadingServices = value;
+    });
+  }
+
+  final _$accountClientProcessAtom =
+      Atom(name: '_BilledServiceStore.accountClientProcess');
+
+  @override
+  bool get accountClientProcess {
+    _$accountClientProcessAtom.reportRead();
+    return super.accountClientProcess;
+  }
+
+  @override
+  set accountClientProcess(bool value) {
+    _$accountClientProcessAtom.reportWrite(value, super.accountClientProcess,
+        () {
+      super.accountClientProcess = value;
     });
   }
 
@@ -484,6 +533,24 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
     return _$initPageBilledAsyncAction.run(() => super.initPageBilled());
   }
 
+  final _$getInfoAccountClientAsyncAction =
+      AsyncAction('_BilledServiceStore.getInfoAccountClient');
+
+  @override
+  Future<void> getInfoAccountClient() {
+    return _$getInfoAccountClientAsyncAction
+        .run(() => super.getInfoAccountClient());
+  }
+
+  final _$getInfoAccountEmployeeAsyncAction =
+      AsyncAction('_BilledServiceStore.getInfoAccountEmployee');
+
+  @override
+  Future<void> getInfoAccountEmployee() {
+    return _$getInfoAccountEmployeeAsyncAction
+        .run(() => super.getInfoAccountEmployee());
+  }
+
   final _$setValueSelectTypeEmployeeAsyncAction =
       AsyncAction('_BilledServiceStore.setValueSelectTypeEmployee');
 
@@ -652,6 +719,8 @@ mixin _$BilledServiceStore on _BilledServiceStore, Store {
   @override
   String toString() {
     return '''
+accountClientDto: ${accountClientDto},
+accontEmployeeDto: ${accontEmployeeDto},
 employeeDto: ${employeeDto},
 listEmployees: ${listEmployees},
 listServices: ${listServices},
@@ -661,6 +730,7 @@ listTypeEmployee: ${listTypeEmployee},
 valueSelectService: ${valueSelectService},
 loading: ${loading},
 loadingServices: ${loadingServices},
+accountClientProcess: ${accountClientProcess},
 controllerFieldValue: ${controllerFieldValue},
 value: ${value},
 enableValue: ${enableValue},
