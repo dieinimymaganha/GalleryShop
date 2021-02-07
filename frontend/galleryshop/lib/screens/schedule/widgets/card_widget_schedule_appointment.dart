@@ -157,8 +157,6 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                                                 idEmployee:
                                                     scheduleDtoAppointment
                                                         .employeeId,
-                                                idClient: scheduleDtoAppointment
-                                                    .clientId,
                                                 descTypeEmployee:
                                                     scheduleDtoAppointment
                                                         .typeEmployee,
