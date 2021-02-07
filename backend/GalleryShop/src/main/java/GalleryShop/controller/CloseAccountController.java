@@ -16,8 +16,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/closeAccountClient")
-public class CloseAccountClientController {
+@RequestMapping("/closeAccount")
+public class CloseAccountController {
 
     @Autowired
     AccountClientRepository accountClientRepository;

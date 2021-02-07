@@ -1,17 +1,15 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/models/payment.dart';
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../WebClient.dart';
 
 const urlAccountClient = baseUrl + 'accountClient';
 
-const urlCloseAccount = baseUrl + 'closeAccountClient';
+const urlCloseAccount = baseUrl + 'closeAccount';
 
 class AccountClientWebClient {
   Future<List<AccountClientDto>> findAll() async {
