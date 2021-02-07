@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
 import 'package:galleryshop/stores/account_employee_store.dart';
 
 class AccountListEmployeeScreen extends StatefulWidget {
@@ -36,8 +37,8 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child: InkWell(
                   onDoubleTap: () {
-//                    Navigator.of(context).push(MaterialPageRoute(
-//                        builder: (context) => DetailAccountClient(idClient: accountDto.clientDto.id,)));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DetailAccountEmployee(idEmployee: accountDto.employeeDtoBasic.id,)));
                   },
                   child: Card(
                     elevation: 3,
