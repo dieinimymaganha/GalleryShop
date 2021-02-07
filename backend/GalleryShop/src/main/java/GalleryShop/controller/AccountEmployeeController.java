@@ -36,6 +36,18 @@ public class AccountEmployeeController {
         return AccountEmployeeDto.convertDto(accountEmployees);
     }
 
+
+    @GetMapping("{id}")
+    public ResponseEntity<AccountEmployeeDto> getById(@PathVariable Long id) {
+        Optional<AccountEmployee> accountEmployeeOptional = accountEmployeeRepository.findById(id);
+        if (accountEmployeeOptional.isPresent()) {
+            return ResponseEntity.ok(new AccountEmployeeDto(accountEmployeeOptional.get()));
+        }
+        return ResponseEntity.notFound().build();
+
+    }
+
+
     @GetMapping("/payments")
     public List<PaymentClientDto> getAllPayments() {
         List<Payment> payments = paymentRepository.findByAccountEmployeeIsNotNull();

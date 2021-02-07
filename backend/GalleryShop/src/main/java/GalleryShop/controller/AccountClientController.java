@@ -38,6 +38,18 @@ public class AccountClientController {
         return PaymentClientDto.convertDto(payments);
     }
 
+
+    @GetMapping("{id}")
+    public ResponseEntity<AccountClientDto> getById(@PathVariable Long id) {
+        Optional<AccountClient> accountClientOptional = accountClientRepository.findById(id);
+        if (accountClientOptional.isPresent()) {
+            return ResponseEntity.ok(new AccountClientDto(accountClientOptional.get()));
+        }
+        return ResponseEntity.notFound().build();
+
+    }
+
+
     @GetMapping("/payments/{id}")
     public List<PaymentClientDto> getPaymentsByIdClient(@PathVariable Long id) {
 
