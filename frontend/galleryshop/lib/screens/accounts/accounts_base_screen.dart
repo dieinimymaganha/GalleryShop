@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/employee/account_list_employee_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
 import 'client/accounts_list_client_screen.dart';
@@ -38,7 +39,10 @@ class AccountBaseScreen extends StatelessWidget {
                   title: Text('Consultar contas funcionários'),
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AccountListEmployeeScreen()));
+                },
               ),
               Divider(
                 color: Colors.grey[400],
