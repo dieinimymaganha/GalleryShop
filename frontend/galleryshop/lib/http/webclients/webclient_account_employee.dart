@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/models/account_employee.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +28,24 @@ class AccountEmployeeWebClient {
       final List<dynamic> data = decodeJson
           .map((dynamic json) => AccountEmployeeDto.fromJson(json))
           .toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  Future<AccountEmployeeDto> findById(int id) async {
+    String token = await getToken();
+    final response = await webClient.get(
+      urlAccountEmployee + "/employeeId=" + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final AccountEmployeeDto data =
+          AccountEmployeeDto.fromJson(jsonDecode(response.body));
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
