@@ -71,6 +71,15 @@ public class ServiceRecordController {
     }
 
 
+
+    @GetMapping("/employeeId={id}")
+    public List<ServiceRecordDto> getServiceRecordEmployeeId(@PathVariable Long id) {
+        List<ServiceRecord> serviceRecordList = serviceRecordRepository.findByEmployeeId(id);
+        return ServiceRecordDto.convertDto(serviceRecordList);
+    }
+
+
+
     @PostMapping
     @Transactional
     public ResponseEntity<ServiceRecordDto> createServiceRecord(@RequestBody @Valid ServiceRecordForm form,
