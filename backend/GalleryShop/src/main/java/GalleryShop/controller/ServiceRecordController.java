@@ -71,13 +71,11 @@ public class ServiceRecordController {
     }
 
 
-
     @GetMapping("/employeeId={id}")
     public List<ServiceRecordDto> getServiceRecordEmployeeId(@PathVariable Long id) {
         List<ServiceRecord> serviceRecordList = serviceRecordRepository.findByEmployeeId(id);
         return ServiceRecordDto.convertDto(serviceRecordList);
     }
-
 
 
     @PostMapping
@@ -119,26 +117,36 @@ public class ServiceRecordController {
 
                 List<Payment> paymentList = new ArrayList<>();
 
-
-                AccountClient accountClient = accountClientRepository.getOne(serviceRecord.getAccountClient().getId());
+                AccountClient accountClient = new AccountClient();
+                AccountEmployee accountEmployee = new AccountEmployee();
 
                 if (serviceRecord.getAccountEmployee() != null) {
+                    accountEmployee = serviceRecord.getAccountEmployee();
                     paymentList = paymentRepository.findByAccountEmployeeIDAndDatePayment(serviceRecord.getAccountEmployee().getId(), serviceRecord.getDateService());
+                    if (paymentList.isEmpty()) {
+                        accountEmployee.setAmount(accountEmployee.getAmount() -
+                                serviceRecord.getBilledService().getValueFinal());
+                        serviceRecordRepository.deleteById(id);
+                        return ResponseEntity.ok().build();
 
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                    }
                 } else if (serviceRecord.getAccountClient() != null) {
+                    accountClient = serviceRecord.getAccountClient();
                     paymentList = paymentRepository.findByAccountClientIDAndDatePayment(serviceRecord.getAccountClient().getId(), serviceRecord.getDateService());
+                    if (paymentList.isEmpty()) {
+                        accountClient.setAmount(accountClient.getAmount() -
+                                serviceRecord.getBilledService().getValueFinal());
+                        serviceRecordRepository.deleteById(id);
+                        return ResponseEntity.ok().build();
+
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                    }
                 }
 
 
-                if (paymentList.isEmpty()) {
-                    accountClient.setAmount(accountClient.getAmount() -
-                            serviceRecord.getBilledService().getValueFinal());
-                    serviceRecordRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
-
-                } else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-                }
             }
 
         } else {
