@@ -10,22 +10,24 @@ import '../edit_service_account_client.dart';
 class DialogExcludeServiceRecord extends StatefulWidget {
   final int idService;
   final int idClient;
+  final int idEmployee;
 
-  DialogExcludeServiceRecord({this.idService, this.idClient});
+  DialogExcludeServiceRecord({this.idService, this.idClient, this.idEmployee});
 
   @override
   _DialogExcludeServiceRecordState createState() =>
       _DialogExcludeServiceRecordState(
-          idService: idService, idClient: idClient);
+          idService: idService, idClient: idClient, idEmployee: idEmployee);
 }
 
 class _DialogExcludeServiceRecordState
     extends State<DialogExcludeServiceRecord> {
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
-  _DialogExcludeServiceRecordState({int idService, int idClient})
-      : billedServiceStore =
-            BilledServiceStore(idService: idService, idClient: idClient);
+  _DialogExcludeServiceRecordState(
+      {int idService, int idClient, int idEmployee})
+      : billedServiceStore = BilledServiceStore(
+            idService: idService, idClient: idClient, idEmployee: idEmployee);
 
   ReactionDisposer disposer;
 
@@ -44,10 +46,15 @@ class _DialogExcludeServiceRecordState
         showDialog(
             context: context, builder: (context) => buildAlertDialogOK());
         await Future.delayed(Duration(seconds: 2));
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => EditServiceAccountClientScreen(
-                  idClient: billedServiceStore.idClient,
-                )));
+        billedServiceStore.accountClientProcess
+            ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => EditServiceAccountClientScreen(
+                      idClient: billedServiceStore.idClient,
+                    )))
+            : Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => EditServiceAccountClientScreen(
+                      idEmployee: billedServiceStore.idEmployee,
+                    )));
       }
     });
 

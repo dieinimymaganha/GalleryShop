@@ -59,8 +59,7 @@ class _EditServiceAccountClientScreenState
                               )))
                       : Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => DetailAccountEmployee(
-                                idEmployee: billedServiceStore
-                                    .idEmployee,
+                                idEmployee: billedServiceStore.idEmployee,
                               )));
                 },
               ),
@@ -236,14 +235,25 @@ class _EditServiceAccountClientScreenState
                                     ],
                                   ),
                                   onLongPress: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            DialogExcludeServiceRecord(
-                                              idService: serviceRecordDto.id,
-                                              idClient:
-                                                  billedServiceStore.idClient,
-                                            ));
+                                    billedServiceStore.accountClientProcess
+                                        ? showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                DialogExcludeServiceRecord(
+                                                  idService:
+                                                      serviceRecordDto.id,
+                                                  idClient: billedServiceStore
+                                                      .idClient,
+                                                ))
+                                        : showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                DialogExcludeServiceRecord(
+                                                  idService:
+                                                      serviceRecordDto.id,
+                                                  idEmployee: billedServiceStore
+                                                      .idEmployee,
+                                                ));
                                   },
                                 ),
                               )),

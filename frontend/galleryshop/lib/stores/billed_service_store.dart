@@ -400,6 +400,9 @@ abstract class _BilledServiceStore with Store {
 
   @action
   Future<void> excludeServiceRecord() async {
+    if(idEmployee != null){
+      accountClientProcess = false;
+    }
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     int response = await serviceRecordWebClient.exclude(idService);
