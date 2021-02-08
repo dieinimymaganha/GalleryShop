@@ -4,7 +4,7 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/employee/account_list_employee_screen.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 
-import 'client/accounts_list_client_screen.dart';
+import 'client/account_list_client_screen.dart';
 
 class AccountBaseScreen extends StatelessWidget {
   @override

@@ -5,8 +5,9 @@ import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
 import 'package:galleryshop/screens/accounts/client/consult_sales_account_client.dart';
-import 'package:galleryshop/screens/accounts/client/edit_service_account_client.dart';
+
 import 'package:galleryshop/screens/accounts/close_account_screen.dart';
+import 'package:galleryshop/screens/accounts/edit_service_record.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
@@ -45,13 +46,12 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
                     accountClientId: accountClientStore.accountClientDto.id,
-
                   )));
     } else if (choice == OptionsMenuDetailClient.excludeServices) {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => EditServiceAccountClientScreen(
+              builder: (context) => EditServiceRecordScreen(
                     idClient: accountClientStore.accountClientDto.clientDto.id,
                   )));
     } else if (choice == OptionsMenuDetailClient.updatePage) {

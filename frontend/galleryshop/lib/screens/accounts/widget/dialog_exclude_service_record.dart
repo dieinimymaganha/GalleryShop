@@ -1,11 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:galleryshop/screens/accounts/edit_service_record.dart';
 import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/alert_dialog_sending.dart';
 import 'package:galleryshop/widgets/dialogs.dart';
 import 'package:mobx/mobx.dart';
-
-import '../edit_service_account_client.dart';
 
 class DialogExcludeServiceRecord extends StatefulWidget {
   final int idService;
@@ -48,11 +48,11 @@ class _DialogExcludeServiceRecordState
         await Future.delayed(Duration(seconds: 2));
         billedServiceStore.accountClientProcess
             ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => EditServiceAccountClientScreen(
+                builder: (context) => EditServiceRecordScreen(
                       idClient: billedServiceStore.idClient,
                     )))
             : Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => EditServiceAccountClientScreen(
+                builder: (context) => EditServiceRecordScreen(
                       idEmployee: billedServiceStore.idEmployee,
                     )));
       }

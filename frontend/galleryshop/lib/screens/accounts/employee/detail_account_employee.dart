@@ -4,7 +4,7 @@ import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
 import 'package:galleryshop/screens/accounts/client/consult_sales_account_client.dart';
-import 'package:galleryshop/screens/accounts/client/edit_service_account_client.dart';
+
 import 'package:galleryshop/screens/accounts/client/widget/option_menu_detail_account_client.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
@@ -14,6 +14,7 @@ import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../close_account_screen.dart';
+import '../edit_service_record.dart';
 
 class DetailAccountEmployee extends StatefulWidget {
   final int idEmployee;
@@ -50,7 +51,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => EditServiceAccountClientScreen(
+              builder: (context) => EditServiceRecordScreen(
                     idEmployee: accountEmployeeStore
                         .accountEmployeeDto.employeeDtoBasic.id,
                   )));
