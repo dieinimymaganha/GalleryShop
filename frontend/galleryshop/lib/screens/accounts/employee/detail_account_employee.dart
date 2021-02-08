@@ -51,8 +51,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
           context,
           MaterialPageRoute(
               builder: (context) => EditServiceAccountClientScreen(
-                    idClient:
-                        accountEmployeeStore.accountClientDto.clientDto.id,
+                    idEmployee: accountEmployeeStore
+                        .accountEmployeeDto.employeeDtoBasic.id,
                   )));
     } else if (choice == OptionsMenuDetailClient.updatePage) {
       accountEmployeeStore.iniPageEmployee();

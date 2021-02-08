@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/DetailAccountClient.dart';
+import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
 import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,20 +12,23 @@ import 'widget/dialog_exclude_service_record.dart';
 
 class EditServiceAccountClientScreen extends StatefulWidget {
   final int idClient;
+  final int idEmployee;
 
-  EditServiceAccountClientScreen({this.idClient});
+  EditServiceAccountClientScreen({this.idClient, this.idEmployee});
 
   @override
   _EditServiceAccountClientScreenState createState() =>
-      _EditServiceAccountClientScreenState(idClient: idClient);
+      _EditServiceAccountClientScreenState(
+          idClient: idClient, idEmployee: idEmployee);
 }
 
 class _EditServiceAccountClientScreenState
     extends State<EditServiceAccountClientScreen> {
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
-  _EditServiceAccountClientScreenState({int idClient})
-      : billedServiceStore = BilledServiceStore(idClient: idClient);
+  _EditServiceAccountClientScreenState({int idClient, int idEmployee})
+      : billedServiceStore =
+            BilledServiceStore(idClient: idClient, idEmployee: idEmployee);
 
   @override
   void initState() {
@@ -48,10 +52,16 @@ class _EditServiceAccountClientScreenState
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailAccountClient(
-                            idClient: billedServiceStore.idClient,
-                          )));
+                  billedServiceStore.accountClientProcess
+                      ? Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailAccountClient(
+                                idClient: billedServiceStore.idClient,
+                              )))
+                      : Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailAccountEmployee(
+                                idEmployee: billedServiceStore
+                                    .idEmployee,
+                              )));
                 },
               ),
             ),

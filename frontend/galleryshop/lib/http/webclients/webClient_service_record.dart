@@ -41,6 +41,26 @@ class ServiceRecordWebClient {
     throw HttpException(_getMessage(response.statusCode));
   }
 
+  Future<List<ServiceRecordDto>> findByEmployeeId(int id) async {
+    String token = await getToken();
+    final response = await webClient.get(
+      urlServiceRecord + "/employeeId=" + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data = decodeJson
+          .map((dynamic json) => ServiceRecordDto.fromJson(json))
+          .toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
   Future<int> exclude(int id) async {
     String token = await getToken();
     String urlExclude = urlServiceRecord + '/' + id.toString();

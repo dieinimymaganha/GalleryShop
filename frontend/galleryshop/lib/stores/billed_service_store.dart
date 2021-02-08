@@ -340,7 +340,14 @@ abstract class _BilledServiceStore with Store {
   @action
   Future<void> setListCalendar() async {
     try {
-      listServices = await serviceRecordWebClient.findByClientId(idClient);
+      if (idClient != null) {
+        listServices = await serviceRecordWebClient.findByClientId(idClient);
+      } else if (idEmployee != null) {
+        listServices =
+            await serviceRecordWebClient.findByEmployeeId(idEmployee);
+        accountClientProcess = false;
+      }
+
       if (listServices.isNotEmpty) {
         events = fromModelToEventAppointment(listServices);
       } else {
