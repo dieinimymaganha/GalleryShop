@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/models/product_sold.dart';
 import 'package:galleryshop/models/sale.dart';
 import 'package:galleryshop/screens/accounts/client/detail_account_client.dart';
-import 'package:galleryshop/stores/account_client_store.dart';
+import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
+import 'package:galleryshop/stores/sale_product_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
 
 class SaleProduct extends StatefulWidget {
   final int idClient;
+  final int idEmployee;
   final SaleDto saleDto;
 
-  SaleProduct({this.idClient, this.saleDto});
+  SaleProduct({this.idClient, this.saleDto, this.idEmployee});
 
   @override
-  _SaleProductState createState() =>
-      _SaleProductState(idClient: idClient, saleDto: saleDto);
+  _SaleProductState createState() => _SaleProductState(
+      idClient: idClient, saleDto: saleDto, idEmployee: idEmployee);
 }
 
 class _SaleProductState extends State<SaleProduct> {
-  AccountClientStore accountClientStore = AccountClientStore();
+  SaleProductStore saleProductStore = SaleProductStore();
 
-  _SaleProductState({int idClient, SaleDto saleDto})
-      : accountClientStore =
-            AccountClientStore(idClient: idClient, saleDto: saleDto);
+  _SaleProductState({int idClient, SaleDto saleDto, int idEmployee})
+      : saleProductStore = SaleProductStore(
+            idClient: idClient, saleDto: saleDto, idEmployee: idEmployee);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    accountClientStore.initEditSale();
+    saleProductStore.initEditSale();
   }
 
   ReactionDisposer disposer;
@@ -40,7 +41,7 @@ class _SaleProductState extends State<SaleProduct> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    disposer = reaction((_) => accountClientStore.created, (created) async {
+    disposer = reaction((_) => saleProductStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
           'Venda registrada com sucesso!',
@@ -50,17 +51,19 @@ class _SaleProductState extends State<SaleProduct> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
+      saleProductStore.accountClientProcess ? Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => DetailAccountClient(
-                idClient: accountClientStore.idClient,
-              )));
+                idClient: saleProductStore.idClient,
+              ))):    Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => DetailAccountEmployee(
+            idEmployee: saleProductStore.idEmployee,
+          )));
     });
 
-    disposer =
-        reaction((_) => accountClientStore.updateProduct, (created) async {
+    disposer = reaction((_) => saleProductStore.updateProduct, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          accountClientStore.change
+          saleProductStore.change
               ? 'Quantidade atualizada com sucesso!'
               : 'Venda registrada com sucesso! Valores Atualizados',
           style: TextStyle(color: Colors.black),
@@ -69,14 +72,17 @@ class _SaleProductState extends State<SaleProduct> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
+      saleProductStore.accountClientProcess ? Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => DetailAccountClient(
-                idClient: accountClientStore.idClient,
-              )));
+            idClient: saleProductStore.idClient,
+          ))):    Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => DetailAccountEmployee(
+            idEmployee: saleProductStore.idEmployee,
+          )));
     });
 
     disposer =
-        reaction((_) => accountClientStore.errorSending, (errorSending) async {
+        reaction((_) => saleProductStore.errorSending, (errorSending) async {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
@@ -89,8 +95,7 @@ class _SaleProductState extends State<SaleProduct> {
         await Future.delayed(Duration(seconds: 2));
       }
     });
-    disposer =
-        reaction((_) => accountClientStore.productDif, (productDif) async {
+    disposer = reaction((_) => saleProductStore.productDif, (productDif) async {
       if (productDif) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
@@ -103,8 +108,8 @@ class _SaleProductState extends State<SaleProduct> {
         await Future.delayed(Duration(seconds: 2));
       }
     });
-    disposer =
-        reaction((_) => accountClientStore.updatedUnauthorized, (updatedUnauthorized) async {
+    disposer = reaction((_) => saleProductStore.updatedUnauthorized,
+        (updatedUnauthorized) async {
       if (updatedUnauthorized) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
@@ -144,16 +149,16 @@ class _SaleProductState extends State<SaleProduct> {
                     hint: Text(
                       'Selecione o produto',
                     ),
-                    value: accountClientStore.valueSelectProduct,
-                    items: accountClientStore.listProducts.map((item) {
+                    value: saleProductStore.valueSelectProduct,
+                    items: saleProductStore.listProducts.map((item) {
                       return DropdownMenuItem(
                         child: Text(item.description),
                         value: item.id,
                       );
                     }).toList(),
                     onChanged: (value) {
-                      accountClientStore.setValueProduct(value);
-                      accountClientStore.setControllerValue();
+                      saleProductStore.setValueProduct(value);
+                      saleProductStore.setControllerValue();
                     },
                   ),
                 ),
@@ -161,25 +166,25 @@ class _SaleProductState extends State<SaleProduct> {
                   height: space,
                 ),
                 CustomFormCoin(
-                  controller: accountClientStore.controllerFieldValueProduct,
+                  controller: saleProductStore.controllerFieldValueProduct,
                   enabled: false,
                   mandatory: false,
                   textInputType: TextInputType.numberWithOptions(decimal: true),
                   label: 'Valor',
                   tip: 'Valor',
-                  onChanged: accountClientStore.setValue,
+                  onChanged: saleProductStore.setValue,
                 ),
                 SizedBox(
                   height: space,
                 ),
                 CustomForm(
-                  enabled: !accountClientStore.sending,
-                  controller: accountClientStore.controllerFieldQtdProduct,
+                  enabled: !saleProductStore.sending,
+                  controller: saleProductStore.controllerFieldQtdProduct,
                   obscure: false,
                   mandatory: true,
                   tip: 'Quantidade',
                   label: 'Quantidade',
-                  onChanged: accountClientStore.setQuantity,
+                  onChanged: saleProductStore.setQuantity,
                   textInputType:
                       TextInputType.numberWithOptions(decimal: false),
                 ),
@@ -207,7 +212,7 @@ class _SaleProductState extends State<SaleProduct> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                accountClientStore.change
+                                saleProductStore.change
                                     ? 'Alterar'
                                     : 'Registrar',
                                 style: TextStyle(
@@ -218,7 +223,7 @@ class _SaleProductState extends State<SaleProduct> {
                               ),
                               Container(
                                 child: SizedBox(
-                                  child: accountClientStore.sending
+                                  child: saleProductStore.sending
                                       ? CircularProgressIndicator(
                                           valueColor: AlwaysStoppedAnimation(
                                               Colors.blue),
@@ -230,9 +235,9 @@ class _SaleProductState extends State<SaleProduct> {
                               )
                             ],
                           ),
-                          onPressed: accountClientStore.change
-                              ? accountClientStore.buttonUpdateSalePressed
-                              : accountClientStore.buttonRegisterSalePressed)),
+                          onPressed: saleProductStore.change
+                              ? saleProductStore.buttonUpdateSalePressed
+                              : saleProductStore.buttonRegisterSalePressed)),
                 ),
               ],
             ),
