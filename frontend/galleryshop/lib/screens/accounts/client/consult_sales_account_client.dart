@@ -186,14 +186,23 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                                 Expanded(
                                   child: GestureDetector(
                                     onLongPress: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) =>
-                                              DialogExcludeSale(
-                                                saleDto: saleDto,
-                                                idClient:
-                                                    saleProductStore.idClient,
-                                              ));
+                                      saleProductStore.accountClientProcess
+                                          ? showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  DialogExcludeSale(
+                                                    saleDto: saleDto,
+                                                    idClient: saleProductStore
+                                                        .idClient,
+                                                  ))
+                                          : showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  DialogExcludeSale(
+                                                    saleDto: saleDto,
+                                                    idEmployee: saleProductStore
+                                                        .idEmployee,
+                                                  ));
                                     },
                                     onDoubleTap: () {
                                       saleProductStore.accountClientProcess

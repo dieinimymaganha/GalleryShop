@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:galleryshop/models/product.dart';
-import 'package:galleryshop/models/product_sold.dart';
 import 'package:galleryshop/models/sale.dart';
 import 'package:galleryshop/screens/accounts/client/consult_sales_account_client.dart';
 import 'package:galleryshop/stores/sale_product_store.dart';
@@ -12,20 +10,21 @@ import 'package:mobx/mobx.dart';
 class DialogExcludeSale extends StatefulWidget {
   final SaleDto saleDto;
   final int idClient;
+  final int idEmployee;
 
-  DialogExcludeSale({this.saleDto, this.idClient});
+  DialogExcludeSale({this.saleDto, this.idClient, this.idEmployee});
 
   @override
-  _DialogExcludeSaleState createState() =>
-      _DialogExcludeSaleState(saleDto: saleDto, idClient: idClient);
+  _DialogExcludeSaleState createState() => _DialogExcludeSaleState(
+      saleDto: saleDto, idClient: idClient, idEmployee: idEmployee);
 }
 
 class _DialogExcludeSaleState extends State<DialogExcludeSale> {
   SaleProductStore saleProductStore = SaleProductStore();
 
-  _DialogExcludeSaleState({SaleDto saleDto, int idClient})
-      : saleProductStore =
-            SaleProductStore(saleDto: saleDto, idClient: idClient);
+  _DialogExcludeSaleState({SaleDto saleDto, int idClient, int idEmployee})
+      : saleProductStore = SaleProductStore(
+            saleDto: saleDto, idClient: idClient, idEmployee: idEmployee);
 
   ReactionDisposer disposer;
 
@@ -34,14 +33,21 @@ class _DialogExcludeSaleState extends State<DialogExcludeSale> {
     super.didChangeDependencies();
 
     disposer = reaction((_) => saleProductStore.excluded, (exluded) async {
+      print('Verificando idEmployee ${saleProductStore.idEmployee}');
+      print('Verificando idClient ${saleProductStore.idClient}');
       if (exluded) {
         showDialog(
             context: context, builder: (context) => buildAlertDialogOK());
         await Future.delayed(Duration(seconds: 2));
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ConsultSalesAccountClient(
-                  idClient: saleProductStore.idClient,
-                )));
+        saleProductStore.accountClientProcess
+            ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => ConsultSalesAccountClient(
+                      idClient: saleProductStore.idClient,
+                    )))
+            : Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => ConsultSalesAccountClient(
+                      idEmployee: saleProductStore.idEmployee,
+                    )));
       }
     });
 

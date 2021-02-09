@@ -19,9 +19,7 @@ abstract class _SaleProductStore with Store {
   SaleProductWebClient saleProductWebClient = SaleProductWebClient();
 
   _SaleProductStore({this.idClient, this.saleDto, this.idEmployee}) {
-    autorun((_) {
-      print('IDEMPLOYEE >>>> $idEmployee');
-    });
+    autorun((_) {});
   }
 
   @observable
@@ -82,7 +80,6 @@ abstract class _SaleProductStore with Store {
   }
 
   //Excluir
-
   @observable
   bool sending = false;
 
@@ -97,10 +94,13 @@ abstract class _SaleProductStore with Store {
 
   @action
   Future<void> excludeSale() async {
+    if(idEmployee!= null){
+      accountClientProcess = false;
+    }
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     int response = await saleProductWebClient.exclude(saleDto.id);
-//    int response = 0;
+//    int response = 200;
     if (response == 200) {
       excluded = true;
       await Future.delayed(Duration(seconds: 2));
