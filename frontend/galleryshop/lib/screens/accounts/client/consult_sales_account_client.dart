@@ -53,13 +53,15 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  saleProductStore.accountClientProcess ? Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailAccountClient(
-                            idClient: saleProductStore.idClient,
-                          ))) : Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => DetailAccountEmployee(
-                        idEmployee: saleProductStore.idEmployee,
-                      )));
+                  saleProductStore.accountClientProcess
+                      ? Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailAccountClient(
+                                idClient: saleProductStore.idClient,
+                              )))
+                      : Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DetailAccountEmployee(
+                                idEmployee: saleProductStore.idEmployee,
+                              )));
                 },
               ),
             ),
@@ -194,14 +196,27 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                                               ));
                                     },
                                     onDoubleTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => SaleProduct(
-                                                    idClient: saleProductStore
-                                                        .idClient,
-                                                    saleDto: saleDto,
-                                                  )));
+                                      saleProductStore.accountClientProcess
+                                          ? Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SaleProduct(
+                                                        idClient:
+                                                            saleProductStore
+                                                                .idClient,
+                                                        saleDto: saleDto,
+                                                      )))
+                                          : Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SaleProduct(
+                                                        idEmployee:
+                                                            saleProductStore
+                                                                .idEmployee,
+                                                        saleDto: saleDto,
+                                                      )));
                                     },
                                     child: Card(
                                       color: colorCard,
