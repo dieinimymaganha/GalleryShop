@@ -24,6 +24,7 @@ abstract class _BilledServiceStore with Store {
   final String descTypeEmployee;
   final int idService;
   final int idSchedule;
+  final bool concludedAppointment;
 
   _BilledServiceStore(
       {this.typeEmployee,
@@ -33,9 +34,11 @@ abstract class _BilledServiceStore with Store {
       this.accountEmployeeId,
       this.descTypeEmployee,
       this.idService,
-      this.idSchedule}) {
+      this.idSchedule,
+      this.concludedAppointment}) {
     autorun((_) {
-      print('accountEmployeeId >>>> $accountEmployeeId');
+      print('concludedAppointment >>>> $concludedAppointment');
+      print('idClient >>>> $idClient');
     });
   }
 
@@ -121,7 +124,8 @@ abstract class _BilledServiceStore with Store {
   @action
   Future<void> initPageBilled() async {
     await getListEmployees();
-    if (accountClientId != null) {
+
+    if (accountClientId != null || concludedAppointment == true) {
       await getInfoAccountClient();
     } else if (accountEmployeeId != null) {
       await getInfoAccountEmployee();
@@ -138,8 +142,12 @@ abstract class _BilledServiceStore with Store {
 
   @action
   Future<void> getInfoAccountClient() async {
-    accountClientDto =
-        await accountClientWebClient.findByAccountId(accountClientId);
+    if (concludedAppointment == true) {
+      accountClientDto = await accountClientWebClient.findById(idClient);
+    } else {
+      accountClientDto =
+          await accountClientWebClient.findByAccountId(accountClientId);
+    }
   }
 
   @action
@@ -266,7 +274,7 @@ abstract class _BilledServiceStore with Store {
       serviceRecordForm = ServiceRecordForm(
           employeeId: valueSelecIdtEmployee,
           serviceId: valueSelectService,
-          accountClientId: accountClientId,
+          accountClientId: accountClientDto.id,
           value: value,
           discount: discount,
           idSchedule: idSchedule);
@@ -400,7 +408,7 @@ abstract class _BilledServiceStore with Store {
 
   @action
   Future<void> excludeServiceRecord() async {
-    if(idEmployee != null){
+    if (idEmployee != null) {
       accountClientProcess = false;
     }
     sending = true;

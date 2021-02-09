@@ -11,18 +11,22 @@ import 'package:mobx/mobx.dart';
 class BilledServiceScreen extends StatefulWidget {
   final String typeEmployee;
   final int idEmployee;
+  final int idClient;
   final int accountClientId;
   final int accountEmployeeId;
   final String descTypeEmployee;
   final int idSchedule;
+  final bool concludedAppointment;
 
   BilledServiceScreen(
       {this.typeEmployee,
       this.idEmployee,
+      this.idClient,
       this.accountClientId,
       this.accountEmployeeId,
       this.descTypeEmployee,
-      this.idSchedule});
+      this.idSchedule,
+      this.concludedAppointment});
 
   @override
   _BilledServiceScreenState createState() => _BilledServiceScreenState(
@@ -31,7 +35,9 @@ class BilledServiceScreen extends StatefulWidget {
       accountClientId: accountClientId,
       accountEmployeeId: accountEmployeeId,
       descTypeEmployee: descTypeEmployee,
-      idSchedule: idSchedule);
+      idSchedule: idSchedule,
+      idClient: idClient,
+      concludedAppointment: concludedAppointment);
 }
 
 class _BilledServiceScreenState extends State<BilledServiceScreen> {
@@ -42,14 +48,18 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
       int accountClientId,
       int accountEmployeeId,
       String descTypeEmployee,
-      int idSchedule})
+      int idSchedule,
+      int idClient,
+      bool concludedAppointment})
       : billedServiceStore = BilledServiceStore(
             typeEmployee: typeEmployee,
             idEmployee: idEmployee,
             accountClientId: accountClientId,
             accountEmployeeId: accountEmployeeId,
             descTypeEmployee: descTypeEmployee,
-            idSchedule: idSchedule);
+            idSchedule: idSchedule,
+            idClient: idClient,
+            concludedAppointment: concludedAppointment);
 
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
