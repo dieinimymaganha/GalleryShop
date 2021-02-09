@@ -59,42 +59,6 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
               () => super.buttonCloseAccountPressed,
               name: '_AccountClientStore.buttonCloseAccountPressed'))
           .value;
-  Computed<bool> _$quantityIsValidComputed;
-
-  @override
-  bool get quantityIsValid =>
-      (_$quantityIsValidComputed ??= Computed<bool>(() => super.quantityIsValid,
-              name: '_AccountClientStore.quantityIsValid'))
-          .value;
-  Computed<bool> _$fieldsSaleIsValidComputed;
-
-  @override
-  bool get fieldsSaleIsValid => (_$fieldsSaleIsValidComputed ??= Computed<bool>(
-          () => super.fieldsSaleIsValid,
-          name: '_AccountClientStore.fieldsSaleIsValid'))
-      .value;
-  Computed<bool> _$productIsValidComputed;
-
-  @override
-  bool get productIsValid =>
-      (_$productIsValidComputed ??= Computed<bool>(() => super.productIsValid,
-              name: '_AccountClientStore.productIsValid'))
-          .value;
-  Computed<Function> _$buttonRegisterSalePressedComputed;
-
-  @override
-  Function get buttonRegisterSalePressed =>
-      (_$buttonRegisterSalePressedComputed ??= Computed<Function>(
-              () => super.buttonRegisterSalePressed,
-              name: '_AccountClientStore.buttonRegisterSalePressed'))
-          .value;
-  Computed<Function> _$buttonUpdateSalePressedComputed;
-
-  @override
-  Function get buttonUpdateSalePressed => (_$buttonUpdateSalePressedComputed ??=
-          Computed<Function>(() => super.buttonUpdateSalePressed,
-              name: '_AccountClientStore.buttonUpdateSalePressed'))
-      .value;
 
   final _$listClientAtom = Atom(name: '_AccountClientStore.listClient');
 
@@ -681,192 +645,6 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
     });
   }
 
-  final _$listProductsAtom = Atom(name: '_AccountClientStore.listProducts');
-
-  @override
-  List<dynamic> get listProducts {
-    _$listProductsAtom.reportRead();
-    return super.listProducts;
-  }
-
-  @override
-  set listProducts(List<dynamic> value) {
-    _$listProductsAtom.reportWrite(value, super.listProducts, () {
-      super.listProducts = value;
-    });
-  }
-
-  final _$valueSelectProductAtom =
-      Atom(name: '_AccountClientStore.valueSelectProduct');
-
-  @override
-  int get valueSelectProduct {
-    _$valueSelectProductAtom.reportRead();
-    return super.valueSelectProduct;
-  }
-
-  @override
-  set valueSelectProduct(int value) {
-    _$valueSelectProductAtom.reportWrite(value, super.valueSelectProduct, () {
-      super.valueSelectProduct = value;
-    });
-  }
-
-  final _$controllerFieldValueProductAtom =
-      Atom(name: '_AccountClientStore.controllerFieldValueProduct');
-
-  @override
-  TextEditingController get controllerFieldValueProduct {
-    _$controllerFieldValueProductAtom.reportRead();
-    return super.controllerFieldValueProduct;
-  }
-
-  @override
-  set controllerFieldValueProduct(TextEditingController value) {
-    _$controllerFieldValueProductAtom
-        .reportWrite(value, super.controllerFieldValueProduct, () {
-      super.controllerFieldValueProduct = value;
-    });
-  }
-
-  final _$controllerFieldQtdProductAtom =
-      Atom(name: '_AccountClientStore.controllerFieldQtdProduct');
-
-  @override
-  TextEditingController get controllerFieldQtdProduct {
-    _$controllerFieldQtdProductAtom.reportRead();
-    return super.controllerFieldQtdProduct;
-  }
-
-  @override
-  set controllerFieldQtdProduct(TextEditingController value) {
-    _$controllerFieldQtdProductAtom
-        .reportWrite(value, super.controllerFieldQtdProduct, () {
-      super.controllerFieldQtdProduct = value;
-    });
-  }
-
-  final _$quantityAtom = Atom(name: '_AccountClientStore.quantity');
-
-  @override
-  int get quantity {
-    _$quantityAtom.reportRead();
-    return super.quantity;
-  }
-
-  @override
-  set quantity(int value) {
-    _$quantityAtom.reportWrite(value, super.quantity, () {
-      super.quantity = value;
-    });
-  }
-
-  final _$valueProductAtom = Atom(name: '_AccountClientStore.valueProduct');
-
-  @override
-  double get valueProduct {
-    _$valueProductAtom.reportRead();
-    return super.valueProduct;
-  }
-
-  @override
-  set valueProduct(double value) {
-    _$valueProductAtom.reportWrite(value, super.valueProduct, () {
-      super.valueProduct = value;
-    });
-  }
-
-  final _$createdAtom = Atom(name: '_AccountClientStore.created');
-
-  @override
-  bool get created {
-    _$createdAtom.reportRead();
-    return super.created;
-  }
-
-  @override
-  set created(bool value) {
-    _$createdAtom.reportWrite(value, super.created, () {
-      super.created = value;
-    });
-  }
-
-  final _$updateProductAtom = Atom(name: '_AccountClientStore.updateProduct');
-
-  @override
-  bool get updateProduct {
-    _$updateProductAtom.reportRead();
-    return super.updateProduct;
-  }
-
-  @override
-  set updateProduct(bool value) {
-    _$updateProductAtom.reportWrite(value, super.updateProduct, () {
-      super.updateProduct = value;
-    });
-  }
-
-  final _$errorSendingAtom = Atom(name: '_AccountClientStore.errorSending');
-
-  @override
-  bool get errorSending {
-    _$errorSendingAtom.reportRead();
-    return super.errorSending;
-  }
-
-  @override
-  set errorSending(bool value) {
-    _$errorSendingAtom.reportWrite(value, super.errorSending, () {
-      super.errorSending = value;
-    });
-  }
-
-  final _$changeAtom = Atom(name: '_AccountClientStore.change');
-
-  @override
-  bool get change {
-    _$changeAtom.reportRead();
-    return super.change;
-  }
-
-  @override
-  set change(bool value) {
-    _$changeAtom.reportWrite(value, super.change, () {
-      super.change = value;
-    });
-  }
-
-  final _$productDifAtom = Atom(name: '_AccountClientStore.productDif');
-
-  @override
-  bool get productDif {
-    _$productDifAtom.reportRead();
-    return super.productDif;
-  }
-
-  @override
-  set productDif(bool value) {
-    _$productDifAtom.reportWrite(value, super.productDif, () {
-      super.productDif = value;
-    });
-  }
-
-  final _$updatedUnauthorizedAtom =
-      Atom(name: '_AccountClientStore.updatedUnauthorized');
-
-  @override
-  bool get updatedUnauthorized {
-    _$updatedUnauthorizedAtom.reportRead();
-    return super.updatedUnauthorized;
-  }
-
-  @override
-  set updatedUnauthorized(bool value) {
-    _$updatedUnauthorizedAtom.reportWrite(value, super.updatedUnauthorized, () {
-      super.updatedUnauthorized = value;
-    });
-  }
-
   final _$setListAsyncAction = AsyncAction('_AccountClientStore.setList');
 
   @override
@@ -962,46 +740,6 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   Future<void> reloadPagePayments() {
     return _$reloadPagePaymentsAsyncAction
         .run(() => super.reloadPagePayments());
-  }
-
-  final _$setDataInitialRegisterSaleAsyncAction =
-      AsyncAction('_AccountClientStore.setDataInitialRegisterSale');
-
-  @override
-  Future<void> setDataInitialRegisterSale() {
-    return _$setDataInitialRegisterSaleAsyncAction
-        .run(() => super.setDataInitialRegisterSale());
-  }
-
-  final _$setValueProductAsyncAction =
-      AsyncAction('_AccountClientStore.setValueProduct');
-
-  @override
-  Future<void> setValueProduct(int value) {
-    return _$setValueProductAsyncAction.run(() => super.setValueProduct(value));
-  }
-
-  final _$registerSaleAsyncAction =
-      AsyncAction('_AccountClientStore.registerSale');
-
-  @override
-  Future<void> registerSale() {
-    return _$registerSaleAsyncAction.run(() => super.registerSale());
-  }
-
-  final _$initEditSaleAsyncAction =
-      AsyncAction('_AccountClientStore.initEditSale');
-
-  @override
-  Future<void> initEditSale() {
-    return _$initEditSaleAsyncAction.run(() => super.initEditSale());
-  }
-
-  final _$updateSaleAsyncAction = AsyncAction('_AccountClientStore.updateSale');
-
-  @override
-  Future<void> updateSale() {
-    return _$updateSaleAsyncAction.run(() => super.updateSale());
   }
 
   final _$_AccountClientStoreActionController =
@@ -1185,50 +923,6 @@ mixin _$AccountClientStore on _AccountClientStore, Store {
   }
 
   @override
-  void setQuantity(String value) {
-    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
-        name: '_AccountClientStore.setQuantity');
-    try {
-      return super.setQuantity(value);
-    } finally {
-      _$_AccountClientStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setValue(String price) {
-    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
-        name: '_AccountClientStore.setValue');
-    try {
-      return super.setValue(price);
-    } finally {
-      _$_AccountClientStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setControllerValue() {
-    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
-        name: '_AccountClientStore.setControllerValue');
-    try {
-      return super.setControllerValue();
-    } finally {
-      _$_AccountClientStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setDescriptionProductSold() {
-    final _$actionInfo = _$_AccountClientStoreActionController.startAction(
-        name: '_AccountClientStore.setDescriptionProductSold');
-    try {
-      return super.setDescriptionProductSold();
-    } finally {
-      _$_AccountClientStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 listClient: ${listClient},
@@ -1269,30 +963,13 @@ paidOut: ${paidOut},
 closeAccountOK: ${closeAccountOK},
 closeAccountError: ${closeAccountError},
 listPayments: ${listPayments},
-listProducts: ${listProducts},
-valueSelectProduct: ${valueSelectProduct},
-controllerFieldValueProduct: ${controllerFieldValueProduct},
-controllerFieldQtdProduct: ${controllerFieldQtdProduct},
-quantity: ${quantity},
-valueProduct: ${valueProduct},
-created: ${created},
-updateProduct: ${updateProduct},
-errorSending: ${errorSending},
-change: ${change},
-productDif: ${productDif},
-updatedUnauthorized: ${updatedUnauthorized},
 lisFiltered: ${lisFiltered},
 valueCreditIsValid: ${valueCreditIsValid},
 valueDebitIsValid: ${valueDebitIsValid},
 valuePaidIsValid: ${valuePaidIsValid},
 valueMoneyIsValid: ${valueMoneyIsValid},
 fieldsCloseAccountIsValid: ${fieldsCloseAccountIsValid},
-buttonCloseAccountPressed: ${buttonCloseAccountPressed},
-quantityIsValid: ${quantityIsValid},
-fieldsSaleIsValid: ${fieldsSaleIsValid},
-productIsValid: ${productIsValid},
-buttonRegisterSalePressed: ${buttonRegisterSalePressed},
-buttonUpdateSalePressed: ${buttonUpdateSalePressed}
+buttonCloseAccountPressed: ${buttonCloseAccountPressed}
     ''';
   }
 }
