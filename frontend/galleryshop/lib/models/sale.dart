@@ -4,13 +4,15 @@ class SaleForm {
   int productId;
   int clientId;
   int quantity;
+  int employeeId;
 
-  SaleForm({this.productId, this.clientId, this.quantity});
+  SaleForm({this.productId, this.clientId, this.quantity, this.employeeId});
 
   SaleForm.fromJson(Map<String, dynamic> json) {
     productId = json['productId'];
     clientId = json['clientId'];
     quantity = json['quantity'];
+    employeeId = json['employeeId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -18,9 +20,11 @@ class SaleForm {
     data['productId'] = this.productId;
     data['clientId'] = this.clientId;
     data['quantity'] = this.quantity;
+    data['employeeId'] = this.employeeId;
     return data;
   }
 }
+
 
 class SaleDto {
   int id;
