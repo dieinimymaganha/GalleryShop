@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/models/sale.dart';
-import 'package:galleryshop/screens/accounts/client/consult_sales_account_client.dart';
+import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
 import 'package:galleryshop/stores/sale_product_store.dart';
 import 'package:galleryshop/widgets/alert_dialog_sending.dart';
 import 'package:galleryshop/widgets/dialogs.dart';
@@ -41,11 +41,11 @@ class _DialogExcludeSaleState extends State<DialogExcludeSale> {
         await Future.delayed(Duration(seconds: 2));
         saleProductStore.accountClientProcess
             ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => ConsultSalesAccountClient(
+                builder: (context) => ConsultSalesAccount(
                       idClient: saleProductStore.idClient,
                     )))
             : Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => ConsultSalesAccountClient(
+                builder: (context) => ConsultSalesAccount(
                       idEmployee: saleProductStore.idEmployee,
                     )));
       }

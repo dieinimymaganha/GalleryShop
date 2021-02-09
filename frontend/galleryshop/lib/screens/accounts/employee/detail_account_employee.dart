@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
-import 'package:galleryshop/screens/accounts/client/consult_sales_account_client.dart';
+import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
 
 import 'package:galleryshop/screens/accounts/client/widget/option_menu_detail_account_client.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
@@ -75,7 +75,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConsultSalesAccountClient(
+              builder: (context) => ConsultSalesAccount(
                     idEmployee: accountEmployeeStore.accountEmployeeDto.employeeDtoBasic.id,
                   )));
     }

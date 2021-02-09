@@ -9,25 +9,25 @@ import 'package:galleryshop/stores/sale_product_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'detail_account_client.dart';
-import 'widget/dialog_exclude_sale.dart';
+import 'client/detail_account_client.dart';
+import 'client/widget/dialog_exclude_sale.dart';
 
-class ConsultSalesAccountClient extends StatefulWidget {
+class ConsultSalesAccount extends StatefulWidget {
   final int idClient;
   final int idEmployee;
 
-  ConsultSalesAccountClient({this.idClient, this.idEmployee});
+  ConsultSalesAccount({this.idClient, this.idEmployee});
 
   @override
-  _ConsultSalesAccountClientState createState() =>
-      _ConsultSalesAccountClientState(
+  _ConsultSalesAccountState createState() =>
+      _ConsultSalesAccountState(
           idClient: idClient, idEmployee: idEmployee);
 }
 
-class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
+class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
   SaleProductStore saleProductStore = SaleProductStore();
 
-  _ConsultSalesAccountClientState({int idClient, int idEmployee})
+  _ConsultSalesAccountState({int idClient, int idEmployee})
       : saleProductStore =
             SaleProductStore(idClient: idClient, idEmployee: idEmployee);
 
