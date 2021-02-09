@@ -8,6 +8,7 @@ import 'package:galleryshop/http/webclients/webclient_sale_product.dart';
 import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/models/FlagCardPayment.dart';
 import 'package:galleryshop/models/account_employee.dart';
+import 'package:galleryshop/models/close_account.dart';
 import 'package:galleryshop/models/payment.dart';
 import 'package:galleryshop/models/sale.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
@@ -429,7 +430,7 @@ abstract class _AccountEmployeeStore with Store {
     await Future.delayed(Duration(seconds: 2));
     sending = false;
 
-    CloseAccountClientForm closeAccountClientForm = CloseAccountClientForm(
+    CloseAccountForm closeAccountClientForm = CloseAccountForm(
         idAccountClient: accountClientDto.id,
         value: paidOut,
         card: card,
@@ -481,7 +482,7 @@ abstract class _AccountEmployeeStore with Store {
     notService = true;
     try {
       listPayments =
-          await accountClientWebClient.findPaymentsAccountId(idAccount);
+          await accountEmployeeWebClient.findPaymentsAccountId(idAccount);
       if (listPayments.isNotEmpty) {
         events = fromModelToEventAppointment(listPayments);
       } else {

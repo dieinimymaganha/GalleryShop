@@ -6,6 +6,7 @@ import 'package:galleryshop/screens/accounts/client/consult_payment_account_clie
 import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
 
 import 'package:galleryshop/screens/accounts/client/widget/option_menu_detail_account_client.dart';
+import 'package:galleryshop/screens/accounts/employee/consult_payment_account_employee.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
@@ -61,8 +62,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConsultPaymentClient(
-                    idAccount: accountEmployeeStore.accountClientDto.id,
+              builder: (context) => ConsultPaymentAccountEmployee(
+                    idAccount: accountEmployeeStore.accountEmployeeDto.id,
                   )));
     } else if (choice == OptionsMenuDetailClient.insertProduct) {
       Navigator.push(
@@ -772,9 +773,9 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         CloseAccountScreen(
-                                                          idClient:
+                                                          idEmployee:
                                                               accountEmployeeStore
-                                                                  .idClient,
+                                                                  .idEmployee,
                                                         )));
                                           })),
                                 ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/models/account_employee.dart';
+import 'package:galleryshop/models/payment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../WebClient.dart';
@@ -68,6 +69,30 @@ class AccountEmployeeWebClient {
     }
     throw HttpException(_getMessage(response.statusCode));
   }
+
+
+  Future<List<PaymentDto>> findPaymentsAccountId(int id) async {
+    String token = await getToken();
+
+    String url = urlAccountEmployee + '/payments/' + id.toString();
+
+    final response = await webClient.get(
+      url,
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data =
+      decodeJson.map((dynamic json) => PaymentDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
 
   String _getMessage(int statusCode) {
     if (_statusCodeResponses.containsKey(statusCode)) {

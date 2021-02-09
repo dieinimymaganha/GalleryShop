@@ -3,6 +3,7 @@ import 'package:galleryshop/http/webclients/webclient_account_client.dart';
 import 'package:galleryshop/http/webclients/webclient_financial.dart';
 import 'package:galleryshop/models/AccountClient.dart';
 import 'package:galleryshop/models/FlagCardPayment.dart';
+import 'package:galleryshop/models/close_account.dart';
 import 'package:galleryshop/models/payment.dart';
 import 'package:galleryshop/models/sale.dart';
 import 'package:galleryshop/stores/schedule_store.dart';
@@ -17,13 +18,15 @@ class AccountClientStore = _AccountClientStore with _$AccountClientStore;
 abstract class _AccountClientStore with Store {
   final int idClient;
   final int idAccount;
+  final int idEmployee;
   final SaleDto saleDto;
 
   AccountClientWebClient accountClientWebClient = AccountClientWebClient();
 
   FinancialWebClient financialWebClient = FinancialWebClient();
 
-  _AccountClientStore({this.idClient, this.idAccount, this.saleDto}) {
+  _AccountClientStore(
+      {this.idClient, this.idAccount, this.saleDto, this.idEmployee}) {
     autorun((_) {
       print('productSoldDto >>>>>>>>>>> $saleDto');
     });
@@ -415,7 +418,7 @@ abstract class _AccountClientStore with Store {
     await Future.delayed(Duration(seconds: 2));
     sending = false;
 
-    CloseAccountClientForm closeAccountClientForm = CloseAccountClientForm(
+    CloseAccountForm closeAccountClientForm = CloseAccountForm(
         idAccountClient: accountClientDto.id,
         value: paidOut,
         card: card,

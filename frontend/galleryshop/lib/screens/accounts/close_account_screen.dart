@@ -3,7 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/detail_account_client.dart';
+import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
+import 'package:galleryshop/stores/close_account_store.dart';
 import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
 
@@ -11,26 +13,28 @@ enum SingingCharacter { card, money }
 
 class CloseAccountScreen extends StatefulWidget {
   final int idClient;
+  final int idEmployee;
 
-  CloseAccountScreen({this.idClient});
+  CloseAccountScreen({this.idClient, this.idEmployee});
 
   @override
   _CloseAccountScreenState createState() =>
-      _CloseAccountScreenState(idClient: idClient);
+      _CloseAccountScreenState(idClient: idClient, idEmployee: idEmployee);
 }
 
 class _CloseAccountScreenState extends State<CloseAccountScreen> {
-  _CloseAccountScreenState({int idClient})
-      : accountClientStore = AccountClientStore(idClient: idClient);
+  _CloseAccountScreenState({int idClient, int idEmployee})
+      : closeAccountStore =
+            CloseAccountStore(idClient: idClient, idEmployee: idEmployee);
 
-  AccountClientStore accountClientStore = AccountClientStore();
+  CloseAccountStore closeAccountStore = CloseAccountStore();
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    accountClientStore.iniPageCloseAccount();
+    closeAccountStore.iniPageCloseAccount();
   }
 
   ReactionDisposer disposer;
@@ -39,7 +43,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    disposer = reaction((_) => accountClientStore.closeAccountError,
+    disposer = reaction((_) => closeAccountStore.closeAccountError,
         (errorSending) async {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -55,7 +59,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
     });
 
     disposer =
-        reaction((_) => accountClientStore.closeAccountOK, (created) async {
+        reaction((_) => closeAccountStore.closeAccountOK, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
           'Conta fechada com sucesso!',
@@ -65,10 +69,15 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => DetailAccountClient(
-                idClient: accountClientStore.idClient,
-              )));
+      closeAccountStore.accountClientProcess
+          ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountClient(
+                    idClient: closeAccountStore.idClient,
+                  )))
+          : Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountEmployee(
+                    idEmployee: closeAccountStore.idEmployee,
+                  )));
     });
   }
 
@@ -103,7 +112,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                 style: TextStyle(fontSize: 36.0),
                               ),
                               Text(
-                                'R\$ ${convertMonetary(accountClientStore.totalPayable)}',
+                                'R\$ ${convertMonetary(closeAccountStore.totalPayable)}',
                                 style: TextStyle(
                                     fontSize: 36.0, color: Colors.white),
                               )
@@ -116,15 +125,15 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                       ),
                       CustomFormCoin(
                         controller:
-                            accountClientStore.controllerFieldValuePaidOut,
+                            closeAccountStore.controllerFieldValuePaidOut,
                         mandatory: true,
-                        enabled: !accountClientStore.sending,
+                        enabled: !closeAccountStore.sending,
                         tip: 'Valor pago',
                         label: 'Valor pago',
                         textInputType:
                             TextInputType.numberWithOptions(decimal: true),
                         onChanged: (value) {
-                          accountClientStore.setPaidOut(value);
+                          closeAccountStore.setPaidOut(value);
                         },
                       ),
                       SizedBox(
@@ -137,29 +146,29 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                       ListTile(
                         title: const Text('Dinheiro'),
                         leading: Checkbox(
-                          value: accountClientStore.money,
+                          value: closeAccountStore.money,
                           onChanged: (_) {
                             removeFocus(context);
-                            accountClientStore.alterMoney();
-                            accountClientStore.alterCard();
+                            closeAccountStore.alterMoney();
+                            closeAccountStore.alterCard();
                           },
                         ),
                       ),
                       ListTile(
                         title: const Text('Cartão'),
                         leading: Checkbox(
-                          value: accountClientStore.card,
+                          value: closeAccountStore.card,
                           onChanged: (_) {
                             removeFocus(context);
-                            accountClientStore.alterCard();
-                            accountClientStore.alterMoney();
+                            closeAccountStore.alterCard();
+                            closeAccountStore.alterMoney();
                           },
                         ),
                       ),
                       SizedBox(
                         height: space,
                       ),
-                      accountClientStore.card
+                      closeAccountStore.card
                           ? Column(
                               children: <Widget>[
                                 SizedBox(
@@ -176,8 +185,8 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                     hint: Text(
                                       'Selecione a bandeira do cartão',
                                     ),
-                                    value: accountClientStore.valueSelectFlag,
-                                    items: accountClientStore.listFlagCards
+                                    value: closeAccountStore.valueSelectFlag,
+                                    items: closeAccountStore.listFlagCards
                                         .map((item) {
                                       return DropdownMenuItem(
                                         child: Text(item.description),
@@ -186,7 +195,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                     }).toList(),
                                     onChanged: (value) {
                                       removeFocus(context);
-                                      accountClientStore
+                                      closeAccountStore
                                           .setValueSelectFlag(value);
                                     },
                                   ),
@@ -194,19 +203,19 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    accountClientStore.flagCardPaymentDtoOK
-                                        ? accountClientStore
+                                    closeAccountStore.flagCardPaymentDtoOK
+                                        ? closeAccountStore
                                                 .flagCardPaymentDto.credit
                                             ? Row(
                                                 children: <Widget>[
                                                   Checkbox(
-                                                    value: accountClientStore
+                                                    value: closeAccountStore
                                                         .credit,
                                                     onChanged: (value) {
                                                       removeFocus(context);
-                                                      accountClientStore
+                                                      closeAccountStore
                                                           .alterDebit();
-                                                      accountClientStore
+                                                      closeAccountStore
                                                           .alterCredit();
                                                     },
                                                   ),
@@ -219,19 +228,19 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                               )
                                             : Container()
                                         : Container(),
-                                    accountClientStore.flagCardPaymentDtoOK
-                                        ? accountClientStore
+                                    closeAccountStore.flagCardPaymentDtoOK
+                                        ? closeAccountStore
                                                 .flagCardPaymentDto.debit
                                             ? Row(
                                                 children: <Widget>[
                                                   Checkbox(
-                                                    value: accountClientStore
-                                                        .debit,
+                                                    value:
+                                                        closeAccountStore.debit,
                                                     onChanged: (value) {
                                                       removeFocus(context);
-                                                      accountClientStore
+                                                      closeAccountStore
                                                           .alterDebit();
-                                                      accountClientStore
+                                                      closeAccountStore
                                                           .alterCredit();
                                                     },
                                                   ),
@@ -284,7 +293,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                       ),
                                       Container(
                                         child: SizedBox(
-                                          child: accountClientStore.sending
+                                          child: closeAccountStore.sending
                                               ? CircularProgressIndicator(
                                                   valueColor:
                                                       AlwaysStoppedAnimation(
@@ -297,7 +306,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
                                       )
                                     ],
                                   ),
-                                  onPressed: accountClientStore
+                                  onPressed: closeAccountStore
                                       .buttonCloseAccountPressed)),
                         ),
                       ),

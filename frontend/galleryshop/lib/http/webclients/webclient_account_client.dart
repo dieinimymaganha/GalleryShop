@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/models/AccountClient.dart';
+import 'package:galleryshop/models/close_account.dart';
 import 'package:galleryshop/models/payment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,7 +72,7 @@ class AccountClientWebClient {
   }
 
   Future<int> closeAccount(
-      CloseAccountClientForm closeAccountClientForm) async {
+      CloseAccountForm closeAccountClientForm) async {
     String token = await getToken();
     final String employeeJson = jsonEncode(closeAccountClientForm.toJson());
     final response = await webClient.post(urlCloseAccount,
