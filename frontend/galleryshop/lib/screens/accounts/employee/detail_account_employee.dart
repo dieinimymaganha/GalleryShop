@@ -76,7 +76,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
           context,
           MaterialPageRoute(
               builder: (context) => ConsultSalesAccountClient(
-                    idClient: accountEmployeeStore.idClient,
+                    idEmployee: accountEmployeeStore.accountEmployeeDto.employeeDtoBasic.id,
                   )));
     }
   }

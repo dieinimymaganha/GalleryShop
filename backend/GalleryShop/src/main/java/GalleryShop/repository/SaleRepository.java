@@ -18,4 +18,10 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "INNER join account_client c ON c.id = s.account_client_id " +
             "where c.client_id = ?", nativeQuery = true)
     List<Sale> findByClientId(Long id);
+
+
+    @Query(value = "select * from sale s " +
+            "INNER join account_employee c ON c.id = s.account_employee_id " +
+            "where c.employee_id = ?", nativeQuery = true)
+    List<Sale> findByEmployeeId(Long id);
 }

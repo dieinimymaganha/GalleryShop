@@ -39,6 +39,24 @@ class SaleProductWebClient {
     }
     throw HttpException(_getMessage(response.statusCode));
   }
+  Future<List<SaleDto>> findByEmployeeId(int id) async {
+    String token = await getToken();
+    final response = await webClient.get(
+      urlSaleProduct + "/employeeId=" + id.toString(),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': "Bearer $token"
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> decodeJson = jsonDecode(response.body);
+      final List<dynamic> data =
+          decodeJson.map((dynamic json) => SaleDto.fromJson(json)).toList();
+      return data;
+    }
+    throw HttpException(_getMessage(response.statusCode));
+  }
 
   Future<int> exclude(int id) async {
     String token = await getToken();

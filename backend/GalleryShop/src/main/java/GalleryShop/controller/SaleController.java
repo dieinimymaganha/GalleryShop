@@ -64,6 +64,14 @@ public class SaleController {
 
     }
 
+    @GetMapping("/employeeId={id}")
+    public List<SaleDto> getSalesEmployeeId(@PathVariable Long id) {
+        List<Sale> sales = saleRepository.findByEmployeeId(id);
+        return SaleDto.convertDto(sales);
+
+
+    }
+
 
     @PostMapping
     @Transactional

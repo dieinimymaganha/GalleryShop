@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
 import 'package:galleryshop/stores/sale_product_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
@@ -13,19 +14,22 @@ import 'widget/dialog_exclude_sale.dart';
 
 class ConsultSalesAccountClient extends StatefulWidget {
   final int idClient;
+  final int idEmployee;
 
-  ConsultSalesAccountClient({this.idClient});
+  ConsultSalesAccountClient({this.idClient, this.idEmployee});
 
   @override
   _ConsultSalesAccountClientState createState() =>
-      _ConsultSalesAccountClientState(idClient: idClient);
+      _ConsultSalesAccountClientState(
+          idClient: idClient, idEmployee: idEmployee);
 }
 
 class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
   SaleProductStore saleProductStore = SaleProductStore();
 
-  _ConsultSalesAccountClientState({int idClient})
-      : saleProductStore = SaleProductStore(idClient: idClient);
+  _ConsultSalesAccountClientState({int idClient, int idEmployee})
+      : saleProductStore =
+            SaleProductStore(idClient: idClient, idEmployee: idEmployee);
 
   @override
   void initState() {
@@ -49,10 +53,13 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  saleProductStore.accountClientProcess ? Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => DetailAccountClient(
                             idClient: saleProductStore.idClient,
-                          )));
+                          ))) : Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DetailAccountEmployee(
+                        idEmployee: saleProductStore.idEmployee,
+                      )));
                 },
               ),
             ),
@@ -186,14 +193,15 @@ class _ConsultSalesAccountClientState extends State<ConsultSalesAccountClient> {
                                                     saleProductStore.idClient,
                                               ));
                                     },
-                                    onDoubleTap: (){
+                                    onDoubleTap: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => SaleProduct(
-                                                idClient: saleProductStore.idClient,
-                                                saleDto: saleDto,
-                                              )));
+                                                    idClient: saleProductStore
+                                                        .idClient,
+                                                    saleDto: saleDto,
+                                                  )));
                                     },
                                     child: Card(
                                       color: colorCard,

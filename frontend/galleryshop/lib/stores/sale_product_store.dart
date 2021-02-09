@@ -45,7 +45,13 @@ abstract class _SaleProductStore with Store {
   @action
   Future<void> setListCalendar() async {
     try {
-      listSales = await saleProductWebClient.findByClientId(idClient);
+      if (idClient != null) {
+        listSales = await saleProductWebClient.findByClientId(idClient);
+      } else if (idEmployee != null) {
+        accountClientProcess = false;
+        listSales = await saleProductWebClient.findByEmployeeId(idEmployee);
+      }
+
       if (listSales.isNotEmpty) {
         events = fromModelToEventAppointment(listSales);
       } else {
