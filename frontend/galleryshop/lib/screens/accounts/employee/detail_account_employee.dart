@@ -69,7 +69,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
           context,
           MaterialPageRoute(
               builder: (context) => SaleProduct(
-                    idClient: accountEmployeeStore.idClient,
+                    idEmployee: accountEmployeeStore.accountEmployeeDto.employeeDtoBasic.id,
                   )));
     } else if (choice == OptionsMenuDetailClient.consultSales) {
       Navigator.push(
