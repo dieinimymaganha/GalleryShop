@@ -64,7 +64,7 @@ public class ServiceController {
 
         Service service = form.converter(typeEmployeeRepository);
 
-        Optional<Service> serviceExist = serviceRepository.findByDescription(service.getDescription());
+        Optional<Service> serviceExist = serviceRepository.findByDescriptionIgnoreCase(service.getDescription());
 
         if (serviceExist.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

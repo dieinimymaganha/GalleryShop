@@ -55,7 +55,7 @@ public class TypeEmployeeController {
         TypeEmployee typeEmployee = form.converter();
 
         TypeEmployee typeEmployeeExist = typeEmployeeRepository
-                .findByDescription(typeEmployee.getDescription());
+                .findByDescriptionIgnoreCase(typeEmployee.getDescription());
 
         if(typeEmployeeExist != null){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

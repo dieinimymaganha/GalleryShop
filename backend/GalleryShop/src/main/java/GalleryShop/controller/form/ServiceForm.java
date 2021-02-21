@@ -56,7 +56,7 @@ public class ServiceForm {
     }
 
     public Service converter(TypeEmployeeRepository typeEmployeeRepository) {
-        TypeEmployee typeEmployee = typeEmployeeRepository.findByDescription(descriptonTypeEmployee);
+        TypeEmployee typeEmployee = typeEmployeeRepository.findByDescriptionIgnoreCase(descriptonTypeEmployee);
         return new Service(description, value, fixedPrice, typeEmployee);
 
     }
@@ -64,7 +64,7 @@ public class ServiceForm {
     public Service upload(Long id, ServiceRepository serviceRepository, TypeEmployeeRepository typeEmployeeRepository) {
         Service service = serviceRepository.getOne(id);
 
-        TypeEmployee typeEmployee = typeEmployeeRepository.findByDescription(this.descriptonTypeEmployee);
+        TypeEmployee typeEmployee = typeEmployeeRepository.findByDescriptionIgnoreCase(this.descriptonTypeEmployee);
 
         service.setDescription(this.description);
         service.setFixedPrice(this.fixedPrice);

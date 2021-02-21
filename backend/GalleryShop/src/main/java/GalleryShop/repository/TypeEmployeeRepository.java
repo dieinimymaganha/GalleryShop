@@ -7,5 +7,5 @@ import GalleryShop.model.TypeEmployee;
 
 public interface TypeEmployeeRepository extends JpaRepository<TypeEmployee, Long> {
 
-    TypeEmployee findByDescription(String descriptionTypeEmployee);
+    TypeEmployee findByDescriptionIgnoreCase(String descriptionTypeEmployee);
 }

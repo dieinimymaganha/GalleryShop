@@ -160,7 +160,7 @@ public class EmployeeForm {
 
         for (TypeEmployee typeEmployee : listTypeEmployees) {
             TypeEmployee newTypeEmployee = typeEmployeeRepository
-                    .findByDescription(typeEmployee.getDescription().toString());
+                    .findByDescriptionIgnoreCase(typeEmployee.getDescription().toString());
             newListTypeEmployees.add(newTypeEmployee);
         }
         return new Employee(name, lastName, nickname, cpf, birthDate, phoneNumber, userLogin, rg, commissionRate,
@@ -174,7 +174,7 @@ public class EmployeeForm {
         List<TypeEmployee> newListTypeEmployees = new ArrayList<>();
         for (TypeEmployee typeEmployee : listTypeEmployees) {
             TypeEmployee newTypeEmployee = typeEmployeeRepository
-                    .findByDescription(typeEmployee.getDescription().toString());
+                    .findByDescriptionIgnoreCase(typeEmployee.getDescription().toString());
             newListTypeEmployees.add(newTypeEmployee);
         }
 

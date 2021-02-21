@@ -9,7 +9,7 @@ import GalleryShop.model.Service;
 
 public interface ServiceRepository extends JpaRepository<Service, Long> {
     
-    Optional<Service> findByDescription(String description);
+    Optional<Service> findByDescriptionIgnoreCase(String description);
 
     List<Service> findByTypeEmployeeId(Long id);
 
