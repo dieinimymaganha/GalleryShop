@@ -51,10 +51,18 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     });
 
-    disposer = reaction((_) => loginStore.errorLogin, (errorLogin) {
-      if (errorLogin) {
+    disposer = reaction((_) => loginStore.notFound, (notFound) {
+      if (notFound) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text('Usuário ou senha incorreta'),
+          backgroundColor: Colors.deepOrangeAccent,
+          duration: Duration(seconds: 2),
+        ));
+      }
+    });    disposer = reaction((_) => loginStore.errorLogin, (errorLogin) {
+      if (errorLogin) {
+        _scaffoldKey.currentState.showSnackBar(SnackBar(
+          content: Text('Falha na conexão, verifique sua internet'),
           backgroundColor: Colors.redAccent,
           duration: Duration(seconds: 2),
         ));
