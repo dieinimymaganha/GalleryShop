@@ -28,7 +28,6 @@ abstract class _MyAccountStore with Store {
   @action
   Future<void> setPhoneNumberLogin() async {
     phoneNumberLogin = await getPhoneNumber();
-    await getEmployee();
     nickNameLogin = await getNickName();
   }
 
@@ -44,15 +43,5 @@ abstract class _MyAccountStore with Store {
     var prefs = await SharedPreferences.getInstance();
     String nickName = (prefs.getString("nickName") ?? "");
     return nickName;
-  }
-
-  @action
-  Future<EmployeeDto> getEmployee() async {
-    employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
-    var prefs = await SharedPreferences.getInstance();
-    if (employeeDto != null) {
-      prefs.setInt("idEmployee", employeeDto.id);
-      prefs.setString("nickName", employeeDto.nickname);
-    }
   }
 }

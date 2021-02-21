@@ -78,13 +78,6 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getNickNameAsyncAction.run(() => super.getNickName());
   }
 
-  final _$getEmployeeAsyncAction = AsyncAction('_MyAccountStore.getEmployee');
-
-  @override
-  Future<EmployeeDto> getEmployee() {
-    return _$getEmployeeAsyncAction.run(() => super.getEmployee());
-  }
-
   @override
   String toString() {
     return '''

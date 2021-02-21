@@ -1,4 +1,6 @@
+import 'package:galleryshop/http/webclients/webclient_employee.dart';
 import 'package:galleryshop/http/webclients/webclient_login.dart';
+import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/models/login.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart';
@@ -13,9 +15,7 @@ abstract class _LoginStore with Store {
 
   _LoginStore() {
     autorun((_) {
-      print('loading : $loading');
-      print('loggedIn : $loggedIn');
-      print("errorLogin : $errorLogin");
+      print('employeeDto : $employeeDto');
     });
   }
 
@@ -58,8 +58,16 @@ abstract class _LoginStore with Store {
   @observable
   bool notFound = false;
 
+  @observable
+  String phoneNumberLogin = '';
+
   @action
   Future<void> login() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('idEmployee');
+    await prefs.remove('phoneNumber');
+    await prefs.remove('nickName');
+
     loading = true;
     await Future.delayed(Duration(seconds: 2));
     final LoginModel loginModel =
@@ -68,7 +76,12 @@ abstract class _LoginStore with Store {
     try {
       Response response = await _webClient.sendUser(loginModel);
       if (response.statusCode == 200) {
-        loggedIn = true;
+        await setPhoneNumberLogin();
+        if (employeeDto != null) {
+          loggedIn = true;
+        } else {
+          forbidden = true;
+        }
       } else if (response.statusCode == 400) {
         notFound = true;
       }
@@ -79,9 +92,40 @@ abstract class _LoginStore with Store {
     await Future.delayed(Duration(seconds: 2));
     errorLogin = false;
     notFound = false;
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.remove('idEmployee');
+    forbidden = false;
     loading = false;
+  }
+
+  @action
+  Future<void> setPhoneNumberLogin() async {
+    phoneNumberLogin = await getPhoneNumber();
+    await getEmployee();
+  }
+
+  @observable
+  EmployeeDto employeeDto;
+
+  EmployeeWebClient employeeWebClient = EmployeeWebClient();
+
+  @action
+  Future<void> getEmployee() async {
+    try {
+      employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
+      var prefs = await SharedPreferences.getInstance();
+      if (employeeDto != null) {
+        prefs.setInt("idEmployee", employeeDto.id);
+        prefs.setString("nickName", employeeDto.nickname);
+      }
+    } on Exception catch (_) {
+      employeeDto = null;
+    }
+  }
+
+  @action
+  Future<String> getPhoneNumber() async {
+    var prefs = await SharedPreferences.getInstance();
+    String phoneNumber = (prefs.getString("phoneNumber") ?? "");
+    return phoneNumber;
   }
 
   @computed

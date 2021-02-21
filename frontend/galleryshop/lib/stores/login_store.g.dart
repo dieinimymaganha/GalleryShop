@@ -151,11 +151,64 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$phoneNumberLoginAtom = Atom(name: '_LoginStore.phoneNumberLogin');
+
+  @override
+  String get phoneNumberLogin {
+    _$phoneNumberLoginAtom.reportRead();
+    return super.phoneNumberLogin;
+  }
+
+  @override
+  set phoneNumberLogin(String value) {
+    _$phoneNumberLoginAtom.reportWrite(value, super.phoneNumberLogin, () {
+      super.phoneNumberLogin = value;
+    });
+  }
+
+  final _$employeeDtoAtom = Atom(name: '_LoginStore.employeeDto');
+
+  @override
+  EmployeeDto get employeeDto {
+    _$employeeDtoAtom.reportRead();
+    return super.employeeDto;
+  }
+
+  @override
+  set employeeDto(EmployeeDto value) {
+    _$employeeDtoAtom.reportWrite(value, super.employeeDto, () {
+      super.employeeDto = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginStore.login');
 
   @override
   Future<void> login() {
     return _$loginAsyncAction.run(() => super.login());
+  }
+
+  final _$setPhoneNumberLoginAsyncAction =
+      AsyncAction('_LoginStore.setPhoneNumberLogin');
+
+  @override
+  Future<void> setPhoneNumberLogin() {
+    return _$setPhoneNumberLoginAsyncAction
+        .run(() => super.setPhoneNumberLogin());
+  }
+
+  final _$getEmployeeAsyncAction = AsyncAction('_LoginStore.getEmployee');
+
+  @override
+  Future<void> getEmployee() {
+    return _$getEmployeeAsyncAction.run(() => super.getEmployee());
+  }
+
+  final _$getPhoneNumberAsyncAction = AsyncAction('_LoginStore.getPhoneNumber');
+
+  @override
+  Future<String> getPhoneNumber() {
+    return _$getPhoneNumberAsyncAction.run(() => super.getPhoneNumber());
   }
 
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
@@ -204,6 +257,8 @@ loggedIn: ${loggedIn},
 errorLogin: ${errorLogin},
 forbidden: ${forbidden},
 notFound: ${notFound},
+phoneNumberLogin: ${phoneNumberLogin},
+employeeDto: ${employeeDto},
 isPasswordValid: ${isPasswordValid},
 isPhoneValid: ${isPhoneValid},
 loginPressed: ${loginPressed}
