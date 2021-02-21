@@ -10,7 +10,7 @@ import '../WebClient.dart';
 const urlLogin = baseUrl + 'auth';
 
 class LoginWebClient {
-  Future<TokenModel> sendUser(LoginModel loginModel) async {
+  Future<Response> sendUser(LoginModel loginModel) async {
     var prefs = await SharedPreferences.getInstance();
     final String loginJson = jsonEncode(loginModel.toJson());
     final Response response = await webClient.post(urlLogin,
@@ -20,9 +20,8 @@ class LoginWebClient {
       TokenModel token = TokenModel.fromJson(jsonDecode(response.body));
       prefs.setString("tokenjwt", token.token.toString());
       prefs.setString("phoneNumber", loginModel.phoneNumber.toString());
-      return token;
     }
-    throw HttpException(_getMessage(response.statusCode));
+    return response;
   }
 
   String _getMessage(int statuscode) {
