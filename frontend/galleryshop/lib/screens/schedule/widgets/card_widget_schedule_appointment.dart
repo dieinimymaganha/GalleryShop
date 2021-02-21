@@ -89,40 +89,8 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                         ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.white70,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: FlatButton(
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.event_busy,
-                                      color: Colors.red,
-                                    ),
-                                    Text(
-                                      'Cancelar',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ],
-                                ),
-                                onPressed: () {
-//                                  showDialog(
-//                                      context: context,
-//                                      builder: (context) =>
-//                                          DialogCancelAppointment(
-//                                            scheduleDto: scheduleDto,
-//                                          ));
-                                },
-                              ),
-                            ),
-                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(

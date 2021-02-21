@@ -79,7 +79,7 @@ class IconSection extends StatelessWidget {
                 label: 'Serviços',
                 iconData: Icons.beenhere,
                 onTap: () {
-                  _setPage(8);
+                  _setPage(5);
                 },
                 highlighted: snapshot.data == 5,
               ),
@@ -112,11 +112,10 @@ class IconSection extends StatelessWidget {
                 label: 'Minha conta',
                 iconData: Icons.person,
                 onTap: () {
-                  _setPage(5);
+                  _setPage(8);
                 },
                 highlighted: snapshot.data == 8,
               ),
-
               Divider(
                 height: 0,
               ),
