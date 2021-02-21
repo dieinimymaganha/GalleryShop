@@ -1,7 +1,7 @@
 import 'package:galleryshop/http/webclients/webclient_login.dart';
 import 'package:galleryshop/models/login.dart';
-import 'package:galleryshop/models/token.dart';
 import 'package:mobx/mobx.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_store.g.dart';
@@ -46,46 +46,42 @@ abstract class _LoginStore with Store {
   @action
   void setPassword(String value) => password = value;
 
-  @action
-  Future<void> login() async {
-    final LoginModel loginModel =
-        LoginModel(phoneNumber: phone, password: password);
-    await save(loginModel);
-  }
-
   @computed
   bool get isPasswordValid => password.length >= 6;
 
   @computed
   bool get isPhoneValid => phone.length > 6;
 
+  @observable
+  bool forbidden = false;
+
+  @observable
+  bool notFound = false;
+
   @action
-  Future<void> save(LoginModel loginCreated) async {
-    LoginModel loginModel = loginCreated;
+  Future<void> login() async {
     loading = true;
     await Future.delayed(Duration(seconds: 2));
+    final LoginModel loginModel =
+        LoginModel(phoneNumber: phone, password: password);
 
-    TokenModel tokenModel = await send(loginModel);
-
-    if (tokenModel != null) {
-      loggedIn = true;
-    } else {
+    try {
+      Response response = await _webClient.sendUser2(loginModel);
+      if (response.statusCode == 200) {
+        loggedIn = true;
+      } else if (response.statusCode == 400) {
+        notFound = true;
+      }
+    } on Exception catch (_) {
       errorLogin = true;
     }
+
     await Future.delayed(Duration(seconds: 2));
     errorLogin = false;
-  }
-
-  Future<TokenModel> send(LoginModel loginModel) async {
-    final TokenModel tokenModel =
-        await _webClient.sendUser(loginModel).catchError((e) {
-      loggedIn = false;
-      errorLogin = true;
-      loading = false;
-    });
+    notFound = false;
     var prefs = await SharedPreferences.getInstance();
     await prefs.remove('idEmployee');
-    return tokenModel;
+    loading = false;
   }
 
   @computed
