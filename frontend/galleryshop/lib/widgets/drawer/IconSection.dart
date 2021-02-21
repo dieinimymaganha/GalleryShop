@@ -76,10 +76,10 @@ class IconSection extends StatelessWidget {
                 height: 0,
               ),
               IconTile(
-                label: 'Minha conta',
-                iconData: Icons.person,
+                label: 'Serviços',
+                iconData: Icons.beenhere,
                 onTap: () {
-                  _setPage(5);
+                  _setPage(8);
                 },
                 highlighted: snapshot.data == 5,
               ),
@@ -87,8 +87,8 @@ class IconSection extends StatelessWidget {
                 height: 0,
               ),
               IconTile(
-                label: 'Contas a pagar',
-                iconData: Icons.money_off,
+                label: 'Financeiro',
+                iconData: Icons.monetization_on,
                 onTap: () {
                   _setPage(6);
                 },
@@ -98,8 +98,8 @@ class IconSection extends StatelessWidget {
                 height: 0,
               ),
               IconTile(
-                label: 'Financeiro',
-                iconData: Icons.monetization_on,
+                label: 'Bar',
+                iconData: Icons.local_bar,
                 onTap: () {
                   _setPage(7);
                 },
@@ -109,45 +109,16 @@ class IconSection extends StatelessWidget {
                 height: 0,
               ),
               IconTile(
-                label: 'Bar',
-                iconData: Icons.local_bar,
+                label: 'Minha conta',
+                iconData: Icons.person,
                 onTap: () {
-                  _setPage(8);
+                  _setPage(5);
                 },
                 highlighted: snapshot.data == 8,
               ),
+
               Divider(
                 height: 0,
-              ),
-              IconTile(
-                label: 'Serviços',
-                iconData: Icons.beenhere,
-                onTap: () {
-                  _setPage(9);
-                },
-                highlighted: snapshot.data == 9,
-              ),
-              Divider(
-                height: 0,
-              ),
-              IconTile(
-                label: 'Estoque',
-                iconData: Icons.markunread_mailbox,
-                onTap: () {
-                  _setPage(10);
-                },
-                highlighted: snapshot.data == 10,
-              ),
-              Divider(
-                height: 0,
-              ),
-              IconTile(
-                label: 'Relatórios',
-                iconData: Icons.pie_chart,
-                onTap: () {
-                  _setPage(11);
-                },
-                highlighted: snapshot.data == 11,
               ),
             ],
           ),
