@@ -66,7 +66,7 @@ abstract class _LoginStore with Store {
         LoginModel(phoneNumber: phone, password: password);
 
     try {
-      Response response = await _webClient.sendUser2(loginModel);
+      Response response = await _webClient.sendUser(loginModel);
       if (response.statusCode == 200) {
         loggedIn = true;
       } else if (response.statusCode == 400) {
