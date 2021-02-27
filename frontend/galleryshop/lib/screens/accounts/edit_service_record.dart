@@ -256,12 +256,14 @@ class _EditServiceRecordScreenState extends State<EditServiceRecordScreen> {
                                                 context: context,
                                                 builder: (context) =>
                                                     DialogExcludeServiceRecord(
-                                                      idService:
-                                                          serviceRecordDto.id,
-                                                      idEmployee:
-                                                          billedServiceStore
-                                                              .idEmployee,
-                                                    ));
+                                                        idService:
+                                                            serviceRecordDto.id,
+                                                        idEmployee:
+                                                            billedServiceStore
+                                                                .idEmployee,
+                                                        consultMyAccount:
+                                                            billedServiceStore
+                                                                .consultMyAccount));
                                   },
                                 ),
                               )),

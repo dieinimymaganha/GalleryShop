@@ -17,6 +17,7 @@ class BilledServiceScreen extends StatefulWidget {
   final String descTypeEmployee;
   final int idSchedule;
   final bool concludedAppointment;
+  final bool consultMyAccount;
 
   BilledServiceScreen(
       {this.typeEmployee,
@@ -26,7 +27,8 @@ class BilledServiceScreen extends StatefulWidget {
       this.accountEmployeeId,
       this.descTypeEmployee,
       this.idSchedule,
-      this.concludedAppointment});
+      this.concludedAppointment,
+      this.consultMyAccount});
 
   @override
   _BilledServiceScreenState createState() => _BilledServiceScreenState(
@@ -37,7 +39,8 @@ class BilledServiceScreen extends StatefulWidget {
       descTypeEmployee: descTypeEmployee,
       idSchedule: idSchedule,
       idClient: idClient,
-      concludedAppointment: concludedAppointment);
+      concludedAppointment: concludedAppointment,
+      consultMyAccount: consultMyAccount);
 }
 
 class _BilledServiceScreenState extends State<BilledServiceScreen> {
@@ -50,7 +53,8 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
       String descTypeEmployee,
       int idSchedule,
       int idClient,
-      bool concludedAppointment})
+      bool concludedAppointment,
+      bool consultMyAccount})
       : billedServiceStore = BilledServiceStore(
             typeEmployee: typeEmployee,
             idEmployee: idEmployee,
@@ -59,7 +63,8 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
             descTypeEmployee: descTypeEmployee,
             idSchedule: idSchedule,
             idClient: idClient,
-            concludedAppointment: concludedAppointment);
+            concludedAppointment: concludedAppointment,
+            consultMyAccount: consultMyAccount);
 
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
@@ -97,6 +102,7 @@ class _BilledServiceScreenState extends State<BilledServiceScreen> {
               builder: (context) => DetailAccountEmployee(
                     idEmployee: billedServiceStore
                         .accontEmployeeDto.employeeDtoBasic.id,
+                    consultMyAccount: billedServiceStore.consultMyAccount,
                   )));
     });
 

@@ -15,8 +15,9 @@ class CloseAccountStore = _CloseAccountStore with _$CloseAccountStore;
 abstract class _CloseAccountStore with Store {
   final int idClient;
   final int idEmployee;
+  final bool consultMyAccount;
 
-  _CloseAccountStore({this.idEmployee, this.idClient});
+  _CloseAccountStore({this.idEmployee, this.idClient, this.consultMyAccount});
 
   FinancialWebClient financialWebClient = FinancialWebClient();
   AccountEmployeeWebClient accountEmployeeWebClient =

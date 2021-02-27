@@ -11,20 +11,29 @@ class DialogExcludeSale extends StatefulWidget {
   final SaleDto saleDto;
   final int idClient;
   final int idEmployee;
+  final bool consultMyAccount;
 
-  DialogExcludeSale({this.saleDto, this.idClient, this.idEmployee});
+  DialogExcludeSale(
+      {this.saleDto, this.idClient, this.idEmployee, this.consultMyAccount});
 
   @override
   _DialogExcludeSaleState createState() => _DialogExcludeSaleState(
-      saleDto: saleDto, idClient: idClient, idEmployee: idEmployee);
+      saleDto: saleDto,
+      idClient: idClient,
+      idEmployee: idEmployee,
+      consultMyAccount: consultMyAccount);
 }
 
 class _DialogExcludeSaleState extends State<DialogExcludeSale> {
   SaleProductStore saleProductStore = SaleProductStore();
 
-  _DialogExcludeSaleState({SaleDto saleDto, int idClient, int idEmployee})
+  _DialogExcludeSaleState(
+      {SaleDto saleDto, int idClient, int idEmployee, bool consultMyAccount})
       : saleProductStore = SaleProductStore(
-            saleDto: saleDto, idClient: idClient, idEmployee: idEmployee);
+            saleDto: saleDto,
+            idClient: idClient,
+            idEmployee: idEmployee,
+            consultMyAccount: consultMyAccount);
 
   ReactionDisposer disposer;
 
@@ -47,6 +56,7 @@ class _DialogExcludeSaleState extends State<DialogExcludeSale> {
             : Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => ConsultSalesAccount(
                       idEmployee: saleProductStore.idEmployee,
+                  consultMyAccount:saleProductStore.consultMyAccount,
                     )));
       }
     });

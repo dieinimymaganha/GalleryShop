@@ -4,13 +4,14 @@ import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/widget/option_menu_detail_account_client.dart';
 import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
+import 'package:galleryshop/screens/accounts/employee/account_list_employee_screen.dart';
 import 'package:galleryshop/screens/accounts/employee/consult_payment_account_employee.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
-import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
 import 'package:galleryshop/stores/account_employee_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 import '../close_account_screen.dart';
 import '../edit_service_record.dart';
 
@@ -44,9 +45,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
           context,
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
-                    accountEmployeeId:
-                        accountEmployeeStore.accountEmployeeDto.id,
-                  )));
+                  accountEmployeeId: accountEmployeeStore.accountEmployeeDto.id,
+                  consultMyAccount: accountEmployeeStore.consultMyAccount)));
     } else if (choice == OptionsMenuDetailAccount.consultServices) {
       Navigator.push(
           context,
@@ -72,6 +72,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
               builder: (context) => SaleProduct(
                     idEmployee: accountEmployeeStore
                         .accountEmployeeDto.employeeDtoBasic.id,
+                    consultMyAccount: accountEmployeeStore.consultMyAccount,
                   )));
     } else if (choice == OptionsMenuDetailAccount.consultSales) {
       Navigator.push(
@@ -104,8 +105,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => BaseScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => AccountListEmployeeScreen()));
                 },
               ),
             ),
@@ -793,6 +794,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                                                                 idEmployee:
                                                                     accountEmployeeStore
                                                                         .idEmployee,
+                                                                consultMyAccount: accountEmployeeStore.consultMyAccount,
                                                               )));
                                                 })),
                                       ),

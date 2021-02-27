@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/detail_account_client.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/stores/account_client_store.dart';
 
 class AccountListClientScreen extends StatefulWidget {
@@ -37,6 +38,18 @@ class _AccountListClientScreenState extends State<AccountListClientScreen> {
               ),
             ),
             backgroundColor: colorAppbar,
+            leading: IconButton(
+              icon: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => BaseScreen()));
+                },
+              ),
+            ),
           ),
           body: ListView(
             children: accountClientStore.lisFiltered.map((accountDto) {
@@ -45,7 +58,9 @@ class _AccountListClientScreenState extends State<AccountListClientScreen> {
                 child: InkWell(
                   onDoubleTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => DetailAccountClient(idClient: accountDto.clientDto.id,)));
+                        builder: (context) => DetailAccountClient(
+                              idClient: accountDto.clientDto.id,
+                            )));
                   },
                   child: Card(
                     elevation: 3,

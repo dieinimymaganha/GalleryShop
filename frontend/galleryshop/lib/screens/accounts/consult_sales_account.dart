@@ -208,11 +208,13 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
                                                   context: context,
                                                   builder: (context) =>
                                                       DialogExcludeSale(
-                                                        saleDto: saleDto,
-                                                        idEmployee:
-                                                            saleProductStore
-                                                                .idEmployee,
-                                                      ));
+                                                          saleDto: saleDto,
+                                                          idEmployee:
+                                                              saleProductStore
+                                                                  .idEmployee,
+                                                          consultMyAccount:
+                                                              saleProductStore
+                                                                  .consultMyAccount));
                                     },
                                     onDoubleTap: () {
                                       saleProductStore.accountClientProcess
@@ -221,11 +223,10 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       SaleProduct(
-                                                        idClient:
-                                                            saleProductStore
-                                                                .idClient,
-                                                        saleDto: saleDto,
-                                                      )))
+                                                          idClient:
+                                                              saleProductStore
+                                                                  .idClient,
+                                                          saleDto: saleDto)))
                                           : saleProductStore.consultMyAccount
                                               ? Container()
                                               : Navigator.push(
@@ -237,6 +238,7 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
                                                                 saleProductStore
                                                                     .idEmployee,
                                                             saleDto: saleDto,
+                                                            consultMyAccount: saleProductStore.consultMyAccount,
                                                           )));
                                     },
                                     child: Card(

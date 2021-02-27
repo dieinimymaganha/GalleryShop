@@ -39,8 +39,7 @@ abstract class _BilledServiceStore with Store {
       this.concludedAppointment,
       this.consultMyAccount}) {
     autorun((_) {
-      print('concludedAppointment >>>> $concludedAppointment');
-      print('idClient >>>> $idClient');
+      print('consultMyAccount >>>> $consultMyAccount');
     });
   }
 

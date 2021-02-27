@@ -4,7 +4,6 @@ import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/client/detail_account_client.dart';
 import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
-import 'package:galleryshop/stores/account_client_store.dart';
 import 'package:galleryshop/stores/close_account_store.dart';
 import 'package:galleryshop/widgets/custom_form_coin.dart';
 import 'package:mobx/mobx.dart';
@@ -14,18 +13,24 @@ enum SingingCharacter { card, money }
 class CloseAccountScreen extends StatefulWidget {
   final int idClient;
   final int idEmployee;
+  final bool consultMyAccount;
 
-  CloseAccountScreen({this.idClient, this.idEmployee});
+  CloseAccountScreen({this.idClient, this.idEmployee, this.consultMyAccount});
 
   @override
-  _CloseAccountScreenState createState() =>
-      _CloseAccountScreenState(idClient: idClient, idEmployee: idEmployee);
+  _CloseAccountScreenState createState() => _CloseAccountScreenState(
+      idClient: idClient,
+      idEmployee: idEmployee,
+      consultMyAccount: consultMyAccount);
 }
 
 class _CloseAccountScreenState extends State<CloseAccountScreen> {
-  _CloseAccountScreenState({int idClient, int idEmployee})
-      : closeAccountStore =
-            CloseAccountStore(idClient: idClient, idEmployee: idEmployee);
+  _CloseAccountScreenState(
+      {int idClient, int idEmployee, bool consultMyAccount})
+      : closeAccountStore = CloseAccountStore(
+            idClient: idClient,
+            idEmployee: idEmployee,
+            consultMyAccount: consultMyAccount);
 
   CloseAccountStore closeAccountStore = CloseAccountStore();
 
@@ -77,6 +82,7 @@ class _CloseAccountScreenState extends State<CloseAccountScreen> {
           : Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => DetailAccountEmployee(
                     idEmployee: closeAccountStore.idEmployee,
+                  consultMyAccount: closeAccountStore.consultMyAccount
                   )));
     });
   }

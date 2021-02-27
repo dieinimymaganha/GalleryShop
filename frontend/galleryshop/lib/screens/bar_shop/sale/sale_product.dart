@@ -13,20 +13,29 @@ class SaleProduct extends StatefulWidget {
   final int idClient;
   final int idEmployee;
   final SaleDto saleDto;
+  final bool consultMyAccount;
 
-  SaleProduct({this.idClient, this.saleDto, this.idEmployee});
+  SaleProduct(
+      {this.idClient, this.saleDto, this.idEmployee, this.consultMyAccount});
 
   @override
   _SaleProductState createState() => _SaleProductState(
-      idClient: idClient, saleDto: saleDto, idEmployee: idEmployee);
+      idClient: idClient,
+      saleDto: saleDto,
+      idEmployee: idEmployee,
+      consultMyAccount: consultMyAccount);
 }
 
 class _SaleProductState extends State<SaleProduct> {
   SaleProductStore saleProductStore = SaleProductStore();
 
-  _SaleProductState({int idClient, SaleDto saleDto, int idEmployee})
+  _SaleProductState(
+      {int idClient, SaleDto saleDto, int idEmployee, bool consultMyAccount})
       : saleProductStore = SaleProductStore(
-            idClient: idClient, saleDto: saleDto, idEmployee: idEmployee);
+            idClient: idClient,
+            saleDto: saleDto,
+            idEmployee: idEmployee,
+            consultMyAccount: consultMyAccount);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -51,13 +60,16 @@ class _SaleProductState extends State<SaleProduct> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      saleProductStore.accountClientProcess ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => DetailAccountClient(
-                idClient: saleProductStore.idClient,
-              ))):    Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => DetailAccountEmployee(
-            idEmployee: saleProductStore.idEmployee,
-          )));
+      saleProductStore.accountClientProcess
+          ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountClient(
+                    idClient: saleProductStore.idClient,
+                  )))
+          : Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountEmployee(
+                    idEmployee: saleProductStore.idEmployee,
+                  consultMyAccount: saleProductStore.consultMyAccount
+                  )));
     });
 
     disposer = reaction((_) => saleProductStore.updateProduct, (created) async {
@@ -72,13 +84,16 @@ class _SaleProductState extends State<SaleProduct> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
-      saleProductStore.accountClientProcess ? Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => DetailAccountClient(
-            idClient: saleProductStore.idClient,
-          ))):    Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => DetailAccountEmployee(
-            idEmployee: saleProductStore.idEmployee,
-          )));
+      saleProductStore.accountClientProcess
+          ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountClient(
+                    idClient: saleProductStore.idClient,
+                  )))
+          : Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => DetailAccountEmployee(
+                    idEmployee: saleProductStore.idEmployee,
+                  consultMyAccount: saleProductStore.consultMyAccount
+                  )));
     });
 
     disposer =

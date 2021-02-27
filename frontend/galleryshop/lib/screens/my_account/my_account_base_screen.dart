@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
-import 'package:galleryshop/screens/my_account/consult_my_account.dart';
+
 import 'package:galleryshop/stores/my_account_store.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
+import 'package:galleryshop/screens/accounts/client/account_list_client_screen.dart';
 import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
 import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
 
@@ -99,7 +100,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
                 ),
                 onPressed: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => BaseScreen()));
+                      MaterialPageRoute(builder: (context) => AccountListClientScreen()));
                 },
               ),
             ),
