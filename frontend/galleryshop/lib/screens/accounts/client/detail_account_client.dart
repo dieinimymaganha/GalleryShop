@@ -40,37 +40,37 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
   }
 
   void choiceAction(String choice) {
-    if (choice == OptionsMenuDetailClient.insertServices) {
+    if (choice == OptionsMenuDetailAccount.insertServices) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => BilledServiceScreen(
                     accountClientId: accountClientStore.accountClientDto.id,
                   )));
-    } else if (choice == OptionsMenuDetailClient.excludeServices) {
+    } else if (choice == OptionsMenuDetailAccount.consultServices) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => EditServiceRecordScreen(
                     idClient: accountClientStore.accountClientDto.clientDto.id,
                   )));
-    } else if (choice == OptionsMenuDetailClient.updatePage) {
+    } else if (choice == OptionsMenuDetailAccount.updatePage) {
       accountClientStore.iniPageClient();
-    } else if (choice == OptionsMenuDetailClient.consultPayment) {
+    } else if (choice == OptionsMenuDetailAccount.consultPayment) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ConsultPaymentClient(
                     idAccount: accountClientStore.accountClientDto.id,
                   )));
-    } else if (choice == OptionsMenuDetailClient.insertProduct) {
+    } else if (choice == OptionsMenuDetailAccount.insertProduct) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => SaleProduct(
                     idClient: accountClientStore.idClient,
                   )));
-    } else if (choice == OptionsMenuDetailClient.consultSales) {
+    } else if (choice == OptionsMenuDetailAccount.consultSales) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -107,7 +107,7 @@ class _DetailAccountClientState extends State<DetailAccountClient> {
               PopupMenuButton<String>(
                 onSelected: choiceAction,
                 itemBuilder: (BuildContext context) {
-                  return OptionsMenuDetailClient.choices.map((String choice) {
+                  return OptionsMenuDetailAccount.choices.map((String choice) {
                     return PopupMenuItem<String>(
                       value: choice,
                       child: Text(choice),

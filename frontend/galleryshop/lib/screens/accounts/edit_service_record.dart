@@ -9,27 +9,30 @@ import 'package:galleryshop/stores/billed_service_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
-
 class EditServiceRecordScreen extends StatefulWidget {
   final int idClient;
   final int idEmployee;
+  final bool consultMyAccount;
 
-  EditServiceRecordScreen({this.idClient, this.idEmployee});
+  EditServiceRecordScreen(
+      {this.idClient, this.idEmployee, this.consultMyAccount});
 
   @override
-  _EditServiceRecordScreenState createState() =>
-      _EditServiceRecordScreenState(
-          idClient: idClient, idEmployee: idEmployee);
+  _EditServiceRecordScreenState createState() => _EditServiceRecordScreenState(
+      idClient: idClient,
+      idEmployee: idEmployee,
+      consultMyAccount: consultMyAccount);
 }
 
-class _EditServiceRecordScreenState
-    extends State<EditServiceRecordScreen> {
+class _EditServiceRecordScreenState extends State<EditServiceRecordScreen> {
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
-  _EditServiceRecordScreenState({int idClient, int idEmployee})
-      : billedServiceStore =
-            BilledServiceStore(idClient: idClient, idEmployee: idEmployee);
+  _EditServiceRecordScreenState(
+      {int idClient, int idEmployee, bool consultMyAccount})
+      : billedServiceStore = BilledServiceStore(
+            idClient: idClient,
+            idEmployee: idEmployee,
+            consultMyAccount: consultMyAccount);
 
   @override
   void initState() {
@@ -60,8 +63,9 @@ class _EditServiceRecordScreenState
                               )))
                       : Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => DetailAccountEmployee(
-                                idEmployee: billedServiceStore.idEmployee,
-                              )));
+                              idEmployee: billedServiceStore.idEmployee,
+                              consultMyAccount:
+                                  billedServiceStore.consultMyAccount)));
                 },
               ),
             ),
@@ -246,15 +250,18 @@ class _EditServiceRecordScreenState
                                                   idClient: billedServiceStore
                                                       .idClient,
                                                 ))
-                                        : showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                DialogExcludeServiceRecord(
-                                                  idService:
-                                                      serviceRecordDto.id,
-                                                  idEmployee: billedServiceStore
-                                                      .idEmployee,
-                                                ));
+                                        : billedServiceStore.consultMyAccount
+                                            ? Container()
+                                            : showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    DialogExcludeServiceRecord(
+                                                      idService:
+                                                          serviceRecordDto.id,
+                                                      idEmployee:
+                                                          billedServiceStore
+                                                              .idEmployee,
+                                                    ));
                                   },
                                 ),
                               )),

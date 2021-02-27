@@ -25,6 +25,7 @@ abstract class _AccountEmployeeStore with Store {
   final int idEmployee;
   final int idAccount;
   final SaleDto saleDto;
+  final bool consultMyAccount;
 
   AccountClientWebClient accountClientWebClient = AccountClientWebClient();
 
@@ -33,7 +34,12 @@ abstract class _AccountEmployeeStore with Store {
 
   FinancialWebClient financialWebClient = FinancialWebClient();
 
-  _AccountEmployeeStore({this.idClient, this.idAccount, this.saleDto, this.idEmployee}) {
+  _AccountEmployeeStore(
+      {this.idClient,
+      this.idAccount,
+      this.saleDto,
+      this.idEmployee,
+      this.consultMyAccount}) {
     autorun((_) {
       print('productSoldDto >>>>>>>>>>> $saleDto');
     });
@@ -126,7 +132,6 @@ abstract class _AccountEmployeeStore with Store {
 
   @observable
   AccountEmployeeDto accountEmployeeDto;
-
 
   @action
   Future<void> getEmployee() async {

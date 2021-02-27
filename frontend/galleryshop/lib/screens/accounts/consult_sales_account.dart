@@ -15,21 +15,26 @@ import 'client/widget/dialog_exclude_sale.dart';
 class ConsultSalesAccount extends StatefulWidget {
   final int idClient;
   final int idEmployee;
+  final bool consultMyAccount;
 
-  ConsultSalesAccount({this.idClient, this.idEmployee});
+  ConsultSalesAccount({this.idClient, this.idEmployee, this.consultMyAccount});
 
   @override
-  _ConsultSalesAccountState createState() =>
-      _ConsultSalesAccountState(
-          idClient: idClient, idEmployee: idEmployee);
+  _ConsultSalesAccountState createState() => _ConsultSalesAccountState(
+      idClient: idClient,
+      idEmployee: idEmployee,
+      consultMyAccount: consultMyAccount);
 }
 
 class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
   SaleProductStore saleProductStore = SaleProductStore();
 
-  _ConsultSalesAccountState({int idClient, int idEmployee})
-      : saleProductStore =
-            SaleProductStore(idClient: idClient, idEmployee: idEmployee);
+  _ConsultSalesAccountState(
+      {int idClient, int idEmployee, bool consultMyAccount})
+      : saleProductStore = SaleProductStore(
+            idClient: idClient,
+            idEmployee: idEmployee,
+            consultMyAccount: consultMyAccount);
 
   @override
   void initState() {
@@ -43,7 +48,7 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Consultar vendas'),
+            title: Text('Consultar compras'),
             centerTitle: true,
             backgroundColor: colorAppbar,
             leading: IconButton(
@@ -61,6 +66,8 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
                       : Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => DetailAccountEmployee(
                                 idEmployee: saleProductStore.idEmployee,
+                                consultMyAccount:
+                                    saleProductStore.consultMyAccount,
                               )));
                 },
               ),
@@ -195,14 +202,17 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
                                                     idClient: saleProductStore
                                                         .idClient,
                                                   ))
-                                          : showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  DialogExcludeSale(
-                                                    saleDto: saleDto,
-                                                    idEmployee: saleProductStore
-                                                        .idEmployee,
-                                                  ));
+                                          : saleProductStore.consultMyAccount
+                                              ? Container()
+                                              : showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      DialogExcludeSale(
+                                                        saleDto: saleDto,
+                                                        idEmployee:
+                                                            saleProductStore
+                                                                .idEmployee,
+                                                      ));
                                     },
                                     onDoubleTap: () {
                                       saleProductStore.accountClientProcess
@@ -216,16 +226,18 @@ class _ConsultSalesAccountState extends State<ConsultSalesAccount> {
                                                                 .idClient,
                                                         saleDto: saleDto,
                                                       )))
-                                          : Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SaleProduct(
-                                                        idEmployee:
-                                                            saleProductStore
-                                                                .idEmployee,
-                                                        saleDto: saleDto,
-                                                      )));
+                                          : saleProductStore.consultMyAccount
+                                              ? Container()
+                                              : Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SaleProduct(
+                                                            idEmployee:
+                                                                saleProductStore
+                                                                    .idEmployee,
+                                                            saleDto: saleDto,
+                                                          )));
                                     },
                                     child: Card(
                                       color: colorCard,

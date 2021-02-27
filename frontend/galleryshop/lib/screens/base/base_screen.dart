@@ -9,7 +9,7 @@ import 'package:galleryshop/screens/client/client_list_screen.dart';
 import 'package:galleryshop/screens/employees/employees_base_screen.dart';
 import 'package:galleryshop/screens/financial/financial_base_screen.dart';
 import 'package:galleryshop/screens/home/home_screen.dart';
-import 'package:galleryshop/screens/my_account/my_account_screen.dart';
+import 'package:galleryshop/screens/my_account/my_account_base_screen.dart';
 import 'package:galleryshop/screens/schedule/schedule_base_screen.dart';
 import 'package:galleryshop/screens/services/services_list_screen.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +62,7 @@ class _BaseScreenState extends State<BaseScreen> {
           ServicesListScreen(),
           FinancialBaseScreen(),
           BarShopBaseScreen(),
-          MyAccountScreen(),
+          MyAccountBaseScreen(),
         ],
       ),
     );

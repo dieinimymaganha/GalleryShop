@@ -11,13 +11,18 @@ abstract class _MyAccountStore with Store {
   EmployeeWebClient employeeWebClient = EmployeeWebClient();
 
   @observable
-  EmployeeDto employeeDto = EmployeeDto();
+  EmployeeDto employeeDto;
 
   _MyAccountStore() {
     autorun((_) {
       print('nickNameLogin >>> $nickNameLogin');
+      print('phoneNumberLogin >>> $phoneNumberLogin');
+      print('employeeDto >>> $employeeDto');
     });
   }
+
+  @observable
+  bool loadingPage = false;
 
   @observable
   String phoneNumberLogin = '';
@@ -36,6 +41,14 @@ abstract class _MyAccountStore with Store {
     var prefs = await SharedPreferences.getInstance();
     String phoneNumber = (prefs.getString("phoneNumber") ?? "");
     return phoneNumber;
+  }
+
+  @action
+  Future<void> getEmployee() async {
+    loadingPage = true;
+    await setPhoneNumberLogin();
+    employeeDto = await employeeWebClient.findPhoneNumber(phoneNumberLogin);
+    loadingPage = false;
   }
 
   @action

@@ -14,11 +14,13 @@ class SaleProductStore = _SaleProductStore with _$SaleProductStore;
 abstract class _SaleProductStore with Store {
   final int idClient;
   final int idEmployee;
+  final bool consultMyAccount;
   final SaleDto saleDto;
 
   SaleProductWebClient saleProductWebClient = SaleProductWebClient();
 
-  _SaleProductStore({this.idClient, this.saleDto, this.idEmployee}) {
+  _SaleProductStore(
+      {this.idClient, this.saleDto, this.idEmployee, this.consultMyAccount}) {
     autorun((_) {});
   }
 
@@ -94,7 +96,7 @@ abstract class _SaleProductStore with Store {
 
   @action
   Future<void> excludeSale() async {
-    if(idEmployee!= null){
+    if (idEmployee != null) {
       accountClientProcess = false;
     }
     sending = true;

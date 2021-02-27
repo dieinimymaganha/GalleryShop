@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/data/values.dart';
-import 'package:galleryshop/screens/accounts/client/consult_payment_account_client.dart';
-import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
-
 import 'package:galleryshop/screens/accounts/client/widget/option_menu_detail_account_client.dart';
+import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
 import 'package:galleryshop/screens/accounts/employee/consult_payment_account_employee.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
@@ -13,25 +11,26 @@ import 'package:galleryshop/screens/services/billed_service/billed_service_scree
 import 'package:galleryshop/stores/account_employee_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../close_account_screen.dart';
 import '../edit_service_record.dart';
 
 class DetailAccountEmployee extends StatefulWidget {
   final int idEmployee;
+  final bool consultMyAccount;
 
-  DetailAccountEmployee({this.idEmployee});
+  DetailAccountEmployee({this.idEmployee, this.consultMyAccount});
 
   @override
-  _DetailAccountEmployeeState createState() =>
-      _DetailAccountEmployeeState(idEmployee: idEmployee);
+  _DetailAccountEmployeeState createState() => _DetailAccountEmployeeState(
+      idEmployee: idEmployee, consultMyAccount: consultMyAccount);
 }
 
 class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
   AccountEmployeeStore accountEmployeeStore = AccountEmployeeStore();
 
-  _DetailAccountEmployeeState({int idEmployee})
-      : accountEmployeeStore = AccountEmployeeStore(idEmployee: idEmployee);
+  _DetailAccountEmployeeState({int idEmployee, bool consultMyAccount})
+      : accountEmployeeStore = AccountEmployeeStore(
+            idEmployee: idEmployee, consultMyAccount: consultMyAccount);
 
   @override
   void initState() {
@@ -40,7 +39,7 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
   }
 
   void choiceAction(String choice) {
-    if (choice == OptionsMenuDetailClient.insertServices) {
+    if (choice == OptionsMenuDetailAccount.insertServices) {
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -48,36 +47,40 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                     accountEmployeeId:
                         accountEmployeeStore.accountEmployeeDto.id,
                   )));
-    } else if (choice == OptionsMenuDetailClient.excludeServices) {
+    } else if (choice == OptionsMenuDetailAccount.consultServices) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => EditServiceRecordScreen(
                     idEmployee: accountEmployeeStore
                         .accountEmployeeDto.employeeDtoBasic.id,
+                    consultMyAccount: accountEmployeeStore.consultMyAccount,
                   )));
-    } else if (choice == OptionsMenuDetailClient.updatePage) {
+    } else if (choice == OptionsMenuDetailAccount.updatePage) {
       accountEmployeeStore.iniPageEmployee();
-    } else if (choice == OptionsMenuDetailClient.consultPayment) {
+    } else if (choice == OptionsMenuDetailAccount.consultPayment) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ConsultPaymentAccountEmployee(
                     idAccount: accountEmployeeStore.accountEmployeeDto.id,
                   )));
-    } else if (choice == OptionsMenuDetailClient.insertProduct) {
+    } else if (choice == OptionsMenuDetailAccount.insertProduct) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => SaleProduct(
-                    idEmployee: accountEmployeeStore.accountEmployeeDto.employeeDtoBasic.id,
+                    idEmployee: accountEmployeeStore
+                        .accountEmployeeDto.employeeDtoBasic.id,
                   )));
-    } else if (choice == OptionsMenuDetailClient.consultSales) {
+    } else if (choice == OptionsMenuDetailAccount.consultSales) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ConsultSalesAccount(
-                    idEmployee: accountEmployeeStore.accountEmployeeDto.employeeDtoBasic.id,
+                    idEmployee: accountEmployeeStore
+                        .accountEmployeeDto.employeeDtoBasic.id,
+                    consultMyAccount: accountEmployeeStore.consultMyAccount,
                   )));
     }
   }
@@ -110,12 +113,20 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
               PopupMenuButton<String>(
                 onSelected: choiceAction,
                 itemBuilder: (BuildContext context) {
-                  return OptionsMenuDetailClient.choices.map((String choice) {
-                    return PopupMenuItem<String>(
-                      value: choice,
-                      child: Text(choice),
-                    );
-                  }).toList();
+                  return accountEmployeeStore.consultMyAccount
+                      ? OptionsMenuDetailConsultMyAccount.choices
+                          .map((String choice) {
+                          return PopupMenuItem<String>(
+                            value: choice,
+                            child: Text(choice),
+                          );
+                        }).toList()
+                      : OptionsMenuDetailAccount.choices.map((String choice) {
+                          return PopupMenuItem<String>(
+                            value: choice,
+                            child: Text(choice),
+                          );
+                        }).toList();
                 },
               )
             ],
@@ -719,67 +730,73 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                                         )),
                                       ),
                                     ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 60,
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      stops: [0.3, 1],
-                                      colors: [
-                                        Color(0XFF212121),
-                                        Color(0XFF616161),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(50),
-                                    ),
-                                  ),
-                                  child: SizedBox.expand(
-                                      child: FlatButton(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text(
-                                                'Fechar conta',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              Container(
-                                                child: SizedBox(
-                                                  child: accountEmployeeStore
-                                                          .sending
-                                                      ? CircularProgressIndicator(
-                                                          valueColor:
-                                                              AlwaysStoppedAnimation(
-                                                                  Colors.blue),
-                                                        )
-                                                      : Icon(Icons.send),
-                                                  height: 28,
-                                                  width: 28,
-                                                ),
-                                              )
+                              accountEmployeeStore.consultMyAccount
+                                  ? Container()
+                                  : Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        height: 60,
+                                        alignment: Alignment.centerLeft,
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                            stops: [0.3, 1],
+                                            colors: [
+                                              Color(0XFF212121),
+                                              Color(0XFF616161),
                                             ],
                                           ),
-                                          onPressed: () {
-                                            Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        CloseAccountScreen(
-                                                          idEmployee:
-                                                              accountEmployeeStore
-                                                                  .idEmployee,
-                                                        )));
-                                          })),
-                                ),
-                              ),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(50),
+                                          ),
+                                        ),
+                                        child: SizedBox.expand(
+                                            child: FlatButton(
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'Fechar conta',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                          fontSize: 20),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    Container(
+                                                      child: SizedBox(
+                                                        child: accountEmployeeStore
+                                                                .sending
+                                                            ? CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation(
+                                                                        Colors
+                                                                            .blue),
+                                                              )
+                                                            : Icon(Icons.send),
+                                                        height: 28,
+                                                        width: 28,
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CloseAccountScreen(
+                                                                idEmployee:
+                                                                    accountEmployeeStore
+                                                                        .idEmployee,
+                                                              )));
+                                                })),
+                                      ),
+                                    ),
                             ],
                           ),
                         ],

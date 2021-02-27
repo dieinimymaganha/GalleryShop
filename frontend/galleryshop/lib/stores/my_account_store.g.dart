@@ -24,6 +24,21 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     });
   }
 
+  final _$loadingPageAtom = Atom(name: '_MyAccountStore.loadingPage');
+
+  @override
+  bool get loadingPage {
+    _$loadingPageAtom.reportRead();
+    return super.loadingPage;
+  }
+
+  @override
+  set loadingPage(bool value) {
+    _$loadingPageAtom.reportWrite(value, super.loadingPage, () {
+      super.loadingPage = value;
+    });
+  }
+
   final _$phoneNumberLoginAtom = Atom(name: '_MyAccountStore.phoneNumberLogin');
 
   @override
@@ -71,6 +86,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getPhoneNumberAsyncAction.run(() => super.getPhoneNumber());
   }
 
+  final _$getEmployeeAsyncAction = AsyncAction('_MyAccountStore.getEmployee');
+
+  @override
+  Future<void> getEmployee() {
+    return _$getEmployeeAsyncAction.run(() => super.getEmployee());
+  }
+
   final _$getNickNameAsyncAction = AsyncAction('_MyAccountStore.getNickName');
 
   @override
@@ -82,6 +104,7 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
   String toString() {
     return '''
 employeeDto: ${employeeDto},
+loadingPage: ${loadingPage},
 phoneNumberLogin: ${phoneNumberLogin},
 nickNameLogin: ${nickNameLogin}
     ''';

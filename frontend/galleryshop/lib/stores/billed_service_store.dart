@@ -25,6 +25,7 @@ abstract class _BilledServiceStore with Store {
   final int idService;
   final int idSchedule;
   final bool concludedAppointment;
+  final bool consultMyAccount;
 
   _BilledServiceStore(
       {this.typeEmployee,
@@ -35,7 +36,8 @@ abstract class _BilledServiceStore with Store {
       this.descTypeEmployee,
       this.idService,
       this.idSchedule,
-      this.concludedAppointment}) {
+      this.concludedAppointment,
+      this.consultMyAccount}) {
     autorun((_) {
       print('concludedAppointment >>>> $concludedAppointment');
       print('idClient >>>> $idClient');

@@ -38,7 +38,10 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                 child: InkWell(
                   onDoubleTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => DetailAccountEmployee(idEmployee: accountDto.employeeDtoBasic.id,)));
+                        builder: (context) => DetailAccountEmployee(
+                              idEmployee: accountDto.employeeDtoBasic.id,
+                              consultMyAccount: false,
+                            )));
                   },
                   child: Card(
                     elevation: 3,
@@ -55,12 +58,12 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                     left: 15, right: 15, top: 10, bottom: 10),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           accountDto.employeeDtoBasic.nickname,
@@ -91,7 +94,8 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                                   fontWeight: FontWeight.w700),
                                             ),
                                             Text(
-                                              accountDto.employeeDtoBasic.lastName,
+                                              accountDto
+                                                  .employeeDtoBasic.lastName,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w400),
@@ -121,7 +125,8 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                                   fontWeight: FontWeight.w700),
                                             ),
                                             Text(
-                                              accountDto.employeeDtoBasic.phoneNumber,
+                                              accountDto
+                                                  .employeeDtoBasic.phoneNumber,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w400),
@@ -137,7 +142,8 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                             ),
                                             Text(
                                               convertData(
-                                                accountDto.employeeDtoBasic.birthdate
+                                                accountDto
+                                                    .employeeDtoBasic.birthdate
                                                     .toString(),
                                               ),
                                               style: TextStyle(
@@ -155,7 +161,7 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                         )),
                                     Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           'Informações contas',
@@ -176,7 +182,7 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                             Text(
                                               accountDto.amount.toString(),
                                               style:
-                                              TextStyle(color: Colors.blue),
+                                                  TextStyle(color: Colors.blue),
                                             )
                                           ],
                                         ),
@@ -190,7 +196,7 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                             Text(
                                               accountDto.amountPaid.toString(),
                                               style:
-                                              TextStyle(color: Colors.blue),
+                                                  TextStyle(color: Colors.blue),
                                             )
                                           ],
                                         ),
@@ -204,7 +210,7 @@ class _AccountListEmployeeScreenState extends State<AccountListEmployeeScreen> {
                                             Text(
                                               accountDto.balance.toString(),
                                               style:
-                                              TextStyle(color: Colors.blue),
+                                                  TextStyle(color: Colors.blue),
                                             )
                                           ],
                                         ),
