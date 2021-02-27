@@ -57,7 +57,9 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
           duration: Duration(seconds: 2),
         ));
       }
+
       await Future.delayed(Duration(seconds: 2));
+      _scaffoldKey.currentState.removeCurrentSnackBar();
     });
 
     disposer = reaction((_) => openingHoursStore.created, (created) async {
@@ -88,6 +90,8 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
         ));
       }
       await Future.delayed(Duration(seconds: 2));
+
+      _scaffoldKey.currentState.removeCurrentSnackBar();
     });
   }
 
