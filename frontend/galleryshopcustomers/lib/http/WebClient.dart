@@ -10,4 +10,4 @@ final Client webClient = HttpClientWithInterceptor.build(
 );
 
 
-const String baseUrl = 'http://192.168.0.105:8080/';
+const String baseUrl = 'http://192.168.0.102:8080/';

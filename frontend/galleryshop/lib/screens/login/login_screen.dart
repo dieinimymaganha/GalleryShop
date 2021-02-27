@@ -69,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ));
       }
     });
+
     disposer = reaction((_) => loginStore.forbidden, (forbidden) {
       if (forbidden) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -143,22 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     );
                   }),
-                  Container(
-                    height: 40,
-                    alignment: Alignment.centerRight,
-                    child: FlatButton(
-                      child: Text(
-                        "Recuperar Senha",
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResetPasswordScreen(),
-                            ));
-                      },
-                    ),
-                  ),
                   SizedBox(
                     height: 40,
                   ),

@@ -4,7 +4,6 @@ import 'package:galleryshop/data/function_generic.dart';
 import 'package:galleryshop/http/WebClient.dart';
 import 'package:galleryshop/models/FlagCardPayment.dart';
 import 'package:http/http.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 const urlFlagCardPayment = baseUrl + 'flagCardPayment';
 

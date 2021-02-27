@@ -7,7 +7,6 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/employee.dart';
 import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
-import 'package:galleryshop/screens/my_account/my_account_base_screen.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
