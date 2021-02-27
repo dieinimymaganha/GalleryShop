@@ -82,13 +82,16 @@ public class UserLoginForm {
 
     }
 
-    public UserLogin upload(Long id, UserLoginRepository userLoginRepository) {
-        UserLogin userLogin = userLoginRepository.getOne(id);
+    public UserLogin upload(UserLoginRepository userLoginRepository) {
+        Optional<UserLogin> userLoginOptional = userLoginRepository.findByPhoneNumber(phoneNumber);
 
-        if (userLogin != null) {
-            String passwordCrypt = new BCryptPasswordEncoder().encode(password);
-            userLogin.setPassword(passwordCrypt);
-            return userLogin;
+        if (userLoginOptional.isPresent()) {
+            UserLogin userLogin = userLoginOptional.get();
+            if (userLogin != null) {
+                String passwordCrypt = new BCryptPasswordEncoder().encode(password);
+                userLogin.setPassword(passwordCrypt);
+                return userLogin;
+            }
         }
         return null;
     }

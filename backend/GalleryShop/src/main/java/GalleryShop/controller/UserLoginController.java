@@ -53,13 +53,13 @@ public class UserLoginController {
     }
 
 
-    @PutMapping("/{id}")
+    @PutMapping()
     @Transactional
-    public ResponseEntity<UserLoginDto> updatePassword(@PathVariable Long id, @RequestBody UserLoginForm form) {
-        Optional<UserLogin> optional = userLoginRepository.findById(id);
+    public ResponseEntity<UserLoginDto> updatePassword(@RequestBody UserLoginForm form) {
+        Optional<UserLogin> optional = userLoginRepository.findByPhoneNumber(form.getPhoneNumber());
 
         if (optional.isPresent()) {
-            UserLogin userLogin = form.upload(id, userLoginRepository);
+            UserLogin userLogin = form.upload(userLoginRepository);
 
             return ResponseEntity.ok(new UserLoginDto(userLogin));
 
