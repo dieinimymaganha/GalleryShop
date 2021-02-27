@@ -25,8 +25,8 @@ class EmployeeBaseScreen extends StatelessWidget {
                   trailing: Icon(Icons.keyboard_arrow_right),
                 ),
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => EmployeesListScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => EmployeesListScreen()));
                 },
               ),
               Divider(
@@ -54,7 +54,9 @@ class EmployeeBaseScreen extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CreateNewEmployeeScreen()));
+                      builder: (context) => CreateNewEmployeeScreen(
+                            editMyAccount: false,
+                          )));
                 },
               ),
               Divider(

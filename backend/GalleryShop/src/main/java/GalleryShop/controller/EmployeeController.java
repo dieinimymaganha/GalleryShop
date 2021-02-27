@@ -113,20 +113,7 @@ public class EmployeeController {
 
     }
 
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
-        Optional<Employee> optional = employeeRepository.findById(id);
-        if (optional.isPresent()) {
-            employeeRepository.deleteById(id);
-            return ResponseEntity.ok().build();
-
-        }
-
-        return ResponseEntity.notFound().build();
-    }
-
-
+    
     @GetMapping("/typeEmployeeId={id}")
     @Transactional
     public List<EmployeeDto> findEmployee(@PathVariable Long id) {

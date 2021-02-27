@@ -3,6 +3,11 @@ import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/employees/create_new_employee_screen.dart';
 
 class ButtonCreateNewEmployee extends StatelessWidget {
+  final bool editMyAccount;
+
+
+  ButtonCreateNewEmployee({this.editMyAccount});
+
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -11,7 +16,9 @@ class ButtonCreateNewEmployee extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => CreateNewEmployeeScreen()));
+            MaterialPageRoute(builder: (context) => CreateNewEmployeeScreen(
+              editMyAccount: editMyAccount,
+            )));
       },
       backgroundColor: colorAppbar,
     );

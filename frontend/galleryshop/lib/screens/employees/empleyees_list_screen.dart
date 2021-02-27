@@ -8,8 +8,6 @@ import 'package:galleryshop/screens/employees/widget/button_create_employee.dart
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
 
-import 'widget/dialog_employee.dart';
-
 const _titleAppbar = 'Lista de funcionários';
 
 class EmployeesListScreen extends StatefulWidget {
@@ -91,14 +89,8 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                                             builder: (context) =>
                                                 CreateNewEmployeeScreen(
                                                   employeeModel: employeeModel,
+                                                  editMyAccount: false,
                                                 )));
-                                  },
-                                  onLongPress: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) => DialogEmployee(
-                                              employeeModel: employeeModel,
-                                            ));
                                   },
                                   child: Card(
                                     elevation: 3,
@@ -253,7 +245,9 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                             }).toList(),
                           ),
                   ),
-            floatingActionButton: ButtonCreateNewEmployee());
+            floatingActionButton: ButtonCreateNewEmployee(
+              editMyAccount: false,
+            ));
       },
     );
   }

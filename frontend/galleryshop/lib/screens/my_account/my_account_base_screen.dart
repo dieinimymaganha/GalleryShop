@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/screens/accounts/employee/detail_account_employee.dart';
+import 'package:galleryshop/screens/employees/create_new_employee_screen.dart';
 
 import 'package:galleryshop/stores/my_account_store.dart';
 import 'package:galleryshop/widgets/drawer/custom_drawer.dart';
@@ -61,7 +62,13 @@ class _MyAccountBaseScreenState extends State<MyAccountBaseScreen> {
                             title: Text('Alterar meus dados'),
                             trailing: Icon(Icons.keyboard_arrow_right),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CreateNewEmployeeScreen(
+                                      employeeModel: myAccountStore.employeeDto,
+                                  editMyAccount: true,
+                                    )));
+                          },
                         ),
                         Divider(
                           color: Colors.grey[400],

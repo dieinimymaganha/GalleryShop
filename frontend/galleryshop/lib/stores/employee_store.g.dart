@@ -86,13 +86,6 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
           Computed<Function>(() => super.buttonSavePressed,
               name: '_EmployeeStore.buttonSavePressed'))
       .value;
-  Computed<Function> _$buttomExcludePressedComputed;
-
-  @override
-  Function get buttomExcludePressed => (_$buttomExcludePressedComputed ??=
-          Computed<Function>(() => super.buttomExcludePressed,
-              name: '_EmployeeStore.buttomExcludePressed'))
-      .value;
 
   final _$dataTypeEmployeeAtom = Atom(name: '_EmployeeStore.dataTypeEmployee');
 
@@ -642,6 +635,14 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
     return _$validaTesteAsyncAction.run(() => super.validaTeste(value));
   }
 
+  final _$setDataInitialAsyncAction =
+      AsyncAction('_EmployeeStore.setDataInitial');
+
+  @override
+  Future<void> setDataInitial() {
+    return _$setDataInitialAsyncAction.run(() => super.setDataInitial());
+  }
+
   final _$saveEmployeeAsyncAction = AsyncAction('_EmployeeStore.saveEmployee');
 
   @override
@@ -656,14 +657,6 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   Future<void> sendNewEmployee(EmployeeForm employeeForm) {
     return _$sendNewEmployeeAsyncAction
         .run(() => super.sendNewEmployee(employeeForm));
-  }
-
-  final _$excludeEmployeeAsyncAction =
-      AsyncAction('_EmployeeStore.excludeEmployee');
-
-  @override
-  Future<void> excludeEmployee() {
-    return _$excludeEmployeeAsyncAction.run(() => super.excludeEmployee());
   }
 
   final _$_EmployeeStoreActionController =
@@ -769,17 +762,6 @@ mixin _$EmployeeStore on _EmployeeStore, Store {
   }
 
   @override
-  void setDataInitial() {
-    final _$actionInfo = _$_EmployeeStoreActionController.startAction(
-        name: '_EmployeeStore.setDataInitial');
-    try {
-      return super.setDataInitial();
-    } finally {
-      _$_EmployeeStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 dataTypeEmployee: ${dataTypeEmployee},
@@ -826,8 +808,7 @@ rgIsValid: ${rgIsValid},
 cpfIsValid: ${cpfIsValid},
 comissionRateIsValid: ${comissionRateIsValid},
 fieldIsValid: ${fieldIsValid},
-buttonSavePressed: ${buttonSavePressed},
-buttomExcludePressed: ${buttomExcludePressed}
+buttonSavePressed: ${buttonSavePressed}
     ''';
   }
 }

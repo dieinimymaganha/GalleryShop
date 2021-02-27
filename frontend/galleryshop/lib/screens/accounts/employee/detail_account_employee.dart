@@ -7,6 +7,7 @@ import 'package:galleryshop/screens/accounts/consult_sales_account.dart';
 import 'package:galleryshop/screens/accounts/employee/account_list_employee_screen.dart';
 import 'package:galleryshop/screens/accounts/employee/consult_payment_account_employee.dart';
 import 'package:galleryshop/screens/bar_shop/sale/sale_product.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/services/billed_service/billed_service_screen.dart';
 import 'package:galleryshop/stores/account_employee_store.dart';
 import 'package:galleryshop/widgets/centered_message.dart';
@@ -105,6 +106,8 @@ class _DetailAccountEmployeeState extends State<DetailAccountEmployee> {
                   color: Colors.white,
                 ),
                 onPressed: () {
+                  accountEmployeeStore.consultMyAccount ?  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BaseScreen())) :
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => AccountListEmployeeScreen()));
                 },

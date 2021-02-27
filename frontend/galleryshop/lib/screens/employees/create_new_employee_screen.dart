@@ -5,7 +5,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshop/data/validators.dart';
 import 'package:galleryshop/data/values.dart';
 import 'package:galleryshop/models/employee.dart';
+import 'package:galleryshop/screens/base/base_screen.dart';
 import 'package:galleryshop/screens/employees/empleyees_list_screen.dart';
+import 'package:galleryshop/screens/my_account/my_account_base_screen.dart';
 import 'package:galleryshop/stores/employee_store.dart';
 import 'package:galleryshop/widgets/custom_form.dart';
 import 'package:intl/intl.dart';
@@ -13,17 +15,19 @@ import 'package:mobx/mobx.dart';
 
 class CreateNewEmployeeScreen extends StatefulWidget {
   final EmployeeDto employeeModel;
+  final bool editMyAccount;
 
-  CreateNewEmployeeScreen({this.employeeModel});
+  CreateNewEmployeeScreen({this.employeeModel, this.editMyAccount});
 
   @override
-  _CreateNewEmployeeScreenState createState() =>
-      _CreateNewEmployeeScreenState(employeeModel: employeeModel);
+  _CreateNewEmployeeScreenState createState() => _CreateNewEmployeeScreenState(
+      employeeModel: employeeModel, editMyAccount: editMyAccount);
 }
 
 class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
-  _CreateNewEmployeeScreenState({EmployeeDto employeeModel})
-      : employeeStore = EmployeeStore(employeeModel: employeeModel);
+  _CreateNewEmployeeScreenState({EmployeeDto employeeModel, bool editMyAccount})
+      : employeeStore = EmployeeStore(
+            employeeModel: employeeModel, editMyAccount: editMyAccount);
 
   EmployeeStore employeeStore = EmployeeStore();
 
@@ -70,6 +74,8 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));
+      employeeStore.editMyAccount ? Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => BaseScreen())) :
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => EmployeesListScreen()));
     });

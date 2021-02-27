@@ -13,20 +13,13 @@ class EmployeeStore = _EmployeeStore with _$EmployeeStore;
 
 abstract class _EmployeeStore with Store {
   final EmployeeDto employeeModel;
+  final bool editMyAccount;
 
   TypeEmployeeWebClient _webClientTypeEmployee = TypeEmployeeWebClient();
   EmployeeWebClient _webClientEmployee = EmployeeWebClient();
 
-  _EmployeeStore({this.employeeModel}) {
-    autorun((_) {
-      print('excludedFail ----> $excludedFail');
-//      print('lastName ----> $lastName');
-//      print('nickname ----> $nickname');
-//      print('cpf ----> $cpf');//      print('rg ----> $rg');
-//      print('birthDate ----> $birthDate');
-//      print('comissionRate ----> $comissionRate');
-//      print('phoneNumber ----> $phoneNumber');
-    });
+  _EmployeeStore({this.employeeModel, this.editMyAccount}) {
+    autorun((_) {});
   }
 
   @observable
@@ -50,15 +43,13 @@ abstract class _EmployeeStore with Store {
   @observable
   List<dynamic> listEmployee = List();
 
-
   @action
   Future<void> setList() async {
     loading = true;
-//    await Future.delayed(Duration(seconds: 2));
     try {
       listEmployee = await _webClientEmployee.findAll();
-      listEmployee.sort((a, b) =>
-          a.name.toString().compareTo(b.name.toString()));
+      listEmployee
+          .sort((a, b) => a.name.toString().compareTo(b.name.toString()));
       if (listEmployee.isEmpty) {
         errorList = true;
         listEmpty = true;
@@ -76,9 +67,7 @@ abstract class _EmployeeStore with Store {
     setList();
   }
 
-
-
-    void getServices() async {
+  void getServices() async {
     dataTypeEmployee = await _webClientTypeEmployee.findAll();
     dataTypeEmployee.sort(
         (a, b) => a.description.toString().compareTo(b.description.toString()));
@@ -223,7 +212,7 @@ abstract class _EmployeeStore with Store {
   bool loadingTypeEmployee = false;
 
   @action
-  void setDataInitial() {
+  Future<void> setDataInitial() async {
     if (employeeModel != null) {
       change = true;
       name = controllerFieldName.text = employeeModel.name;
@@ -319,7 +308,7 @@ abstract class _EmployeeStore with Store {
     sending = false;
     if (response == 200) {
       created = true;
-    }else{
+    } else {
       errorSending = true;
     }
     await Future.delayed(Duration(seconds: 2));
@@ -383,28 +372,9 @@ abstract class _EmployeeStore with Store {
   @computed
   Function get buttonSavePressed => fieldIsValid ? saveEmployee : null;
 
-  @computed
-  Function get buttomExcludePressed => excludeEmployee;
-
   @observable
   bool excluded = false;
 
   @observable
   bool excludedFail = false;
-
-  @action
-  Future<void> excludeEmployee() async {
-    sending = true;
-    await Future.delayed(Duration(seconds: 2));
-    int response = await _webClientEmployee.exclude(employeeModel);
-    if (response == 200) {
-      excluded = true;
-      await Future.delayed(Duration(seconds: 2));
-    } else {
-      excludedFail = true;
-      await Future.delayed(Duration(seconds: 2));
-      excludedFail = false;
-      sending = false;
-    }
-  }
 }
