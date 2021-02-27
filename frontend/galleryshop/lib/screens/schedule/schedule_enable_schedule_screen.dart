@@ -60,8 +60,9 @@ class _ScheduleEnableScheduleScreenState
           backgroundColor: Colors.yellowAccent,
           duration: Duration(seconds: 2),
         ));
+        await Future.delayed(Duration(seconds: 2));
+        _scaffoldKey.currentState.removeCurrentSnackBar();
       }
-      await Future.delayed(Duration(seconds: 2));
     });
 
     disposer =
@@ -75,8 +76,9 @@ class _ScheduleEnableScheduleScreenState
           backgroundColor: Colors.red,
           duration: Duration(seconds: 2),
         ));
+        await Future.delayed(Duration(seconds: 2));
+        _scaffoldKey.currentState.removeCurrentSnackBar();
       }
-      await Future.delayed(Duration(seconds: 2));
     });
   }
 

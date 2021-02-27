@@ -33,7 +33,7 @@ abstract class _ScheduleStore with Store {
       this.scheduleDtoAppointment,
       this.appointmentConsult}) {
     autorun((_) {
-      print('enableScheduleError >>>>> $enableScheduleError');
+      print('enableScheduleDuplicate >>>>> $enableScheduleDuplicate');
     });
   }
 
@@ -174,25 +174,27 @@ abstract class _ScheduleStore with Store {
   Future<void> saveSchedule() async {
     enableScheduleSending = true;
     await Future.delayed(Duration(seconds: 2));
-    enableScheduleSending = false;
     ScheduleEnableScheduleForm form = await createFormEnableSchedule();
     await sendEnableSchedule(form);
   }
 
   @action
   Future<void> sendEnableSchedule(ScheduleEnableScheduleForm form) async {
-    int response = await scheduleWebClient.scheduleEnableSchedue(form);
-//    int response = 2;
-
-    if (response == 200) {
-      enableScheduleOk = true;
-    } else if (response == 404) {
-      enableScheduleDuplicate = true;
-    } else {
+    try {
+      int response = await scheduleWebClient.scheduleEnableSchedue(form);
+//      int response = 2;
+      if (response == 200) {
+        enableScheduleOk = true;
+      } else if (response == 404) {
+        enableScheduleDuplicate = true;
+      } else {
+        enableScheduleError = true;
+      }
+    } on Exception catch (_) {
       enableScheduleError = true;
     }
-
     await Future.delayed(Duration(seconds: 2));
+    enableScheduleSending = false;
     enableScheduleOk = false;
     enableScheduleError = false;
     enableScheduleDuplicate = false;
