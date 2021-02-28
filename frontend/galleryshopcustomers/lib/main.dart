@@ -35,7 +35,7 @@ class GalleryShopCustomers extends StatelessWidget {
         supportedLocales: [const Locale('pt', 'BR')],
 //      home: FormCreateNewClient(),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: BaseScreen(),
       ),
     );
   }

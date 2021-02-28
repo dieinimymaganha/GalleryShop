@@ -8,20 +8,21 @@ import 'package:galleryshopcustomers/widgets/custom_alert_dialog.dart';
 import 'package:mobx/mobx.dart';
 
 class DialogCancelAppointment extends StatefulWidget {
-  final ScheduleDto scheduleDto;
+  final ScheduleDtoAppointment scheduleDtoAppointment;
 
-  DialogCancelAppointment({this.scheduleDto});
+  DialogCancelAppointment({this.scheduleDtoAppointment});
 
   @override
-  _DialogCancelAppointmentState createState() =>
-      _DialogCancelAppointmentState(scheduleDto: scheduleDto);
+  _DialogCancelAppointmentState createState() => _DialogCancelAppointmentState(
+      scheduleDtoAppointment: scheduleDtoAppointment);
 }
 
 class _DialogCancelAppointmentState extends State<DialogCancelAppointment> {
   ScheduleStore scheduleStore = ScheduleStore();
 
-  _DialogCancelAppointmentState({ScheduleDto scheduleDto})
-      : scheduleStore = ScheduleStore(scheduleDto: scheduleDto);
+  _DialogCancelAppointmentState({ScheduleDtoAppointment scheduleDtoAppointment})
+      : scheduleStore =
+            ScheduleStore(scheduleDtoAppointment: scheduleDtoAppointment);
 
   ReactionDisposer disposer;
 
@@ -36,7 +37,9 @@ class _DialogCancelAppointmentState extends State<DialogCancelAppointment> {
             builder: (context) => buildAlertDialogScheduleCanceledOK());
         await Future.delayed(Duration(seconds: 2));
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => ScheduleAppointmentScreen()));
+            builder: (context) => ScheduleAppointmentScreen(
+                  appointmentConsult: true,
+                )));
       }
     });
 
@@ -74,11 +77,12 @@ class _DialogCancelAppointmentState extends State<DialogCancelAppointment> {
         style: TextStyle(color: Colors.red),
       ),
       content: Text(
-          'Horário ${scheduleStore.scheduleDto.startAttendance} | ${scheduleStore.scheduleDto.day}'),
+          'Horário ${scheduleStore.scheduleDtoAppointment.startAttendance} | ${scheduleStore.scheduleDtoAppointment.day}'),
       actions: <Widget>[
         FlatButton(
           onPressed: () {
-            scheduleStore.cancelAppointment(scheduleStore.scheduleDto.id);
+            scheduleStore
+                .cancelAppointment(scheduleStore.scheduleDtoAppointment.id);
           },
           child: Text(
             'Sim',

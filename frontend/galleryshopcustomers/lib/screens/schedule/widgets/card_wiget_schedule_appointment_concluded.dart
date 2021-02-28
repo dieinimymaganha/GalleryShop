@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:galleryshopcustomers/data/function_generic.dart';
 import 'package:galleryshopcustomers/data/values.dart';
-import 'package:galleryshopcustomers/models/schedule.dart';
-import 'package:galleryshopcustomers/screens/schedule/widgets/dialog_cancel_appointment.dart';
 
-class CardWidgetScheduleAppointment extends StatelessWidget {
+import 'package:galleryshopcustomers/models/schedule.dart';
+
+class CardWidgetScheduleAppointmentConcluded extends StatelessWidget {
   ScheduleDtoAppointment scheduleDtoAppointment;
 
-  CardWidgetScheduleAppointment({this.scheduleDtoAppointment});
+  CardWidgetScheduleAppointmentConcluded({this.scheduleDtoAppointment});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                     scheduleDtoAppointment.startAttendance,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  lineGen(
+                  LineGen(
                     lines: [40.0, 30.0, 20.0],
                   ),
                   Text(
@@ -49,7 +49,7 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                   margin: EdgeInsets.only(left: 4.0),
                   color: colorCard,
                   padding: EdgeInsets.only(
-                    left: 16.0,
+                    left: 8.0,
                     top: 8.0,
                   ),
                   child: Column(
@@ -59,57 +59,46 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
                         height: 18.0,
                         child: Row(
                           children: <Widget>[
-                            Text('Profissional: '),
+                            Text('Cliente: '),
                             Text(
-                              scheduleDtoAppointment.nicknameEmployee,
+                              scheduleDtoAppointment.clientDto.name,
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            Text(' | Apelido: '),
+                            Text(
+                              scheduleDtoAppointment.clientDto.nickname,
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
                       ),
-                      Text(
-                        scheduleDtoAppointment.typeEmployee,
-                        style: TextStyle(
-                            fontSize: 21.0, fontWeight: FontWeight.bold),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.white70,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: FlatButton(
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.event_busy,
-                                      color: Colors.red,
-                                    ),
-                                    Text(
-                                      'Cancelar horário',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ],
-                                ),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          DialogCancelAppointment(
-                                            scheduleDtoAppointment:
-                                                scheduleDtoAppointment,
-                                          ));
-                                },
-                              ),
+                      Container(
+                        height: 18.0,
+                        child: Row(
+                          children: <Widget>[
+                            Text('Data nasc: '),
+                            Text(
+                              convertData(
+                                  scheduleDtoAppointment.clientDto.birthdate),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blueAccent),
                             ),
-                          )
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 18.0,
+                        child: Row(
+                          children: <Widget>[
+                            Text('Concluido: '),
+                            Text(
+                              scheduleDtoAppointment.completionTime.toString(),
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -122,10 +111,10 @@ class CardWidgetScheduleAppointment extends StatelessWidget {
   }
 }
 
-class lineGen extends StatelessWidget {
+class LineGen extends StatelessWidget {
   final lines;
 
-  const lineGen({
+  const LineGen({
     Key key,
     this.lines,
   }) : super(key: key);

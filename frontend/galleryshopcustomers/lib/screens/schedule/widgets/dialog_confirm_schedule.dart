@@ -9,20 +9,20 @@ import 'package:mobx/mobx.dart';
 import '../schedule_appointment_screen.dart';
 
 class DialogConfirmSchedule extends StatefulWidget {
-  final ScheduleDto scheduleDto;
+  final ScheduleDtoAppointment scheduleDtoAppointment;
 
-  DialogConfirmSchedule({this.scheduleDto});
+  DialogConfirmSchedule({this.scheduleDtoAppointment});
 
   @override
   _DialogConfirmScheduleState createState() =>
-      _DialogConfirmScheduleState(scheduleDto: scheduleDto);
+      _DialogConfirmScheduleState(scheduleDtoAppointment: scheduleDtoAppointment);
 }
 
 class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
   ScheduleStore scheduleStore = ScheduleStore();
 
-  _DialogConfirmScheduleState({ScheduleDto scheduleDto})
-      : scheduleStore = ScheduleStore(scheduleDto: scheduleDto);
+  _DialogConfirmScheduleState({ScheduleDtoAppointment scheduleDtoAppointment})
+      : scheduleStore = ScheduleStore(scheduleDtoAppointment: scheduleDtoAppointment);
 
   ReactionDisposer disposer;
 
@@ -109,11 +109,11 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
         style: TextStyle(color: Colors.blue),
       ),
       content: Text(
-          'Horário ${scheduleStore.scheduleDto.startAttendance} | ${scheduleStore.scheduleDto.day}'),
+          'Horário ${scheduleStore.scheduleDtoAppointment.startAttendance} | ${scheduleStore.scheduleDtoAppointment.day}'),
       actions: <Widget>[
         FlatButton(
           onPressed: () {
-            scheduleStore.send(scheduleStore.scheduleDto.id);
+            scheduleStore.send(scheduleStore.scheduleDtoAppointment.id);
           },
           child: Text(
             'Sim',

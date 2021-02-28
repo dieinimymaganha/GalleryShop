@@ -28,6 +28,7 @@ class GalleryShop extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.black,
           accentColor: Colors.blueAccent[700],
+
           buttonTheme: ButtonThemeData(
             buttonColor: Colors.blueAccent[900],
             textTheme: ButtonTextTheme.primary,
@@ -40,7 +41,7 @@ class GalleryShop extends StatelessWidget {
         supportedLocales: [const Locale('pt', 'BR')],
 //      home: FormCreateNewClient(),
         debugShowCheckedModeBanner: false,
-        home: BaseScreen(),
+        home: LoginScreen(),
       ),
     );
   }

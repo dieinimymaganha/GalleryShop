@@ -1,7 +1,9 @@
 import 'package:galleryshopcustomers/http/webclients/webclient_employee.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_schedule.dart';
 import 'package:galleryshopcustomers/http/webclients/webclient_type_employee.dart';
+import 'package:galleryshopcustomers/models/client.dart';
 import 'package:galleryshopcustomers/models/schedule.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -11,13 +13,20 @@ part 'schedule_store.g.dart';
 class ScheduleStore = _ScheduleStore with _$ScheduleStore;
 
 abstract class _ScheduleStore with Store {
-  final ScheduleDto scheduleDto;
+  final ClientDto clientDto;
   int idEmployee;
   int idTypeEmployee;
   String source;
+  final ScheduleDtoAppointment scheduleDtoAppointment;
+  bool appointmentConsult;
 
   _ScheduleStore(
-      {this.scheduleDto, this.idEmployee, this.idTypeEmployee, this.source}) {
+      {this.idEmployee,
+      this.idTypeEmployee,
+      this.source,
+      this.clientDto,
+      this.scheduleDtoAppointment,
+      this.appointmentConsult}) {
     autorun((_) {});
   }
 
@@ -58,7 +67,7 @@ abstract class _ScheduleStore with Store {
   String valueSelectTypeEmployee;
 
   @observable
-  ScheduleDto infoSchedule;
+  ScheduleDtoAppointment infoSchedule;
 
   @observable
   bool loadingPageScheduleTime = false;
@@ -75,7 +84,8 @@ abstract class _ScheduleStore with Store {
   }
 
   @action
-  Map<DateTime, List<dynamic>> fromModelToEvent(List<ScheduleDto> events) {
+  Map<DateTime, List<dynamic>> fromModelToEvent(
+      List<ScheduleDtoAppointment> events) {
     Map<DateTime, List<dynamic>> data = {};
     events.forEach((event) {
       if (source == 'cliente') {
@@ -99,6 +109,7 @@ abstract class _ScheduleStore with Store {
   Future<void> loagingPageInit() async {
     loadingPageScheduleTime = true;
     await setListSchedule();
+    await createInfoSchedule();
     if (infoSchedule != null) {
       loadingPageScheduleTime = false;
     }
@@ -111,14 +122,67 @@ abstract class _ScheduleStore with Store {
     loadingPageScheduleTime = false;
   }
 
+  @observable
+  Map<DateTime, List<dynamic>> eventsNotConcluded = {};
+
+  @observable
+  Map<DateTime, List<dynamic>> eventsConcluded = {};
+
+  @action
+  Map<DateTime, List<dynamic>> fromModelToEventAppointmentNotConcluded(
+      List<ScheduleDtoAppointment> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      if (!event.concluded) {
+        DateTime date = convertDateFromString(event.day);
+        if (data[date] == null) data[date] = [];
+        data[date].add(event);
+      }
+    });
+    return data;
+  }
+
+  @action
+  Map<DateTime, List<dynamic>> fromModelToEventAppointmentConcluded(
+      List<ScheduleDtoAppointment> events) {
+    Map<DateTime, List<dynamic>> data = {};
+    events.forEach((event) {
+      if (event.concluded) {
+        DateTime date = convertDateFromString(event.day);
+        if (data[date] == null) data[date] = [];
+        data[date].add(event);
+      }
+    });
+    return data;
+  }
+
+  @observable
+  List<dynamic> selectedEventsNotConcluded = List();
+
+  @observable
+  List<dynamic> selectedEventsConcluded = List();
+
+  @action
+  void setSelectEventsConcluded(DateTime date) {
+    selectedEventsConcluded = [];
+    eventsConcluded.forEach((key, value) {
+      final f = new DateFormat('yyyy-MM-dd');
+      if (f.format(date) == f.format(key)) {
+        selectedEventsConcluded = value;
+      }
+    });
+  }
+
   @action
   Future<void> setListSchedule() async {
     try {
-      if (source == 'cliente') {
+      if (appointmentConsult == true) {
         await getAppointmentClient();
-      } else {
-        dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
-            idEmployee.toString(), idTypeEmployee.toString());
+        if (dataSchedule.isNotEmpty) {
+          eventsNotConcluded =
+              fromModelToEventAppointmentNotConcluded(dataSchedule);
+          eventsConcluded = fromModelToEventAppointmentConcluded(dataSchedule);
+        }
       }
 
       if (dataSchedule.isNotEmpty) {
@@ -300,4 +364,7 @@ abstract class _ScheduleStore with Store {
     DateTime todayDate = DateTime.parse(strDate);
     return todayDate;
   }
+
+  @observable
+  bool showConcluded = true;
 }

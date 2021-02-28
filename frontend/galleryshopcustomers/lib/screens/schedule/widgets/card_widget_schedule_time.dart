@@ -5,9 +5,9 @@ import 'package:galleryshopcustomers/models/schedule.dart';
 import 'dialog_confirm_schedule.dart';
 
 class CardWidgetScheduleTime extends StatelessWidget {
-  ScheduleDto scheduleDto;
+  ScheduleDtoAppointment scheduleDtoAppointment;
 
-  CardWidgetScheduleTime({this.scheduleDto});
+  CardWidgetScheduleTime({this.scheduleDtoAppointment});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +23,14 @@ class CardWidgetScheduleTime extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Text(
-                    scheduleDto.startAttendance,
+                    scheduleDtoAppointment.startAttendance,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   lineGen(
                     lines: [40.0, 30.0, 20.0],
                   ),
                   Text(
-                    scheduleDto.endAttendance,
+                    scheduleDtoAppointment.endAttendance,
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -61,14 +61,14 @@ class CardWidgetScheduleTime extends StatelessWidget {
                           children: <Widget>[
                             Text('Profissional: '),
                             Text(
-                              scheduleDto.nicknameEmployee,
+                              scheduleDtoAppointment.nicknameEmployee,
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                           ],
                         ),
                       ),
                       Text(
-                        scheduleDto.typeEmployee,
+                        scheduleDtoAppointment.typeEmployee,
                         style: TextStyle(
                             fontSize: 21.0, fontWeight: FontWeight.bold),
                       ),
@@ -101,7 +101,7 @@ class CardWidgetScheduleTime extends StatelessWidget {
                                       context: context,
                                       builder: (context) =>
                                           DialogConfirmSchedule(
-                                            scheduleDto: scheduleDto,
+                                            scheduleDtoAppointment: scheduleDtoAppointment,
                                           ));
                                 },
                               ),

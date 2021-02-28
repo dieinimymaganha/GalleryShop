@@ -196,7 +196,7 @@ class _ScheduleTimeState extends State<ScheduleTime> {
                             children: scheduleStore.selectedEvents
                                 .map<Widget>((schedule) {
                           return CardWidgetScheduleTime(
-                            scheduleDto: schedule,
+                            scheduleDtoAppointment: schedule,
                           );
                         }).toList()),
                       ],
