@@ -178,6 +178,8 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                         },
                         onChanged: clientStore.setBirthDate,
                         validator: (value) {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+
                           return validatorBirthDate(value);
                         },
                       ),

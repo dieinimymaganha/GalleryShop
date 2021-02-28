@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/values.dart';
+import 'package:galleryshopcustomers/screens/client/create_new_user_client_screen.dart';
 import 'package:galleryshopcustomers/screens/my_account/detail_my_account.dart';
 import 'package:galleryshopcustomers/stores/my_account_store.dart';
 import 'package:galleryshopcustomers/widgets/drawer/custom_drawer.dart';
@@ -58,7 +59,14 @@ class _MyAccountBaseScreenState extends State<MyAccountBaseScreen> {
                             title: Text('Alterar meus dados'),
                             trailing: Icon(Icons.keyboard_arrow_right),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CreateNewUserClientScreen(
+                                  newClient: false,
+                                  idClient: myAccountStore.clientDto.id,
+
+                                )));
+                          },
                         ),
                         Divider(
                           color: Colors.grey[400],

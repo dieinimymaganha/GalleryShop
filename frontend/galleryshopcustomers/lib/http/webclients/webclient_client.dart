@@ -10,11 +10,10 @@ import '../WebClient.dart';
 const urlClients = baseUrl + 'clients';
 
 class ClientWebClient {
-  Future<List<ClientDto>> findAll() async {
-    var prefs = await SharedPreferences.getInstance();
-    String token = (prefs.getString("tokenjwt") ?? "");
+  Future<ClientDto> findPhoneNumber(String phoneNumber) async {
+    String token = await getToken();
     final Response response = await webClient.get(
-      urlClients,
+      urlClients + "/phoneNumber=" + phoneNumber,
       headers: {
         'Content-type': 'application/json',
         'Authorization': "Bearer $token"
@@ -22,18 +21,16 @@ class ClientWebClient {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> decodeJson = jsonDecode(response.body);
-      final List<dynamic> data =
-          decodeJson.map((dynamic json) => ClientDto.fromJson(json)).toList();
+      final ClientDto data = ClientDto.fromJson(jsonDecode(response.body));
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));
   }
 
-  Future<ClientDto> findPhoneNumber(String phoneNumber) async {
+  Future<ClientDto> findById(int id) async {
     String token = await getToken();
     final Response response = await webClient.get(
-      urlClients + "/phoneNumber=" + phoneNumber,
+      urlClients + "/" + id.toString(),
       headers: {
         'Content-type': 'application/json',
         'Authorization': "Bearer $token"
@@ -52,6 +49,22 @@ class ClientWebClient {
 
     final Response response = await webClient.post(urlClients,
         headers: {'Content-type': 'application/json'}, body: clientJson);
+    return response.statusCode;
+  }
+
+  Future<int> update(ClientForm clientForm, int id) async {
+    String token = await getToken();
+    String urlUpdate = urlClients + '/' + id.toString();
+
+    final String serviceJson = json.encode(clientForm.toJson());
+
+    final Response response = await webClient.put(urlUpdate,
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': "Bearer $token",
+        },
+        body: serviceJson);
+
     return response.statusCode;
   }
 

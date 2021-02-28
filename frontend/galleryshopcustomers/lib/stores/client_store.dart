@@ -11,12 +11,13 @@ class ClientStore = _ClientStore with _$ClientStore;
 
 abstract class _ClientStore with Store {
   final bool newClient;
+  final int idClient;
 
-  ClientWebClient webClient = ClientWebClient();
+  ClientWebClient clientWebClient = ClientWebClient();
 
-  _ClientStore({this.newClient}) {
+  _ClientStore({this.newClient, this.idClient}) {
     autorun((_) {
-      print(listClientDto);
+      print(clientDto);
     });
   }
 
@@ -152,7 +153,18 @@ abstract class _ClientStore with Store {
       birthDateIsValid &&
       phoneNumberIsValid &&
       cpfIsValid &&
-      emailIsValid && fieldsValid;
+      emailIsValid &&
+      fieldsValid;
+
+  @computed
+  bool get fieldsUpdateIsValid =>
+      nameIsValid &&
+      lastNameIsValid &&
+      nickNameIsValid &&
+      birthDateIsValid &&
+      phoneNumberIsValid &&
+      cpfIsValid &&
+      emailIsValid;
 
   @observable
   bool sending = false;
@@ -182,7 +194,7 @@ abstract class _ClientStore with Store {
         email: email,
         password: secondPass,
         listProfiles: listProfiles);
-    int response = await webClient.save(clientForm);
+    int response = await clientWebClient.save(clientForm);
 //    int response = 201;
 
     if (response == 201) {
@@ -223,7 +235,6 @@ abstract class _ClientStore with Store {
   @action
   setFilter(String value) => filter = value;
 
-
   @observable
   bool obscureFirst = false;
 
@@ -235,7 +246,6 @@ abstract class _ClientStore with Store {
 
   @action
   void setObscureSecond() => obscureSecond = !obscureSecond;
-
 
   @computed
   List<ClientDto> get lisFiltered {
@@ -275,28 +285,75 @@ abstract class _ClientStore with Store {
   @computed
   List<ClientDto> get listFiltered {}
 
-  @action
-  Future<void> setList() async {
-    loading = true;
-//    await Future.delayed(Duration(seconds: 2));
-    try {
-      listClient = await webClient.findAll();
-      listClient.sort((a, b) => a.name.toString().compareTo(b.name.toString()));
-      if (listClient.isEmpty) {
-        errorList = true;
-        listEmpty = true;
-        loading = false;
-      }
-    } on Exception catch (_) {
-      errorList = true;
-    }
-    loading = false;
-    setListDto();
-  }
+  @observable
+  ClientDto clientDto;
+
+  @observable
+  bool fail;
 
   @action
-  Future<void> reloadList() async {
-    errorList = false;
-    setList();
+  Future<void> initPageEditInfoClient() async {
+    loading = true;
+    try {
+      clientDto = await clientWebClient.findById(idClient);
+      if (clientDto != null) {
+        name = controllerFieldName.text = clientDto.name;
+        lastName = controllerFieldLastName.text = clientDto.lastName;
+        nickname = controllerFieldNickName.text = clientDto.nickname;
+        birthDate =
+            controllerFieldBirthDate.text = clientDto.birthdate.toString();
+        phoneNumber = controllerFieldPhoneNumber.text = clientDto.phoneNumber;
+        cpf = controllerFieldCpf.text = clientDto.cpf;
+        email = controllerFieldEmail.text = clientDto.email;
+      } else {
+        fail = true;
+      }
+    } on Exception catch (_) {
+      fail = true;
+    }
+    loading = false;
   }
+
+  @observable
+  bool updateOk = false;
+
+  @action
+  Future<void> update() async {
+    sending = true;
+    await Future.delayed(Duration(seconds: 2));
+    sending = false;
+
+    final listProfiles = new List<ListProfiles>();
+    final String role = 'ROLE_CLIENT';
+    listProfiles.add(new ListProfiles(role: role));
+    ClientForm clientForm = ClientForm(
+        name: name,
+        lastName: lastName,
+        nickname: nickname,
+        phoneNumber: phoneNumber,
+        birthDate: birthDate,
+        email: email,
+        cpf: cpf,
+        listProfiles: listProfiles,
+        password: 'galleryShop');
+    try {
+    int response = await clientWebClient.update(clientForm, clientDto.id);
+//      int response = 1;
+      if (response == 200) {
+        created = true;
+      } else {
+        errorSending = true;
+      }
+    } on Exception catch (_) {
+      errorSending = true;
+    }
+
+    await Future.delayed(Duration(seconds: 2));
+
+    created = false;
+    errorSending = false;
+  }
+
+  @computed
+  Function get buttonUpdateMyAccount => fieldsUpdateIsValid ? update : null;
 }

@@ -30,24 +30,31 @@ const _tipFieldEmail = 'Digite o e-mail';
 
 class CreateNewUserClientScreen extends StatefulWidget {
   final bool newClient;
+  final int idClient;
 
-  CreateNewUserClientScreen({this.newClient});
+  CreateNewUserClientScreen({this.newClient, this.idClient});
 
   @override
   _CreateNewUserClientScreenState createState() =>
-      _CreateNewUserClientScreenState(newClient: newClient);
+      _CreateNewUserClientScreenState(newClient: newClient, idClient: idClient);
 }
 
 class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
   ClientStore clientStore = ClientStore();
 
-  _CreateNewUserClientScreenState({bool newClient})
-      : clientStore = ClientStore(newClient: newClient);
+  _CreateNewUserClientScreenState({bool newClient, int idClient})
+      : clientStore = ClientStore(newClient: newClient, idClient: idClient);
 
   final double _space = 10.0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   ReactionDisposer disposer;
+
+  @override
+  void initState() {
+    super.initState();
+    clientStore.initPageEditInfoClient();
+  }
 
   @override
   void didChangeDependencies() {
@@ -57,7 +64,9 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
-            'Error ao cadastrar! Verifique os campos',
+            clientStore.newClient
+                ? 'Erro ao cadastrar! Verifique os campos'
+                : 'Falha ao atualizar! Tente novamente',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
@@ -70,7 +79,9 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
     disposer = reaction((_) => clientStore.created, (created) async {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         content: Text(
-          'Cliente cadastrado  com sucesso!',
+          clientStore.newClient
+              ? 'Cliente cadastrado  com sucesso!'
+              : 'Cadastro alterado com sucesso!',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.blueAccent,
@@ -83,6 +94,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
           : Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => BaseScreen()));
     });
+
     disposer = reaction((_) => clientStore.duplicate, (created) async {
       if (created) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -127,204 +139,223 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
               right: 8,
             ),
             color: Colors.white,
-            child: ListView(
-              children: <Widget>[
-                Form(
-                  autovalidate: clientStore.isPasswordSecondValid || clientStore.isPasswordFirstValid,
-                  key: clientStore.formState,
-                  child: Column(
+            child: clientStore.loading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView(
                     children: <Widget>[
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        mandatory: false,
-                        controller: clientStore.controllerFieldName,
-                        tip: _tipFieldName,
-                        label: _labelFieldName,
-                        textInputType: TextInputType.text,
-                        obscure: false,
-                        onChanged: clientStore.setName,
-                      ),
-                      SizedBox(height: _space),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        controller: clientStore.controllerFieldLastName,
-                        tip: _tipFieldLastName,
-                        label: _labelFieldLastName,
-                        textInputType: TextInputType.text,
-                        obscure: false,
-                        onChanged: clientStore.setLastName,
-                      ),
-                      SizedBox(height: _space),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        controller: clientStore.controllerFieldNickName,
-                        tip: _tipFieldNickname,
-                        label: _labelFieldNickname,
-                        textInputType: TextInputType.text,
-                        obscure: false,
-                        onChanged: clientStore.setNickName,
-                      ),
-                      SizedBox(height: _space),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        maxlengthField: 14,
-                        controller: clientStore.controllerFieldCpf,
-                        tip: _tipFieldCpf,
-                        label: _labelFieldCpf,
-                        textInputType: TextInputType.number,
-                        obscure: false,
-                        onChanged: clientStore.setCpf,
-                        validator: (value) {
-                          return validatorCpf(value);
-                        },
-                      ),
-                      SizedBox(height: 10),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        controller: clientStore.controllerFieldBirthDate,
-                        tip: _tipFieldBirhdate,
-                        label: _labelFieldBirhDate,
-                        textInputType: TextInputType.number,
-                        obscure: false,
-                        ontap: () {
-                          changeAlterBirthDate();
-                        },
-                        onChanged: clientStore.setBirthDate,
-                        validator: (value) {
-                          return validatorBirthDate(value);
-                        },
-                      ),
-                      SizedBox(height: _space),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        maxlengthField: 16,
-                        controller: clientStore.controllerFieldPhoneNumber,
-                        tip: _tipFieldPhoneNumber,
-                        label: _labelFieldPhoneNumber,
-                        textInputType: TextInputType.number,
-                        obscure: false,
-                        onChanged: clientStore.setPhoneNumber,
-                        validator: (value) {
-                          return validatorPhoneNumber(value);
-                        },
-                      ),
-                      SizedBox(height: _space),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        controller: clientStore.controllerFieldEmail,
-                        tip: _tipFieldEmail,
-                        label: _labelFieldEmail,
-                        textInputType: TextInputType.emailAddress,
-                        obscure: false,
-                        onChanged: clientStore.setEmail,
-                        validator: (value) {
-                          return validatorEmail(value);
-                        },
-                      ),
-                      SizedBox(height: _space),
-                      CustomForm(
-                          enabled: !clientStore.sending,
-                          controller: clientStore.controllerFirstPass,
-                          mandatory: true,
-                          tip: 'Digite a nova senha',
-                          label: 'Digite a nova senha',
-                          textInputType: TextInputType.text,
-                          obscure: !clientStore.obscureFirst,
-                          icon: Icon(Icons.vpn_key),
-                          onChanged: clientStore.setFirst,
-                          suffix: CustomIconButton(
-                            radius: 32,
-                            iconData: clientStore.obscureFirst
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            onTap: clientStore.setObscureFirst,
-                          ),
-                          validator: (value) {
-                            return validatorFirstPass(value);
-                          }),
-                      SizedBox(height: _space),
-                      CustomForm(
-                        enabled: !clientStore.sending,
-                        controller: clientStore.controllerSecondPass,
-                        mandatory: true,
-                        icon: Icon(Icons.vpn_key),
-                        suffix: CustomIconButton(
-                          radius: 32,
-                          iconData: clientStore.obscureSecond
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          onTap: clientStore.setObscureSecond,
-                        ),
-                        tip: 'Digite novamente a nova senha',
-                        label: 'Digite novamente a nova senha',
-                        textInputType: TextInputType.text,
-                        obscure: !clientStore.obscureSecond,
-                        onChanged: clientStore.setSecondPass,
-                        validator: (value) {
-                          return validatorSecondPass(value);
-                        },
-                      ),
-                      SizedBox(height: _space),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 60,
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            stops: [0.3, 1],
-                            colors: [
-                              Color(0XFF212121),
-                              Color(0XFF616161),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(50),
-                          ),
-                        ),
-                        child: SizedBox.expand(
-                          child: FlatButton(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Cadastrar',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 20),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Container(
-                                    child: SizedBox(
-                                      child: clientStore.sending
-                                          ? CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation(
-                                                      Colors.blue),
-                                            )
-                                          : Icon(Icons.send),
-                                      height: 28,
-                                      width: 28,
+                      Form(
+                        autovalidate: clientStore.newClient
+                            ? (clientStore.isPasswordSecondValid ||
+                                clientStore.isPasswordFirstValid)
+                            : !clientStore.fieldIsValid,
+                        key: clientStore.formState,
+                        child: Column(
+                          children: <Widget>[
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              mandatory: false,
+                              controller: clientStore.controllerFieldName,
+                              tip: _tipFieldName,
+                              label: _labelFieldName,
+                              textInputType: TextInputType.text,
+                              obscure: false,
+                              onChanged: clientStore.setName,
+                            ),
+                            SizedBox(height: _space),
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              controller: clientStore.controllerFieldLastName,
+                              tip: _tipFieldLastName,
+                              label: _labelFieldLastName,
+                              textInputType: TextInputType.text,
+                              obscure: false,
+                              onChanged: clientStore.setLastName,
+                            ),
+                            SizedBox(height: _space),
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              controller: clientStore.controllerFieldNickName,
+                              tip: _tipFieldNickname,
+                              label: _labelFieldNickname,
+                              textInputType: TextInputType.text,
+                              obscure: false,
+                              onChanged: clientStore.setNickName,
+                            ),
+                            SizedBox(height: _space),
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              maxlengthField: 14,
+                              controller: clientStore.controllerFieldCpf,
+                              tip: _tipFieldCpf,
+                              label: _labelFieldCpf,
+                              textInputType: TextInputType.number,
+                              obscure: false,
+                              onChanged: clientStore.setCpf,
+                              validator: (value) {
+                                return validatorCpf(value);
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              controller: clientStore.controllerFieldBirthDate,
+                              tip: _tipFieldBirhdate,
+                              label: _labelFieldBirhDate,
+                              textInputType: TextInputType.number,
+                              obscure: false,
+                              ontap: () {
+                                FocusScope.of(context)
+                                    .requestFocus(new FocusNode());
+                                changeAlterBirthDate();
+                              },
+                              onChanged: clientStore.setBirthDate,
+                              validator: (value) {
+                                return validatorBirthDate(value);
+                              },
+                            ),
+                            SizedBox(height: _space),
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              maxlengthField: 16,
+                              controller:
+                                  clientStore.controllerFieldPhoneNumber,
+                              tip: _tipFieldPhoneNumber,
+                              label: _labelFieldPhoneNumber,
+                              textInputType: TextInputType.number,
+                              obscure: false,
+                              onChanged: clientStore.setPhoneNumber,
+                              validator: (value) {
+                                return validatorPhoneNumber(value);
+                              },
+                            ),
+                            SizedBox(height: _space),
+                            CustomForm(
+                              enabled: !clientStore.sending,
+                              controller: clientStore.controllerFieldEmail,
+                              tip: _tipFieldEmail,
+                              label: _labelFieldEmail,
+                              textInputType: TextInputType.emailAddress,
+                              obscure: false,
+                              onChanged: clientStore.setEmail,
+                              validator: (value) {
+                                return validatorEmail(value);
+                              },
+                            ),
+                            SizedBox(height: _space),
+                            clientStore.newClient
+                                ? CustomForm(
+                                    enabled: !clientStore.sending,
+                                    controller: clientStore.controllerFirstPass,
+                                    mandatory: true,
+                                    tip: 'Digite a nova senha',
+                                    label: 'Digite a nova senha',
+                                    textInputType: TextInputType.text,
+                                    obscure: !clientStore.obscureFirst,
+                                    icon: Icon(Icons.vpn_key),
+                                    onChanged: clientStore.setFirst,
+                                    suffix: CustomIconButton(
+                                      radius: 32,
+                                      iconData: clientStore.obscureFirst
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      onTap: clientStore.setObscureFirst,
                                     ),
+                                    validator: (value) {
+                                      return validatorFirstPass(value);
+                                    })
+                                : Container(),
+                            SizedBox(height: _space),
+                            clientStore.newClient
+                                ? CustomForm(
+                                    enabled: !clientStore.sending,
+                                    controller:
+                                        clientStore.controllerSecondPass,
+                                    mandatory: true,
+                                    icon: Icon(Icons.vpn_key),
+                                    suffix: CustomIconButton(
+                                      radius: 32,
+                                      iconData: clientStore.obscureSecond
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      onTap: clientStore.setObscureSecond,
+                                    ),
+                                    tip: 'Digite novamente a nova senha',
+                                    label: 'Digite novamente a nova senha',
+                                    textInputType: TextInputType.text,
+                                    obscure: !clientStore.obscureSecond,
+                                    onChanged: clientStore.setSecondPass,
+                                    validator: (value) {
+                                      return validatorSecondPass(value);
+                                    },
                                   )
-                                ],
+                                : Container(),
+                            SizedBox(height: _space),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 60,
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  stops: [0.3, 1],
+                                  colors: [
+                                    Color(0XFF212121),
+                                    Color(0XFF616161),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(50),
+                                ),
                               ),
-                              onPressed: clientStore.buttomSavePressed),
+                              child: SizedBox.expand(
+                                child: FlatButton(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          clientStore.newClient
+                                              ? 'Cadastrar'
+                                              : 'Alterar',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                              fontSize: 20),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Container(
+                                          child: SizedBox(
+                                            child: clientStore.sending
+                                                ? CircularProgressIndicator(
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation(
+                                                            Colors.blue),
+                                                  )
+                                                : Icon(Icons.send),
+                                            height: 28,
+                                            width: 28,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: clientStore.newClient
+                                        ? clientStore.buttomSavePressed
+                                        : clientStore.buttonUpdateMyAccount),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
           ),
         );
       },

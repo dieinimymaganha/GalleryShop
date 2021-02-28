@@ -92,6 +92,13 @@ mixin _$ClientStore on _ClientStore, Store {
       (_$fieldIsValidComputed ??= Computed<bool>(() => super.fieldIsValid,
               name: '_ClientStore.fieldIsValid'))
           .value;
+  Computed<bool> _$fieldsUpdateIsValidComputed;
+
+  @override
+  bool get fieldsUpdateIsValid => (_$fieldsUpdateIsValidComputed ??=
+          Computed<bool>(() => super.fieldsUpdateIsValid,
+              name: '_ClientStore.fieldsUpdateIsValid'))
+      .value;
   Computed<Function> _$buttomSavePressedComputed;
 
   @override
@@ -112,6 +119,13 @@ mixin _$ClientStore on _ClientStore, Store {
   List<ClientDto> get listFiltered => (_$listFilteredComputed ??=
           Computed<List<ClientDto>>(() => super.listFiltered,
               name: '_ClientStore.listFiltered'))
+      .value;
+  Computed<Function> _$buttonUpdateMyAccountComputed;
+
+  @override
+  Function get buttonUpdateMyAccount => (_$buttonUpdateMyAccountComputed ??=
+          Computed<Function>(() => super.buttonUpdateMyAccount,
+              name: '_ClientStore.buttonUpdateMyAccount'))
       .value;
 
   final _$formStateAtom = Atom(name: '_ClientStore.formState');
@@ -594,6 +608,51 @@ mixin _$ClientStore on _ClientStore, Store {
     });
   }
 
+  final _$clientDtoAtom = Atom(name: '_ClientStore.clientDto');
+
+  @override
+  ClientDto get clientDto {
+    _$clientDtoAtom.reportRead();
+    return super.clientDto;
+  }
+
+  @override
+  set clientDto(ClientDto value) {
+    _$clientDtoAtom.reportWrite(value, super.clientDto, () {
+      super.clientDto = value;
+    });
+  }
+
+  final _$failAtom = Atom(name: '_ClientStore.fail');
+
+  @override
+  bool get fail {
+    _$failAtom.reportRead();
+    return super.fail;
+  }
+
+  @override
+  set fail(bool value) {
+    _$failAtom.reportWrite(value, super.fail, () {
+      super.fail = value;
+    });
+  }
+
+  final _$updateOkAtom = Atom(name: '_ClientStore.updateOk');
+
+  @override
+  bool get updateOk {
+    _$updateOkAtom.reportRead();
+    return super.updateOk;
+  }
+
+  @override
+  set updateOk(bool value) {
+    _$updateOkAtom.reportWrite(value, super.updateOk, () {
+      super.updateOk = value;
+    });
+  }
+
   final _$saveClientAsyncAction = AsyncAction('_ClientStore.saveClient');
 
   @override
@@ -601,18 +660,20 @@ mixin _$ClientStore on _ClientStore, Store {
     return _$saveClientAsyncAction.run(() => super.saveClient());
   }
 
-  final _$setListAsyncAction = AsyncAction('_ClientStore.setList');
+  final _$initPageEditInfoClientAsyncAction =
+      AsyncAction('_ClientStore.initPageEditInfoClient');
 
   @override
-  Future<void> setList() {
-    return _$setListAsyncAction.run(() => super.setList());
+  Future<void> initPageEditInfoClient() {
+    return _$initPageEditInfoClientAsyncAction
+        .run(() => super.initPageEditInfoClient());
   }
 
-  final _$reloadListAsyncAction = AsyncAction('_ClientStore.reloadList');
+  final _$updateAsyncAction = AsyncAction('_ClientStore.update');
 
   @override
-  Future<void> reloadList() {
-    return _$reloadListAsyncAction.run(() => super.reloadList());
+  Future<void> update() {
+    return _$updateAsyncAction.run(() => super.update());
   }
 
   final _$_ClientStoreActionController = ActionController(name: '_ClientStore');
@@ -805,6 +866,9 @@ listClientDto: ${listClientDto},
 filter: ${filter},
 obscureFirst: ${obscureFirst},
 obscureSecond: ${obscureSecond},
+clientDto: ${clientDto},
+fail: ${fail},
+updateOk: ${updateOk},
 isPasswordFirstValid: ${isPasswordFirstValid},
 isPasswordSecondValid: ${isPasswordSecondValid},
 fieldsValid: ${fieldsValid},
@@ -817,9 +881,11 @@ phoneNumberIsValid: ${phoneNumberIsValid},
 cpfIsValid: ${cpfIsValid},
 emailIsValid: ${emailIsValid},
 fieldIsValid: ${fieldIsValid},
+fieldsUpdateIsValid: ${fieldsUpdateIsValid},
 buttomSavePressed: ${buttomSavePressed},
 lisFiltered: ${lisFiltered},
-listFiltered: ${listFiltered}
+listFiltered: ${listFiltered},
+buttonUpdateMyAccount: ${buttonUpdateMyAccount}
     ''';
   }
 }
