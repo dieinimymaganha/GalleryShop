@@ -6,6 +6,8 @@ import 'package:galleryshopcustomers/screens/my_account/detail_my_account.dart';
 import 'package:galleryshopcustomers/stores/my_account_store.dart';
 import 'package:galleryshopcustomers/widgets/drawer/custom_drawer.dart';
 
+import 'alter_password_screen.dart';
+
 class MyAccountBaseScreen extends StatefulWidget {
   @override
   _MyAccountBaseScreenState createState() => _MyAccountBaseScreenState();
@@ -62,10 +64,9 @@ class _MyAccountBaseScreenState extends State<MyAccountBaseScreen> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => CreateNewUserClientScreen(
-                                  newClient: false,
-                                  idClient: myAccountStore.clientDto.id,
-
-                                )));
+                                      newClient: false,
+                                      idClient: myAccountStore.clientDto.id,
+                                    )));
                           },
                         ),
                         Divider(
@@ -77,7 +78,10 @@ class _MyAccountBaseScreenState extends State<MyAccountBaseScreen> {
                             title: Text('Alterar senha'),
                             trailing: Icon(Icons.keyboard_arrow_right),
                           ),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => AlterPasswordScreen()));
+                          },
                         ),
                         Divider(
                           color: Colors.grey[400],

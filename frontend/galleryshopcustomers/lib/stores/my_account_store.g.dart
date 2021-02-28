@@ -16,6 +16,41 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
           Computed<Function>(() => super.buttonLogoutPressed,
               name: '_MyAccountStore.buttonLogoutPressed'))
       .value;
+  Computed<bool> _$isPasswordFirstValidComputed;
+
+  @override
+  bool get isPasswordFirstValid => (_$isPasswordFirstValidComputed ??=
+          Computed<bool>(() => super.isPasswordFirstValid,
+              name: '_MyAccountStore.isPasswordFirstValid'))
+      .value;
+  Computed<bool> _$isPasswordSecondValidComputed;
+
+  @override
+  bool get isPasswordSecondValid => (_$isPasswordSecondValidComputed ??=
+          Computed<bool>(() => super.isPasswordSecondValid,
+              name: '_MyAccountStore.isPasswordSecondValid'))
+      .value;
+  Computed<bool> _$fieldsValidComputed;
+
+  @override
+  bool get fieldsValid =>
+      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
+              name: '_MyAccountStore.fieldsValid'))
+          .value;
+  Computed<bool> _$identicalComputed;
+
+  @override
+  bool get identical =>
+      (_$identicalComputed ??= Computed<bool>(() => super.identical,
+              name: '_MyAccountStore.identical'))
+          .value;
+  Computed<Function> _$buttonSavePressedComputed;
+
+  @override
+  Function get buttonSavePressed => (_$buttonSavePressedComputed ??=
+          Computed<Function>(() => super.buttonSavePressed,
+              name: '_MyAccountStore.buttonSavePressed'))
+      .value;
 
   final _$clientDtoAtom = Atom(name: '_MyAccountStore.clientDto');
 
@@ -122,6 +157,175 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     });
   }
 
+  final _$formStateAtom = Atom(name: '_MyAccountStore.formState');
+
+  @override
+  GlobalKey<FormState> get formState {
+    _$formStateAtom.reportRead();
+    return super.formState;
+  }
+
+  @override
+  set formState(GlobalKey<FormState> value) {
+    _$formStateAtom.reportWrite(value, super.formState, () {
+      super.formState = value;
+    });
+  }
+
+  final _$alterOKAtom = Atom(name: '_MyAccountStore.alterOK');
+
+  @override
+  bool get alterOK {
+    _$alterOKAtom.reportRead();
+    return super.alterOK;
+  }
+
+  @override
+  set alterOK(bool value) {
+    _$alterOKAtom.reportWrite(value, super.alterOK, () {
+      super.alterOK = value;
+    });
+  }
+
+  final _$errorAtom = Atom(name: '_MyAccountStore.error');
+
+  @override
+  bool get error {
+    _$errorAtom.reportRead();
+    return super.error;
+  }
+
+  @override
+  set error(bool value) {
+    _$errorAtom.reportWrite(value, super.error, () {
+      super.error = value;
+    });
+  }
+
+  final _$updatePassWordFormAtom =
+      Atom(name: '_MyAccountStore.updatePassWordForm');
+
+  @override
+  UpdatePassWordForm get updatePassWordForm {
+    _$updatePassWordFormAtom.reportRead();
+    return super.updatePassWordForm;
+  }
+
+  @override
+  set updatePassWordForm(UpdatePassWordForm value) {
+    _$updatePassWordFormAtom.reportWrite(value, super.updatePassWordForm, () {
+      super.updatePassWordForm = value;
+    });
+  }
+
+  final _$sendingAtom = Atom(name: '_MyAccountStore.sending');
+
+  @override
+  bool get sending {
+    _$sendingAtom.reportRead();
+    return super.sending;
+  }
+
+  @override
+  set sending(bool value) {
+    _$sendingAtom.reportWrite(value, super.sending, () {
+      super.sending = value;
+    });
+  }
+
+  final _$controllerFirstPassAtom =
+      Atom(name: '_MyAccountStore.controllerFirstPass');
+
+  @override
+  TextEditingController get controllerFirstPass {
+    _$controllerFirstPassAtom.reportRead();
+    return super.controllerFirstPass;
+  }
+
+  @override
+  set controllerFirstPass(TextEditingController value) {
+    _$controllerFirstPassAtom.reportWrite(value, super.controllerFirstPass, () {
+      super.controllerFirstPass = value;
+    });
+  }
+
+  final _$firstPassAtom = Atom(name: '_MyAccountStore.firstPass');
+
+  @override
+  String get firstPass {
+    _$firstPassAtom.reportRead();
+    return super.firstPass;
+  }
+
+  @override
+  set firstPass(String value) {
+    _$firstPassAtom.reportWrite(value, super.firstPass, () {
+      super.firstPass = value;
+    });
+  }
+
+  final _$controllerSecondPassAtom =
+      Atom(name: '_MyAccountStore.controllerSecondPass');
+
+  @override
+  TextEditingController get controllerSecondPass {
+    _$controllerSecondPassAtom.reportRead();
+    return super.controllerSecondPass;
+  }
+
+  @override
+  set controllerSecondPass(TextEditingController value) {
+    _$controllerSecondPassAtom.reportWrite(value, super.controllerSecondPass,
+        () {
+      super.controllerSecondPass = value;
+    });
+  }
+
+  final _$secondPassAtom = Atom(name: '_MyAccountStore.secondPass');
+
+  @override
+  String get secondPass {
+    _$secondPassAtom.reportRead();
+    return super.secondPass;
+  }
+
+  @override
+  set secondPass(String value) {
+    _$secondPassAtom.reportWrite(value, super.secondPass, () {
+      super.secondPass = value;
+    });
+  }
+
+  final _$obscureFirstAtom = Atom(name: '_MyAccountStore.obscureFirst');
+
+  @override
+  bool get obscureFirst {
+    _$obscureFirstAtom.reportRead();
+    return super.obscureFirst;
+  }
+
+  @override
+  set obscureFirst(bool value) {
+    _$obscureFirstAtom.reportWrite(value, super.obscureFirst, () {
+      super.obscureFirst = value;
+    });
+  }
+
+  final _$obscureSecondAtom = Atom(name: '_MyAccountStore.obscureSecond');
+
+  @override
+  bool get obscureSecond {
+    _$obscureSecondAtom.reportRead();
+    return super.obscureSecond;
+  }
+
+  @override
+  set obscureSecond(bool value) {
+    _$obscureSecondAtom.reportWrite(value, super.obscureSecond, () {
+      super.obscureSecond = value;
+    });
+  }
+
   final _$setPhoneNumberLoginAsyncAction =
       AsyncAction('_MyAccountStore.setPhoneNumberLogin');
 
@@ -167,6 +371,60 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$exitAppAsyncAction.run(() => super.exitApp());
   }
 
+  final _$alterPassAsyncAction = AsyncAction('_MyAccountStore.alterPass');
+
+  @override
+  Future<void> alterPass() {
+    return _$alterPassAsyncAction.run(() => super.alterPass());
+  }
+
+  final _$_MyAccountStoreActionController =
+      ActionController(name: '_MyAccountStore');
+
+  @override
+  void setFirst(String value) {
+    final _$actionInfo = _$_MyAccountStoreActionController.startAction(
+        name: '_MyAccountStore.setFirst');
+    try {
+      return super.setFirst(value);
+    } finally {
+      _$_MyAccountStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setSecondPass(String value) {
+    final _$actionInfo = _$_MyAccountStoreActionController.startAction(
+        name: '_MyAccountStore.setSecondPass');
+    try {
+      return super.setSecondPass(value);
+    } finally {
+      _$_MyAccountStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setObscureFirst() {
+    final _$actionInfo = _$_MyAccountStoreActionController.startAction(
+        name: '_MyAccountStore.setObscureFirst');
+    try {
+      return super.setObscureFirst();
+    } finally {
+      _$_MyAccountStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setObscureSecond() {
+    final _$actionInfo = _$_MyAccountStoreActionController.startAction(
+        name: '_MyAccountStore.setObscureSecond');
+    try {
+      return super.setObscureSecond();
+    } finally {
+      _$_MyAccountStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
@@ -177,7 +435,23 @@ idClient: ${idClient},
 loadingPage: ${loadingPage},
 logout: ${logout},
 logoutOK: ${logoutOK},
-buttonLogoutPressed: ${buttonLogoutPressed}
+formState: ${formState},
+alterOK: ${alterOK},
+error: ${error},
+updatePassWordForm: ${updatePassWordForm},
+sending: ${sending},
+controllerFirstPass: ${controllerFirstPass},
+firstPass: ${firstPass},
+controllerSecondPass: ${controllerSecondPass},
+secondPass: ${secondPass},
+obscureFirst: ${obscureFirst},
+obscureSecond: ${obscureSecond},
+buttonLogoutPressed: ${buttonLogoutPressed},
+isPasswordFirstValid: ${isPasswordFirstValid},
+isPasswordSecondValid: ${isPasswordSecondValid},
+fieldsValid: ${fieldsValid},
+identical: ${identical},
+buttonSavePressed: ${buttonSavePressed}
     ''';
   }
 }
