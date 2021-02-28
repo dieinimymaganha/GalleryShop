@@ -17,18 +17,18 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
               name: '_MyAccountStore.buttonLogoutPressed'))
       .value;
 
-  final _$clienteDtoAtom = Atom(name: '_MyAccountStore.clienteDto');
+  final _$clientDtoAtom = Atom(name: '_MyAccountStore.clientDto');
 
   @override
-  ClientDto get clienteDto {
-    _$clienteDtoAtom.reportRead();
-    return super.clienteDto;
+  ClientDto get clientDto {
+    _$clientDtoAtom.reportRead();
+    return super.clientDto;
   }
 
   @override
-  set clienteDto(ClientDto value) {
-    _$clienteDtoAtom.reportWrite(value, super.clienteDto, () {
-      super.clienteDto = value;
+  set clientDto(ClientDto value) {
+    _$clientDtoAtom.reportWrite(value, super.clientDto, () {
+      super.clientDto = value;
     });
   }
 
@@ -74,6 +74,21 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
   set idClient(int value) {
     _$idClientAtom.reportWrite(value, super.idClient, () {
       super.idClient = value;
+    });
+  }
+
+  final _$loadingPageAtom = Atom(name: '_MyAccountStore.loadingPage');
+
+  @override
+  bool get loadingPage {
+    _$loadingPageAtom.reportRead();
+    return super.loadingPage;
+  }
+
+  @override
+  set loadingPage(bool value) {
+    _$loadingPageAtom.reportWrite(value, super.loadingPage, () {
+      super.loadingPage = value;
     });
   }
 
@@ -138,6 +153,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getNickNameAsyncAction.run(() => super.getNickName());
   }
 
+  final _$getClientAsyncAction = AsyncAction('_MyAccountStore.getClient');
+
+  @override
+  Future<void> getClient() {
+    return _$getClientAsyncAction.run(() => super.getClient());
+  }
+
   final _$exitAppAsyncAction = AsyncAction('_MyAccountStore.exitApp');
 
   @override
@@ -148,10 +170,11 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
   @override
   String toString() {
     return '''
-clienteDto: ${clienteDto},
+clientDto: ${clientDto},
 phoneNumberLogin: ${phoneNumberLogin},
 nickNameLogin: ${nickNameLogin},
 idClient: ${idClient},
+loadingPage: ${loadingPage},
 logout: ${logout},
 logoutOK: ${logoutOK},
 buttonLogoutPressed: ${buttonLogoutPressed}

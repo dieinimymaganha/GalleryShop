@@ -11,7 +11,7 @@ abstract class _MyAccountStore with Store {
   ClientWebClient clientWebClient = ClientWebClient();
 
   @observable
-  ClientDto clienteDto = ClientDto();
+  ClientDto clientDto;
 
   _MyAccountStore() {
     autorun((_) {
@@ -53,6 +53,17 @@ abstract class _MyAccountStore with Store {
     var prefs = await SharedPreferences.getInstance();
     String nickName = (prefs.getString("nickName") ?? "");
     return nickName;
+  }
+
+  @observable
+  bool loadingPage = false;
+
+  @action
+  Future<void> getClient() async {
+    loadingPage = true;
+    await setPhoneNumberLogin();
+    clientDto = await clientWebClient.findPhoneNumber(phoneNumberLogin);
+    loadingPage = false;
   }
 
   @observable

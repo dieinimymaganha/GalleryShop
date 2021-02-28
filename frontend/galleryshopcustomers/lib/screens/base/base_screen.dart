@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:galleryshopcustomers/blocs/drawer_bloc.dart';
 
 import 'package:galleryshopcustomers/screens/home/home_screen.dart';
-import 'package:galleryshopcustomers/screens/my_account/my_account_screen.dart';
+import 'package:galleryshopcustomers/screens/my_account/my_account_base_screen.dart';
 import 'package:galleryshopcustomers/screens/schedule/schedule_base_screen.dart';
 
 import 'package:provider/provider.dart';
@@ -53,7 +53,7 @@ class _BaseScreenState extends State<BaseScreen> {
         children: <Widget>[
           HomeScreen(),
           ScheduleBaseScreen(),
-          MyAccountScreen(),
+          MyAccountBaseScreen(),
         ],
       ),
     );
