@@ -133,8 +133,8 @@ abstract class _MyAccountStore with Store {
         UpdatePassWordForm(phoneNumber: phoneNumberLogin, password: secondPass);
     print(updatePassWordForm.toJson());
     try {
-//    int response = await myAccountWebClient.update(updatePassWordForm);
-      int response = 1;
+    int response = await myAccountWebClient.update(updatePassWordForm);
+//      int response = 1;
       if (response == 200) {
         alterOK = true;
       } else {

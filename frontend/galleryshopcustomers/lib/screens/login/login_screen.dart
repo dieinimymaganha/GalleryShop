@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/screens/base/base_screen.dart';
+import 'package:galleryshopcustomers/screens/client/create_new_user_client_screen.dart';
 import 'package:galleryshopcustomers/stores/login_store.dart';
 import 'package:galleryshopcustomers/widgets/custom_form.dart';
 import 'package:galleryshopcustomers/widgets/custom_icon_button.dart';
@@ -151,13 +152,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.centerRight,
                     child: FlatButton(
                       child: Text(
-                        "Recuperar Senha",
+                        "Novo usuário",
                       ),
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ResetPasswordScreen(),
+                              builder: (context) => CreateNewUserClientScreen(
+                                newClient: true,
+                              ),
                             ));
                       },
                     ),
