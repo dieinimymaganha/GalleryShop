@@ -8,7 +8,7 @@ import '../WebClient.dart';
 const urlSchedule = baseUrl + 'schedules';
 
 class ScheduleWebClient {
-  Future<List<ScheduleDto>> findScheduleIdEmployee(
+  Future<List<ScheduleDtoAppointment>> findScheduleIdEmployee(
       String idEmployee, String idTypeEmployee) async {
     String token = await getToken();
     final Response response = await webClient.get(
@@ -27,7 +27,7 @@ class ScheduleWebClient {
     if (response.statusCode == 200) {
       final List<dynamic> decodeJson = jsonDecode(response.body);
       final List<dynamic> data =
-          decodeJson.map((dynamic json) => ScheduleDto.fromJson(json)).toList();
+          decodeJson.map((dynamic json) => ScheduleDtoAppointment.fromJson(json)).toList();
       return data;
     }
     throw HttpException(_getMessage(response.statusCode));

@@ -14,15 +14,16 @@ class DialogConfirmSchedule extends StatefulWidget {
   DialogConfirmSchedule({this.scheduleDtoAppointment});
 
   @override
-  _DialogConfirmScheduleState createState() =>
-      _DialogConfirmScheduleState(scheduleDtoAppointment: scheduleDtoAppointment);
+  _DialogConfirmScheduleState createState() => _DialogConfirmScheduleState(
+      scheduleDtoAppointment: scheduleDtoAppointment);
 }
 
 class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
   ScheduleStore scheduleStore = ScheduleStore();
 
   _DialogConfirmScheduleState({ScheduleDtoAppointment scheduleDtoAppointment})
-      : scheduleStore = ScheduleStore(scheduleDtoAppointment: scheduleDtoAppointment);
+      : scheduleStore =
+            ScheduleStore(scheduleDtoAppointment: scheduleDtoAppointment);
 
   ReactionDisposer disposer;
 
@@ -35,8 +36,10 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
             context: context,
             builder: (context) => buildAlertDialogScheduleOK());
         await Future.delayed(Duration(seconds: 2));
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => ScheduleAppointmentScreen()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => ScheduleAppointmentScreen(
+                  appointmentConsult: true,
+                )));
       }
     });
 
@@ -51,39 +54,36 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
       }
     });
 
-    disposer =
-        reaction((_) => scheduleStore.scheduleNotAvailable, (excludedFail) async {
-          if (excludedFail) {
-            showDialog(
-                context: context,
-                builder: (context) => buildAlertDialogScheduleBlock());
-            await Future.delayed(Duration(seconds: 2));
-            Navigator.of(context).pop();
-          }
-        });
+    disposer = reaction((_) => scheduleStore.scheduleNotAvailable,
+        (excludedFail) async {
+      if (excludedFail) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogScheduleBlock());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
 
     disposer =
         reaction((_) => scheduleStore.scheduleConflit, (excludedFail) async {
-          if (excludedFail) {
-            showDialog(
-                context: context,
-                builder: (context) => buildAlertDialogConflit());
-            await Future.delayed(Duration(seconds: 2));
-            Navigator.of(context).pop();
-          }
-        });    disposer =
+      if (excludedFail) {
+        showDialog(
+            context: context, builder: (context) => buildAlertDialogConflit());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
+    disposer =
         reaction((_) => scheduleStore.scheduleFail, (excludedFail) async {
-          if (excludedFail) {
-            showDialog(
-                context: context,
-                builder: (context) => buildAlertDialogScheduleError());
-            await Future.delayed(Duration(seconds: 2));
-            Navigator.of(context).pop();
-          }
-        });
-
-
-
+      if (excludedFail) {
+        showDialog(
+            context: context,
+            builder: (context) => buildAlertDialogScheduleError());
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
@@ -190,8 +190,6 @@ class _DialogConfirmScheduleState extends State<DialogConfirmSchedule> {
       color: Colors.deepOrange,
     );
   }
-
-
 
   @override
   void dispose() {

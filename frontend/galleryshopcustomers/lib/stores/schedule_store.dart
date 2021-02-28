@@ -183,14 +183,22 @@ abstract class _ScheduleStore with Store {
               fromModelToEventAppointmentNotConcluded(dataSchedule);
           eventsConcluded = fromModelToEventAppointmentConcluded(dataSchedule);
         }
-      }
-
-      if (dataSchedule.isNotEmpty) {
-        events = fromModelToEvent(dataSchedule);
-        await createInfoSchedule();
+        if (dataSchedule.isNotEmpty) {
+          events = fromModelToEvent(dataSchedule);
+          await createInfoSchedule();
+        } else {
+          errorList = true;
+          listEmpty = true;
+        }
       } else {
-        errorList = true;
-        listEmpty = true;
+        dataSchedule = await scheduleWebClient.findScheduleIdEmployee(
+            idEmployee.toString(), idTypeEmployee.toString());
+        if (dataSchedule.isNotEmpty) {
+          events = fromModelToEvent(dataSchedule);
+        } else {
+          errorList = true;
+          listEmpty = true;
+        }
       }
     } on Exception catch (_) {
       errorList = true;
