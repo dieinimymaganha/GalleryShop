@@ -10,6 +10,7 @@ import 'package:galleryshopcustomers/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'consult_payment_account_client.dart';
+import 'consult_sales_account.dart';
 
 class DetailMyAccount extends StatefulWidget {
   final int idClient;
@@ -38,38 +39,26 @@ class _DetailMyAccountState extends State<DetailMyAccount> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  ConsultServiceRecordScreen(
+              builder: (context) => ConsultServiceRecordScreen(
                     idClient: accountClientStore.accountClientDto.clientDto.id,
                   )));
-    }
-     else if (choice == OptionsMenuDetailAccount.updatePage) {
+    } else if (choice == OptionsMenuDetailAccount.updatePage) {
       accountClientStore.iniPageClient();
-    }
-     else if (choice == OptionsMenuDetailAccount.consultPayment) {
+    } else if (choice == OptionsMenuDetailAccount.consultPayment) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => ConsultPaymentClient(
                     idAccount: accountClientStore.accountClientDto.id,
                   )));
+    } else if (choice == OptionsMenuDetailAccount.consultSales) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConsultSalesAccount(
+                    idClient: accountClientStore.idClient,
+                  )));
     }
-//    else if (choice == OptionsMenuDetailAccount.insertProduct) {
-//      Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//              builder: (context) => SaleProduct(
-//                    idClient: accountClientStore.idClient,
-//                  )));
-//    } else if (choice == OptionsMenuDetailAccount.consultSales) {
-//      Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//              builder: (context) => ConsultSalesAccount(
-//                    idClient: accountClientStore.idClient,
-//                  )));
-//    }
-
   }
 
   @override
