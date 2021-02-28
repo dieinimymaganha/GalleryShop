@@ -166,18 +166,41 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$forbiddenAtom = Atom(name: '_LoginStore.forbidden');
+
+  @override
+  bool get forbidden {
+    _$forbiddenAtom.reportRead();
+    return super.forbidden;
+  }
+
+  @override
+  set forbidden(bool value) {
+    _$forbiddenAtom.reportWrite(value, super.forbidden, () {
+      super.forbidden = value;
+    });
+  }
+
+  final _$notFoundAtom = Atom(name: '_LoginStore.notFound');
+
+  @override
+  bool get notFound {
+    _$notFoundAtom.reportRead();
+    return super.notFound;
+  }
+
+  @override
+  set notFound(bool value) {
+    _$notFoundAtom.reportWrite(value, super.notFound, () {
+      super.notFound = value;
+    });
+  }
+
   final _$loginAsyncAction = AsyncAction('_LoginStore.login');
 
   @override
   Future<void> login() {
     return _$loginAsyncAction.run(() => super.login());
-  }
-
-  final _$saveAsyncAction = AsyncAction('_LoginStore.save');
-
-  @override
-  Future<void> save(LoginModel loginCreated) {
-    return _$saveAsyncAction.run(() => super.save(loginCreated));
   }
 
   final _$setPhoneNumberLoginAsyncAction =
@@ -250,6 +273,8 @@ loggedIn: ${loggedIn},
 errorLogin: ${errorLogin},
 phoneNumberLogin: ${phoneNumberLogin},
 nickNameLogin: ${nickNameLogin},
+forbidden: ${forbidden},
+notFound: ${notFound},
 isPasswordValid: ${isPasswordValid},
 isPhoneValid: ${isPhoneValid},
 loginPressed: ${loginPressed}

@@ -3,6 +3,7 @@ import 'package:galleryshopcustomers/http/webclients/webclient_login.dart';
 import 'package:galleryshopcustomers/models/client.dart';
 import 'package:galleryshopcustomers/models/login.dart';
 import 'package:galleryshopcustomers/models/token.dart';
+import 'package:http/http.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -57,11 +58,42 @@ abstract class _LoginStore with Store {
   @action
   void setPassword(String value) => password = value;
 
+  @observable
+  bool forbidden = false;
+
+  @observable
+  bool notFound = true;
+
   @action
   Future<void> login() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('idClient');
+    await prefs.remove('phoneNumber');
+    await prefs.remove('nickName');
+    loading = true;
+    await Future.delayed(Duration(seconds: 2));
     final LoginModel loginModel =
         LoginModel(phoneNumber: phone, password: password);
-    await save(loginModel);
+    try {
+      Response response = await _webClient.sendUser(loginModel);
+      if (response.statusCode == 200) {
+        await setPhoneNumberLogin();
+        if (clienteDto != null) {
+          loggedIn = true;
+        } else {
+          forbidden = true;
+        }
+      } else if (response.statusCode == 400) {
+        notFound = true;
+      }
+    } on Exception catch (_) {
+      errorLogin = true;
+    }
+    await Future.delayed(Duration(seconds: 2));
+    errorLogin = false;
+    notFound = false;
+    forbidden = false;
+    loading = false;
   }
 
   @computed
@@ -71,42 +103,9 @@ abstract class _LoginStore with Store {
   bool get isPhoneValid => phone.length > 6;
 
   @action
-  Future<void> save(LoginModel loginCreated) async {
-    LoginModel loginModel = loginCreated;
-    loading = true;
-    await Future.delayed(Duration(seconds: 2));
-
-    TokenModel tokenModel = await send(loginModel);
-
-    if (tokenModel != null) {
-      loggedIn = true;
-      setPhoneNumberLogin();
-    } else {
-      errorLogin = true;
-    }
-    await Future.delayed(Duration(seconds: 2));
-    errorLogin = false;
-  }
-
-  @action
   Future<void> setPhoneNumberLogin() async {
     phoneNumberLogin = await getPhoneNumber();
     await getClient();
-  }
-
-  Future<TokenModel> send(LoginModel loginModel) async {
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.remove('idClient');
-    await prefs.remove('phoneNumber');
-
-    final TokenModel tokenModel =
-        await _webClient.sendUser(loginModel).catchError((e) {
-      loggedIn = false;
-      errorLogin = true;
-      loading = false;
-    });
-
-    return tokenModel;
   }
 
   @action
@@ -118,11 +117,15 @@ abstract class _LoginStore with Store {
 
   @action
   Future<void> getClient() async {
-    clienteDto = await clientWebClient.findPhoneNumber(phoneNumberLogin);
-    var prefs = await SharedPreferences.getInstance();
-    if (clienteDto != null) {
-      prefs.setInt("idClient", clienteDto.id);
-      prefs.setString("nickName", clienteDto.nickname);
+    try {
+      clienteDto = await clientWebClient.findPhoneNumber(phoneNumberLogin);
+      var prefs = await SharedPreferences.getInstance();
+      if (clienteDto != null) {
+        prefs.setInt("idClient", clienteDto.id);
+        prefs.setString("nickName", clienteDto.nickname);
+      }
+    } on Exception catch (_) {
+      clienteDto = null;
     }
   }
 

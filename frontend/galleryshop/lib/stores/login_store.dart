@@ -67,12 +67,10 @@ abstract class _LoginStore with Store {
     await prefs.remove('idEmployee');
     await prefs.remove('phoneNumber');
     await prefs.remove('nickName');
-
     loading = true;
     await Future.delayed(Duration(seconds: 2));
     final LoginModel loginModel =
         LoginModel(phoneNumber: phone, password: password);
-
     try {
       Response response = await _webClient.sendUser(loginModel);
       if (response.statusCode == 200) {
