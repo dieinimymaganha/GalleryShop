@@ -12,6 +12,10 @@ class CustomDrawer extends StatelessWidget {
           children: <Widget>[
             CustomHeard(),
             IconSection(),
+            Container(
+              height: 470,
+              decoration: BoxDecoration(color: Colors.blueGrey[100]),
+            )
           ],
         ),
       ),

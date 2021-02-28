@@ -80,7 +80,7 @@ abstract class _LoginStore with Store {
         } else {
           forbidden = true;
         }
-      } else if (response.statusCode == 400) {
+      } else if (response.statusCode == 403) {
         notFound = true;
       }
     } on Exception catch (_) {

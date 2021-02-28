@@ -9,6 +9,14 @@ part of 'my_account_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MyAccountStore on _MyAccountStore, Store {
+  Computed<Function> _$buttonLogoutPressedComputed;
+
+  @override
+  Function get buttonLogoutPressed => (_$buttonLogoutPressedComputed ??=
+          Computed<Function>(() => super.buttonLogoutPressed,
+              name: '_MyAccountStore.buttonLogoutPressed'))
+      .value;
+
   final _$clienteDtoAtom = Atom(name: '_MyAccountStore.clienteDto');
 
   @override
@@ -69,6 +77,36 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     });
   }
 
+  final _$logoutAtom = Atom(name: '_MyAccountStore.logout');
+
+  @override
+  bool get logout {
+    _$logoutAtom.reportRead();
+    return super.logout;
+  }
+
+  @override
+  set logout(bool value) {
+    _$logoutAtom.reportWrite(value, super.logout, () {
+      super.logout = value;
+    });
+  }
+
+  final _$logoutOKAtom = Atom(name: '_MyAccountStore.logoutOK');
+
+  @override
+  bool get logoutOK {
+    _$logoutOKAtom.reportRead();
+    return super.logoutOK;
+  }
+
+  @override
+  set logoutOK(bool value) {
+    _$logoutOKAtom.reportWrite(value, super.logoutOK, () {
+      super.logoutOK = value;
+    });
+  }
+
   final _$setPhoneNumberLoginAsyncAction =
       AsyncAction('_MyAccountStore.setPhoneNumberLogin');
 
@@ -100,13 +138,23 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     return _$getNickNameAsyncAction.run(() => super.getNickName());
   }
 
+  final _$exitAppAsyncAction = AsyncAction('_MyAccountStore.exitApp');
+
+  @override
+  Future<void> exitApp() {
+    return _$exitAppAsyncAction.run(() => super.exitApp());
+  }
+
   @override
   String toString() {
     return '''
 clienteDto: ${clienteDto},
 phoneNumberLogin: ${phoneNumberLogin},
 nickNameLogin: ${nickNameLogin},
-idClient: ${idClient}
+idClient: ${idClient},
+logout: ${logout},
+logoutOK: ${logoutOK},
+buttonLogoutPressed: ${buttonLogoutPressed}
     ''';
   }
 }

@@ -44,6 +44,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
           Computed<Function>(() => super.buttonSavePressed,
               name: '_MyAccountStore.buttonSavePressed'))
       .value;
+  Computed<Function> _$buttonLogoutPressedComputed;
+
+  @override
+  Function get buttonLogoutPressed => (_$buttonLogoutPressedComputed ??=
+          Computed<Function>(() => super.buttonLogoutPressed,
+              name: '_MyAccountStore.buttonLogoutPressed'))
+      .value;
 
   final _$employeeDtoAtom = Atom(name: '_MyAccountStore.employeeDto');
 
@@ -274,6 +281,36 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
     });
   }
 
+  final _$logoutAtom = Atom(name: '_MyAccountStore.logout');
+
+  @override
+  bool get logout {
+    _$logoutAtom.reportRead();
+    return super.logout;
+  }
+
+  @override
+  set logout(bool value) {
+    _$logoutAtom.reportWrite(value, super.logout, () {
+      super.logout = value;
+    });
+  }
+
+  final _$logoutOKAtom = Atom(name: '_MyAccountStore.logoutOK');
+
+  @override
+  bool get logoutOK {
+    _$logoutOKAtom.reportRead();
+    return super.logoutOK;
+  }
+
+  @override
+  set logoutOK(bool value) {
+    _$logoutOKAtom.reportWrite(value, super.logoutOK, () {
+      super.logoutOK = value;
+    });
+  }
+
   final _$setPhoneNumberLoginAsyncAction =
       AsyncAction('_MyAccountStore.setPhoneNumberLogin');
 
@@ -310,6 +347,13 @@ mixin _$MyAccountStore on _MyAccountStore, Store {
   @override
   Future<void> alterPass() {
     return _$alterPassAsyncAction.run(() => super.alterPass());
+  }
+
+  final _$exitAppAsyncAction = AsyncAction('_MyAccountStore.exitApp');
+
+  @override
+  Future<void> exitApp() {
+    return _$exitAppAsyncAction.run(() => super.exitApp());
   }
 
   final _$_MyAccountStoreActionController =
@@ -377,11 +421,14 @@ controllerSecondPass: ${controllerSecondPass},
 secondPass: ${secondPass},
 alterOK: ${alterOK},
 error: ${error},
+logout: ${logout},
+logoutOK: ${logoutOK},
 isPasswordFirstValid: ${isPasswordFirstValid},
 isPasswordSecondValid: ${isPasswordSecondValid},
 fieldsValid: ${fieldsValid},
 identical: ${identical},
-buttonSavePressed: ${buttonSavePressed}
+buttonSavePressed: ${buttonSavePressed},
+buttonLogoutPressed: ${buttonLogoutPressed}
     ''';
   }
 }

@@ -19,9 +19,8 @@ class LoginWebClient {
       TokenModel token = TokenModel.fromJson(jsonDecode(response.body));
       prefs.setString("tokenjwt", token.token.toString());
       prefs.setString("phoneNumber", loginModel.phoneNumber.toString());
-      return response;
     }
-    throw HttpException(_getMessage(response.statusCode));
+    return response;
   }
 
   String _getMessage(int statuscode) {

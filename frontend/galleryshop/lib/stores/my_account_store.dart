@@ -18,8 +18,8 @@ abstract class _MyAccountStore with Store {
 
   _MyAccountStore() {
     autorun((_) {
-      print('isPasswordFirstValid >>> $isPasswordFirstValid');
-      print('isPasswordSecondValid >>> $isPasswordSecondValid');
+      print('logout >>> $logout');
+      print('logoutOK >>> $logoutOK');
     });
   }
 
@@ -148,4 +148,30 @@ abstract class _MyAccountStore with Store {
     alterOK = false;
     error = false;
   }
+
+
+
+
+  @observable
+  bool logout = false;
+
+  @observable
+  bool logoutOK = false;
+
+  @action
+  Future<void> exitApp() async {
+    logout = true;
+    await Future.delayed(Duration(seconds: 2));
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('idEmployee');
+    await prefs.remove('phoneNumber');
+    await prefs.remove('nickName');
+    logoutOK = true;
+    await Future.delayed(Duration(seconds: 2));
+    logout = false;
+    logoutOK = false;
+  }
+
+  @computed
+  Function get buttonLogoutPressed => exitApp;
 }

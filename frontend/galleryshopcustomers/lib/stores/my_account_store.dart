@@ -1,6 +1,5 @@
 import 'package:galleryshopcustomers/http/webclients/webclient_client.dart';
 import 'package:galleryshopcustomers/models/client.dart';
-import 'package:galleryshopcustomers/models/employee.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +28,6 @@ abstract class _MyAccountStore with Store {
   @observable
   int idClient;
 
-
   @action
   Future<void> setPhoneNumberLogin() async {
     phoneNumberLogin = await getPhoneNumber();
@@ -56,4 +54,27 @@ abstract class _MyAccountStore with Store {
     String nickName = (prefs.getString("nickName") ?? "");
     return nickName;
   }
+
+  @observable
+  bool logout = false;
+
+  @observable
+  bool logoutOK = false;
+
+  @action
+  Future<void> exitApp() async {
+    logout = true;
+    await Future.delayed(Duration(seconds: 2));
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('idClient');
+    await prefs.remove('phoneNumber');
+    await prefs.remove('nickName');
+    logoutOK = true;
+    await Future.delayed(Duration(seconds: 2));
+    logout = false;
+    logoutOK = false;
+  }
+
+  @computed
+  Function get buttonLogoutPressed => exitApp;
 }

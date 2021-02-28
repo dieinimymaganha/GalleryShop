@@ -20,6 +20,7 @@ class IconSection extends StatelessWidget {
       builder: (context, snapshot) {
         return Container(
           padding: EdgeInsets.only(bottom: 60),
+          decoration: BoxDecoration(color: Colors.blueGrey[100]),
           child: Column(
             children: <Widget>[
               IconTile(
