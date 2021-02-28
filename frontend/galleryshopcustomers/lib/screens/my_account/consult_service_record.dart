@@ -7,20 +7,20 @@ import 'package:galleryshopcustomers/stores/billed_service_store.dart';
 import 'package:galleryshopcustomers/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class EditServiceRecordScreen extends StatefulWidget {
+class ConsultServiceRecordScreen extends StatefulWidget {
   final int idClient;
 
-  EditServiceRecordScreen({this.idClient});
+  ConsultServiceRecordScreen({this.idClient});
 
   @override
-  _EditServiceRecordScreenState createState() =>
-      _EditServiceRecordScreenState(idClient: idClient);
+  _ConsultServiceRecordScreenState createState() =>
+      _ConsultServiceRecordScreenState(idClient: idClient);
 }
 
-class _EditServiceRecordScreenState extends State<EditServiceRecordScreen> {
+class _ConsultServiceRecordScreenState extends State<ConsultServiceRecordScreen> {
   BilledServiceStore billedServiceStore = BilledServiceStore();
 
-  _EditServiceRecordScreenState({int idClient})
+  _ConsultServiceRecordScreenState({int idClient})
       : billedServiceStore = BilledServiceStore(
           idClient: idClient,
         );

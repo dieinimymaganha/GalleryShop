@@ -3,11 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:galleryshopcustomers/data/function_generic.dart';
 import 'package:galleryshopcustomers/data/values.dart';
 import 'package:galleryshopcustomers/screens/base/base_screen.dart';
-import 'package:galleryshopcustomers/screens/my_account/edit_service_record.dart';
+import 'package:galleryshopcustomers/screens/my_account/consult_service_record.dart';
 import 'package:galleryshopcustomers/screens/my_account/widget/option_menu_detail_account_client.dart';
 import 'package:galleryshopcustomers/stores/account_client_store.dart';
 import 'package:galleryshopcustomers/widgets/centered_message.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import 'consult_payment_account_client.dart';
 
 class DetailMyAccount extends StatefulWidget {
   final int idClient;
@@ -37,19 +39,22 @@ class _DetailMyAccountState extends State<DetailMyAccount> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  EditServiceRecordScreen(
+                  ConsultServiceRecordScreen(
                     idClient: accountClientStore.accountClientDto.clientDto.id,
                   )));
-//    } else if (choice == OptionsMenuDetailAccount.updatePage) {
-//      accountClientStore.iniPageClient();
-//    } else if (choice == OptionsMenuDetailAccount.consultPayment) {
-//      Navigator.push(
-//          context,
-//          MaterialPageRoute(
-//              builder: (context) => ConsultPaymentClient(
-//                    idAccount: accountClientStore.accountClientDto.id,
-//                  )));
-//    } else if (choice == OptionsMenuDetailAccount.insertProduct) {
+    }
+     else if (choice == OptionsMenuDetailAccount.updatePage) {
+      accountClientStore.iniPageClient();
+    }
+     else if (choice == OptionsMenuDetailAccount.consultPayment) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ConsultPaymentClient(
+                    idAccount: accountClientStore.accountClientDto.id,
+                  )));
+    }
+//    else if (choice == OptionsMenuDetailAccount.insertProduct) {
 //      Navigator.push(
 //          context,
 //          MaterialPageRoute(
@@ -64,7 +69,7 @@ class _DetailMyAccountState extends State<DetailMyAccount> {
 //                    idClient: accountClientStore.idClient,
 //                  )));
 //    }
-    }
+
   }
 
   @override
