@@ -17,23 +17,23 @@ public class PhoneNumberValidator  implements ConstraintValidator<PhoneNumber, S
     }
 
     @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
+    public boolean isValid(String number, ConstraintValidatorContext context) {
 
-        if(email == null){
+        if(number == null){
             return false;
         }
 
-        if (email.equals("(123) 45678-9012") ||
-                email.equals("(123) 45678-9123") ||email.equals("(000) 00000-0000") ||
-                email.equals("(111) 11111-1111") || email.equals("(222) 22222-2222")||
-                email.equals("(333) 33333-3333") || email.equals("(444) 44444-4444")||
-                email.equals("(555) 55555-5555") || email.equals("(666) 66666-6666")||
-                email.equals("(777) 77777-7777") || email.equals("(888) 88888-8888")||
-                email.equals("(999) 99999-9999"))
+        if (number.equals("(123) 45678-9012") ||
+                number.equals("(123) 45678-9123") ||number.equals("(000) 00000-0000") ||
+                number.equals("(111) 11111-1111") || number.equals("(222) 22222-2222")||
+                number.equals("(333) 33333-3333") || number.equals("(444) 44444-4444")||
+                number.equals("(555) 55555-5555") || number.equals("(666) 66666-6666")||
+                number.equals("(777) 77777-7777") || number.equals("(888) 88888-8888")||
+                number.equals("(999) 99999-9999"))
             return(false);
 
 
-        Matcher matcher = padrao.matcher(email);
+        Matcher matcher = padrao.matcher(number);
         return matcher.matches();
     }
 }
