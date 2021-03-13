@@ -62,6 +62,7 @@ dependencies:
   bloc_pattern: ^1.5.2
   flutter_cupertino_date_picker: ^1.0.26
   table_calendar: ^2.2.3
+  cpf_cnpj_validator: ^1.0.5
 
 
 dev_dependencies:

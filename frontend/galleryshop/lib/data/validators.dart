@@ -1,3 +1,6 @@
+
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
+
 String validatorComissionRate(String value) {
   if (value.isEmpty) {
     return 'Campo obrigatório';
@@ -18,14 +21,12 @@ String validatorName(String value) {
 }
 
 String validatorCpf(String value) {
-  const Pattern pattern = r'\d{3}\.\d{3}\.\d{3}\-\d{2}';
-  final RegExp regex = RegExp(pattern);
   if (value.isEmpty) {
     return 'Campo obrigatório';
-  } else if (!regex.hasMatch(value)) {
-    return 'CPF inválido';
+  } else if (CPFValidator.isValid(value)) {
+    return null;
   }
-  return null;
+  return 'CPF inválido';
 }
 
 String validatorBirthDate(String value) {
