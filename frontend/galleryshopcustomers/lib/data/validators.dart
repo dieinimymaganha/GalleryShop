@@ -59,8 +59,18 @@ String validatorPhoneNumber(String value) {
     return 'Campo obrigatório';
   } else if (!regex.hasMatch(value)) {
     return 'Telefone inválido';
+  } else {
+    if (value == "(123) 45678-9012" ||
+        value == "(123) 45678-9123" || value == "(000) 00000-0000" ||
+        value == "(111) 11111-1111" || value == "(222) 22222-2222" ||
+        value == "(333) 33333-3333" || value == "(444) 44444-4444" ||
+        value == "(555) 55555-5555" || value == "(666) 66666-6666" ||
+        value == "(777) 77777-7777" || value == "(888) 88888-8888" ||
+        value == "(999) 99999-9999") {
+      return 'Telefone inválido';
+    }
+    return null;
   }
-  return null;
 }
 
 
