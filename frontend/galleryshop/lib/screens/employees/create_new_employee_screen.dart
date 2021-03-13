@@ -167,7 +167,6 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
                         },
                         onChanged: employeeStore.setBirthDate,
                         validator: (value) {
-                          FocusScope.of(context).requestFocus(new FocusNode());
                           return validatorBirthDate(value);
                         },
                       ),

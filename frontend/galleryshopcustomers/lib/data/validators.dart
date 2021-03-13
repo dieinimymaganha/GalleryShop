@@ -1,3 +1,5 @@
+import 'package:cpf_cnpj_validator/cpf_validator.dart';
+
 String validatorComissionRate(String value) {
   if (value.isEmpty) {
     return 'Campo obrigatório';

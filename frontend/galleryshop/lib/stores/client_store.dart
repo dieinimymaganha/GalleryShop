@@ -4,7 +4,6 @@ import 'package:galleryshop/http/webclients/webclient_client.dart';
 import 'package:galleryshop/models/client.dart';
 import 'package:galleryshop/models/profile.dart';
 import 'package:mobx/mobx.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'client_store.g.dart';
 

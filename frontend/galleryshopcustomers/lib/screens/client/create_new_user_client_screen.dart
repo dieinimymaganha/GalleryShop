@@ -206,8 +206,6 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                               textInputType: TextInputType.number,
                               obscure: false,
                               ontap: () {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
                                 changeAlterBirthDate();
                               },
                               onChanged: clientStore.setBirthDate,
