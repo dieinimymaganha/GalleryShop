@@ -12,7 +12,6 @@ import 'package:galleryshopcustomers/widgets/custom_icon_button.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 
-const _titleAppBar = 'Cadastrar Cliente';
 const _labelFieldName = 'Nome';
 const _tipFieldName = 'Digite o nome';
 const _labelFieldLastName = 'Sobrenome';
@@ -118,7 +117,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
           key: _scaffoldKey,
           appBar: AppBar(
             title: Text(
-              _titleAppBar,
+              clientStore.newClient ? 'Cadastrar cliente' : 'Alterar meus Dados',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.white),
             ),
