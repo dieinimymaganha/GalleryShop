@@ -7,10 +7,7 @@ import 'package:galleryshopcustomers/screens/client/create_new_user_client_scree
 import 'package:galleryshopcustomers/stores/login_store.dart';
 import 'package:galleryshopcustomers/widgets/custom_form.dart';
 import 'package:galleryshopcustomers/widgets/custom_icon_button.dart';
-
 import 'package:mobx/mobx.dart';
-
-import 'reset_password_screen.dart';
 
 const _labelFieldPhoneNumber = 'Telefone';
 const _tipFieldPhoneNumber = '(000) 00000-0000';
@@ -66,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
     disposer = reaction((_) => loginStore.errorLogin, (errorLogin) {
       if (errorLogin) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text('Falha na conexão, verifique sua internet'),
+          content: Text('Falha na conexão, tente novamente'),
           backgroundColor: Colors.redAccent,
           duration: Duration(seconds: 2),
         ));

@@ -53,20 +53,16 @@ class CardWidgetScheduleAppointmentConcluded extends StatelessWidget {
                     top: 8.0,
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         height: 18.0,
                         child: Row(
                           children: <Widget>[
-                            Text('Cliente: '),
+                            Text('Tipo funcionário: '),
                             Text(
-                              scheduleDtoAppointment.clientDto.name,
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            Text(' | Apelido: '),
-                            Text(
-                              scheduleDtoAppointment.clientDto.nickname,
+                              scheduleDtoAppointment.typeEmployee,
                               style: TextStyle(fontWeight: FontWeight.w500),
                             ),
                           ],
@@ -76,22 +72,7 @@ class CardWidgetScheduleAppointmentConcluded extends StatelessWidget {
                         height: 18.0,
                         child: Row(
                           children: <Widget>[
-                            Text('Data nasc: '),
-                            Text(
-                              convertData(
-                                  scheduleDtoAppointment.clientDto.birthdate),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blueAccent),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 18.0,
-                        child: Row(
-                          children: <Widget>[
-                            Text('Concluido: '),
+                            Text('horário Concluido: '),
                             Text(
                               scheduleDtoAppointment.completionTime.toString(),
                               style: TextStyle(fontWeight: FontWeight.w500),

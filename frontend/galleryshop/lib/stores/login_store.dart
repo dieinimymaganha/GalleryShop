@@ -15,7 +15,11 @@ abstract class _LoginStore with Store {
 
   _LoginStore() {
     autorun((_) {
-      print('employeeDto : $employeeDto');
+      print('phone : $phone');
+      print('password : $password');
+      print('loading : $loading');
+      print('loggedIn : $loggedIn');
+      print('errorLogin : $errorLogin');
     });
   }
 

@@ -47,7 +47,7 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
-            'Error ao cadastrar! Verifique os campos',
+            'Erro ao cadastrar! Verifique os campos',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
