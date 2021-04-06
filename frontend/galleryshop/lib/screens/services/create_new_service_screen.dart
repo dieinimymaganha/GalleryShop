@@ -69,7 +69,7 @@ class _CreateNewServiceScreenState extends State<CreateNewServiceScreen> {
           serviceStore.change ? 'Alterado com sucesso!' : 'Serviço cadastrado!',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: serviceStore.change ? Colors.green : Colors.blueAccent,
+        backgroundColor: Colors.blueAccent,
         duration: Duration(seconds: 2),
       ));
       await Future.delayed(Duration(seconds: 2));

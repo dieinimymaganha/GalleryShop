@@ -229,21 +229,25 @@ abstract class _ProvisionStore with Store {
     print('>>> SERVIÇO ${serviceForm.toJson()}');
 
     await update(serviceForm);
-    sending = true;
-    await Future.delayed(Duration(seconds: 2));
   }
 
   @action
   Future<void> update(ServiceForm serviceForm) async {
-    int response = await _webClientService.update(serviceForm, serviceModel.id);
     sending = true;
     await Future.delayed(Duration(seconds: 2));
     sending = false;
-    if (response == 200) {
-      created = true;
-    } else {
+    try {
+      int response =
+          await _webClientService.update(serviceForm, serviceModel.id);
+      if (response == 200) {
+        created = true;
+      }else if (response == 500){
+        errorSending = true;
+      }
+    } on Exception catch (_) {
       errorSending = true;
     }
+
     await Future.delayed(Duration(seconds: 2));
     sending = false;
     errorSending = false;
@@ -287,17 +291,21 @@ abstract class _ProvisionStore with Store {
   }
 
   Future<ServiceDto> send(ServiceForm serviceCreated) async {
-    int response = await _webClientService.save(serviceCreated);
+    sending = true;
     await Future.delayed(Duration(seconds: 2));
     sending = false;
-    if (response == 201) {
-      created = true;
-    } else if (response == 409) {
-      duplicate = true;
-      setValuePrice(controllerFieldValue.text);
-    } else {
+    try {
+      int response = await _webClientService.save(serviceCreated);
+      if (response == 201) {
+        created = true;
+      } else if (response == 409) {
+        duplicate = true;
+        setValuePrice(controllerFieldValue.text);
+      }
+    } on Exception catch (_) {
       errorSending = true;
     }
+
     await Future.delayed(Duration(seconds: 2));
     created = false;
     sending = false;
