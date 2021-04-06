@@ -19,7 +19,6 @@ abstract class _ProvisionStore with Store {
       print('valueChangeIsValid >>>>>>>>>>>>> $valueChangeIsValid');
       print('priceFinal >>>>>>>>>>>>> $priceFinal');
       print('value >>>>>>>>>>>>> ${serviceModel.value}');
-
     });
   }
 
@@ -182,11 +181,11 @@ abstract class _ProvisionStore with Store {
 
   @computed
   bool get priceFixedChangeIsValid {
-    if(priceFixed != serviceModel.fixedPrice){
+    if (priceFixed != serviceModel.fixedPrice) {
       return true;
-    } else if(priceFixed == true && priceFinal != serviceModel.value){
+    } else if (priceFixed == true && priceFinal != serviceModel.value) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -199,8 +198,7 @@ abstract class _ProvisionStore with Store {
   bool get valueChangeIsValid {
     if (priceFixed == true && valuePrice.isEmpty) {
       return false;
-    } else if (priceFixed == true &&
-        priceFinal != serviceModel.value) {
+    } else if (priceFixed == true && priceFinal != serviceModel.value) {
       return true;
     } else {
       return true;
@@ -313,17 +311,21 @@ abstract class _ProvisionStore with Store {
   @action
   Future<void> excludeService() async {
     sending = true;
-    int response = await _webClientService.exclude(serviceModel);
     await Future.delayed(Duration(seconds: 2));
-    if (response == 200) {
-      excluded = true;
-    } else if (response == 500) {
-      excluedBlock = true;
-      await Future.delayed(Duration(seconds: 2));
-      sending = false;
-    } else {
+    try {
+      int response = await _webClientService.exclude(serviceModel);
+
+      if (response == 200) {
+        excluded = true;
+      } else if (response == 500) {
+        excluedBlock = true;
+        await Future.delayed(Duration(seconds: 2));
+        sending = false;
+      }
+    } on Exception catch (_) {
       excludedFail = true;
       await Future.delayed(Duration(seconds: 2));
+      excludedFail = false;
       sending = false;
     }
   }

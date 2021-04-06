@@ -37,7 +37,7 @@ class _ServicesListScreenState extends State<ServicesListScreen> {
               ? Container(
                   child: serviceStore.listEmpty
                       ? CenteredMessage(
-                          'Não á dados Cadastrados',
+                          'Não á dados cadastrados',
                           icon: Icons.description,
                         )
                       : Center(

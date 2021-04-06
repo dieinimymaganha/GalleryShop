@@ -161,6 +161,9 @@ class _CreateNewUserClientScreenState extends State<CreateNewUserClientScreen> {
                               textInputType: TextInputType.text,
                               obscure: false,
                               onChanged: clientStore.setName,
+                              validator: (value){
+                                validatorName(value);
+                              },
                             ),
                             SizedBox(height: _space),
                             CustomForm(

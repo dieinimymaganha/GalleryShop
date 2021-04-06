@@ -28,7 +28,7 @@ class _TypeEmployeeListScreenState extends State<TypeEmployeeListScreen> {
       builder: (_) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Tipos Funcionarios e serviços'),
+            title: Text('Tipos Funcionarios'),
             centerTitle: true,
             backgroundColor: colorAppbar,
             leading: IconButton(
@@ -48,7 +48,7 @@ class _TypeEmployeeListScreenState extends State<TypeEmployeeListScreen> {
               ? Container(
                   child: typeEmployeeStore.listEmpty
                       ? CenteredMessage(
-                          'Não á dados Cadastrados',
+                          'Não á dados cadastrados',
                           icon: Icons.description,
                         )
                       : Center(

@@ -133,7 +133,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
                             FlatButton(
                               child: Text(typeEmployeeStore.change
                                   ? 'Alterar'
-                                  : 'Salvar'),
+                                  : 'Cadastrar'),
                               textColor: Colors.blue,
                               onPressed: typeEmployeeStore.change
                                   ? typeEmployeeStore.buttomChangePressed
@@ -157,7 +157,7 @@ class _EditTypeEmployeeDialogState extends State<EditTypeEmployeeDialog> {
       ),
       message: typeEmployeeStore.change
           ? 'Alterado com sucesso'
-          : 'Salvo com sucesso!',
+          : 'Cadastrado com sucesso!',
       color: Colors.blueAccent,
     );
   }
