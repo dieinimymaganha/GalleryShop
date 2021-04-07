@@ -75,7 +75,7 @@ class _CreateNewFlagCardPaymentScreenState
       if (errorSending) {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
-            'Falha ao cadastrar!',
+            financialStore.change ? 'Falha ao alterar' : 'Falha ao cadastrar!',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,
@@ -95,7 +95,7 @@ class _CreateNewFlagCardPaymentScreenState
           appBar: AppBar(
             title: Text(financialStore.change
                 ? 'Editar cartão'
-                : 'Cadastrar novo cartão'),
+                : 'Cadastrar cartão'),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),

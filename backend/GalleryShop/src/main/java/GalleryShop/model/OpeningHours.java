@@ -2,12 +2,7 @@ package GalleryShop.model;
 
 import java.time.LocalTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import GalleryShop.model.Enum.DayOfTheWeek;
 
@@ -23,16 +18,12 @@ public class OpeningHours {
     private Employee employee;
     private DayOfTheWeek dayOfTheWeek;
 
-
     private LocalTime earlyMorningJourney;
 
-    
     private LocalTime endMorningJourney;
 
-    
     private LocalTime earlyAfternoonJourney;
 
-    
     private LocalTime endJourneyLate;
 
     public OpeningHours(final Employee employee, final DayOfTheWeek dayOfTheWeek, final LocalTime earlyMorningJourney,

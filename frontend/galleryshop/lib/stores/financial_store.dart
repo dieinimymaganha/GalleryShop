@@ -196,15 +196,15 @@ abstract class _FinancialStore with Store {
         debit: debit,
         taxDebit: taxDebit);
 
-    int response = await financialWebClient.save(form);
+    try {
+      int response = await financialWebClient.save(form);
 
-//    int response = 40;
-
-    if (response == 201) {
-      created = true;
-    } else if (response == 409) {
-      duplicate = true;
-    } else {
+      if (response == 201) {
+        created = true;
+      } else if (response == 409) {
+        duplicate = true;
+      }
+    } on Exception catch (_) {
       errorSending = true;
     }
 
@@ -262,13 +262,17 @@ abstract class _FinancialStore with Store {
         taxCredit: taxCredit,
         debit: debit,
         taxDebit: taxDebit);
-    int response = await financialWebClient.update(
-        flagCardPaymentForm, flagCardPaymentDto.id);
-    if (response == 200) {
-      created = true;
-    } else {
+
+    try {
+      int response = await financialWebClient.update(
+          flagCardPaymentForm, flagCardPaymentDto.id);
+      if (response == 200) {
+        created = true;
+      }
+    } on Exception catch (_) {
       errorSending = true;
     }
+
     await Future.delayed(Duration(seconds: 2));
     created = false;
     errorSending = false;
@@ -290,16 +294,20 @@ abstract class _FinancialStore with Store {
   Future<void> excludeFlag() async {
     sending = true;
     await Future.delayed(Duration(seconds: 2));
-    int response = await financialWebClient.exclude(flagCardPaymentDto);
+
+    try {
+      int response = await financialWebClient.exclude(flagCardPaymentDto);
 //    int response = 2100;
-    if (response == 200) {
-      excluded = true;
-      await Future.delayed(Duration(seconds: 2));
-    } else {
+      if (response == 200) {
+        excluded = true;
+        await Future.delayed(Duration(seconds: 2));
+      }
+    } on Exception catch (_) {
       excludedFail = true;
-      await Future.delayed(Duration(seconds: 2));
-      excludedFail = false;
-      sending = false;
     }
+
+    await Future.delayed(Duration(seconds: 2));
+    excludedFail = false;
+    sending = false;
   }
 }
