@@ -146,7 +146,8 @@ class _SaleProductState extends State<SaleProduct> {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
-            title: Text('Registrar venda produto'),
+            title: Text(                                saleProductStore.change ?
+                'Alterar venda produto' : 'Registrar venda produto'),
             centerTitle: true,
             backgroundColor: colorAppbar,
           ),

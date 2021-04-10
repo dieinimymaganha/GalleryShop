@@ -49,8 +49,8 @@ class _CreateNewOpeningHoursState extends State<CreateNewOpeningHours> {
         _scaffoldKey.currentState.showSnackBar(SnackBar(
           content: Text(
             openingHoursStore.change
-                ? 'Error ao atualizar'
-                : 'Error ao cadastrar! Verifique os campos',
+                ? 'Erro ao atualizar'
+                : 'Erro ao cadastrar!',
             style: TextStyle(color: Colors.black),
           ),
           backgroundColor: Colors.redAccent,

@@ -14,13 +14,7 @@ abstract class _LoginStore with Store {
   final LoginWebClient _webClient = LoginWebClient();
 
   _LoginStore() {
-    autorun((_) {
-      print('phone : $phone');
-      print('password : $password');
-      print('loading : $loading');
-      print('loggedIn : $loggedIn');
-      print('errorLogin : $errorLogin');
-    });
+    autorun((_) {});
   }
 
   @observable

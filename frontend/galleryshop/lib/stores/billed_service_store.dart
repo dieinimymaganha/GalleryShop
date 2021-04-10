@@ -414,21 +414,25 @@ abstract class _BilledServiceStore with Store {
     }
     sending = true;
     await Future.delayed(Duration(seconds: 2));
-    int response = await serviceRecordWebClient.exclude(idService);
+
+    try {
+      int response = await serviceRecordWebClient.exclude(idService);
 //    int response = 401;
-    if (response == 200) {
-      excluded = true;
-      await Future.delayed(Duration(seconds: 2));
-    } else if (response == 401) {
-      excludedUnauthorized = true;
-      await Future.delayed(Duration(seconds: 2));
-      sending = false;
-    } else {
+      if (response == 200) {
+        excluded = true;
+        await Future.delayed(Duration(seconds: 2));
+      } else if (response == 401) {
+        excludedUnauthorized = true;
+        await Future.delayed(Duration(seconds: 2));
+        sending = false;
+      }
+    } on Exception catch (_) {
       excludedFail = true;
       await Future.delayed(Duration(seconds: 2));
       excludedFail = false;
-      sending = false;
     }
+
+    sending = false;
   }
 
   @action

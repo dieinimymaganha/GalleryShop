@@ -16,12 +16,12 @@ mixin _$OpeningHoursStore on _OpeningHoursStore, Store {
           Computed<Function>(() => super.buttoExcludePressed,
               name: '_OpeningHoursStore.buttoExcludePressed'))
       .value;
-  Computed<bool> _$fieldsValidComputed;
+  Computed<bool> _$fieldIsValidComputed;
 
   @override
-  bool get fieldsValid =>
-      (_$fieldsValidComputed ??= Computed<bool>(() => super.fieldsValid,
-              name: '_OpeningHoursStore.fieldsValid'))
+  bool get fieldIsValid =>
+      (_$fieldIsValidComputed ??= Computed<bool>(() => super.fieldIsValid,
+              name: '_OpeningHoursStore.fieldIsValid'))
           .value;
   Computed<Function> _$butttonSavePressedComputed;
 
@@ -481,7 +481,7 @@ created: ${created},
 duplicate: ${duplicate},
 errorSending: ${errorSending},
 buttoExcludePressed: ${buttoExcludePressed},
-fieldsValid: ${fieldsValid},
+fieldIsValid: ${fieldIsValid},
 butttonSavePressed: ${butttonSavePressed},
 buttonChangePressed: ${buttonChangePressed}
     ''';

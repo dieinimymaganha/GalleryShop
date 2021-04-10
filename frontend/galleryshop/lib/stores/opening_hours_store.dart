@@ -20,10 +20,7 @@ abstract class _OpeningHoursStore with Store {
   final OpeninigHoursDto openinigHoursDto;
 
   _OpeningHoursStore({this.openinigHoursDto}) {
-    autorun((_) {
-      print('>>>>> ${idEmployee}');
-//      print('duplicate >>>>> ${duplicate}');
-    });
+    autorun((_) {});
   }
 
   OpeningHoursWebClient openingHoursWebClient = OpeningHoursWebClient();
@@ -92,21 +89,22 @@ abstract class _OpeningHoursStore with Store {
   Future<void> excludeOpeningHours() async {
     sending = true;
     await Future.delayed(Duration(seconds: 2));
-    int response = await openingHoursWebClient.exclude(openinigHoursDto);
-//    int response = 1;
-    if (response == 200) {
-      excluded = true;
-      await Future.delayed(Duration(seconds: 2));
-    } else {
+
+    try {
+      int response = await openingHoursWebClient.exclude(openinigHoursDto);
+      if (response == 200) {
+        excluded = true;
+      }
+    } on Exception catch (_) {
       excludedFail = true;
-      await Future.delayed(Duration(seconds: 2));
-      excludedFail = false;
-      sending = false;
     }
+    await Future.delayed(Duration(seconds: 2));
+    excludedFail = false;
+    sending = false;
   }
 
   @computed
-  bool get fieldsValid {
+  bool get fieldIsValid {
     if (valueSelect != null) {
       if (morningStart == null &&
           morningEnd == null &&
@@ -321,7 +319,7 @@ abstract class _OpeningHoursStore with Store {
   Future<int> getIdEmployee() async {
     var prefs = await SharedPreferences.getInstance();
     int id = (prefs.getInt("idEmployee"));
-    if(id == null){
+    if (id == null) {
       id = 0;
     }
     return id;
@@ -331,21 +329,22 @@ abstract class _OpeningHoursStore with Store {
   Future<void> sendNewHours() async {
     OpeningHoursForm openingHoursForm = await createNewOpeningHours();
     sending = true;
-    print(openingHoursForm.toJson());
-    int response = await openingHoursWebClient.save(openingHoursForm);
     await Future.delayed(Duration(seconds: 2));
-//    int response = 409;
     sending = false;
-    if (response == 201) {
-      created = true;
-      await Future.delayed(Duration(seconds: 2));
-    } else if (response == 409) {
-      duplicate = true;
-      await Future.delayed(Duration(seconds: 2));
-    } else {
+
+    try {
+      int response = await openingHoursWebClient.save(openingHoursForm);
+      if (response == 201) {
+        created = true;
+        await Future.delayed(Duration(seconds: 2));
+      } else if (response == 409) {
+        duplicate = true;
+        await Future.delayed(Duration(seconds: 2));
+      }
+    } on Exception catch (_) {
       errorSending = true;
-      await Future.delayed(Duration(seconds: 2));
     }
+    await Future.delayed(Duration(seconds: 2));
     created = false;
     sending = false;
     errorSending = false;
@@ -356,16 +355,18 @@ abstract class _OpeningHoursStore with Store {
   Future<void> updateOpening() async {
     OpeningHoursForm openingHoursForm = await createNewOpeningHours();
     sending = true;
-    int response = await openingHoursWebClient.update(
-        openingHoursForm, openinigHoursDto.id);
     await Future.delayed(Duration(seconds: 2));
-//    int response = 409;
     sending = false;
-    if (response == 200) {
-      created = true;
-    }
-    errorSending = true;
 
+    try {
+      int response = await openingHoursWebClient.update(
+          openingHoursForm, openinigHoursDto.id);
+      if (response == 200) {
+        created = true;
+      }
+    } on Exception catch (_) {
+      errorSending = true;
+    }
     await Future.delayed(Duration(seconds: 2));
     created = false;
     sending = false;
@@ -392,7 +393,7 @@ abstract class _OpeningHoursStore with Store {
   }
 
   @computed
-  Function get butttonSavePressed => fieldsValid ? sendNewHours : null;
+  Function get butttonSavePressed => fieldIsValid ? sendNewHours : null;
 
   @computed
   Function get buttonChangePressed => updateOpening;
