@@ -46,9 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/auth").permitAll()
-        .antMatchers(HttpMethod.POST, "/clients").permitAll()
-        // .antMatchers(HttpMethod.GET, "/clients").hasRole("CLIENT")
-        .anyRequest().authenticated().and()
+                .antMatchers(HttpMethod.POST, "/clients").permitAll().antMatchers(HttpMethod.POST, "/employees").permitAll()
+                .anyRequest().authenticated().and()
                 .csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterBefore(new AuthenticationTokenFilter(tokenService, userLoginRepository),
                         UsernamePasswordAuthenticationFilter.class);
@@ -63,9 +62,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**");
 
     }
-    // Pra gerar senha, só pra implementar no form de usuário
-    // public static void main(String[] args) {
-    // System.out.println(new BCryptPasswordEncoder().encode("aquario"));
-    // }
 
 }

@@ -83,15 +83,6 @@ class _EmployeesListScreenState extends State<EmployeesListScreen> {
                               return Container(
                                 padding: EdgeInsets.symmetric(horizontal: 5),
                                 child: InkWell(
-                                  onDoubleTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CreateNewEmployeeScreen(
-                                                  employeeModel: employeeModel,
-                                                  editMyAccount: false,
-                                                )));
-                                  },
                                   child: Card(
                                     elevation: 3,
                                     shape: RoundedRectangleBorder(

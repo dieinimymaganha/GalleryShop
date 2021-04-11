@@ -100,7 +100,7 @@ class _CreateNewEmployeeScreenState extends State<CreateNewEmployeeScreen> {
           appBar: AppBar(
             title: employeeStore.change
                 ? Text(
-                    'Alterar funcionário',
+                    'Alterar meus dados',
                   )
                 : Text(
                     'Cadastrar novo funcionário',
