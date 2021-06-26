@@ -94,6 +94,8 @@ abstract class _OpeningHoursStore with Store {
       int response = await openingHoursWebClient.exclude(openinigHoursDto);
       if (response == 200) {
         excluded = true;
+      }else{
+        excludedFail = true;
       }
     } on Exception catch (_) {
       excludedFail = true;
